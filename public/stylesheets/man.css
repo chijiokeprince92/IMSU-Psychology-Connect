@@ -1,0 +1,205 @@
+body {
+    background-size: cover;
+    background-color: lightpink;
+}
+
+h1 {
+    font-size: 40px;
+    font-family: Palatino, 'Palatino Linotype', serif;
+    color: black;
+    text-align: center;
+}
+
+h2 {
+    font-size: 56px;
+    text-align: center;
+}
+
+p {
+    font-size: 20px;
+    border: none;
+    text-align: left;
+}
+
+h3 {
+    color: blue;
+    text-align: center;
+}
+
+h4 {
+    text-align: left;
+}
+
+li {
+    display: inline;
+    padding: 0.30em;
+}
+
+ul {
+    top: 0;
+    width: 100%;
+}
+
+a:link {
+    color: mediumslateblue;
+}
+
+a:hover {
+    color: purple;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.motto {
+    font-size: 15px;
+    color: red;
+}
+
+.assoc {
+    font-size: 40px;
+    color: black;
+}
+
+.head {
+    background-color: deeppink;
+}
+
+.wrap {
+    text-align: center;
+}
+
+footer {
+    background-color: lightblue;
+    text-align: center;
+}
+
+.courses {
+    text-align: left;
+}
+
+.para1 {
+    background-color: skyblue;
+}
+
+.para2 {
+    background-color: wheat;
+}
+
+.para3 {
+    background-color: plum;
+}
+
+.para4 {
+    background-color: lightcyan;
+}
+
+.para5 {
+    background-color: pink;
+}
+
+.para6 {
+    background-color: burlywood;
+}
+
+.para7 {
+    background-color: lightpink;
+}
+
+.para8 {
+    background-color: thistle;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+/* Slideshow container */
+
+.slideshow-container {
+    max-width: 100%;
+    position: relative;
+    margin: auto;
+}
+
+.mySlides {
+    display: none;
+}
+
+
+/* Caption text */
+
+.text {
+    color: darkmagenta;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+
+/* Number text (1/4 etc) */
+
+.numbertext {
+    color: white;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+
+/* The dots/bullets/indicators */
+
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: dodgerblue;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active,
+.dot:hover {
+    background-color: palevioletred;
+}
+
+
+/* Fading animation */
+
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 6.5s;
+    animation-name: fade;
+    animation-duration: 6.5s;
+}
+
+@-webkit-keyframes fade {
+    from {
+        opacity: .8
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+    to {
+        opacity: 1
+    }
+}
+
+.align {
+    text-align: left;
+}

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <title>IMSU Psychology Department Website</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="man.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <p>The name of the card is: <span id="pearly"></span></p>
+    <p>And the value of the cards are: <span id="pearly2"></span></p>
+    <p>player1 has a: <span id="pearly3"></span></p>
+    <script>
+        cardNames = ["ace" ["Hearts", "Club", "Diamond", "Spade"],
+            "king" ["Hearts", "Club", "Diamond", "Spade"], "queen" ["Hearts", "Club", "Diamond", "Spade"],
+            "jack" ["Hearts", "Club", "Diamond", "Spade"],
+            "ten" ["Hearts", "Club", "Diamond", "Spade"], 9["Hearts", "Club", "Diamond", "Spade"],
+            8["Hearts", "Club", "Diamond", "Spade"], 7["Hearts", "Club", "Diamond", "Spade"],
+            6["Hearts", "Club", "Diamond", "Spade"], 5["Hearts", "Club", "Diamond", "Spade"],
+            4["Hearts", "Club", "Diamond", "Spade"], 3["Hearts", "Club", "Diamond", "Spade"], 2["Hearts", "Club", "Diamond", "Spade"]
+        ];
+
+        function getPlay() {
+            var dase = this.cardNames[Math.floor(Math.random() * cardNames.length)][Math.floor(Math.random() * 3)];
+            return dase;
+        }
+
+        document.getElementById("pearly").innerHTML = getPlay();
+    </script>
+    <h1>Imo State University</h1>
+    <div class="head">
+        <h1>National Association of Psychology Students<br>
+    </div>
+    <div class="wrap">
+        <div class="assoc">NAPS<br>
+            <div class="motto">Motto: Towards A Perfect Man</div>
+        </div>
+        </h1>
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-sm-3">
+                    <div class="list">
+                        <div class="btn-group btn-group-justified">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li title="Go back to Homepage">
+                                    <a href="Home.html" class="btn btn-primary">Home</a></li>
+                                <li class="dropdown" title="Clicks to see Available courses">
+                                    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">Courses
+                                <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="100level.html">100level Courses</a></li>
+                                        <li><a href="200level.html">200level Courses</a></li>
+                                        <li><a href="300level.html">300level Courses</a></li>
+                                        <li><a href="400level.html">400level Courses</a></li>
+                                    </ul>
+                                </li>
+                                <li title="Click to see upcoming events">
+                                    <a href="News.html" class="btn btn-primary">News <span class="badge">3</span></a></li>
+                                <li title="Info about us">
+                                    <a href="AboutUs.html" class="btn btn-primary">About Us</a></li>
+                                <li title="login">
+                                    <a href="#" class="btn btn-primary">Log In</a></li>
+                                <li title="Click to register">
+                                    <a href="SignUp.html" class="btn btn-primary">Sign Up</a></li>
+                                <li title="library">
+                                    <a href="Library.html" class="btn btn-primary">Library</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav><br>
+                <div class="col-sm-9">
+                    <div class="slideshow-container">
+                        <div class="mySlides fade">
+                            <div class="numbertext">1 / 4</div>
+                            <img src="/home/prince/Documents/MyJavaScriptCode/MakeAwebsite/websiteFile/websitePhotos/IMGcoursemate3.jpg" class="img-rounded" width="100%" height="400">
+                            <div class="text">Forensic psychology Excursion at Owerri High Court.</div>
+                        </div>
+                        <div class="mySlides fade">
+                            <div class="numbertext">2 / 4</div>
+                            <img src="/home/prince/Documents/MyJavaScriptCode/MakeAwebsite/websiteFile/websitePhotos/psylogo4.jpg" class="img-rounded" width="100%" height="400">
+                            <div class="text">The National Symbol of Psychology.</div>
+                        </div>
+
+                        <div class="mySlides fade">
+                            <div class="numbertext">3 / 4</div>
+                            <img src="/home/prince/Documents/MyJavaScriptCode/MakeAwebsite/websiteFile/websitePhotos/IMGprison.jpg" class="img-rounded" width="100%" height="400">
+                            <div class="text">Forensic Psychology Excursion at Owerri Prison.</div>
+                        </div>
+
+                        <div class="mySlides fade">
+                            <div class="numbertext">4 / 4</div>
+                            <img src="/home/prince/Documents/MyJavaScriptCode/MakeAwebsite/websiteFile/websitePhotos/quitter.jpg" class="img-rounded" width="100%" height="400">
+                            <div class="text">Inspirational Quotes</div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div style="text-align:center">
+                        <span class="dot" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                        <span class="dot" onclick="currentSlide(4)"></span>
+                    </div>
+                    <script src="slideshow.js"></script>
+                    <div class="align">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6" style="background-color:mediumpurple">
+                                    <br>
+                                    <form action="/action_page.php" autocomplete="on">
+                                        E-mail:
+                                        <input type="email" name="email" value="" size="30" autocomplete="on" placeholder="@yahoo.com" required>
+                                        <br><br> Surname:
+                                        <input type="text" name="firstname" value="" autocomplete="on" placeholder="surname" required>
+                                        <br><br> Last name:
+                                        <input type="text" name="lastname" value="" autocomplete="on" placeholder="first name" required>
+                                        <br><br> Mat Number:
+                                        <input type="text" name="mat no" value="" size="10" maxlength="8" placeholder="../....." required>
+                                        <br><br> Level:
+                                        <input list="levels" size="10" placeholder="select level" required>
+                                        <datalist id="levels">
+                      <option value="100 LEVEL">
+                      <option value="200 LEVEL">
+                      <option value="300 LEVEL">
+                      <option value="400 LEVEL">
+                    </datalist>
+                                        <br><br> Gender:<br>
+                                        <input type="radio" name="gender" value="male" checked> Male<br>
+                                        <input type="radio" name="gender" value="female"> Female<br>
+                                        <br> Phone Number:
+                                        <input type="tel" name="usertel" value="" placeholder="08012345678" required>
+                                        <br><br> Password:
+                                        <input type="password" name="password" value="">
+                                        <br><br>
+                                        <input type="submit" value="Submit">
+
+                                        <div class="col-sm-6" style="background-color:lightseagreen">
+                                            <h1>MY NAME IS PEARLY</h1>
+                                        </div>
+                                </div>
+                                <div class="col-sm-6" style="background-color:lightseagreen">
+                                    <img src="/home/prince/Documents/MyJavaScriptCode/MakeAwebsite/websiteFile/websitePhotos/lee.jpg" width="100%" height="535">
+                                </div>
+                            </div>
+                        </div>
+                        <p id="time"></p>
+                        <script>
+                            document.getElementById("time").innerHTML = Date();
+                        </script>
+                        <div class=" main ">
+                            <p> The study of <i>behavior</i> has always been a field that has sprung up controversies and <code style="color:black ">psychology</code> has been at the fore-front of such study.This controversies is because of the unpredictable
+                                nature of man due to various forces(hereditary & environmental) acting upon such <strong>behavior</strong>. You can find more on this subject on <a href="/home/prince/Documents/MyJavaScriptCode/PSYCHOLOGY HAND BOOK for Accreditation.pdf">google</a>.
+                            </p>
+                            <div class="container-fluid">
+                                <h1>Grid</h1>
+                                <p>This example demonstrates a 50%/50% split on small,<pre>"my name is prince"</pre> medium and large devices. On extra small devices, it will stack (100% width).</p>
+                                <p>Resize the browser window to see the effect.</p>
+                                <kbd>type your article here</kbd>
+                                <s>sales</s>
+                                <div class="row ">
+                                    <div class="col-sm-6 " style="background-color:yellow; ">
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<br> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                                        ex ea commodo consequat.
+                                    </div>
+                                    <div class="col-sm-6 " style="background-color:lightseagreen; ">
+                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search">Search the table</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Number of Items to Ship</th>
+                                <th>Next Action</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>Adam's Greenworks</td>
+                            <td>14</td>
+                            <td>Package Items</td>
+                        </tr>
+                        <script src="toggle.js"></script>
+                        <tr>
+                            <td class="success">David's Burgers</td>
+                            <td>2</td>
+                            <td>send Invoice</td>
+                        </tr>
+                        <tr>
+                            <td>Baker's Bike Shop</td>
+                            <td>3</td>
+                            <td>Send Invoice</td>
+                        </tr>
+                        <tr>
+                            <td>Miss Sally's Southern</td>
+                            <td>9</td>
+                            <td>Ship</td>
+                        </tr>
+                        <tr>
+                            <td>Summit Resort Rentals</td>
+                            <td>4</td>
+                            <td>Ship</td>
+                        </tr>
+                        <tr>
+                            <td>Strike Fitness</td>
+                            <td>1</td>
+                            <td>Enter Order</td>
+                        </tr>
+                    </table>
+                    <style>
+                        table,
+                        th,
+                        td {
+                            border: 2px solid black;
+                            font-family: Arial, sans-serif;
+                            text-align: center;
+                        }
+                    </style>
+                    <!-- Button to open the modal login form -->
+                    <button onclick="document.getElementById('id01').style.display='block'">Login</button>
+
+                    <!-- The Modal -->
+                    <div id="id01" class="modal">
+                        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+
+                        <!-- Modal Content -->
+                        <form class="modal-content animate" action="/action_page.php">
+                            <div class="imgcontainer">
+                                <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                            </div>
+
+                            <div class="container">
+                                <label><b>Username</b></label>
+                                <input type="text" placeholder="Enter Username" name="uname" required>
+
+                                <label><b>Password</b></label>
+                                <input type="password" placeholder="Enter Password" name="psw" required>
+
+                                <button type="submit">Login</button>
+                                <input type="checkbox" checked="checked"> Remember me
+                            </div>
+
+                            <div class="container" style="background-color:#f1f1f1">
+                                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                                <span class="psw">Forgot <a href="#">password?</a></span>
+                            </div>
+                        </form>
+                    </div>
+                    <style>
+                        /* The Modal (background) */
+                        
+                        .modal {
+                            display: none;
+                            /* Hidden by default */
+                            position: fixed;
+                            /* Stay in place */
+                            z-index: 1;
+                            /* Sit on top */
+                            left: 0;
+                            top: 0;
+                            width: 100%;
+                            /* Full width */
+                            height: 100%;
+                            /* Full height */
+                            overflow: auto;
+                            /* Enable scroll if needed */
+                            background-color: rgb(0, 0, 0);
+                            /* Fallback color */
+                            background-color: rgba(0, 0, 0, 0.4);
+                            /* Black w/ opacity */
+                            padding-top: 60px;
+                        }
+                        /* Modal Content/Box */
+                        
+                        .modal-content {
+                            background-color: #fefefe;
+                            margin: 5px auto;
+                            /* 15% from the top and centered */
+                            border: 1px solid #888;
+                            width: 80%;
+                            /* Could be more or less, depending on screen size */
+                        }
+                        /* The Close Button */
+                        
+                        .close {
+                            /* Position it in the top right corner outside of the modal */
+                            position: absolute;
+                            right: 25px;
+                            top: 0;
+                            color: #000;
+                            font-size: 35px;
+                            font-weight: bold;
+                        }
+                        /* Close button on hover */
+                        
+                        .close:hover,
+                        .close:focus {
+                            color: red;
+                            cursor: pointer;
+                        }
+                        /* Add Zoom Animation */
+                        
+                        .animate {
+                            -webkit-animation: animatezoom 0.6s;
+                            animation: animatezoom 0.6s
+                        }
+                        
+                        @-webkit-keyframes animatezoom {
+                            from {
+                                -webkit-transform: scale(0)
+                            }
+                            to {
+                                -webkit-transform: scale(1)
+                            }
+                        }
+                        
+                        @keyframes animatezoom {
+                            from {
+                                transform: scale(0)
+                            }
+                            to {
+                                transform: scale(1)
+                            }
+                        }
+                    </style>
+                    <div class="form-group">
+                        <label for="usr">Name:</label>
+                        <input type="text" class="form-control" id="usr">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Password:</label>
+                        <input type="password" class="form-control" id="pwd">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p id="intropsyc">Definitions<br>Brief history of psychology<br>Goals of psychology<br>Fields of psychology as a scientific discipline<br>Methods of psychology<br>Psychology in human growth and development<br>Relationship and differences between psychology and
+            other disciplines<br> Current issues in modern psychology - Human nature<br>Nature versus nurture<br>mind versus body.</p>
+        <p id="demo">hgjflflf;</p>
+        <script>
+            var rand = (Math.floor(Math.random) * 52);
+            document.getElementById("demo").innerHTML = rand();
+        </script>
+        <button onclick=rand() value="Random"></button>
+        <br><br>
+        <footer>copyright: &copy 2017 Prestige</footer><br>
+    </div>
+</body>
+
+</html>
