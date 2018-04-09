@@ -2,13 +2,7 @@
 <html lang="en-US">
 
 <head>
-    <title>200 level courses</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./stylesheets/man.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {{>head}}
 </head>
 
 <body style="background-color:lightpink">
@@ -33,245 +27,236 @@
             </nav>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-sm-2">
-                <div class="container-fluid">
-                    <div class="row">
-                        <nav class="col-sm-12">
-                            <div class="list">
-                                <div class="btn-group btn-group-justified">
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li title="Go back to Homepage">
-                                            <a href="/" class="btn btn-primary">Home</a></li>
-                                        <li class="dropdown" title="Clicks to see Available courses">
-                                            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Courses
-                                <span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="100level">100level Courses</a></li>
-                                                <li><a href="200level">200level Courses</a></li>
-                                                <li><a href="300level">300level Courses</a></li>
-                                                <li><a href="400level">400level Courses</a></li>
-                                            </ul>
-                                        </li>
-                                        <li title="Click to see upcoming events">
-                                            <a href="news" class="btn btn-primary">News <span class="badge">3</span></a></li>
-                                        <li title="Info about us">
-                                            <a href="aboutus" class="btn btn-primary">About Us</a></li>
-                                        <li title="login">
-                                            <a href="login" class="btn btn-primary">Log In</a></li>
-                                        <li class="dropdown" title="Click to register">
-                                            <a data-toggle="dropdown" class="btn btn-primary dropdown-toggle" href="#" <b class="caret"></b>Sign Up</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="student_signup">Student_signUp</a></li>
-                                                <li><a href="staff_signup">Staff_signUp</a></li>
-                                            </ul>
-                                        </li>
-                                        <li title="library">
-                                            <a href="library" class="btn btn-primary">Library</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </nav><br>
-            <nav class="col-sm-10">
-                <div class="page-header">
-                    <h2>Courses for 200LEVEL Psychology</h2>
-                    <h3>FIRST SEMESTER COURSES</h3>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr class="danger">
-                                <th>COURSE CODE</th>
-                                <th>COURSE TITLE</th>
-                                <th>UNIT/S</th>
-                            </tr>
-                        </thead>
-                        <tr class="success" title="Historical introduction to experimental psychology; Methods of inquiry in psychology: introspection, observation, clinical/case studies; survey, field study, and laboratory experiments; Ethical considerations in psychological research; Practicals.">
-                            <td>PSY 221</td>
-                            <td>General Experimental Psychology</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="info" title="History and Scope of Physiological Psychology; the Nervous System – Basic Principles, Organisation and Functions; Methods of Physiological Psychology: Electrical Stimulation and Recording, Chemical Stimulation and Recording, Lesions; Physical Destruction of Brain Tissues; Non-Invasive Procedures.">
-                            <td>PSY 231</td>
-                            <td>Physiological Psychology 1</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="warning" title="Definitions of social psychology; Social psychological assumptions; Social psychology and other fields in social sciences; Socialization as the root of social behaviour; Attitude: Definition, Formation, Functions and Components.">
-                            <td>PSY 241</td>
-                            <td>Introduction to Social Psychology</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="active" title="The Basis for Ethnicity; Positive and Negative Aspects of ethnicity; Methods of reducing adverse effects of ethnicity as they apply to ethnic group relations in Nigeria; Methods, Problems and Empirical Data on Psychological Investigations in the area of Ethnicity, Race and Culture and their relation to Personality.">
-                            <td>PSY 243</td>
-                            <td>Psychology of Ethnicity and Ethnic Groups</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="danger" title="History and Theories of Child Development; Human Growth and Development from Conception to Adolescence; the Mechanism of Heredity; Determinants of Development; Cognitive, Language, and Personality Development in Infancy, early childhood and later childhood; Physical and Psychological Changes at Puberty; the Meaning of Identity in Adolescence and Adolescent’s Behavioural Problems.">
-                            <td>PSY 251</td>
-                            <td>Developmental Psy: Childhood and Adolescence</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="info" title="Definitions and Problems of Personality Definitions; Personality Types; Theories of Personality – Psychodynamic, Psychosocial, Behavioural, Humanistic, Gestalt, Psychometric or trait theories.">
-                            <td>Psy 261</td>
-                            <td>Psychology of Personality</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="success" title="Philosophical antecedents of modern psychology; the rise of the research spirit; beginnings of experimentation - Pavlov, Weber, Fechner, Muller, etc; Physiological Psychology - Helmholtz, Hering, etc; Dualism and Monism; Twentieth Century Systems - Structuralism, Functionalism, Behaviourism; Gestalt Psychology; Freud and the Post/Neo Freudians; Humanistic Psychology; Phenomenological and Existential Approaches; African Orientations - A possible Synthesis.">
-                            <td>Psy 271</td>
-                            <td>History and System</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="info">
-                            <td>MGT 101</td>
-                            <td>Introduction to Management</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="warning">
-                            <td>GST 223</td>
-                            <td>Enterpreneurship Development 2</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="text-align:center">ELECTIVES: ANY TWO</td>
-                        </tr>
-                        <tr class="active">
-                            <td>POS 221</td>
-                            <td>Nigeria Government and Politics</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="danger">
-                            <td>SOC 241</td>
-                            <td>Sociology of the Family</td>
-                            <td>2</td>
-                        </tr>
-                        <tr style="background-color:gainsboro">
-                            <td>POS 201</td>
-                            <td>Introduction to Public Administration</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="success">
-                            <td>ECO 221</td>
-                            <td>Structure of Nigerian Economy</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="info">
-                            <td>SOC 201</td>
-                            <td>Social Thought</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="warning">
-                            <td>Total Units</td>
-                            <td></td>
-                            <td>22</td>
-                        </tr>
-                    </table>
-                    <h3>SECOND SEMESTER COURSES</h3>
-                    <table class="table table-hover">
-                        <thead>
-                            <tr style="background-color:thistle">
-                                <th>COURSE CODE</th>
-                                <th>COURSE TITLE</th>
-                                <th>UNIT/S</th>
-                            </tr>
-                        </thead>
-                        <tr class="active" title="Steps and issues involved in designing an experiment; hints on running experiments; Demonstrations of a number of experiments in class; choosing a research topic; writing psychological reports, conducting analysis and reporting of specific experiments. Emphasis will be placed on the students designing, undertaking, analyzing and reporting their own experiments as practicals. ">
-                            <td>PSY 222</td>
-                            <td>General Experimental Psychology 2</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="danger" title="Concepts and Scope of Experimental Designs; Types of Designs in common use – strengths, weaknesses and applications; Relationship between Designs and Analysis of Data; Control Procedures; Research report format; Practical Exercises and Assignments.">
-                            <td>PSY 224</td>
-                            <td>Experimental Designs</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="active" title="Role of the Genes and the Evolutionary Process in Behaviour; the Internal Environment and Behaviour; the Metabolic Process; Endocrine Glands and Hormones; Physiological Homeostasis.">
-                            <td>PSY 232</td>
-                            <td>Physiological Psychology 2</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="success" title="Theories and Techniques of Attitude Change; Attitude Measurement; Methods of Research in Social Psychology; Leadership and Leadership Effectiveness; Achievement Motivation; Obedience and Compliance.">
-                            <td>PSY 242</td>
-                            <td>Social Psychology</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="info" title="The Sensory System; Detailed Examination of the Chemical, Visual, Auditory and Somatic Senses as they relate to psychological processes; Motor Control and Sensory Motor Integration – with focus on the response systems.">
-                            <td>PSY 234</td>
-                            <td>PsychoBiology</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="warning" title="Changes and Adjustment Demands from Age of Maturity till the Life Cycle Ends in Death; Theories and Researches in Adult Development, Early Adulthood, Midlife Transition, Later Adulthood; Biological, Intellectual and Personality aspects of Aging, Dying and Bereavement.">
-                            <td>PSY 252</td>
-                            <td>Deveopmental Psy: Adulthood and Ageing</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="active" title="Examination of the History and Theories of Community Mental Health Movements which gave rise to Community Psychology; Review of the major purposes of Community Psychology, with emphasis on prevention of mental illness, and the relationship between mental illness and the social environment especially in societies undergoing rapid social change, such as Nigeria; Relationship/Differences between Community Psychology and Community Medicine.">
-                            <td>PSY 254</td>
-                            <td>Community Psychology</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="danger">
-                            <td>PSY 246</td>
-                            <td>Principles of Criminology and Juvenile Delinquency</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="info">
-                            <td>GST 222</td>
-                            <td>Peace and Conflict Resolution</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="success">
-                            <td>CMP 202</td>
-                            <td>Introduction to Computer</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">ELECTIVE: ANY TWO</td>
-                        </tr>
-                        <tr class="info">
-                            <td>POS 222</td>
-                            <td>Nigeria Government and Politics 2</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="warning">
-                            <td>ECO 222</td>
-                            <td>Structure of Nigeria Economy</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="active">
-                            <td>MAC 214</td>
-                            <td>Principles of Public Relations</td>
-                            <td>2</td>
-                        </tr>
-                        <tr class="danger">
-                            <td>SOC 202</td>
-                            <td>Social Change</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>Total Units</td>
-                            <td></td>
-                            <td>24</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <style>
-                table,
-                th,
-                td {
-                    border: 2px solid black;
-                    font-family: sans-serif;
-                    text-align: center;
-                }
-            </style>
+    <div class="stay">
+        <div class="btn-group btn-group-justified">
+            <ul class="nav nav-pills nav-justified">
+                <li title="Go back to Homepage">
+                    <a href="/" class="btn btn-primary">Home</a></li>
+                <li class="dropdown" title="Clicks to see Available courses">
+                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Courses
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="100level">100level Courses</a></li>
+                        <li><a href="200level">200level Courses</a></li>
+                        <li><a href="300level">300level Courses</a></li>
+                        <li><a href="400level">400level Courses</a></li>
+                    </ul>
+                </li>
+                <li title="Click to see upcoming events">
+                    <a href="news" class="btn btn-primary">News <span class="badge">3</span></a></li>
+                <li title="Info about us">
+                    <a href="aboutus" class="btn btn-primary">About Us</a></li>
+                <li title="login">
+                    <a href="login" class="btn btn-primary">Log In</a></li>
+                <li class="dropdown" title="Click to register">
+                    <a data-toggle="dropdown" class="btn btn-link dropdown-toggle" href="#" <b class="caret"></b>Sign Up</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="student_signup">Student_signUp</a></li>
+                        <li><a href="staff_signup">Staff_signUp</a></li>
+                    </ul>
+                </li>
+                <li title="library">
+                    <a href="library" class="btn btn-primary">Library</a>
+                </li>
+            </ul>
         </div>
     </div>
-    <footer>{{>footer}}</footer><br>
+    <br>
+    <nav class="col-md-12">
+        <div class="page-header">
+            <h2>Courses for 200LEVEL Psychology</h2>
+            <h3>FIRST SEMESTER COURSES</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="danger">
+                        <th>COURSE CODE</th>
+                        <th>COURSE TITLE</th>
+                        <th>UNIT/S</th>
+                    </tr>
+                </thead>
+                <tr class="success" title="Historical introduction to experimental psychology; Methods of inquiry in psychology: introspection, observation, clinical/case studies; survey, field study, and laboratory experiments; Ethical considerations in psychological research; Practicals.">
+                    <td>PSY 221</td>
+                    <td>General Experimental Psychology</td>
+                    <td>2</td>
+                </tr>
+                <tr class="info" title="History and Scope of Physiological Psychology; the Nervous System – Basic Principles, Organisation and Functions; Methods of Physiological Psychology: Electrical Stimulation and Recording, Chemical Stimulation and Recording, Lesions; Physical Destruction of Brain Tissues; Non-Invasive Procedures.">
+                    <td>PSY 231</td>
+                    <td>Physiological Psychology 1</td>
+                    <td>2</td>
+                </tr>
+                <tr class="warning" title="Definitions of social psychology; Social psychological assumptions; Social psychology and other fields in social sciences; Socialization as the root of social behaviour; Attitude: Definition, Formation, Functions and Components.">
+                    <td>PSY 241</td>
+                    <td>Introduction to Social Psychology</td>
+                    <td>2</td>
+                </tr>
+                <tr class="active" title="The Basis for Ethnicity; Positive and Negative Aspects of ethnicity; Methods of reducing adverse effects of ethnicity as they apply to ethnic group relations in Nigeria; Methods, Problems and Empirical Data on Psychological Investigations in the area of Ethnicity, Race and Culture and their relation to Personality.">
+                    <td>PSY 243</td>
+                    <td>Psychology of Ethnicity and Ethnic Groups</td>
+                    <td>2</td>
+                </tr>
+                <tr class="danger" title="History and Theories of Child Development; Human Growth and Development from Conception to Adolescence; the Mechanism of Heredity; Determinants of Development; Cognitive, Language, and Personality Development in Infancy, early childhood and later childhood; Physical and Psychological Changes at Puberty; the Meaning of Identity in Adolescence and Adolescent’s Behavioural Problems.">
+                    <td>PSY 251</td>
+                    <td>Developmental Psy: Childhood and Adolescence</td>
+                    <td>2</td>
+                </tr>
+                <tr class="info" title="Definitions and Problems of Personality Definitions; Personality Types; Theories of Personality – Psychodynamic, Psychosocial, Behavioural, Humanistic, Gestalt, Psychometric or trait theories.">
+                    <td>Psy 261</td>
+                    <td>Psychology of Personality</td>
+                    <td>2</td>
+                </tr>
+                <tr class="success" title="Philosophical antecedents of modern psychology; the rise of the research spirit; beginnings of experimentation - Pavlov, Weber, Fechner, Muller, etc; Physiological Psychology - Helmholtz, Hering, etc; Dualism and Monism; Twentieth Century Systems - Structuralism, Functionalism, Behaviourism; Gestalt Psychology; Freud and the Post/Neo Freudians; Humanistic Psychology; Phenomenological and Existential Approaches; African Orientations - A possible Synthesis.">
+                    <td>Psy 271</td>
+                    <td>History and System</td>
+                    <td>2</td>
+                </tr>
+                <tr class="info">
+                    <td>MGT 101</td>
+                    <td>Introduction to Management</td>
+                    <td>2</td>
+                </tr>
+                <tr class="warning">
+                    <td>GST 223</td>
+                    <td>Enterpreneurship Development 2</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align:center">ELECTIVES: ANY TWO</td>
+                </tr>
+                <tr class="active">
+                    <td>POS 221</td>
+                    <td>Nigeria Government and Politics</td>
+                    <td>2</td>
+                </tr>
+                <tr class="danger">
+                    <td>SOC 241</td>
+                    <td>Sociology of the Family</td>
+                    <td>2</td>
+                </tr>
+                <tr style="background-color:gainsboro">
+                    <td>POS 201</td>
+                    <td>Introduction to Public Administration</td>
+                    <td>2</td>
+                </tr>
+                <tr class="success">
+                    <td>ECO 221</td>
+                    <td>Structure of Nigerian Economy</td>
+                    <td>2</td>
+                </tr>
+                <tr class="info">
+                    <td>SOC 201</td>
+                    <td>Social Thought</td>
+                    <td>2</td>
+                </tr>
+                <tr class="warning">
+                    <td>Total Units</td>
+                    <td></td>
+                    <td>22</td>
+                </tr>
+            </table>
+            <h3>SECOND SEMESTER COURSES</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr style="background-color:thistle">
+                        <th>COURSE CODE</th>
+                        <th>COURSE TITLE</th>
+                        <th>UNIT/S</th>
+                    </tr>
+                </thead>
+                <tr class="active" title="Steps and issues involved in designing an experiment; hints on running experiments; Demonstrations of a number of experiments in class; choosing a research topic; writing psychological reports, conducting analysis and reporting of specific experiments. Emphasis will be placed on the students designing, undertaking, analyzing and reporting their own experiments as practicals. ">
+                    <td>PSY 222</td>
+                    <td>General Experimental Psychology 2</td>
+                    <td>2</td>
+                </tr>
+                <tr class="danger" title="Concepts and Scope of Experimental Designs; Types of Designs in common use – strengths, weaknesses and applications; Relationship between Designs and Analysis of Data; Control Procedures; Research report format; Practical Exercises and Assignments.">
+                    <td>PSY 224</td>
+                    <td>Experimental Designs</td>
+                    <td>2</td>
+                </tr>
+                <tr class="active" title="Role of the Genes and the Evolutionary Process in Behaviour; the Internal Environment and Behaviour; the Metabolic Process; Endocrine Glands and Hormones; Physiological Homeostasis.">
+                    <td>PSY 232</td>
+                    <td>Physiological Psychology 2</td>
+                    <td>2</td>
+                </tr>
+                <tr class="success" title="Theories and Techniques of Attitude Change; Attitude Measurement; Methods of Research in Social Psychology; Leadership and Leadership Effectiveness; Achievement Motivation; Obedience and Compliance.">
+                    <td>PSY 242</td>
+                    <td>Social Psychology</td>
+                    <td>2</td>
+                </tr>
+                <tr class="info" title="The Sensory System; Detailed Examination of the Chemical, Visual, Auditory and Somatic Senses as they relate to psychological processes; Motor Control and Sensory Motor Integration – with focus on the response systems.">
+                    <td>PSY 234</td>
+                    <td>PsychoBiology</td>
+                    <td>2</td>
+                </tr>
+                <tr class="warning" title="Changes and Adjustment Demands from Age of Maturity till the Life Cycle Ends in Death; Theories and Researches in Adult Development, Early Adulthood, Midlife Transition, Later Adulthood; Biological, Intellectual and Personality aspects of Aging, Dying and Bereavement.">
+                    <td>PSY 252</td>
+                    <td>Deveopmental Psy: Adulthood and Ageing</td>
+                    <td>2</td>
+                </tr>
+                <tr class="active" title="Examination of the History and Theories of Community Mental Health Movements which gave rise to Community Psychology; Review of the major purposes of Community Psychology, with emphasis on prevention of mental illness, and the relationship between mental illness and the social environment especially in societies undergoing rapid social change, such as Nigeria; Relationship/Differences between Community Psychology and Community Medicine.">
+                    <td>PSY 254</td>
+                    <td>Community Psychology</td>
+                    <td>2</td>
+                </tr>
+                <tr class="danger">
+                    <td>PSY 246</td>
+                    <td>Principles of Criminology and Juvenile Delinquency</td>
+                    <td>2</td>
+                </tr>
+                <tr class="info">
+                    <td>GST 222</td>
+                    <td>Peace and Conflict Resolution</td>
+                    <td>2</td>
+                </tr>
+                <tr class="success">
+                    <td>CMP 202</td>
+                    <td>Introduction to Computer</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td colspan="3">ELECTIVE: ANY TWO</td>
+                </tr>
+                <tr class="info">
+                    <td>POS 222</td>
+                    <td>Nigeria Government and Politics 2</td>
+                    <td>2</td>
+                </tr>
+                <tr class="warning">
+                    <td>ECO 222</td>
+                    <td>Structure of Nigeria Economy</td>
+                    <td>2</td>
+                </tr>
+                <tr class="active">
+                    <td>MAC 214</td>
+                    <td>Principles of Public Relations</td>
+                    <td>2</td>
+                </tr>
+                <tr class="danger">
+                    <td>SOC 202</td>
+                    <td>Social Change</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Total Units</td>
+                    <td></td>
+                    <td>24</td>
+                </tr>
+            </table>
+        </div>
+        </div>
+        <style>
+            table,
+            th,
+            td {
+                border: 2px solid black;
+                font-family: sans-serif;
+                text-align: center;
+            }
+        </style>
+        </div>
+        </div>
+        <footer>{{>footer}}</footer><br>
 </body>
 
 </html>

@@ -2,7 +2,7 @@
 <html lang="en-US">
 
 <head>
-   {{>head}}
+    {{>head}}
 </head>
 
 <body>
@@ -27,74 +27,77 @@
             </nav>
         </div>
     </div>
+    <div class="stay">
+        <div class="btn-group btn-group-justified">
+            <ul class="nav nav-pills nav-justified">
+                <li title="Go back to Homepage">
+                    <a href="/" class="btn btn-primary">Home</a></li>
+                <li class="dropdown" title="Clicks to see Available courses">
+                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Courses
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="100level">100level Courses</a></li>
+                        <li><a href="200level">200level Courses</a></li>
+                        <li><a href="300level">300level Courses</a></li>
+                        <li><a href="400level">400level Courses</a></li>
+                    </ul>
+                </li>
+                <li title="Click to see upcoming events">
+                    <a href="news" class="btn btn-primary">News <span class="badge">3</span></a></li>
+                <li title="Info about us">
+                    <a href="aboutus" class="btn btn-primary">About Us</a></li>
+                <li title="login">
+                    <a href="login" class="btn btn-primary">Log In</a></li>
+                <li class="dropdown" title="Click to register">
+                    <a data-toggle="dropdown" class="btn btn-link dropdown-toggle" href="#" <b class="caret"></b>Sign Up</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="student_signup">Student SignUp</a></li>
+                        <li><a href="staff_signup">Staff SignUp</a></li>
+                    </ul>
+                </li>
+                <li title="library">
+                    <a href="library" class="btn btn-primary">Library</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <br><br>
+    <h1>Staff SignUp</h1>
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-sm-2">
-                <div class="container-fluid">
-                    <div class="row">
-                        <nav class="col-sm-12">
-                            <div class="list">
-                                <div class="btn-group btn-group-justified">
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li title="Go back to Homepage">
-                                            <a href="/" class="btn btn-success">Home</a></li>
-                                        <li class="dropdown" title="Click to see Available courses">
-                                            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Courses
-                                                <span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="100level">100level Courses</a></li>
-                                                <li><a href="200level">200level Courses</a></li>
-                                                <li><a href="300level">300level Courses</a></li>
-                                                <li><a href="400level">400level Courses</a></li>
-                                            </ul>
-                                        </li>
-                                        <li title="Click to see upcoming events">
-                                            <a href="news" class="btn btn-danger">News <span class="badge">3</span></a></li>
-                                        <li title="Info about us">
-                                            <a href="aboutus" class="btn btn-warning">About Us</a></li>
-                                        <li title="login">
-                                            <a href="login" class="btn btn-info">Log In</a></li>
-                                        <li title="library">
-                                            <a href="library" class="btn btn-primary">Library</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </nav><br>
-            <nav class="col-sm-10">
-                <form class="form group" action="/" method="POST" autocomplete="on" style= "background-color: purple">
-                    <div class="form-group">
-                        <label for="email">E-mail:</label>
-                        <input type="email" name="email" class="form-control"value="" autocomplete="on" placeholder="Email.com" required>
-                        <br> 
-                        <label for="surname">Surname:</label>
-                        <input type="text" name="surname" class="form-control" value="" autocomplete="on" placeholder="surname" required>
-                        <br> 
-                        <label for="firstname">First name:</label>
-                        <input type="text" name="firstname"  class="form-control" value="" autocomplete="on" placeholder="first name" required>
-                        <br> 
-                        <label for="mat_no">Staff_Id:</label>
-                        <input type="text" name="staff_id" class="form-control" value="" size="10" required>
-                        <br>
-                        <label for="gender">Gender:</label>
-                        <input type="radio" name="gender" value="male" > Male
-                        <input type="radio" name="gender" value="female" checked> Female<br>
-                        <br> 
-                        <label for="phone">Phone Number:</label>
-                        <input type="tel" name="phone" class="form-control" value="" placeholder="" required>
-                        <br>
-                        <label for="password">Password:</label>
-                        <input type="password" class="form-control" name="password" value="">
-                        <br>
-                        <input type="submit" class="btn btn-primary" value="Sign Up">
+            <nav class="col-md-5">
+                <form class="form group" action="/" method="POST" autocomplete="on">
+                    <label for="email">E-mail:</label>
+                    <input type="email" name="email" class="form-control" value="" autocomplete="on" placeholder="Email.com" required>
+                    <br>
+                    <label for="surname">Surname:</label>
+                    <input type="text" name="surname" class="form-control" value="" autocomplete="on" placeholder="surname" required>
+                    <br>
+                    <label for="firstname">First name:</label>
+                    <input type="text" name="firstname" class="form-control" value="" autocomplete="on" placeholder="first name" required>
+                    <br>
+                    <label for="mat_no">Staff_Id:</label>
+                    <input type="text" name="staff_id" class="form-control" value="" size="10" required>
+                    <br>
+                    <label for="gender">Gender:</label>
+                    <input type="radio" name="gender" value="male"> Male
+                    <input type="radio" name="gender" value="female" checked> Female<br>
+                    <br>
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" name="phone" class="form-control" value="" placeholder="" required>
+                    <br>
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" name="password" value="">
+                    <br>
+                    <input type="submit" class="btn btn-primary" value="Sign Up">
                 </form>
+            </nav>
+            <nav class="col-md-5">
+                <p></p>
             </nav>
         </div>
     </div>
-    <br>
-    {{>footer}}
+    <br> {{>footer}}
 </body>
+
 </html>

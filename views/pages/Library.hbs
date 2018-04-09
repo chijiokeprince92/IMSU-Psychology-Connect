@@ -8,7 +8,7 @@
 <body style="background-color:lightpink">
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-sm-12">
+            <nav class="col-xl-12">
                 <h1>Imo State University</h1>
                 <time>Todays date is: <span id="time"></span> </time>
                 <script>
@@ -27,87 +27,75 @@
             </nav>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-sm-2">
-                <div class="container-fluid">
-                    <div class="row">
-                        <nav class="col-sm-12">
-                            <div class="list">
-                                <div class="btn-group btn-group-justified">
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li title="Go back to Homepage">
-                                            <a href="/" class="btn btn-primary">Home</a></li>
-                                        <li class="dropdown" title="Clicks to see Available courses">
-                                            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Courses
-                                <span class="caret"></span></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="100level">100level Courses</a></li>
-                                                <li><a href="200level">200level Courses</a></li>
-                                                <li><a href="300level">300level Courses</a></li>
-                                                <li><a href="400level">400level Courses</a></li>
-                                            </ul>
-                                        </li>
-                                        <li title="Click to see upcoming events">
-                                            <a href="news" class="btn btn-primary">News <span class="badge">3</span></a></li>
-                                        <li title="Info about us">
-                                            <a href="aboutus" class="btn btn-primary">About Us</a></li>
-                                        <li title="login">
-                                            <a href="login" class="btn btn-primary">Log In</a></li>
-                                        <li class="dropdown" title="Click to register">
-                                            <a data-toggle="dropdown" class="btn btn-link dropdown-toggle" href="#" <b class="caret"></b>>Sign Up</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="student_signup">Student_signUp</a></li>
-                                                <li><a href="staff_signup">Staff_signUp</a></li>
-                                            </ul>
-                                        </li>
-                                        <li title="library">
-                                            <a href="library" class="btn btn-primary">Library</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </nav><br>
-            <nav class="col-sm-10">
-               <div class="container-fluid">
-                    <h2>Select an Option Below</h2>
-                    <br>
-                    <div class="btn-group btn-group-justified">
-                        <div class="btn-group">
-                            <a href="buyBooks"  type="button" class="btn btn-info">Buy a book</a>
-                        </div>
-                        <div class="btn-group">
-                            <a href="e-library" type="button" class="btn btn-success">E-Library</a>
-                        </div>
-                        <div class="btn-group">
-                            <a href="projectTopics" type="button" class="btn btn-warning">Project Topics</a>
-                        </div>
-                        <div class="btn-group">
-                            <a href="addArticle" type="buton" class="btn btn-danger">Add an Article</a>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <p>Explanation of the buttons above<br><br><br>
-                    <b>Buy a Book:</b><br>This option allows you to make a purchase of any textbook that is available on E-library.<br>it also allows your name/mat.number to be registered online incase of verification by your lecturer.<br><br>
-                    <b>E-Library:</b><br>The e-library is an online library where all your purchased books can be accessed anywhere,anytime and in your own convenience.<br>The e-library was added as a result of students complaints(they needed more flexibility)
-                    in accessing their textbook.<br>But with the e-library,exam preparation just got easier.<br><br>
-                    <b>Project Topics:</b><br>The project topic button opens an opportunity for registered users to go through different project topics that has been conducted by passed Imsu Psychology Students.<br>Some students may feel like projects
-                    are only for 400level colleagues,but a wise student would go through this project topics regardless of level in order to prepare towards his/her own project.<br><br> <b>Add an Article:</b><br>The add an article column allows students
-                    to post research results and experimental findings to their fellow colleagues because this is the final stage of every experiment...
-                </p>
-            </div>
-        </div>
-    </div>
-    </div><br><br>
-            </nav>
+    <div class="stay">
+        <div class="btn-group btn-group-justified">
+            <ul class="nav nav-pills nav-justified">
+                <li title="Go back to Homepage">
+                    <a href="/" class="btn btn-primary">Home</a></li>
+                <li class="dropdown" title="Clicks to see Available courses">
+                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Courses
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="100level">100level Courses</a></li>
+                        <li><a href="200level">200level Courses</a></li>
+                        <li><a href="300level">300level Courses</a></li>
+                        <li><a href="400level">400level Courses</a></li>
+                    </ul>
+                </li>
+                <li title="Click to see upcoming events">
+                    <a href="news" class="btn btn-primary">News <span class="badge">3</span></a></li>
+                <li title="Info about us">
+                    <a href="aboutus" class="btn btn-primary">About Us</a></li>
+                <li title="login">
+                    <a href="login" class="btn btn-primary">Log In</a></li>
+                <li class="dropdown" title="Click to register">
+                    <a data-toggle="dropdown" class="btn btn-link dropdown-toggle" href="#" <b class="caret"></b>Sign Up</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="student_signup">Student_signUp</a></li>
+                        <li><a href="staff_signup">Staff_signUp</a></li>
+                    </ul>
+                </li>
+                <li title="library">
+                    <a href="library" class="btn btn-primary">Library</a>
+                </li>
+            </ul>
         </div>
     </div>
     <br>
-    {{>footer}}
+    <div class="col-xl-12">
+        <h3>*Accessing Psychology materials just got Easier*</h3>
+        <br><br>
+        <div class="btn-group">
+            <a href="buyBooks" type="button" class="btn btn-info">Buy a book</a>
+        </div>
+        <br>
+        <p>This option allows you to make a purchase of any textbook that is available on E-library. It also allows your name/mat.number
+            to be registered online incase of verification by your lecturer.</p><br><br>
+        <div class="btn-group">
+            <a href="e-library" type="button" class="btn btn-success">E-Library</a>
+        </div>
+        <br>
+        <p>The e-library is an online library where all your purchased books can be accessed anywhere,anytime and in your own
+            convenience. The e-library was added as a result of students complaints(they needed more flexibility) in accessing
+            their textbook.But with the e-library,exam preparation just got easier.</p><br><br>
+        <div class="btn-group">
+            <a href="projectTopics" type="button" class="btn btn-warning">Project Topics</a>
+        </div>
+        <br>
+        <p>The project topic button opens an opportunity for registered users to go through different project topics that has
+            been conducted by passed Imsu Psychology Students. Most students first idea of a project is when they're in their
+            400level, which makes it harder for them to assimilate the concept fully. But with the project-topic column,
+            the students have a head-start.</p><br><br>
+        <div class="btn-group">
+            <a href="addArticle" type="buton" class="btn btn-danger">Add an Article</a>
+        </div>
+        <br>
+        <p>The add an article column allows both students and staffs to post research results and experimental findings to their
+            fellow colleagues because this is the final stage of every experiment...</p>
+    </div>
+    </div>
+    </div>
+    <br><br> {{>footer}}
 </body>
 
 </html>
