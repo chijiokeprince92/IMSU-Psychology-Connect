@@ -5,65 +5,11 @@
     {{>head}}
 </head>
 
-<body style="background-color:lightpink">
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-xl-12">
-                <h1>Imo State University</h1>
-                <time>Todays date is: <span id="time"></span> </time>
-                <script>
-                    var day = Date();
-                    document.getElementById("time").innerHTML = day;
-                </script>
-                <div class="head">
-                    <h1>National Association of Psychology Students<br>
-                </div>
-                <div class="wrap">
-                    <div class="assoc">NAPS<br>
-                        <div class="motto">Motto: Towards A Perfect Man</div>
-                    </div>
-                </div>
-                </h1>
-            </nav>
-        </div>
-    </div>
-    <div class="stay">
-        <div class="btn-group btn-group-justified">
-            <ul class="nav nav-pills nav-justified">
-                <li title="Go back to Homepage">
-                    <a href="/" class="btn btn-primary">Home</a></li>
-                <li class="dropdown" title="Clicks to see Available courses">
-                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Courses
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="100level">100level Courses</a></li>
-                        <li><a href="200level">200level Courses</a></li>
-                        <li><a href="300level">300level Courses</a></li>
-                        <li><a href="400level">400level Courses</a></li>
-                    </ul>
-                </li>
-                <li title="Click to see upcoming events">
-                    <a href="news" class="btn btn-primary">News <span class="badge">3</span></a></li>
-                <li title="Info about us">
-                    <a href="aboutus" class="btn btn-primary">About Us</a></li>
-                <li title="login">
-                    <a href="login" class="btn btn-primary">Log In</a></li>
-                <li class="dropdown" title="Click to register">
-                    <a data-toggle="dropdown" class="btn btn-link dropdown-toggle" href="#" <b class="caret"></b>Sign Up</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="student_signup">Student_signUp</a></li>
-                        <li><a href="staff_signup">Staff_signUp</a></li>
-                    </ul>
-                </li>
-                <li title="library">
-                    <a href="library" class="btn btn-primary">Library</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+<body>
+    {{>coursesbody}}
     <br>
-    <div class="col-xl-12">
-        <h3>*Accessing Psychology materials just got Easier*</h3>
+    <div class="col-sm-12">
+        <h3>*Accessing Psychology Materials Just Got Easier*</h3>
         <br><br>
         <div class="btn-group">
             <a href="buyBooks" type="button" class="btn btn-info">Buy a book</a>
@@ -92,8 +38,6 @@
         <br>
         <p>The add an article column allows both students and staffs to post research results and experimental findings to their
             fellow colleagues because this is the final stage of every experiment...</p>
-    </div>
-    </div>
     </div>
     <br><br> {{>footer}}
 </body>

@@ -5,71 +5,18 @@
     {{>head}}
 </head>
 
-<body style="background-color:lightpink">
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-sm-12">
-                <h1>Imo State University</h1>
-                <time>Todays date is: <span id="time"></span> </time>
-                <script>
-                    var day = Date();
-                    document.getElementById("time").innerHTML = day;
-                </script>
-                <div class="head">
-                    <h1>National Association of Psychology Students<br>
-                </div>
-                <div class="wrap">
-                    <div class="assoc">NAPS<br>
-                        <div class="motto">Motto: Towards A Perfect Man</div>
-                    </div>
-                </div>
-                </h1>
-            </nav>
-        </div>
-    </div>
-    <div class="stay">
-        <div class="btn-group btn-group-justified">
-            <ul class="nav nav-pills nav-justified">
-                <li title="Go back to Homepage">
-                    <a href="/" class="btn btn-primary">Home</a></li>
-                <li class="dropdown" title="Clicks to see Available courses">
-                    <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Courses
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="100level">100level Courses</a></li>
-                        <li><a href="200level">200level Courses</a></li>
-                        <li><a href="300level">300level Courses</a></li>
-                        <li><a href="400level">400level Courses</a></li>
-                    </ul>
-                </li>
-                <li title="Click to see upcoming events">
-                    <a href="news" class="btn btn-primary">News <span class="badge">3</span></a></li>
-                <li title="Info about us">
-                    <a href="aboutus" class="btn btn-primary">About Us</a></li>
-                <li title="login">
-                    <a href="login" class="btn btn-primary">Log In</a></li>
-                <li class="dropdown" title="Click to register">
-                    <a data-toggle="dropdown" class="btn btn-link dropdown-toggle" href="#" <b class="caret"></b>Sign Up</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="student_signup">Student_signUp</a></li>
-                        <li><a href="staff_signup">Staff_signUp</a></li>
-                    </ul>
-                </li>
-                <li title="library">
-                    <a href="library" class="btn btn-primary">Library</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+<body>
+    {{>coursesbody}}
     <br>
     <h2>*Origin of NAPS*</h2>
+    <br>
     <h4>
         <center><b>Introduction:</b></center>
     </h4>
     <p> The department of psychology, Imo state University, Owerri, started in 1995/1996 academic session with a student population
         of 43 under the headship of Mrs. Chioma Joyce Onukogu. The student’s population has gradually increased over the
         years. The department graduated its first batch of students in the 1998/1999 session. The department runs a four
-        year academic program leading to the award of a Bachelor by Science (B.Sc.) Honours degree in Psychology. Philosophy
+        year academic program leading to the award of a Bachelor of Science (B.Sc.) Honours degree in Psychology. Philosophy
         By divine mandate, one of man’s major duties on earth is to conquer and advance the earth.<br> The human person to
         carrying out this seemingly difficult duty must understand himself, his environment and others around him. Man who
         is made up of the spirit, body and soul is ruled by his behaviour. His behaviour is shaped by hereditary, biological
@@ -149,115 +96,113 @@
         the work of a course by the end of the semester are:<br>
     </p>
     <div class="container-fluid">
-        <div class="page-header">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>MARKS %</th>
-                            <th>LETTER GRADES</th>
-                            <th>GRADE POINTS</th>
-                        </tr>
-                    </thead>
-                    <div class="left">
-                        <tr class="success">
-                            <td>70-100</td>
-                            <td>A</td>
-                            <td>5.00</td>
-                        </tr>
-                        <tr class="active">
-                            <td>60-69</td>
-                            <td>B</td>
-                            <td>4.00</td>
-                        </tr>
-                        <tr class="info">
-                            <td>50-59</td>
-                            <td>C</td>
-                            <td>3.00</td>
-                        </tr>
-                        <tr class="warning">
-                            <td>45-49</td>
-                            <td>D</td>
-                            <td>2.00</td>
-                        </tr>
-                        <tr class="success">
-                            <td>40-44</td>
-                            <td>E</td>
-                            <td>1.00</td>
-                        </tr>
-                        <tr class="danger">
-                            <td>0-39</td>
-                            <td>F</td>
-                            <td>0.00</td>
-                        </tr>
+        <div class="row">
+            <nav class="col-sm-12">
+                <div class="page-header">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>MARKS %</th>
+                                    <th>LETTER GRADES</th>
+                                    <th>GRADE POINTS</th>
+                                </tr>
+                            </thead>
+                            <tr class="succeed">
+                                <td>70-100</td>
+                                <td>A</td>
+                                <td>5.00</td>
+                            </tr>
+                            <tr class="anger">
+                                <td>60-69</td>
+                                <td>B</td>
+                                <td>4.00</td>
+                            </tr>
+                            <tr class="inform">
+                                <td>50-59</td>
+                                <td>C</td>
+                                <td>3.00</td>
+                            </tr>
+                            <tr class="waring">
+                                <td>45-49</td>
+                                <td>D</td>
+                                <td>2.00</td>
+                            </tr>
+                            <tr class="nothing">
+                                <td>40-44</td>
+                                <td>E</td>
+                                <td>1.00</td>
+                            </tr>
+                            <tr class="succeed">
+                                <td>0-39</td>
+                                <td>F</td>
+                                <td>0.00</td>
+                            </tr>
+                        </table>
                     </div>
-                </table>
-            </div>
+                </div>
+            </nav>
         </div>
     </div>
     <p>17. The class of the degree of a student who has satisfactorily completed his course of studies shall be determined as
         follows:
     </p>
     <div class="container-fluid">
-        <div class="page-header">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>CGPA</th>
-                            <th>Class of Degree</th>
-                        </tr>
-                    </thead>
-                    <tr class="success">
-                        <td>4.50-5.00</td>
-                        <td>First Class Honours</td>
-                    </tr>
-                    <tr class="active">
-                        <td>3.50-4.49</td>
-                        <td>Second Class Upper</td>
-                    </tr>
-                    <tr class="info">
-                        <td>2.40-3.49</td>
-                        <td>Second Class Lower</td>
-                    </tr>
-                    <tr class="warning">
-                        <td>1.50-2.39</td>
-                        <td>Third Class</td>
-                    </tr>
-                    <tr class="success">
-                        <td>1.00-1.49</td>
-                        <td>Pass</td>
-                    </tr>
-                    <tr class="danger">
-                        <td>0.00-0.99</td>
-                        <td>Fail</td>
-                    </tr>
-                </table>
-                <style>
-                    table,
-                    th,
-                    td {
-                        border: 2px solid black;
-                        font-family: Arial, sans-serif;
-                        text-align: center;
-                    }
-                </style>
-            </div>
+        <div class="row">
+            <nav class="col-sm-12">
+                <div class="page-header">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>CGPA</th>
+                                    <th>Class of Degree</th>
+                                </tr>
+                            </thead>
+                            <tr class="succeed">
+                                <td>4.50-5.00</td>
+                                <td>First Class Honours</td>
+                            </tr>
+                            <tr class="anger">
+                                <td>3.50-4.49</td>
+                                <td>Second Class Upper</td>
+                            </tr>
+                            <tr class="inform">
+                                <td>2.40-3.49</td>
+                                <td>Second Class Lower</td>
+                            </tr>
+                            <tr class="waring">
+                                <td>1.50-2.39</td>
+                                <td>Third Class</td>
+                            </tr>
+                            <tr class="nothing">
+                                <td>1.00-1.49</td>
+                                <td>Pass</td>
+                            </tr>
+                            <tr class="succeed">
+                                <td>0.00-0.99</td>
+                                <td>Fail</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </nav>
         </div>
     </div>
-    <p><b>ORIENTATION PROGRAMME,
-                                    REGISTRATION AND LECTURES</b><br>All new students are expected to undergo an orientation
-        programme prior to their registration exercise. This programme is intended to acquaint every new student with the
-        whole range of services and privileges available to him/her as well as his/her responsibilities as a member of this
-        academic community, It is expected that all new students would undertake the programme. It usually involves a meeting
-        with the Vice-Chancellor or his representative, Deans of Faculties and a tour of major Units of the University. The
-        programme for each year shall be circulated to freshmen and women prior to the commencement of the session At the
-        beginning of each session, precisely in the first week of the first semester an orientation programme is organized
-        for new students by the Department of Student Affairs in co-operation with the various departments of the University.
-        It is mainly designed to acquaint the new students to the university life as well as enable them settle down quickly
-        in the new found environment. Very important talks relevant to the student’s life in the University are discussed
-        by both the academic and administrative staff of the University.<br><br><b>1. Objectives of the Orientation Programme</b><br>The
-        objectives of the orientation for new students are to achieve the following:<br><i>i) to enable students to adjust to the physical environment of the University and operate at any frequency level in the University campus;
+    <br><br>
+    <p><b>ORIENTATION PROGRAMME<br>
+        REGISTRATION AND LECTURES:</b><br>All new students are expected to undergo an orientation programme prior to their
+        registration exercise. This programme is intended to acquaint every new student with the whole range of services
+        and privileges available to him/her as well as his/her responsibilities as a member of this academic community, It
+        is expected that all new students would undertake the programme. It usually involves a meeting with the Vice-Chancellor
+        or his representative, Deans of Faculties and a tour of major Units of the University. The programme for each year
+        shall be circulated to freshmen and women prior to the commencement of the session At the beginning of each session,
+        precisely in the first week of the first semester an orientation programme is organized for new students by the Department
+        of Student Affairs in co-operation with the various departments of the University. It is mainly designed to acquaint
+        the new students to the university life as well as enable them settle down quickly in the new found environment.
+        Very important talks relevant to the student’s life in the University are discussed by both the academic and administrative
+        staff of the University.<br><br><b>1. Objectives of the Orientation Programme</b><br>The objectives of the orientation
+        for new students are to achieve the following:<br><i>i) to enable students to adjust to the physical environment of the University and operate at any frequency level in the University campus;
                                     <br>ii) to broaden the adjustment expectations of students to the university which is articulated in self discipline. Students are expected to be integral parts of the city of disciplined intellectuals;
                                     and<br>iii) to develop adjustment to listening to teachers,
                                     lectures and administrators in order to benefit from the training and instructions the university offers to the students.</i><br>It
@@ -286,7 +231,7 @@
         services.
         <br><b>5. Lectures:</b><br>Lectures are scheduled between 8.00am and 6.00pm, except on Wednesday when lectures are
         scheduled between 8.00am and 12.00 noon.</p><br>
-    <p><b>EXAMINATIONS RULES AND REGULATIONS</b><br><b>1. End of Semester Examinations:</b>All courses taught during a semester
+    <p><b>EXAMINATION RULES AND REGULATIONS</b><br><b>1. End of Semester Examinations:</b>All courses taught during a semester
         shall be examined at the end of that semester and students shall be credited with the number of units assigned to
         the courses in which they have passed the requisite examination.<br><b>2. Timetable for Examinations:</b>The examinations
         timetables shall, as much as possible, be arranged so that the examinations could be taken it the following order
@@ -307,14 +252,14 @@
         as may be applicable to a given discipline. However, continuous assessment shall not account for more than 30% of
         the final grades in the course.<br>v. A pass mark shall be 40% in every undergraduate course, taking into account
         the approved theory/practical papers.<br>vi Where laboratories/practical/workshops/studios/legal/ clinics, etc.,
-        form part of a course, the performance in these will amount for not more than 50% of the course examination.<br>vii.
-        Where a student passes a course, the student is not permitted to register or carry-over the same course hence the
-        initial mark/grades obtained by the students is recorded for him or her.<br>viii The Coordinator shall produce requisite
-        number of question papers for the examination in each course. and keep custody of same until they are collected by
-        the invigilators.<br><b>6. Invigilation</b><br>i. Invigilation of examinations within each faculty shall be the responsibility
-        of the University’s Central Examinations Committee. The Faculty’s Examinations Coordinator shall arrange for this
-        and after the examination, will be required to submit appropriate report on the examinations to the Examination’s
-        Committee.
+        form part of a course, the performance in these will amount for not more than 50% of the course examination.
+        <br>vii. Where a student passes a course, the student is not permitted to register or carry-over the same course
+        hence the initial mark/grades obtained by the students is recorded for him or her.<br>viii The Coordinator shall
+        produce requisite number of question papers for the examination in each course. and keep custody of same until they
+        are collected by the invigilators.<br><b>6. Invigilation</b><br>i. Invigilation of examinations within each faculty
+        shall be the responsibility of the University’s Central Examinations Committee. The Faculty’s Examinations Coordinator
+        shall arrange for this and after the examination, will be required to submit appropriate report on the examinations
+        to the Examination’s Committee.
         <br>ii. There shall be at least two invigilators for every examination hall. In a hall with more than 100 students,
         there shall be at least one additional invigilator for every additional 50 students.<br>iii. Supervisors and Invigilators
         must report at their respective examination halls not later than 20 minutes before the start of the examination.
@@ -356,7 +301,8 @@
         causing any form of disturbance, not observing the time regulations of the examination, shall be punishable with
         one-year rustication.<br>ii. A student penalized under (i) above, shall have the right of appeal to Senate in the
         first instance and to Council if not satisfied with decision of Senate on his appeal.<br>iii. Any staff involved
-        in examination malpractice shall be referred to the staff disciplinary committee.</p><br>
+        in examination malpractice shall be referred to the staff disciplinary committee.
+    </p><br>
     <p><b>Grading And Review Of Scripts</b><br>
         <b>1. Grading</b><br> A lecturer shall normally mark all scripts for courses he taught or participated in teaching,
         using a marking scheme and determining the grade(s) to be awarded to each student. The scripts shall be submitted
@@ -381,62 +327,66 @@
         of marks and their corresponding grades and points weighing are to be used:<br></p>
     <p>
         <div class="container-fluid">
-            <div class="page-header">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>RAW SCORE</th>
-                                <th>GRADE EQUIVALENT</th>
-                                <th>PERFORMANCE RATING</th>
-                                <th>POINTS</th>
-                                <th>CLASSIFICATION OF DEGREE</th>
-                            </tr>
-                        </thead>
-                        <tr class="success">
-                            <td>70%-100%</td>
-                            <td>A</td>
-                            <td>Distinction</td>
-                            <td>5</td>
-                            <td>4.50– 5.00 = 1st Class </td>
-                        </tr>
-                        <tr class="active">
-                            <td>60%-69%</td>
-                            <td>B</td>
-                            <td>Very Good</td>
-                            <td>4</td>
-                            <td>3.50 – 4.49 = 2nd Class Upper</td>
-                        </tr>
-                        <tr class="info">
-                            <td>50%-59%</td>
-                            <td>C</td>
-                            <td>Good</td>
-                            <td>3</td>
-                            <td>2-40-3.49 = 2nd Class Lower</td>
-                        </tr>
-                        <tr class="warning">
-                            <td>45%-49%</td>
-                            <td>D</td>
-                            <td>Fair</td>
-                            <td>2</td>
-                            <td>1.50 – 2.39 = 3rd Class</td>
-                        </tr>
-                        <tr class="success">
-                            <td>40%-44%</td>
-                            <td>E</td>
-                            <td>Pass</td>
-                            <td>1</td>
-                            <td>1.00 – 1.49 = Pass</td>
-                        </tr>
-                        <tr class="danger">
-                            <td>0%-39%</td>
-                            <td>F</td>
-                            <td>Fail</td>
-                            <td>0</td>
-                            <td>0.00 – 0.99 = Fail </td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="row">
+                <nav class="col-sm-12">
+                    <div class="page-header">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>RAW SCORE</th>
+                                        <th>GRADE EQUIVALENT</th>
+                                        <th>PERFORMANCE RATING</th>
+                                        <th>POINTS</th>
+                                        <th>CLASSIFICATION OF DEGREE</th>
+                                    </tr>
+                                </thead>
+                                <tr class="succeed">
+                                    <td>70%-100%</td>
+                                    <td>A</td>
+                                    <td>Distinction</td>
+                                    <td>5</td>
+                                    <td>4.50– 5.00 = 1st Class </td>
+                                </tr>
+                                <tr class="anger">
+                                    <td>60%-69%</td>
+                                    <td>B</td>
+                                    <td>Very Good</td>
+                                    <td>4</td>
+                                    <td>3.50 – 4.49 = 2nd Class Upper</td>
+                                </tr>
+                                <tr class="inform">
+                                    <td>50%-59%</td>
+                                    <td>C</td>
+                                    <td>Good</td>
+                                    <td>3</td>
+                                    <td>2-40-3.49 = 2nd Class Lower</td>
+                                </tr>
+                                <tr class="waring">
+                                    <td>45%-49%</td>
+                                    <td>D</td>
+                                    <td>Fair</td>
+                                    <td>2</td>
+                                    <td>1.50 – 2.39 = 3rd Class</td>
+                                </tr>
+                                <tr class="nothing">
+                                    <td>40%-44%</td>
+                                    <td>E</td>
+                                    <td>Pass</td>
+                                    <td>1</td>
+                                    <td>1.00 – 1.49 = Pass</td>
+                                </tr>
+                                <tr class="succeed">
+                                    <td>0%-39%</td>
+                                    <td>F</td>
+                                    <td>Fail</td>
+                                    <td>0</td>
+                                    <td>0.00 – 0.99 = Fail </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </p>
@@ -449,10 +399,13 @@
         sites for specific academic works related to psychology.<br> ii. Specialized collection of classical and contemporary
         works in several fields of psychology;<br> iii. Local and international psychology journals and periodicals;<br>        iv. Psychological scales; and<br> v. Newspapers and magazines.<br>
         <b>2. Faculty Library</b><br> i) Specialized collection of classical and contemporary works in social sciences;<br>        ii) Local and International Social Science journals and periodicals; and<br> iii) Newspapers and magazines.<br>
-        <b>3. University Library</b><br> i. Availability of a state-of-the-art e-library to enhance staff and student’s research<br>        ii. Collection of board range of reference materials (dictionaries, encyclopaedias, gazettes, biographies, and bibliographies);<br>        iii. Collection of books and document on all Fields of knowledge, covering all taught courses in the various disciplines
-        in this university, for loan/borrowing to bona fide students of the university; and<br> iv. Collection of serials
-        materials (local and international journals as well as proceedings of conferences and workshops for reading and consultation
-        b’ bona fide students and staff).<br><br>
+        <b>3. University Library</b><br> i. Availability of a state-of-the-art e-library to enhance staff and student’s research
+        <br> ii. Collection of board range of reference materials (dictionaries, encyclopaedias, gazettes, biographies, and
+        bibliographies);
+        <br> iii. Collection of books and document on all Fields of knowledge, covering all taught courses in the various
+        disciplines in this university, for loan/borrowing to bona fide students of the university; and
+        <br> iv. Collection of serials materials (local and international journals as well as proceedings of conferences
+        and workshops for reading and consultation b’ bona fide students and staff).<br><br>
         <b>SEMINARS AND INTERACTIVE SESSIONS</b><br> 1. Departmental Seminars<br> 2. Faculty Seminars<br> 3. University-Organized
         Seminars and Workshops<br><br>
         <b>CONFERENCES AND WORKSHOPS</b><br> 1. Professional - Nigerian Psychology Association (NPA) and Nigerian Association
@@ -460,8 +413,7 @@
         and Local Governments of Nigeria; National Civil Society and Non-Governmental Organizations; as well as Regional
         (e.g. AU, EU) and International Organizations (e.g. UN, UNDP).<br>
     </p>
-    </div>
-    <br><br> {{>footer}}
+    <br>{{>footer}}
 </body>
 
 </html>

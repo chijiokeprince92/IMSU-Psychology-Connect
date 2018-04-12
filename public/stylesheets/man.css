@@ -14,11 +14,13 @@ h1 {
 h2 {
     font-size: 56px;
     text-align: center;
+    font-family: italic;
 }
 
 p {
     font-size: 25px;
     border: none;
+    font-family: italic;
 }
 
 h3 {
@@ -36,17 +38,10 @@ li {
 
 ul {
     width: 100%;
-    position: sticky;
-    top: 0;
 }
 
 a:hover {
     color: purple;
-}
-
-nav ul {
-    list-style-type: none;
-    padding: 0;
 }
 
 .motto {
@@ -169,4 +164,34 @@ footer {
 
 .align {
     text-align: left;
+}
+
+table,
+th,
+td {
+    border: 2px solid black;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+/* table colors */
+
+.succeed {
+    background-color: lightblue;
+}
+
+.waring {
+    background-color: lightskyblue;
+}
+
+.nothing {
+    background-color: lightgrey;
+}
+
+.inform {
+    background-color: #A4F0A4;
+}
+
+.anger {
+    background-color: #E76C6C;
 }
