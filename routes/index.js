@@ -2,108 +2,129 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) { 
+router.get('/', function (req, res, next) {
   res.render('pages/home', {
-    title: 'Home Page',
-    text: 'This is the data coming from the index route'
+    title: 'Home Page'
   });
 });
 
-router.get('/aboutus', function(req, res, next) { 
+router.get('/aboutus', function (req, res, next) {
   res.render('pages/AboutUs', {
-    title: 'about psychology',
-    text: 'This is the data coming from the aboutUs route'
+    title: 'about NAPS'
   });
 });
 
-router.get('/library', function(req, res, next) { 
+router.get('/history', function (req, res, next) {
+  res.render('pages/history', {
+    title: 'History of NAPS'
+  });
+});
+
+router.get('/objectives', function (req, res, next) {
+  res.render('pages/objectives', {
+    title: 'Objectives of NAPS'
+  });
+});
+
+router.get('/guidelines', function (req, res, next) {
+  res.render('pages/guidelines', {
+    title: 'Guidelines of NAPS'
+  });
+});
+
+router.get('/orientation', function (req, res, next) {
+  res.render('pages/orientation', {
+    title: 'Orientation'
+  });
+});
+
+router.get('/examination', function (req, res, next) {
+  res.render('pages/examination', {
+    title: 'Examination Rules and Regulations'
+  });
+});
+
+router.get('/libraryinfo', function (req, res, next) {
+  res.render('pages/libraryInfo', {
+    title: 'Library Informations'
+  });
+});
+
+router.get('/library', function (req, res, next) {
   res.render('pages/Library', {
-    title: 'library',
-    text: 'This is the data coming from the index route'
+    title: 'library'
   });
 });
 
-router.get('/student_signup', function(req, res, next) { 
+router.get('/student_signup', function (req, res, next) {
   res.render('pages/student_signup', {
-    title: 'student_signup',
-    text: 'This is the data coming from the student_signup route'
+    title: 'student_signup'
   });
 });
 
-router.get('/staff_signup', function(req, res, next) { 
+router.get('/staff_signup', function (req, res, next) {
   res.render('pages/staff_signup', {
-    title: 'staff_signUp',
-    text: 'This is the data coming from the staff_signup route'
+    title: 'staff_signUp'
   });
 });
 
-router.get('/100level', function(req, res, next) { 
+router.get('/100level', function (req, res, next) {
   res.render('pages/100levelcourse', {
-    title: '100level',
-    text: 'This is the data coming from the first-year route'
+    title: '100level'
   });
 });
 
-router.get('/200level', function(req, res, next) { 
+router.get('/200level', function (req, res, next) {
   res.render('pages/200levelcourse', {
-    title: '200level',
-    text: 'This is the data coming from the second-year route'
+    title: '200level'
   });
 });
 
-router.get('/300level', function(req, res, next) { 
+router.get('/300level', function (req, res, next) {
   res.render('pages/300levelcourse', {
-    title: '300level',
-    text: 'This is the data coming from the third-year route'
+    title: '300level'
   });
 });
 
-router.get('/400level', function(req, res, next) { 
+router.get('/400level', function (req, res, next) {
   res.render('pages/400levelcourse', {
-    title: '400level',
-    text: 'This is the data coming from the fourth-year route'
+    title: '400level'
   });
 });
 
-router.get('/news', function(req, res, next) { 
+router.get('/news', function (req, res, next) {
   res.render('pages/News', {
-    title: 'news',
-    text: 'This is the data coming from the news route'
+    title: 'news'
   });
 });
 
-router.get('/buyBooks', function(req, res, next) { 
+router.get('/buyBooks', function (req, res, next) {
   res.render('pages/BuyBooks', {
-    title: 'buyBooksHere',
-    text: 'This is the data coming from the buyBook route'
+    title: 'book Shop'
   });
 });
 
-router.get('/e-library', function(req, res, next) { 
+router.get('/e-library', function (req, res, next) {
   res.render('pages/ELibrary', {
-    title: 'E-learning',
-    text: 'This is the data coming from the e-library route'
+    title: 'E-library'
   });
 });
 
-router.get('/login', function(req, res, next) { 
+router.get('/login', function (req, res, next) {
   res.render('pages/login', {
-    title: 'login',
-    text: 'This is the data coming from the login route'
+    title: 'login form'
   });
 });
 
-router.get('/projectTopics', function(req, res, next) { 
+router.get('/projectTopics', function (req, res, next) {
   res.render('pages/projectTopics', {
-    title: 'projects',
-    text: 'This is the data coming from the projects route'
+    title: 'Project Topics'
   });
 });
 
-router.get('/addArticle', function(req, res, next) { 
+router.get('/addArticle', function (req, res, next) {
   res.render('pages/addArticle', {
-    title: 'Addarticle',
-    text: 'This is the data coming from the article route'
+    title: 'Add an Article'
   });
 });
 
