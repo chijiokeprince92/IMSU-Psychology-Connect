@@ -11,19 +11,16 @@
     <br>
     <h2>Please Do Not Login Yet!!</h2>
     <nav class="col-sm-6">
-        <form style="border: 2px solid">
+        <form action="" method="POST">
             <div class="form-group">
-                <label for="inputEmail">Email</label>
-                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                <label for="emailer">Email:</label>
+                <input type="email" class="form-control" name="emailer" placeholder="Email">
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password">
+                <label for="passworder">Password</label>
+                <input type="password" class="form-control" name="passworder" placeholder="Password">
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox"> Remember me</label>
-            </div>
-            <button type="submit" class="btn btn-primary disabled">Login</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </nav>
     <br><br> {{>footer}}

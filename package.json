@@ -1,5 +1,6 @@
 {
     "name": "library-app",
+    "author": "princeChijioke",
     "version": "0.0.0",
     "private": true,
     "scripts": {
@@ -15,6 +16,7 @@
         "express-handlebars": "^3.0.0",
         "http-errors": "~1.6.2",
         "jade": "~1.11.0",
+        "mongoose": "^5.0.15",
         "morgan": "~1.9.0",
         "nodemon": "^1.17.2"
     },
