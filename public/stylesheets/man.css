@@ -1,7 +1,13 @@
+.logo {
+    background-color: white;
+    background-size: cover;
+}
+
 body {
     background-size: cover;
-    background-color: lightpink;
-    display: block;
+    border: 2px;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
@@ -18,9 +24,9 @@ h2 {
 }
 
 p {
-    font-size: 25px;
+    font-size: 1.5em;
     border: none;
-    font-family: italic;
+    font-family: italic, serif;
 }
 
 h3 {
@@ -34,6 +40,7 @@ h4 {
 li {
     display: inline;
     padding: 0.30em;
+    margin: 0;
 }
 
 ul {
@@ -42,20 +49,6 @@ ul {
 
 a:hover {
     color: purple;
-}
-
-.motto {
-    font-size: 15px;
-    color: red;
-}
-
-.assoc {
-    font-size: 40px;
-    color: black;
-}
-
-.head {
-    background-color: deeppink;
 }
 
 .stay {
@@ -71,16 +64,14 @@ a:hover {
 
 footer {
     background-color: slategray;
+    background-size: cover;
     color: black;
     text-align: left;
+    border-radius: 10px;
 }
 
 .courses {
     text-align: left;
-}
-
-* {
-    box-sizing: border-box;
 }
 
 /* Slideshow container */
@@ -89,6 +80,7 @@ footer {
     max-width: 100%;
     position: relative;
     margin: auto;
+    padding: 5px;
 }
 
 .mySlides {
@@ -161,6 +153,8 @@ footer {
         opacity: 1
     }
 }
+
+.agree {}
 
 .align {
     text-align: left;

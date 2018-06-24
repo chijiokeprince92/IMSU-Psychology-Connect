@@ -16,11 +16,11 @@ var studentSchema = new schema({
         required: true
     },
     matnumber: {
-        type: String,
+        type: Number,
         required: true
     },
     level: {
-        type: String,
+        type: Number,
         required: true
     },
     gender: {
@@ -41,8 +41,12 @@ var studentSchema = new schema({
     }
 });
 
-// creating a student model
-var Student = mongoose.model('Student', studentSchema);
+//Virtual for Student's URL
+studentSchema
+    .virtual('url')
+    .get(function () {
+        return '/studentss/' + this._id;
+    });
 
-// making this available on other files
-module.exports = Student;
+// creating a student model and exporting the module
+module.exports = mongoose.model('StudentSigns', studentSchema);

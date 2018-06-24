@@ -9,42 +9,33 @@
     {{>coursesbody}}
     <br>
     <h1>Students SignUp</h1>
-    <h2>Please Do Not Signup Yet!!</h2>
-    <nav class="col-sm-5">
-        <form class="form group" action="/" method="POST" autocomplete="on">
-            <div class="form-group">
-                <label for="email">E-mail:</label>
-                <input type="email" name="email" class="form-control" value="" size="30" autocomplete="on" placeholder="Email.com" required>
-                <br>
-                <label for="surname">Surname:</label>
-                <input type="text" name="surname" class="form-control" value="" autocomplete="on" placeholder="surname" required>
-                <br>
-                <label for="firstname">First name:</label>
-                <input type="text" name="firstname" class="form-control" value="" autocomplete="on" placeholder="first name" required>
-                <br>
-                <label for="mat_no">Mat Number:</label>
-                <input type="text" name="mat_no" class="form-control" value="" size="10" maxlength="8" placeholder="1*/" required>
-                <br>
-                <label for="levels">Select level:</label>
-                <input list="levels" size="10" placeholder="select level" required>
-                <datalist id="levels">
-                    <option value="100 level">
-                        <option value="200 level">
-                            <option value="300 level">
-                                <option value="400 level">
-                </datalist>
-                <br>
-                <label for="gender">Gender:</label>
-                <input type="radio" name="gender" value="male"> Male
-                <input type="radio" name="gender" value="female" checked> Female<br>
-                <br>
-                <label for="phone">Phone Number:</label>
-                <input type="tel" name="phone" class="form-control" value="" placeholder="" required>
-                <br>
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" name="password" value="">
-                <br>
-                <input type="submit" class="btn btn-primary disabled" value="Sign Up">
+    <nav class="col-sm-10">
+        <form class="form group" action="" method="POST">
+            <label for="email">E-mail:</label>
+            <input type="email" name="email" class="form-control" autocomplete="on" placeholder="Email.com" required>
+            <br>
+            <label for="surname">Surname:</label>
+            <input type="text" name="surname" class="form-control" autocomplete="on" placeholder="surname" required>
+            <br>
+            <label for="firstname">First name:</label>
+            <input type="text" name="firstname" class="form-control" autocomplete="on" placeholder="first name" required>
+            <br>
+            <label for="matnumber">Mat Number:</label>
+            <input type="text" name="matnumber" class="form-control" maxlength="8" placeholder="1234567" required>
+            <br>
+            <label for="level">Current level:</label>
+            <input type="text" name="level" class="form-control" placeholder="100" required>
+            <br>
+            <label for="gender">Gender:</label>
+            <input type="text" name="gender" class="form-control" placeholder="male/female" required>
+            <br>
+            <label for="phone">Phone Number:</label>
+            <input type="tel" name="phone" class="form-control" maxlength="11" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" class="form-control" required>
+            <br>
+            <input type="submit" class="btn btn-primary" value="Sign Up">
         </form>
         <p></p>
     </nav>

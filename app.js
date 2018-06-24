@@ -1,8 +1,11 @@
 var express = require('express');
+var app = express();
 var createError = require('http-errors')
 var path = require('path');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
+
 var expressHbs = require('express-handlebars');
 var logger = require('morgan');
 
@@ -11,19 +14,21 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog');
 
+var compression = require('compression');
+var helmet = require('helmet');
 
-var app = express();
+
 
 // mongoose connections
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb://127.0.0.1/behaviourist';
+var mongoDB = 'mongodb://127.0.0.1/modify';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
 
 // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', expressHbs({
     defaultLayout: 'layout',
     extname: '.hbs'
@@ -36,6 +41,11 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
+app.use(session({
+    secret: "jesus"
+}));
+
+app.use(compression()); // compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/index', indexRouter);

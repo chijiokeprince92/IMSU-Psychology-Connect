@@ -21,6 +21,19 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+var io = require('socket.io')(server);
+
+io.on('connection', function (socket) {
+  console.log('Pearly is connected');
+  socket.on('chat message', function (msg) {
+    console.log('message: ' + msg);
+    io.emit('chat message', msg);
+  });
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+  });
+});
+
 /**
  * Listen on provided port, on all network interfaces.
  */

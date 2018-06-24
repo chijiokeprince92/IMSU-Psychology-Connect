@@ -1,40 +1,11 @@
-// import the various schemas for both student and staffs signup and login
-
-var student_login = require('../models/loginSchema');
-
-
-
 exports.home = function (req, res, next) {
+    res.cookie('name', 'pearl');
     res.render('pages/home', {
         title: 'Home Page',
-        myName: 'Nwaiwu Prince Chijioke'
-    })
-};
-
-exports.login = function (req, res, next) {
-    res.render('pages/login', {
-        title: 'login form'
-    });
-};
-
-exports.loginPost = function (req, res, next) {
-    var good = req.body;
-    console.log(good);
-    var student = new StudentPress({
-        email: good.emailer,
-        password: good.passworder
-    }).save(function (err, result) {
-        if (err) {
-            nex(err)
-        }
-
     })
 };
 
 
-exports.new = function (req, res, next) {
-    res.render('pages/new', )
-};
 
 exports.history = function (req, res, next) {
     res.render('pages/history', {

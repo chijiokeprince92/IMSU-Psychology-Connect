@@ -1,33 +1,40 @@
 var express = require('express');
 var router = express.Router();
 
-var controllers = require('../controllers/loginController');
+var controllers = require('../controllers/viewController');
 var signup_controllers = require('../controllers/signupController');
 
 /* GET home page. */
 router.get('/', controllers.home);
 
-
+router.get('/chat', signup_controllers.chat);
 // student signup form
-router.get('/student_signup', signup_controllers.student);
+router.get('/studentSignup', signup_controllers.student_signup_get);
 
-router.post('/student_signup', signup_controllers.student);
+router.post('/studentSignup', signup_controllers.student_signup_post);
+
+
+// student login form
+router.get('/login', signup_controllers.get_login_form);
+
+router.post('/login', signup_controllers.test_login);
 
 
 //staff signup form
-router.get('/staff_signup', signup_controllers.staff);
+router.get('/staffSignup', signup_controllers.staff_signup_get);
 
-router.post('/staff_signup', signup_controllers.student);
+router.post('/staffSignup', signup_controllers.staff_signup_post);
+
+// GET request for displayinga single Student.
+router.get('/studentss/:id', signup_controllers.profiler);
 
 
-//both student and staff login form
-router.get('/login', controllers.login)
+router.get('/number', signup_controllers.index);
 
-    .post('/login', controllers.loginPost);
+
 
 
 // Get the history,guidelines,objectives,orientation program,examination, and library information
-router.get('/new', controllers.new);
 
 router.get('/history', controllers.history);
 
