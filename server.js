@@ -4,24 +4,24 @@
  * Module dependencies.
  */
 
-var app = require('./app');
-var debug = require('debug')('library-app:server');
-var http = require('http');
+const app = require('./app');
+const debug = require('debug')('library-app:server');
+const http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '4000');
+const port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 
-var io = require('socket.io')(server);
+const io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
   console.log('Pearly is connected');

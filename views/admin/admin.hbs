@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {{>head}}
+    <script>
+        $('document').ready(function () {
+            $("p.grace").click(function () {
+                $(this).hide();
+            });
+        });
+    </script>
+</head>
+
+<body>
+    {{>lecbody}}
+    <br>
+    <ul>
+        <li>
+            <p class="grace"><a href="/number">Check Number of Students</a></p>
+        </li>
+        <br>
+        <li>
+            <p><a href="/studentlist">Check List of Student</a></p>
+        </li>
+        <br>
+        <li>
+            <p><a href="/staffnumber">Check Number of Staffs</a></p>
+        </li>
+        <br>
+        <li>
+            <p><a href="/stafflist">Check List of Staffs</a></p>
+        </li>
+        <br>
+        <li class="dropdown" title="Send Message to any Level">
+            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Send Message to Any Level
+                        <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/send100">100 Level</a></li>
+                <li><a href="/send200">200 Level</a></li>
+                <li><a href="/send300">300 Level</a></li>
+                <li><a href="/send400">400 Level</a></li>
+            </ul>
+        </li>
+        <br>
+        <li class="dropdown" title="Send Message to any Level">
+            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Get Profile of a particular Student
+                        <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/send100">100 Level</a></li>
+                <li><a href="/send200">200 Level</a></li>
+                <li><a href="/send300">300 Level</a></li>
+                <li><a href="/send400">400 Level</a></li>
+            </ul>
+        </li>
+        <br>
+        <li>
+            <p><a href="#">Get Profile of a Particular Staff</a></p>
+        </li>
+        <br>
+        <li>
+            <p><a href="#">Get Number of TextBooks Bought</a></p>
+        </li>
+        <br>
+        <li class="dropdown" title="View Time-Table">
+            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">View Time-Table
+                        <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/history">100 Level</a></li>
+                <li><a href="/objectives">200 Level</a></li>
+                <li><a href="/guidelines">300 Level</a></li>
+                <li><a href="/orientation">400 Level</a></li>
+            </ul>
+        </li>
+        <br>
+        <li>
+            <p><a href="#">Post Exam Time table</a></p>
+        </li>
+        <br>
+    </ul>
+    <br> {{>footer}}
+</body>
+
+</html>

@@ -1,30 +1,31 @@
-var express = require('express');
-var app = express();
-var createError = require('http-errors')
-var path = require('path');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
+const express = require('express');
+const app = express();
+const createError = require('http-errors')
+const path = require('path');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
-var expressHbs = require('express-handlebars');
-var logger = require('morgan');
+const expressHbs = require('express-handlebars');
+const logger = require('morgan');
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var catalogRouter = require('./routes/catalog');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const catalogRouter = require('./routes/catalog');
 
-var compression = require('compression');
-var helmet = require('helmet');
+const compression = require('compression');
+const helmet = require('helmet');
 
 
 
 // mongoose connections
-var mongoose = require('mongoose');
-var mongoDB = 'mongodb://127.0.0.1/modify';
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(session);
+const mongoDB = 'mongodb://127.0.0.1/modify';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
 
 // view engine setup
@@ -42,7 +43,13 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(session({
-    secret: "jesus"
+    secret: "jesus",
+    resave: false,
+    saveUninitialized: true,
+    store: new MongoStore({
+        mongooseConnection: db
+    })
+
 }));
 
 app.use(compression()); // compress all routes

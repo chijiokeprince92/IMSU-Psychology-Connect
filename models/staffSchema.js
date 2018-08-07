@@ -37,8 +37,14 @@ var staffSchema = new schema({
     }
 });
 
-// creating a student model
-var Staff = mongoose.model('Staff', staffSchema);
 
-// making this available on other files
-module.exports = Staff;
+//Virtual for Student's URL
+staffSchema
+    .virtual('url')
+    .get(function () {
+        return '/staffss/' + this._id;
+    });
+
+
+// creating a student model and exporting the module
+module.exports = mongoose.model('Staff', staffSchema);

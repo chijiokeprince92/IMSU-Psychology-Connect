@@ -25,7 +25,8 @@ var studentSchema = new schema({
     },
     gender: {
         type: String,
-        required: true
+        required: true,
+        enum: ["male", "female"]
     },
     phone: {
         type: Number,

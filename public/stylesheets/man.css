@@ -43,10 +43,6 @@ li {
     margin: 0;
 }
 
-ul {
-    width: 100%;
-}
-
 a:hover {
     color: purple;
 }
@@ -174,18 +170,6 @@ td {
     background-color: lightblue;
 }
 
-.waring {
-    background-color: lightskyblue;
-}
-
 .nothing {
     background-color: lightgrey;
-}
-
-.inform {
-    background-color: #A4F0A4;
-}
-
-.anger {
-    background-color: #E2D094;
 }
