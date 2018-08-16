@@ -10,6 +10,10 @@ var admin_controllers = require('../controllers/admin_controllers');
 //---------------------------------------------------------------------
 // FOR STUDENTSSSS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+router.get('/test', student_controllers.test_upload);
+
+router.post('/test', student_controllers.post_upload);
+
 /* GET home page. */
 router.get('/', controllers.home);
 
@@ -148,36 +152,58 @@ router.get('/staff300level', staff_controllers.staff_threelevel);
 router.get('/staff400level', staff_controllers.staff_fourlevel);
 
 
+//----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------
+// FOR ADMIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+router.get('/x2f4hjks8xmn', admin_controllers.admin_signup_get);
 
+router.post('/x2f4hjks8xmn', admin_controllers.admin_signup_post);
 
+router.get('/adminlogin', admin_controllers.admin_login_get);
 
-//------------------------------------------------------------------------------
-// FOR ADMIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+router.post('/adminlogin', admin_controllers.admin_login_post);
 
-router.get('/hercules/gladiators/spartans/admin', admin_controllers.admin);
+router.get('/hercules/admin', admin_controllers.admin_session_force, admin_controllers.admin);
+
+router.get('/adminss/:id', admin_controllers.admin_session_force, admin_controllers.profiler);
+
+router.get('/adminlogout', admin_controllers.admin_logout);
 
 // GET the number of registered students
 router.get('/number', admin_controllers.index);
 
 //GET the List of All the Students in Psychology
-router.get('/studentlist', admin_controllers.list_students)
+router.get('/studentlist', admin_controllers.admin_session_force, admin_controllers.list_students);
+
+router.get('/list100students', admin_controllers.admin_session_force, admin_controllers.list_100_student);
+
+router.get('/list200students', admin_controllers.admin_session_force, admin_controllers.list_200_student);
+
+router.get('/list300students', admin_controllers.admin_session_force, admin_controllers.list_300_student);
+
+router.get('/list400students', admin_controllers.admin_session_force, admin_controllers.list_400_student);
 
 // GET the number of registered staffs
-router.get('/staffnumber', admin_controllers.staff_index);
+router.get('/staffnumber', admin_controllers.admin_session_force, admin_controllers.staff_index);
 
-router.get('/stafflist', admin_controllers.list_staffs);
+router.get('/stafflist', admin_controllers.admin_session_force, admin_controllers.list_staffs);
+
+router.get('/student/results', admin_controllers.admin_session_force, admin_controllers.student_results);
 
 
 
 // GET the various chat group and send a message
 
-router.get('/send100', admin_controllers.send_100);
+router.get('/send100', admin_controllers.admin_session_force, admin_controllers.send_100);
 
-router.get('/send200', admin_controllers.send_200);
+router.get('/send200', admin_controllers.admin_session_force, admin_controllers.send_200);
 
-router.get('/send300', admin_controllers.send_300);
+router.get('/send300', admin_controllers.admin_session_force, admin_controllers.send_300);
 
-router.get('/send400', admin_controllers.send_400);
+router.get('/send400', admin_controllers.admin_session_force, admin_controllers.send_400);
 
 module.exports = router;

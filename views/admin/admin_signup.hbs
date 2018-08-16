@@ -6,12 +6,9 @@
 </head>
 
 <body>
-    {{>lecbody}}
+    {{>admin_lecbody}}
     <br>
-    <h1>Students SignUp</h1>
-    {{#if errors}}
-        <p>{{errors}}</p>
-    {{/if}}
+    <h1>ADMIN SignUp</h1>
     <nav class="col-lg-10">
         <form class="form group" action="" method="POST">
             <label for="email"><b>E-mail:</b></label>
@@ -23,22 +20,16 @@
             <label for="firstname"><b>First name:</b></label>
             <input type="text" name="firstname" class="form-control" autocomplete="on" placeholder="first name" required>
             <br>
-            <label for="matnumber"><b>Mat Number:</b></label>
-            <input type="text" name="matnumber" class="form-control" minlength="7" maxlength="8" placeholder="1234567" required>
-            <br>
-            <label for="level"><b>Current level:</b></label>
-            <input type="text" name="level" class="form-control" placeholder="100">
-            <br>
             <label for="gender"><b>Gender:</b></label>
             <input type="text" name="gender" class="form-control" placeholder="male/female" required>
             <br>
-            <label for="phone"><b>Phone Number:</b></label>
-            <input type="tel" name="phone" class="form-control" minlength="11" maxlength="11" required>
+            <label for="verify"><b>Verification:</b></label>
+            <input type="text" name="verify" class="form-control" placeholder="Verification_ID" required>
             <br>
             <label for="password"><b>Password:</b></label>
-            <input type="password" name="password" class="form-control" required>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
             <br><br>
-            <button type="submit" class="btn btn-success btn-block"><b>Sign Up</b></button>
+            <button type="submit" class="btn btn-success btn-block"><b>ADMIN Sign Up</b></button>
         </form>
         <p></p>
     </nav>

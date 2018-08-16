@@ -21,6 +21,8 @@ exports.staffloginRequired = function (req, res, next) {
         return next();
     }
 }
+//----------------------------------------------------------------------------------
+
 
 exports.staff_home = function (req, res, next) {
     res.render('staffs/staff_home', {
@@ -103,7 +105,7 @@ exports.staff_signup_post = [
                     return next(err);
                 }
                 // Successful - redirect to Staff login page.
-                res.redirect('stafflogin');
+                res.redirect('/stafflogin');
             });
         }
     }
@@ -144,10 +146,7 @@ exports.staff_login_post = function (req, res, next) {
             })
         } else if (blade && blade.staff_id == req.body.staff_id && blade.password == req.body.password) {
             req.session.staff = blade.id;
-            res.render('staffs/staff_home', {
-                title: 'Staff Home',
-                staff_session: req.session.staff
-            })
+            res.redirect('/staffhome');
         } else {
             res.redirect('/stafflogin');
         }
@@ -302,3 +301,37 @@ exports.staff_project = function (req, res, next) {
         staff_session: req.session.staff
     });
 };
+
+
+
+
+
+
+//---------------------------------------------------------------------------------------------
+exports.staff_profile = function (req, res, next) {
+    Staff.findById(req.session.staff,
+        function (err, staff) {
+            if (err) {
+                return next(err);
+            } // Error in API usage.
+            else if (straff.staffsignee == null) { // No results.
+                var err = new Error('Student not found');
+                err.status = 404;
+                return next(err);
+            } else {
+                // Successful, so render.
+                res.render('staffs/staff_profiler', {
+                    staff_session: req.session.staff,
+                    title: 'Staff Profile',
+                    user: straff.staffsignee.id,
+                    graceemail: straff.staffsignee.email,
+                    gracesurname: straff.staffsignee.surname,
+                    gracefirstname: straff.staffsignee.firstname,
+                    gracestaff_id: straff.staffsignee.staff_id,
+                    gracegender: straff.staffsignee.gender,
+                    gracephone: straff.staffsignee.phone
+                });
+            }
+        }
+    )
+}

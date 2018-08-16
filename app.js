@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const createError = require('http-errors')
 const path = require('path');
+const multer = require('multer');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -13,6 +14,7 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const catalogRouter = require('./routes/catalog');
+const upload = require('./upload');
 
 const compression = require('compression');
 const helmet = require('helmet');
@@ -27,6 +29,7 @@ mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

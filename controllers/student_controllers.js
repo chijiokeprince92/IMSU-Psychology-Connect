@@ -2,7 +2,10 @@
 
 
 var StudentSigns = require('../models/studentSchema');
+var Uploads = require('../models/uploadSchema');
 var async = require('async');
+var multer = require('multer');
+var path = require('path');
 
 const {
     body,
@@ -261,4 +264,25 @@ exports.logout = function (req, res, next) {
         req.session.destroy();
     }
     res.redirect('/');
+}
+
+exports.test_upload = function (req, res, next) {
+    res.render('student/testy', {
+        title: 'Upload form',
+    });
+}
+
+exports.post_upload = function (req, res, next) {
+    var fullPath = "files/" + req.file.filename;
+    var photo = new Uploads({
+        path: fullPath,
+        caption: req.body.caption
+    });
+    photo.save(function (err) {
+        if (err) {
+            return next(err);
+        }
+        console.log("Document Saved");
+        res.redirect('/');
+    });
 }
