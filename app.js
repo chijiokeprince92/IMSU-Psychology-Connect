@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const createError = require('http-errors')
 const path = require('path');
+require('dotenv').config();
 const multer = require('multer');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -24,11 +25,11 @@ const helmet = require('helmet');
 // mongoose connections
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
-const mongoDB = 'mongodb://127.0.0.1/modify';
-mongoose.connect(mongoDB);
+
+mongoose.connect(process.env.mongoDBO);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error'));
+db.on('error', console.error.bind(console, 'Pearly, MongoDB connection error'));
 
 
 // view engine setup
@@ -46,7 +47,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(session({
-    secret: "jesus",
+    secret: process.env.secret_key,
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({
