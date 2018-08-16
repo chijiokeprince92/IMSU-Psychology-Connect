@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
-const createError = require('http-errors')
+const createError = require('http-errors');
+const favicon = require('serve-favicon');
 const path = require('path');
 require('dotenv').config();
 const multer = require('multer');
@@ -40,6 +41,7 @@ app.engine('.hbs', expressHbs({
 }));
 app.set('view engine', '.hbs');
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -47,7 +49,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(session({
-    secret: process.env.secret_key,
+    secret: 'process.env.secret_key',
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({
