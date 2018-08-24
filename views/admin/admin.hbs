@@ -5,7 +5,7 @@
     {{>head}}
     <script>
         $('document').ready(function () {
-            $("p.grace").click(function () {
+            $("p.gracey").click(function () {
                 $(this).hide();
             });
         });
@@ -19,16 +19,60 @@
         <li class="container-fluid">
             <div class="row">
                 <div class="col-sm-2">
+                    <img src="../images/barbie.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="/getlastnews">NEWS</a></p>
+                    <br>
+                    <p>
+                        Latest NEWS as it happens in IMO State, Imo State University and Psychology Department.
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
                     <img src="../images/psylogo4.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
                 <div class="col-sm-10">
-                    <p class="grace"><a href="#">Upload Project</a></p>
+                    <p><a href="/getnewsform">Upload NEWS</a></p>
                     <br>
                     <p>
-                        Dear hod, you can upload Project Topics that is on pdf format. Uploaded projects can be viewed by both students and staffs,
-                        and would also be seen by other people viewing this website, which can be viewed in the
-                        <a href="#">Project Topic</a> column.
+                        Dear {{name}}, you can Upload NEWS and Informations to Users of this site. Uploaded NEWS can be viewed by both students and
+                        staffs, and would also be seen by other people viewing this website.
                     </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/psylogo.png" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="/getprojectform">Project Topics</a></p>
+                    <br>
+                    <p>You can see all project Topics that have been uploaded on this website. You can also delete and edit
+                        projects which would take effect onthe whole website, which can be viewed on the <a href "#">Project Topics</a>column.
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/lee.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="/getprojectform">Upload Projects</a></p>
+                    <br>
+                    <p> You can also upload Project Topics that is on pdf format. Uploaded projects can be viewed by both students
+                        and staffs, and would also be seen by other people viewing this website, which can be viewed in the
+                        <a href="#">Project Topic</a> column.</p>
                 </div>
             </div>
         </li>
@@ -39,7 +83,11 @@
                     <img src="../images/imsulogo.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
                 <div class="col-sm-10">
-                    <p class="grace"><a href="#">Upload TextBook</a></p>
+                    <p><a href="#">Upload TextBook</a></p>
+                    <br>
+                    <p>You can Upload a TextBook that is on .PDF Format to the library section of this website, and it can be
+                        accessed by everybody.
+                    </p>
                 </div>
             </div>
         </li>
@@ -47,52 +95,47 @@
         <li class="container-fluid">
             <div class="row">
                 <div class="col-sm-2">
-                    <img src="../images/drizzys.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                    <img src="../images/advert2.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
                 <div class="col-sm-10">
-                    <p class="grace"><a href="/number">Check Number of Students</a></p>
+                    <p><a href="/stafflist">View Staffs</a></p>
+                    <br>
+                    <p>Dr. {{name}}, as an Admin, You can check the number of Staffs, view their Profile, and also send them
+                        a message.
+                    </p>
                 </div>
             </div>
         </li>
         <br>
-        <li class="container-fluid">
-            <div class="row">
-                <div class="col-sm-2">
-                    <img src="../images/quitter.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
-                </div>
-                <div class="col-sm-10">
-                    <p class="grace"><a href="/staffnumber">Check Number of Students</a></p>
-                </div>
-            </div>
-        </li>
         <li class="container-fluid">
             <div class="row">
                 <div class="col-sm-2">
                     <img src="../images/psylogo4.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
                 <div class="col-sm-10">
-                    <p class="grace"><a href="/student/results">Upload Students Results</a></p>
+                    <p><a href="/student/results">Upload Students Results</a></p>
+                    <br>
+                    <p>You can also Upload Students results. The purpose of this result is just a file where students can know
+                        their CGPA only. The result added on this website, cannot be used as an Evidence during Clearance
+                        or conflict in correlation to the Faculty Data.
+                    </p>
                 </div>
             </div>
         </li>
         <br>
-        <li class="dropdown" title="View Time-Table">
-            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">View Time-Table
-                        <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="#">100 Level</a></li>
-                <li><a href="#">200 Level</a></li>
-                <li><a href="#">300 Level</a></li>
-                <li><a href="#">400 Level</a></li>
-            </ul>
-        </li>
-        <br>
-        <li>
-            <p><a href="#">Post Exam Time table</a></p>
-        </li>
-        <br>
-        <li>
-            <p><a href="#">Get Number of TextBooks Bought</a></p>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/lee.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="#">Post Exam Time Table</a></p>
+                    <br>
+                    <p>This Option is for Posting Exam Time table, Which would appear in the <a href="#">NEWS</a> column. Add
+                        the Exam Time table file, which should be in .PDF format or a Picture.
+                    </p>
+                </div>
+            </div>
         </li>
     </ul>
     <br> {{>footer}}

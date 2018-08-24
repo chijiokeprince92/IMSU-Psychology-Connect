@@ -1,120 +1,91 @@
 exports.home = function (req, res, next) {
-    res.render('student/home', {
-        title: 'Home Page',
-        allowed: req.session.student
+    res.render('homefile/home', {
+        title: 'Home Page'
     })
 };
 
 exports.history = function (req, res, next) {
-    res.render('student/history', {
-        title: 'History of NAPS',
-        allowed: req.session.student
+    res.render('homefile/history', {
+        title: 'History of NAPS'
     });
 };
 
 exports.objective = function (req, res, next) {
-    res.render('student/objectives', {
-        title: 'objectives of NAPS',
-        allowed: req.session.student
+    res.render('homefile/objectives', {
+        title: 'objectives of NAPS'
     });
 };
 
 exports.guidelines = function (req, res, next) {
-    res.render('student/guidelines', {
-        title: 'Guidelines of NAPS',
-        allowed: req.session.student
+    res.render('homefile/guidelines', {
+        title: 'Guidelines of NAPS'
     });
 };
 
 exports.orientation = function (req, res, next) {
-    res.render('student/orientation', {
-        title: 'Orientation',
-        allowed: req.session.student
+    res.render('homefile/orientation', {
+        title: 'Orientation'
     });
 };
 
 exports.exam = function (req, res, next) {
-    res.render('student/examination', {
-        title: 'Examination Rules and Regulations',
-        allowed: req.session.student
+    res.render('homefile/examination', {
+        title: 'Examination Rules and Regulations'
     });
 };
 
 
 exports.libinfo = function (req, res, next) {
-    res.render('student/libraryInfo', {
-        title: 'Library Informations',
-        allowed: req.session.student
+    res.render('homefile/libraryInfo', {
+        title: 'Library Informations'
     });
 };
 
 exports.library = function (req, res, next) {
-    res.render('student/Library', {
-        title: 'library',
-        allowed: req.session.student
+    res.render('homefile/Library', {
+        title: 'library'
     });
 };
 
 
 exports.onelevel = function (req, res, next) {
-    res.render('student/100levelcourse', {
-        title: '100level',
-        allowed: req.session.student
+    res.render('homefile/100levelcourse', {
+        title: '100level'
     });
 };
 
 exports.twolevel = function (req, res, next) {
-    res.render('student/200levelcourse', {
-        title: '200level',
-        allowed: req.session.student
+    res.render('homefile/200levelcourse', {
+        title: '200level'
     });
 };
 
 exports.threelevel = function (req, res, next) {
-    res.render('student/300levelcourse', {
-        title: '300level',
-        allowed: req.session.student
+    res.render('homefile/300levelcourse', {
+        title: '300level'
     });
 };
 
 exports.fourlevel = function (req, res, next) {
-    res.render('student/400levelcourse', {
-        title: '400level',
-        allowed: req.session.student
+    res.render('homefile/400levelcourse', {
+        title: '400level'
     });
 };
 
 exports.news = function (req, res, next) {
-    res.render('student/News', {
-        title: 'news',
-        allowed: req.session.student
-    });
-};
-
-exports.bookshop = function (req, res, next) {
-    res.render('student/BuyBooks', {
-        title: 'book Shop',
-        allowed: req.session.student
+    res.render('homefile/News', {
+        title: 'news'
     });
 };
 
 exports.elibrary = function (req, res, next) {
-    res.render('student/ELibrary', {
-        title: 'E-library',
-        allowed: req.session.student
+    res.render('stu/ELibrary', {
+        title: 'E-library'
     });
 };
 
 exports.project = function (req, res, next) {
     res.render('student/projectTopics', {
-        title: 'Project Topics',
-        allowed: req.session.student
-    });
-};
-
-exports.article = function (req, res, next) {
-    res.render('student/addArticle', {
-        title: 'Add an Article',
-        allowed: req.session.student
+        title: 'Project Topics'
     });
 };

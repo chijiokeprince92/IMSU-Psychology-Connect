@@ -1,48 +1,16 @@
 <div class="logo">
-    <img src="./images/drizzys.jpg" alt="NAPS image" class="rounded" width="100%" height="200" />
+    <img src="../images/drizzys.jpg" alt="NAPS image" class="rounded" width="100%" height="200" />
 </div>
 <div class="stay">
     <ul class="nav nav-pills nav-justified">
-        <li class="nav-item" title="Staff Home">
-            <a href="/staffhome" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-        <li class="dropdown" title="Clicks to see Available courses">
-            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">Courses
-                        <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="/staff100level">100level Courses</a></li>
-                <li><a href="/staff200level">200level Courses</a></li>
-                <li><a href="/staff300level">300level Courses</a></li>
-                <li><a href="/staff400level">400level Courses</a></li>
-            </ul>
-        </li>
-        <li class="nav-item" title="Click to see upcoming events">
-            <a href="/staffnews" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-envelop"></span>News <span class="badge">1</span></a></li>
-        <li class="dropdown" title="Info About Us">
-            <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">About Us
-                        <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a href="/staffhistory">History</a></li><br>
-                <li><a href="/staffobjectives">Objectives</a></li>
-                <li><a href="/staffguidelines">Guidelines</a></li>
-                <li><a href="/stafforientation">Orientations</a></li>
-                <li><a href="/staffexamination">Examinations</a></li>
-                <li><a href="/stafflibinfo">Library Facilities</a></li>
-            </ul>
-        </li>
         {{#if staff_session}}
-            <li class="nav-item" title="Chat with other Students">
-                <a href="/Chat" class="btn btn-success btn-block">Send Message</a>
-            </li>
+            <li class="nav-item" title="Staff Home">
+                <a href="/staffhome" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-home"></span>Home</a></li>
             <li class="nav-item" title="library">
                 <a href="/stafflibrary" class="btn btn-primary btn-block">Schedule</a>
             </li>
-        {{/if}}
-        <li class="nav-item" title="library">
-            <a href="/stafflibrary" class="btn btn-primary btn-block">Library</a>
-        </li>
-        {{#if staff_session}}
             <li class="nav-item" title="Your Profile">
-                <a href="/staffss/{{staff_session}}" class="btn btn-primary btn-block">Profile</a>
+                <a href="/staffss/{{staff_session}}" class="btn btn-primary btn-block">{{#if staff_firstname}} {{staff_firstname}} {{else}} Profile {{/if}}</a>
             </li>
             <li class="nav-item" title="LogOut">
                 <a href="/stafflogout" class="btn btn-danger btn-block">LogOut</a>

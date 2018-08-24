@@ -17,22 +17,26 @@
                     <table class="table table-hover">
                         <thead class="thead-dark">
                             <tr>
+                                <th>ID</th>
                                 <th>E-MAIL</th>
                                 <th>SURNAME</th>
                                 <th>FIRSTNAME</th>
                                 <th>STAFF_ID</th>
                                 <th>GENDER</th>
                                 <th>PHONE NUMBER</th>
+                                <th>PROFILE</th>
                             </tr>
                         </thead>
                         {{#each slow}}
                             <tr>
-                                <td>{{email}}</td>
-                                <td>{{surname}}</td>
-                                <td>{{firstname}}</td>
-                                <td>{{staff_id}}</td>
-                                <td>{{gender}}</td>
-                                <td>{{phone}}</td>
+                                <td>{{@ index}}</td>
+                                <td>{{this.email}}</td>
+                                <td>{{this.surname}}</td>
+                                <td>{{this.firstname}}</td>
+                                <td>{{this.staff_id}}</td>
+                                <td>{{this.gender}}</td>
+                                <td>{{this.phone}}</td>
+                                <td><a href="/staffprofile/{{this.id}}">View Profile</a></td>
                             </tr>
                         {{/each}}
                     </table>

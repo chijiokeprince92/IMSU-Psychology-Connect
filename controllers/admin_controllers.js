@@ -1,7 +1,11 @@
 const Admins = require('../models/adminSchema');
 const StudentSigns = require('../models/studentSchema');
 const Staff = require('../models/staffSchema');
+const News = require('../models/newsSchema');
+const Project = require('../models/projectSchema');
 const async = require('async');
+var multer = require('multer');
+var path = require('path');
 
 const {
     body,
@@ -14,7 +18,7 @@ const {
 //------------------------------------------------------------------------------
 //ADMIN Functions
 
-
+// Checking for Admin logins and verifications
 exports.admin_session_force = function (req, res, next) {
     if (!req.session.admin) {
         res.redirect('/adminlogin');
@@ -24,15 +28,15 @@ exports.admin_session_force = function (req, res, next) {
 }
 //--------------------------------------------------------------------------
 
-// staff signup GET
+// GET Admin Signup Form
 exports.admin_signup_get = function (req, res, next) {
     res.render('admin/admin_signup', {
         title: 'ADMIN_signUp'
     });
 };
+//------------------------------------------------------------------------------------
 
-
-// handle the POST request for the Staff signup form
+// POST Admin Signup form
 exports.admin_signup_post = [
     body('email').isLength({
         min: 1
@@ -97,13 +101,16 @@ exports.admin_signup_post = [
         }
     }
 ];
+//----------------------------------------------------------------------------------------------
 
+// GET Admin login form
 exports.admin_login_get = function (req, res, next) {
     res.render('admin/admin_login', {
         title: 'Admin Login'
     })
 }
 
+// POST Admin login form
 exports.admin_login_post = function (req, res, next) {
     Admins.findOne({
         'verify': req.body.verify
@@ -124,55 +131,108 @@ exports.admin_login_post = function (req, res, next) {
     })
 }
 
+//----------------------------------------------------------------------------------------
+
+//GET Admin HOME Page
 exports.admin = function (req, res, next) {
-    res.render('admin/admin', {
-        title: 'Admin Page',
-        admin: req.session.admin
+    Admins.findOne({
+        '_id': req.session.admin
+    }, function (err, name) {
+        if (err) {
+            return next(err);
+        }
+        res.render('admin/admin', {
+            title: 'Admin Page',
+            admin: req.session.admin,
+            name: name.surname
+        });
     })
 }
 
-// this function is for counting the number of students that are registered on the website
-exports.index = function (req, res) {
-    async.parallel({
-        onestudent_count: function (callback) {
-            StudentSigns.count(callback)
-        }
-
-    }, function (err, results) {
-        res.render('admin/number', {
-            admin: req.session.admin,
-            title: 'Number of Users',
-            data: results.onestudent_count
-        });
-    });
-};
-
-// function for getting the names of every student
-exports.list_students = function (req, res, next) {
-    StudentSigns.find({},
-        function (err, swag) {
+// GET Profile page for a specific Admin.
+exports.profiler = function (req, res, next) {
+    Admins.findById(req.params.id)
+        .exec(function (err, results) {
             if (err) {
                 return next(err);
+            } // Error in API usage.
+            if (results == null) { // No results.
+                console.log('There are no admin');
+                var err = new Error('You are not an Admin');
+                err.status = 404;
+                return next(err);
             }
-            res.render('admin/list_student', {
+            // Successful, so render.
+            res.render('admin/admin_profile', {
+                title: 'Admin Profile',
                 admin: req.session.admin,
-                title: "Complete List of Student",
-                slow: swag,
-                identify: swag._id,
-                email: swag.email,
-                surname: swag.surname,
-                firstname: swag.firstname,
-                matnumber: swag.matnumber,
-                level: swag.level,
-                gender: swag.gender,
-                phone: swag.phone
+                admin_email: results.email,
+                admin_surname: results.surname,
+                admin_firstname: results.firstname,
+                admin_verify: results.verify,
+                admin_gender: results.gender,
+                admin_phone: results.phone,
+                urlline: results.url
             });
-        }
-    )
+        })
+};
+
+// GET the names of every student in Tabular form
+exports.list_students = function (req, res, next) {
+    StudentSigns.find()
+        .sort([
+            ['level', 'ascending']
+        ])
+        .exec(
+            function (err, swag) {
+                if (err) {
+                    return next(err);
+                }
+                res.render('admin/list_student', {
+                    admin: req.session.admin,
+                    title: "Complete List of Student",
+                    slow: swag
+                });
+            }
+        )
 }
 
-//Functions for displaying students by their levels
 
+
+// GET Profile  of a student
+exports.view_student_profile = function (req, res, next) {
+    StudentSigns.findById(req.params.id)
+        .exec(
+            function (err, swag) {
+                if (err) {
+                    return next(err);
+                }
+                console.log(swag)
+                res.render('admin/view_student', {
+                    admin: req.session.admin,
+                    title: "Student Profile",
+                    email: swag.email,
+                    surname: swag.surname,
+                    firstname: swag.firstname,
+                    matnumber: swag.matnumber,
+                    level: swag.level,
+                    gender: swag.gender,
+                    phone: swag.phone,
+                    photo: function () {
+                        if (!swag.photo) {
+                            swag.photo = "../images/psylogo4.jpg";
+                            return swag.photo;
+                        } else {
+                            return swag.photo;
+                        }
+                    }
+                });
+            }
+        )
+}
+
+
+//Functions for displaying students by their levels
 exports.list_100_student = function (req, res, next) {
     StudentSigns.find({
         'level': 100
@@ -187,14 +247,6 @@ exports.list_100_student = function (req, res, next) {
             admin: req.session.admin,
             title: "Complete List of 100 Student",
             slow: swagger,
-            identify: swagger._id,
-            email: swagger.email,
-            surname: swagger.surname,
-            firstname: swagger.firstname,
-            matnumber: swagger.matnumber,
-            level: swagger.level,
-            gender: swagger.gender,
-            phone: swagger.phone
         });
     })
 }
@@ -213,14 +265,6 @@ exports.list_200_student = function (req, res, next) {
             admin: req.session.admin,
             title: "Complete List of 200 Student",
             slow: swagger,
-            identify: swagger._id,
-            email: swagger.email,
-            surname: swagger.surname,
-            firstname: swagger.firstname,
-            matnumber: swagger.matnumber,
-            level: swagger.level,
-            gender: swagger.gender,
-            phone: swagger.phone
         });
     })
 }
@@ -239,14 +283,6 @@ exports.list_300_student = function (req, res, next) {
             admin: req.session.admin,
             title: "Complete List of 300 Student",
             slow: swagger,
-            identify: swagger._id,
-            email: swagger.email,
-            surname: swagger.surname,
-            firstname: swagger.firstname,
-            matnumber: swagger.matnumber,
-            level: swagger.level,
-            gender: swagger.gender,
-            phone: swagger.phone
         });
     })
 }
@@ -265,40 +301,15 @@ exports.list_400_student = function (req, res, next) {
             admin: req.session.admin,
             title: "Complete List of 400 Student",
             slow: swagger,
-            identify: swagger._id,
-            email: swagger.email,
-            surname: swagger.surname,
-            firstname: swagger.firstname,
-            matnumber: swagger.matnumber,
-            level: swagger.level,
-            gender: swagger.gender,
-            phone: swagger.phone
         });
     })
 }
 
-// this function is for counting the number of staffs that are registered on the website
-exports.staff_index = function (req, res) {
-
-    async.parallel({
-        onestaff_count: function (callback) {
-            Staff.count(callback)
-        }
-
-    }, function (err, results) {
-        res.render('staffs/staff_number', {
-            title: 'Number of Users',
-            data: results.onestaff_count,
-            admin: req.session.admin
-        });
-    });
-};
-
 
 // function for getting the names of every staff
 exports.list_staffs = function (req, res, next) {
-    Staff.find({},
-        function (err, swag) {
+    Staff.find()
+        .exec(function (err, swag) {
             if (err) {
                 return next(err);
             }
@@ -308,56 +319,132 @@ exports.list_staffs = function (req, res, next) {
             res.render('admin/list_staff', {
                 admin: req.session.admin,
                 title: "Complete List of Staffs",
-                message: "Complete List of Students",
                 slow: swag,
-                email: swag.email,
-                surname: swag.surname,
-                firstname: swag.firstname,
-                matnumber: swag.staff_id,
-                gender: swag.gender,
-                phone: swag.phone
             });
+        });
+}
 
-        }
-    )
+// GET Profile of a Particular Staff
+exports.view_staff_profile = function (req, res, next) {
+    Staff.findById(req.params.id)
+        .exec(
+            function (err, swag) {
+                if (err) {
+                    return next(err);
+                }
+                console.log(swag)
+                res.render('admin/view_staffs', {
+                    admin: req.session.admin,
+                    title: "Staff Profile",
+                    email: swag.email,
+                    surname: swag.surname,
+                    firstname: swag.firstname,
+                    staff_id: swag.staff_id,
+                    gender: swag.gender,
+                    phone: swag.phone,
+                    photo: function () {
+                        if (!swag.photo) {
+                            swag.photo = "../images/psylogo4.jpg";
+                            return swag.photo;
+                        } else {
+                            return swag.photo;
+                        }
+                    }
+                });
+            }
+        )
 }
 
 
-// Profile page for a specific Admin.
-exports.profiler = function (req, res, next) {
+//---------------------------------------------------------------------------------------------
 
-    async.parallel({
-        admin_profile: function (callback) {
-            Admins.findById(req.params.id)
-                .exec(callback)
+// GET Admin form for Project Upload
+exports.get_upload_project = function (req, res, next) {
+    res.render('admin/upload_project', {
+        title: "Upload Project Topic",
+        admin: req.session.admin
+    })
+}
+
+// POST Admin form for Project Upload
+exports.post_upload_project = function (req, res, next) {
+    var fullPath = "./project_topics/" + req.file.filename;
+    var projectile = new Project({
+        project: fullPath,
+        topic: req.body.topic
+    });
+    console.log(projectile);
+    projectile.save(function (err) {
+        if (err) {
+            console.log(err);
+            return next(err);
         }
+        console.log("Document Saved");
+        res.redirect('/getprojecttopics');
+    });
 
-    }, function (err, results) {
+}
+
+// GET Admin PROJECT Topics
+exports.get_project_topics = function (req, res, next) {
+    Project.find({}, function (err, release) {
         if (err) {
             return next(err);
-        } // Error in API usage.
-        else if (results.admin_profile == null) { // No results.
-            console.log('There are no admin');
-            var err = new Error('You are not an Admin');
-            err.status = 404;
-            return next(err);
-        } else {
-            // Successful, so render.
-            res.render('admin/admin_profile', {
-                title: 'Admin Profile',
-                admin: req.session.admin,
-                admin_email: results.admin_profile.email,
-                admin_surname: results.admin_profile.surname,
-                admin_firstname: results.admin_profile.firstname,
-                admin_verify: results.admin_profile.verify,
-                admin_gender: results.admin_profile.gender,
-                admin_phone: results.admin_profile.phone
-            });
         }
+        if (release == null) {
+            res.send('There is no PROJECT Content');
+        }
+        res.render('admin/project_topics', {
+            admin: req.session.admin,
+            title: 'Psychology Project Topics',
+            projectss: release
+        });
+    })
+}
+//----------------------------------------------------------------------------
+// GET Admin form for Posting NEWS
+exports.get_upload_news = function (req, res, next) {
+    res.render('admin/admin_get_news', {
+        title: 'Admin Upload Projects',
+        admin: req.session.admin
     });
-};
+}
 
-// Functions for rendering the student results filler form
+// POST Admin form for Posting NEWS 
+exports.post_upload_news = function (req, res, next) {
+    var fullPath = "./newsproject/" + req.file.filename;
+    var latest = new News({
+        picture: fullPath,
+        heading: req.body.heading,
+        passage: req.body.passage
+    });
+    latest.save(function (err) {
+        if (err) {
+            return next(err);
+        }
+        console.log("Document Saved");
+        res.redirect('/getlastnews');
+    });
+}
+
+// GET Admin latest NEWS
+exports.get_last_news = function (req, res, next) {
+    News.find({}, function (err, release) {
+        if (err) {
+            return next(err);
+        }
+        if (release == null) {
+            res.send('There is no NEWS Content');
+        }
+        res.render('admin/admin_posted_news', {
+            admin: req.session.admin,
+            title: 'Psychology News',
+            newspaper: release
+        });
+    })
+}
+//----------------------------------------------------------------------
+// GET Student Result Filler form
 exports.student_results = function (req, res, next) {
     res.render('admin/student_result_form', {
         title: "Student result Filler",
@@ -365,7 +452,7 @@ exports.student_results = function (req, res, next) {
     });
 }
 
-// function for sending message to all levels
+// function for sending message to 100 level
 exports.send_100 = function (req, res, next) {
     res.render('student/chat100', {
         title: "100Level Group Chat",
@@ -373,6 +460,7 @@ exports.send_100 = function (req, res, next) {
     })
 }
 
+// function for sending messsage to 200 level
 exports.send_200 = function (req, res, next) {
     res.render('student/chat200', {
         title: "200 Level Group Chat",
@@ -394,6 +482,7 @@ exports.send_400 = function (req, res, next) {
     });
 }
 
+//ADMIN Logout Request
 exports.admin_logout = function (req, res, next) {
     if (req.session.admin) {
         req.session.destroy();

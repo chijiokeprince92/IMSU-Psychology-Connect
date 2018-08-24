@@ -16,7 +16,6 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const catalogRouter = require('./routes/catalog');
-const upload = require('./upload');
 
 const compression = require('compression');
 const helmet = require('helmet');
@@ -49,7 +48,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(session({
-    secret: 'process.env.secret_key',
+    secret: process.env.session_key,
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({

@@ -1,7 +1,11 @@
 // This is the function for handling anything Staff
 
 var Staff = require('../models/staffSchema');
+const StudentSigns = require('../models/studentSchema');
+const News = require('../models/newsSchema');
 var async = require('async');
+var multer = require('multer');
+var path = require('path');
 
 const {
     body,
@@ -25,16 +29,24 @@ exports.staffloginRequired = function (req, res, next) {
 
 
 exports.staff_home = function (req, res, next) {
-    res.render('staffs/staff_home', {
-        title: 'Staff Home Page',
-        staff_session: req.session.staff
-    })
+    Staff.findOne({
+            '_id': req.session.staff
+        })
+        .exec(function (err, result) {
+            res.render('staffs/staff_home', {
+                title: 'Staff Home Page',
+                staff_session: req.session.staff,
+                staff_firstname: result.firstname
+            })
+        })
+
 };
 
+//--------------------------------------------------------------------------------------------
 
 // staff signup GET
 exports.staff_signup_get = function (req, res, next) {
-    res.render('staffs/staff_signup', {
+    res.render('homefile/staff_signup', {
         title: 'staff_signUp'
     });
 };
@@ -89,7 +101,7 @@ exports.staff_signup_post = [
             return;
         } else {
             // Data from form is valid.
-
+            var fullPath = "files/" + req.file.filename;
             // Create a Staff object with escaped and trimmed data.
             var freedom = new Staff({
                 email: req.body.email,
@@ -98,6 +110,8 @@ exports.staff_signup_post = [
                 staff_id: req.body.staff_id,
                 gender: req.body.gender,
                 phone: req.body.phone,
+                photo: fullPath,
+                bio: req.body.bio,
                 password: req.body.password
             });
             freedom.save(function (err) {
@@ -115,7 +129,7 @@ exports.staff_signup_post = [
 
 // staff login GET
 exports.staff_login_get = function (req, res, next) {
-    res.render('staffs/login_staff', {
+    res.render('homefile/login_staff', {
         title: 'staff_signUp'
     });
 };
@@ -127,20 +141,20 @@ exports.staff_login_post = function (req, res, next) {
     }, function (err, blade) {
 
         if (!blade) {
-            res.render('staffs/login_staff', {
+            res.render('homefile/login_staff', {
                 title: 'Staff_Login',
                 ohno: "Your Email is incorrect..."
             });
             return;
         } else if (blade.staff_id !== req.body.staff_id) {
             // staff_id is incorrect
-            res.render('staffs/login_staff', {
+            res.render('homefile/login_staff', {
                 title: 'Staff_Login',
                 ohno: 'Staff_Id is Incorrect'
             })
         } else if (blade.password !== req.body.password) {
             //password is incorrect
-            res.render('staffs/login_staff', {
+            res.render('homefile/login_staff', {
                 title: 'Staff_Login',
                 ohno: 'Password is incorrect'
             })
@@ -157,38 +171,238 @@ exports.staff_login_post = function (req, res, next) {
 //---------------------------------------------------------------------------------------------
 // Display detail page for a specific Staff.
 exports.staff_profiler = function (req, res, next) {
-
-    async.parallel({
-        staffsignee: function (callback) {
-            Staff.findById(req.params.id)
-                .exec(callback)
-        }
-
-    }, function (err, straff) {
-        if (err) {
-            return next(err);
-        } // Error in API usage.
-        else if (straff.staffsignee == null) { // No results.
-            var err = new Error('Student not found');
-            err.status = 404;
-            return next(err);
-        } else {
+    Staff.findById(req.params.id)
+        .exec(function (err, results) {
+            if (err) {
+                return next(err);
+            } // Error in API usage.
+            if (results == null) { // No results.
+                console.log('There are no admin');
+                var err = new Error('You are not a Staff');
+                err.status = 404;
+                return next(err);
+            }
             // Successful, so render.
             res.render('staffs/staff_profiler', {
-                staff_session: req.session.staff,
                 title: 'Staff Profile',
-                user: straff.staffsignee.id,
-                graceemail: straff.staffsignee.email,
-                gracesurname: straff.staffsignee.surname,
-                gracefirstname: straff.staffsignee.firstname,
-                gracestaff_id: straff.staffsignee.staff_id,
-                gracegender: straff.staffsignee.gender,
-                gracephone: straff.staffsignee.phone
+                staff_session: req.session.staff,
+                staff_email: results.email,
+                staff_surname: results.surname,
+                staff_firstname: results.firstname,
+                staff_id: results.staff_id,
+                staff_gender: results.gender,
+                staff_phone: results.phone,
+                staff_photo: results.photo
             });
-        }
-    });
+        })
 
 };
+
+// GET the names of every student in Tabular form
+exports.list_students = function (req, res, next) {
+    StudentSigns.find()
+        .sort([
+            ['level', 'ascending']
+        ])
+        .exec(
+            function (err, swag) {
+                if (err) {
+                    return next(err);
+                }
+                res.render('staffs/list_student', {
+                    staff_session: req.session.staff,
+                    title: "Complete List of Student",
+                    slow: swag
+                });
+            }
+        )
+}
+
+// GET Profile  of a student
+exports.view_student_profile = function (req, res, next) {
+    StudentSigns.findById(req.params.id)
+        .exec(
+            function (err, swag) {
+                if (err) {
+                    return next(err);
+                }
+                console.log(swag)
+                res.render('staffs/view_students', {
+                    staff_session: req.session.staff,
+                    title: "Student Profile",
+                    email: swag.email,
+                    surname: swag.surname,
+                    firstname: swag.firstname,
+                    matnumber: swag.matnumber,
+                    level: swag.level,
+                    gender: swag.gender,
+                    phone: swag.phone,
+                    photo: function () {
+                        if (!swag.photo) {
+                            swag.photo = "../images/psylogo4.jpg";
+                            return swag.photo;
+                        } else {
+                            return swag.photo;
+                        }
+                    }
+                });
+            }
+        )
+}
+
+
+//Functions for displaying students by their levels
+exports.list_100_student = function (req, res, next) {
+    StudentSigns.find({
+        'level': 100
+    }, function (err, swagger) {
+        if (err) {
+            return next(err);
+        }
+        if (swagger == null) {
+            res.redirect('/staffhome');
+        }
+        res.render('staffs/list_100_students', {
+            staff_session: req.session.staff,
+            title: "Complete List of 100 Student",
+            slow: swagger,
+        });
+    })
+}
+
+exports.list_200_student = function (req, res, next) {
+    StudentSigns.find({
+        'level': 200
+    }, function (err, swagger) {
+        if (err) {
+            return next(err);
+        }
+        if (swagger == null) {
+            res.redirect('/staffhome');
+        }
+        res.render('staffs/list_200_students', {
+            staff_session: req.session.staff,
+            title: "Complete List of 200 Student",
+            slow: swagger,
+        });
+    })
+}
+
+exports.list_300_student = function (req, res, next) {
+    StudentSigns.find({
+        'level': 300
+    }, function (err, swagger) {
+        if (err) {
+            return next(err);
+        }
+        if (swagger == null) {
+            res.redirect('/staffhome');
+        }
+        res.render('staffs/list_300_students', {
+            staff_session: req.session.staff,
+            title: "Complete List of 300 Student",
+            slow: swagger,
+        });
+    })
+}
+
+exports.list_400_student = function (req, res, next) {
+    StudentSigns.find({
+        'level': 400
+    }, function (err, swagger) {
+        if (err) {
+            return next(err);
+        }
+        if (swagger == null) {
+            res.redirect('/staffhome');
+        }
+        res.render('staffs/list_400_students', {
+            staff_session: req.session.staff,
+            title: "Complete List of 400 Student",
+            slow: swagger,
+        });
+    })
+}
+
+// function for getting the names of every staff
+exports.list_staffs = function (req, res, next) {
+    Staff.find()
+        .exec(function (err, swag) {
+            if (err) {
+                return next(err);
+            }
+            if (swag == null) {
+                res.redirect('/staffhome');
+            }
+            res.render('staffs/list_staffs', {
+                staff_session: req.session.staff,
+                title: "Complete List of Staffs",
+                slow: swag,
+            });
+        });
+}
+
+// GET Profile of a Particular Staff
+exports.view_staff_profile = function (req, res, next) {
+    Staff.findById(req.params.id)
+        .exec(
+            function (err, swag) {
+                if (err) {
+                    return next(err);
+                }
+                console.log(swag)
+                res.render('staffs/view_staffss', {
+                    staff_session: req.session.staff,
+                    title: "Staff Profile",
+                    email: swag.email,
+                    surname: swag.surname,
+                    firstname: swag.firstname,
+                    staff_id: swag.staff_id,
+                    gender: swag.gender,
+                    phone: swag.phone,
+                    photo: function () {
+                        if (!swag.photo) {
+                            swag.photo = "../images/psylogo4.jpg";
+                            return swag.photo;
+                        } else {
+                            return swag.photo;
+                        }
+                    }
+                });
+            }
+        )
+}
+
+// GET Admin latest NEWS
+exports.get_last_news = function (req, res, next) {
+    News.find({}, function (err, release) {
+        if (err) {
+            return next(err);
+        }
+        if (release == null) {
+            res.send('There is no NEWS Content');
+        }
+        res.render('staffs/staff_read_news', {
+            staff_session: req.session.staff,
+            title: 'Psychology News',
+            newspaper: release
+        });
+    })
+}
+
+exports.staff_get_project_topics = function (req, res, next) {
+    res.render('staffs/staff_projecttopic', {
+        title: "Staff Project Tpoics",
+        allowed: req.session.staff
+    })
+}
+
+exports.upload_projects = function (req, res, next) {
+    res.render('staffs/upload_projects', {
+        title: "Staff Upload Projects",
+        staff_session: req.session.staff
+    })
+}
 
 // to Log-Out Staffs from the site
 exports.staff_logout = function (req, res, next) {
@@ -308,30 +522,3 @@ exports.staff_project = function (req, res, next) {
 
 
 //---------------------------------------------------------------------------------------------
-exports.staff_profile = function (req, res, next) {
-    Staff.findById(req.session.staff,
-        function (err, staff) {
-            if (err) {
-                return next(err);
-            } // Error in API usage.
-            else if (straff.staffsignee == null) { // No results.
-                var err = new Error('Student not found');
-                err.status = 404;
-                return next(err);
-            } else {
-                // Successful, so render.
-                res.render('staffs/staff_profiler', {
-                    staff_session: req.session.staff,
-                    title: 'Staff Profile',
-                    user: straff.staffsignee.id,
-                    graceemail: straff.staffsignee.email,
-                    gracesurname: straff.staffsignee.surname,
-                    gracefirstname: straff.staffsignee.firstname,
-                    gracestaff_id: straff.staffsignee.staff_id,
-                    gracegender: straff.staffsignee.gender,
-                    gracephone: straff.staffsignee.phone
-                });
-            }
-        }
-    )
-}

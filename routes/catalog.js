@@ -1,5 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
+var path = require('path');
+var uploaded = require('../upload');
+var newsproject = require('../news_project');
+var projectvalid = require('../project_valid');
 
 var controllers = require('../controllers/view_controller');
 var student_controllers = require('../controllers/student_controllers');
@@ -7,40 +12,16 @@ var staff_controllers = require('../controllers/staff_controllers');
 var admin_controllers = require('../controllers/admin_controllers');
 
 
-//---------------------------------------------------------------------
-// FOR STUDENTSSSS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
+// FOR HOMEPAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-router.get('/test', student_controllers.test_upload);
-
-router.post('/test', student_controllers.post_upload);
 
 /* GET home page. */
 router.get('/', controllers.home);
-
-// Chat Request
-router.get('/chat', student_controllers.loginRequired, student_controllers.chat);
-
-
-//---------------------------------------------------------------------------
-// student signup form
-router.get('/studentSignup', student_controllers.student_signup_get);
-
-router.post('/studentSignup', student_controllers.student_signup_post);
-
-
-// student login form
-router.get('/login', student_controllers.get_login_form);
-
-router.post('/login', student_controllers.test_login);
-
-router.get('/logout', student_controllers.logout);
-
-
-// GET Student Profile.
-router.get('/studentss/:id', student_controllers.profiler);
-
-//Get a single Student Result
-router.get('/studentresult', student_controllers.student_result);
 
 // Get the history,guidelines,objectives,orientation program,examination, and library information
 
@@ -74,30 +55,75 @@ router.get('/news', controllers.news);
 
 //-------------------------------------------------------------------
 // this is the column that deals with the library components
-router.get('/buyBooks', controllers.bookshop);
 
 router.get('/e-library', controllers.elibrary);
 
 router.get('/projectTopics', controllers.project);
 
-router.get('/addArticle', controllers.article);
+
+//--------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
+// FOR STUDENTSSSS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// student signup form
+router.get('/studentSignup', student_controllers.student_signup_get);
+
+router.post('/studentSignup', uploaded, student_controllers.student_signup_post);
+
+
+// student login form
+router.get('/login', student_controllers.get_login_form);
+
+router.post('/login', student_controllers.test_login);
+
+router.get('/studenthome', student_controllers.get_student_home);
+
+router.get('/getelibrary', student_controllers.get_elibrary);
+
+router.get('/getprojecttopics', student_controllers.get_project_topics);
+
+// GET the list of students and their profiles
+router.get('/studentstudentlist', student_controllers.list_coursemates);
+
+router.get('/studentstudentprofile/:id', student_controllers.view_coursemate_profile);
+
+router.get('/logout', student_controllers.logout);
+
+
+// GET Student Profile.
+router.get('/studentss/:id', student_controllers.profiler);
+
+//Get a single Student Result
+router.get('/studentresult', student_controllers.student_result);
+
+router.get('/gettimetable', student_controllers.get_time_table);
+
+// Chat Request
+router.get('/chat', student_controllers.loginRequired, student_controllers.chat);
 
 
 
 
 
-
-
-
-//------------------------------------------------------------------------
-// FOR STAFFSSS!!!!!!!!!!!!!!!!!!
+//-----------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------
+// FOR STAFFSSS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 router.get('/staffhome', staff_controllers.staff_home);
 
 //staff signup form
 router.get('/staffSignup', staff_controllers.staff_signup_get);
 
-router.post('/staffSignup', staff_controllers.staff_signup_post);
+router.post('/staffSignup', uploaded, staff_controllers.staff_signup_post);
 
 
 // staff login form
@@ -112,6 +138,31 @@ router.get('/stafflogout', staff_controllers.staff_logout);
 router.get('/staffss/:id', staff_controllers.staff_profiler);
 
 //--------------------------------------------------------------------------------------------------
+// GET the list of students and their profiles
+router.get('/staffstudentlist', staff_controllers.list_students);
+
+router.get('/staffstudentprofile/:id', staff_controllers.view_student_profile);
+
+router.get('/stafflist100students', staff_controllers.list_100_student);
+
+router.get('/stafflist200students', staff_controllers.list_200_student);
+
+router.get('/stafflist300students', staff_controllers.list_300_student);
+
+router.get('/stafflist400students', staff_controllers.list_400_student);
+
+router.get('/staffsstafflist', staff_controllers.list_staffs);
+
+router.get('/staffstaffprofile/:id', staff_controllers.view_staff_profile);
+
+router.get('/staffgetlastnews', staff_controllers.get_last_news);
+
+router.get('/saffuploadproject', staff_controllers.upload_projects);
+
+router.get('/staffgetprojecttopics', staff_controllers.staff_get_project_topics);
+
+
+
 
 // Get the history,guidelines,objectives,orientation program,examination, and library information
 
@@ -152,7 +203,7 @@ router.get('/staff300level', staff_controllers.staff_threelevel);
 router.get('/staff400level', staff_controllers.staff_fourlevel);
 
 
-//----------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------
@@ -173,11 +224,12 @@ router.get('/adminss/:id', admin_controllers.admin_session_force, admin_controll
 
 router.get('/adminlogout', admin_controllers.admin_logout);
 
-// GET the number of registered students
-router.get('/number', admin_controllers.index);
+
 
 //GET the List of All the Students in Psychology
 router.get('/studentlist', admin_controllers.admin_session_force, admin_controllers.list_students);
+
+router.get('/studentprofile/:id', admin_controllers.view_student_profile);
 
 router.get('/list100students', admin_controllers.admin_session_force, admin_controllers.list_100_student);
 
@@ -188,12 +240,26 @@ router.get('/list300students', admin_controllers.admin_session_force, admin_cont
 router.get('/list400students', admin_controllers.admin_session_force, admin_controllers.list_400_student);
 
 // GET the number of registered staffs
-router.get('/staffnumber', admin_controllers.admin_session_force, admin_controllers.staff_index);
 
 router.get('/stafflist', admin_controllers.admin_session_force, admin_controllers.list_staffs);
 
+router.get('/staffprofile/:id', admin_controllers.admin_session_force, admin_controllers.view_staff_profile);
+
 router.get('/student/results', admin_controllers.admin_session_force, admin_controllers.student_results);
 
+//GET and POST routes for handling PROJECT Topics
+router.get('/getprojectform', admin_controllers.admin_session_force, admin_controllers.get_upload_project);
+
+router.post('/getprojectform', admin_controllers.admin_session_force, admin_controllers.post_upload_project);
+
+router.get('/getprojecttopics', admin_controllers.admin_session_force, projectvalid, admin_controllers.get_project_topics);
+
+// GET and POST routes for handling NEWS 
+router.get('/getnewsform', admin_controllers.admin_session_force, admin_controllers.get_upload_news);
+
+router.post('/getnewsform', admin_controllers.admin_session_force, newsproject, admin_controllers.post_upload_news);
+
+router.get('/getlastnews', admin_controllers.admin_session_force, admin_controllers.get_last_news);
 
 
 // GET the various chat group and send a message

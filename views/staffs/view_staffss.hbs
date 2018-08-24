@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {{>head}}
+</head>
+
+<body>
+    {{>staff_lecbody}}
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" height="300" />
+            </div>
+            <div class="col-sm-9">
+                <p><b>Email:</b> {{email}}</p>
+                <p><b>Surname: </b> {{surname}}</p>
+                <p><b>FirstName: </b> {{firstname}}</p>
+                <p><b>Staff_ID: </b>{{staff_id}}</p>
+                <p><b>Gender: </b>{{gender}}</p>
+                <p><b>Phone Number: </b>{{phone}}</p>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="" type="button" class="btn btn-primary btn-block">Check Courses Taught</a>
+            </div>
+            <div class="col-sm-4">
+                <button class="btn btn-primary btn-block">Send Message</button>
+            </div>
+            <div class="col-sm-4">
+                <a href="#" type="button" class="btn btn-primary btn-block">View Other Staffs</a>
+            </div>
+        </div>
+    </div>
+    <br><br> {{>footer}}
+</body>
+
+</html>

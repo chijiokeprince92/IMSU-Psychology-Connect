@@ -30,15 +30,15 @@
                         </thead>
                         {{#each slow}}
                             <tr>
-                                <td>{{identify}}</td>
-                                <td>{{email}}</td>
-                                <td>{{surname}}</td>
-                                <td>{{firstname}}</td>
-                                <td>{{matnumber}}</td>
-                                <td>{{level}}</td>
-                                <td>{{gender}}</td>
-                                <td>{{phone}}</td>
-                                <td><a href="/studentss/{{identify}}">view Profile</a></td>
+                                <td>{{@ index}}</td>
+                                <td>{{this.email}}</td>
+                                <td>{{this.surname}}</td>
+                                <td>{{this.firstname}}</td>
+                                <td>{{this.matnumber}}</td>
+                                <td>{{this.level}}</td>
+                                <td>{{this.gender}}</td>
+                                <td>{{this.phone}}</td>
+                                <td><a href="/studentprofile/{{this.id}}">view Profile</a></td>
                             </tr>
                         {{/each}}
                     </table>

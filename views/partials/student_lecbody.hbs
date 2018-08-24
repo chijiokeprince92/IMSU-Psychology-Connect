@@ -1,0 +1,20 @@
+{{#if allowed}}
+    <div class="logo">
+        <img src="../images/drizzys.jpg" alt="NAPS image" class="rounded" width="100%" height="200" />
+    </div>
+    <div class="stay">
+        <ul class="nav nav-pills nav-justified">
+            <li class="nav-item" title="Homepage">
+                <a href="/studenthome" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-home"></span>Student Home</a></li>
+            <li class="nav-item" title="Chat with other Students">
+                <a href="/Chat" class="btn btn-success btn-block">Chat</a>
+            </li>
+            <li class="nav-item" title="Your Profile">
+                <a href="/studentss/{{allowed}}" class="btn btn-primary btn-block">Profile</a>
+            </li>
+            <li class="nav-item" title="LogOut">
+                <a href="/logout" class="btn btn-danger btn-block">LogOut</a>
+            </li>
+        </ul>
+    </div>
+{{/if}}

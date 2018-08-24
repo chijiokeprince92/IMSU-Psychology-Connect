@@ -6,19 +6,29 @@
 </head>
 
 <body>
-    {{>lecbody}}
+    {{>student_lecbody}}
     <br>
     <h2>
         <center>Welcome {{gracesurname}} , {{gracefirstname}} !!</center>
     </h2>
-    <p><b>User ID:</b> {{user}}</p>
-    <p><b>Email:</b> {{graceemail}}</p>
-    <p><b>Surname: </b> {{gracesurname}}</p>
-    <p><b>FirstName: </b> {{gracefirstname}}</p>
-    <p><b>Mat.Number :</b> {{gracematnumber}}</p>
-    <p><b>Level: </b>{{gracelevel}}</p>
-    <p><b>Gender: </b>{{gracegender}}</p>
-    <p><b>Phone Number: </b>{{gracephone}}</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <img src="/{{gracephoto}}" alt="profile image" class="rounded" width="100%" height="300" />
+            </div>
+            <div class="col-sm-9">
+                <p><b>User ID:</b> {{user}}</p>
+                <p><b>Email:</b> {{graceemail}}</p>
+                <p><b>Surname: </b> {{gracesurname}}</p>
+                <p><b>FirstName: </b> {{gracefirstname}}</p>
+                <p><b>Mat.Number :</b> {{gracematnumber}}</p>
+                <p><b>Level: </b>{{gracelevel}}</p>
+                <p><b>Gender: </b>{{gracegender}}</p>
+                <p><b>Phone Number: </b>{{gracephone}}</p>
+                <p><b>About Yourself: </b>{{gracebio}}</p>
+            </div>
+        </div>
+    </div>
     <br><br>
     <a href="" type="button" class="btn btn-primary">Check Result</a>
     <button class="btn btn-primary">Time Table</button>

@@ -32,6 +32,14 @@ var studentSchema = new schema({
         type: Number,
         required: true
     },
+    photo: {
+        type: String,
+        required: true
+    },
+    bio: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: true

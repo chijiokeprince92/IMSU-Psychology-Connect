@@ -8,17 +8,22 @@
 <body>
     {{>staff_lecbody}}
     <br>
-    <br>
-    <h2>
-        <center>Welcome {{gracefirstname}} !!</center>
-    </h2>
-    <p><b>User ID:</b> {{user}}</p>
-    <p><b>Email:</b> {{graceemail}}</p>
-    <p><b>Surname: </b> {{gracesurname}}</p>
-    <p><b>FirstName: </b> {{gracefirstname}}</p>
-    <p><b>Staff_id :</b> {{gracestaff_id}}</p>
-    <p><b>Gender: </b>{{gracegender}}</p>
-    <p><b>Phone Number: </b>{{gracephone}}</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <img src="/{{staff_photo}}" alt="profile image" class="rounded" width="100%" height="300" />
+            </div>
+            <div class="col-sm-9">
+                <p><b>Email:</b> {{staff_email}}</p>
+                <p><b>Surname: </b> {{staff_surname}}</p>
+                <p><b>FirstName: </b> {{staff_firstname}}</p>
+                <p><b>Staff_id :</b> {{staff_id}}</p>
+                <p><b>Gender: </b>{{staff_gender}}</p>
+                <p><b>Phone Number: </b>{{staff_phone}}</p>
+                <p><b>About Yourself: </b>{{staff_bio}}</p>
+            </div>
+        </div>
+    </div>
     <br><br> {{>footer}}
 </body>
 

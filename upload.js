@@ -13,10 +13,13 @@ const storageEngine = multer.diskStorage({
 
 const upload = multer({
     storage: storageEngine,
+    limits: {
+        filesize: 200000
+    },
     fileFilter: function (req, file, callback) {
         validateFile(file, callback);
     }
-}).single('photo');
+}).single('image');
 
 
 var validateFile = function (file, cb) {

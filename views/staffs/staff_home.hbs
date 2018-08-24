@@ -6,21 +6,119 @@
 </head>
 
 <body>
-    {{>staff_body}} {{{message}}}
-    <h2>Staff Home</h2>
-    <p><strong>Psychology</strong> is the science of behavior and mind, including conscious and unconscious phenomena, as well
-        as thought. It is an academic discipline of immense scope and diverse interests that, when taken together, seek an
-        understanding of the emergent properties of brains, and all the variety of epiphenomena they manifest. As a social
-        science it aims to understand individuals and groups by establishing general principles and researching specific
-        cases.
-    </p>
-    <p>The knowledge of Psychology leads to peaceful co-existence among different individuals in a society.Since the world is
-        turning into a global community,Psychology seeks to educate man about the similarities they share with others who
-        where bred in a different ethnicity and race.</p>
-    <p> The study of <i>behavior</i> has always been a field that has sprung up controversies and <b>psychology</b> has been
-        at the fore-front of such study.This controversies is because of the unpredictable nature of man due to various forces(hereditary
-        & environmental) acting upon such <strong>behavior</strong>. You can find more on this subject on <a href="https://www.wikipedia.org/wiki/Psychology"
-            target="blank">google</a>. </p>
+    {{>staff_lecbody}}
+    <h2>Welcome</h2>
+    <ul>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/barbie.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="/staffgetlastnews">NEWS</a></p>
+                    <br>
+                    <p>
+                        Get Latest NEWS and Gists as it happens in IMO State, Imo State University and Psychology Department.
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/psylogo4.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="/staffstudentlist">GET Complete List Of NAPS Students</a></p>
+                    <br>
+                    <p>
+                        Dear {{name}}, You can see all the NAPS Students, View their Profiles , and Send anyone of them a message. You can also sort
+                        them by level by clicking <a href="/stafflist100students">100 Level Students</a>,
+                        <a href="/stafflist200students">200 Level Students</a>,
+                        <a href="/stafflist300students">300 Level Students</a>, or <a href="/stafflist400students">400 Level Students</a>.
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/psylogo4.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="#">Schedule</a></p>
+                    <br>
+                    <p>
+                        Dear {{name}}, Your Schedules includes all the courses taught by you and would enable you set notifications
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/psylogo4.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="/staffsstafflist">GET Complete List Of NAPS Staffs</a></p>
+                    <br>
+                    <p>
+                        Dear {{name}}, You can see all the NAPS Staffs, View their Profiles , and Send anyone of them a message.
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/psylogo4.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="#">LIBRARY AND INFORMATIONS</a></p>
+                    <br>
+                    <p>
+                        Dear {{name}}, Psychology Learning Materials is just a click away. You can access Psychology textbooks, Project Topics, add
+                        Textbooks of other related topics.
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/psylogo.png" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="/staffgetprojecttopics">Project Topics</a></p>
+                    <br>
+                    <p>You can see all project Topics that have been uploaded on this website. You can also delete and edit
+                        projects which would take effect on the whole website, which can be viewed on the <a href "#">Project Topics</a>column.
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="../images/lee.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-10">
+                    <p><a href="/saffuploadproject">Upload Projects</a></p>
+                    <br>
+                    <p> You can also upload Project Topics that is on pdf format. Uploaded projects can be viewed by both students
+                        and staffs, and would also be seen by other people viewing this website, which can be viewed in the
+                        <a href="/staffgetprojecttopics">Project Topic</a> column.</p>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <br>
     <br> {{>footer}}
 </body>
 

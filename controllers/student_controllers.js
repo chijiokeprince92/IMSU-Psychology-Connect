@@ -2,10 +2,11 @@
 
 
 var StudentSigns = require('../models/studentSchema');
-var Uploads = require('../models/uploadSchema');
+var Staff = require('../models/staffSchema');
 var async = require('async');
 var multer = require('multer');
 var path = require('path');
+
 
 const {
     body,
@@ -39,7 +40,7 @@ exports.ensureCorrectuser = function (req, res, next) {
 //----------------------------------------------------------------------------
 // GET the Student signup form
 exports.student_signup_get = function (req, res, next) {
-    res.render('student/student_signup', {
+    res.render('homefile/student_signup', {
         title: 'student_signup'
     });
 };
@@ -98,7 +99,7 @@ exports.student_signup_post = [
             return;
         } else {
             // Data from form is valid.
-
+            var fullPath = "files/" + req.file.filename;
             // Create an Student object with escaped and trimmed data.
             var qualified = new StudentSigns({
                 email: req.body.email,
@@ -108,6 +109,8 @@ exports.student_signup_post = [
                 level: req.body.level,
                 gender: req.body.gender,
                 phone: req.body.phone,
+                photo: fullPath,
+                bio: req.body.bio,
                 password: req.body.password
             });
             qualified.save(function (err) {
@@ -115,16 +118,17 @@ exports.student_signup_post = [
                     return next(err);
                 }
                 // Successful - redirect to login page.
-                res.redirect('login');
+                res.redirect('/login');
             });
         }
     }
 ];
 
+
 //----------------------------------------------------------------------
 // function for Student Login GET
 exports.get_login_form = function (req, res, next) {
-    res.render('student/login', {
+    res.render('homefile/login', {
         title: 'Login form',
     });
 }
@@ -149,8 +153,8 @@ exports.test_login = function (req, res, next) {
             })
         } else if (glad && glad.password == req.body.password) {
             req.session.student = glad.id;
-            res.render('student/home', {
-                title: 'HomePage',
+            res.render('student/student_home', {
+                title: 'Student HomePage',
                 allowed: req.session.student
             });
         } else {
@@ -160,45 +164,170 @@ exports.test_login = function (req, res, next) {
 
 };
 
+exports.get_student_home = function (req, res, next) {
+    res.render('student/student_home', {
+        title: 'Student HomePage',
+        allowed: req.session.student
+    })
+}
+
 // Profile page for a specific Student.
 exports.profiler = function (req, res, next) {
+    StudentSigns.findById(req.params.id)
+        .exec(function (err, results) {
+            if (err) {
+                return next(err);
+            } // Error in API usage.
+            else if (results == null) { // No results.
+                var err = new Error('Student not found');
+                err.status = 404;
+                return next(err);
+            } else {
+                // Successful, so render.
+                res.render('student/profiler', {
+                    allowed: req.session.student,
+                    title: 'Student Profile',
+                    user: results.id,
+                    graceemail: results.email,
+                    gracesurname: results.surname,
+                    gracefirstname: results.firstname,
+                    gracematnumber: results.matnumber,
+                    gracelevel: results.level,
+                    gracegender: results.gender,
+                    gracephone: results.phone,
+                    gracephoto: results.photo,
+                    gracebio: results.bio
+                });
+            }
+        });
+};
 
+// GET Profile  of a student
+exports.view_coursemate_profile = function (req, res, next) {
+    StudentSigns.findById(req.params.id)
+        .exec(
+            function (err, swag) {
+                if (err) {
+                    return next(err);
+                }
+                console.log(swag)
+                res.render('student/views_student', {
+                    allowed: req.session.student,
+                    title: "CourseMate Profile",
+                    email: swag.email,
+                    surname: swag.surname,
+                    firstname: swag.firstname,
+                    matnumber: swag.matnumber,
+                    level: swag.level,
+                    gender: swag.gender,
+                    phone: swag.phone,
+                    photo: function () {
+                        if (!swag.photo) {
+                            swag.photo = "../images/psylogo4.jpg";
+                            return swag.photo;
+                        } else {
+                            return swag.photo;
+                        }
+                    }
+                });
+            }
+        )
+}
+
+
+//Functions for displaying just your coursemates
+exports.list_coursemates = function (req, res, next) {
+    StudentSigns.findById(req.session.student)
+        .exec(
+            function (err, swagger) {
+                if (err) {
+                    return next(err);
+                }
+                if (swagger == null) {
+                    res.redirect('/studenthome');
+                }
+                StudentSigns.find({
+                    'level': swagger.level
+                }, function (err, levelss) {
+                    res.render('student/lists_students', {
+                        allowed: req.session.student,
+                        title: "Complete List of your Course Mates",
+                        slow: levelss
+                    });
+                })
+
+
+            }
+        )
+}
+
+
+exports.get_elibrary = function (req, res, next) {
+    res.render('student/Elibrary', {
+        title: 'Student E-Library',
+        allowed: req.session.student
+    })
+}
+
+exports.get_project_topics = function (req, res, next) {
+    res.render('student/projectTopics', {
+        title: "Project topics",
+        allowed: req.session.student
+    })
+}
+
+exports.get_time_table = function (req, res, next) {
+    res.render('student/time_table', {
+        title: "Student's TimeTable",
+        allowed: req.session.student
+    })
+}
+//-------------------------------------------------------------------------
+
+// function for checking students results
+exports.student_result = function (req, res, next) {
     async.parallel({
-        studentsignee: function (callback) {
-            StudentSigns.findById(req.params.id)
+        studentresult: function (callback) {
+            StudentSigns.findById(req.session.student)
                 .exec(callback)
         }
 
-    }, function (err, results) {
+    }, function (err, myresult) {
         if (err) {
             return next(err);
-        } // Error in API usage.
-        else if (results.studentsignee == null) { // No results.
-            var err = new Error('Student not found');
-            err.status = 404;
-            return next(err);
-        } else {
-            // Successful, so render.
-            res.render('student/profiler', {
-                allowed: req.session.student,
-                title: 'Student Profile',
-                user: results.studentsignee.id,
-                graceemail: results.studentsignee.email,
-                gracesurname: results.studentsignee.surname,
-                gracefirstname: results.studentsignee.firstname,
-                gracematnumber: results.studentsignee.matnumber,
-                gracelevel: results.studentsignee.level,
-                gracegender: results.studentsignee.gender,
-                gracephone: results.studentsignee.phone
-            });
         }
+        if (studentresult) {
+            res.render('student/student_result', {
+                title: 'Personal Result',
+                message: myresult.surname
+            })
+        }
+    })
+}
+
+// to Log-Out Students from the site
+exports.logout = function (req, res, next) {
+    if (req.session.student) {
+        req.session.destroy();
+    }
+    res.redirect('/');
+}
+
+exports.post_upload = function (req, res, next) {
+    var fullPath = "files/" + req.file.filename;
+    var photo = new Photos({
+        path: fullPath,
+        caption: req.body.caption
     });
+    photo.save(function (err) {
+        if (err) {
+            return next(err);
+        }
+        console.log("Document Saved");
+        res.redirect('/login');
+    });
+}
 
-
-};
-
-
-//-------------------------------------------------------------------------
 // NAPS Group Chat function
 exports.chat = function (req, res, next) {
     StudentSigns.findOne({
@@ -233,56 +362,5 @@ exports.chat = function (req, res, next) {
         } else {
             res.redirect('login');
         }
-    });
-}
-
-
-// function for checking students results
-exports.student_result = function (req, res, next) {
-    async.parallel({
-        studentresult: function (callback) {
-            StudentSigns.findById(req.session.student)
-                .exec(callback)
-        }
-
-    }, function (err, myresult) {
-        if (err) {
-            return next(err);
-        }
-        if (studentresult) {
-            res.render('student/student_result', {
-                title: 'Personal Result',
-                message: myresult.surname
-            })
-        }
-    })
-}
-
-// to Log-Out Students from the site
-exports.logout = function (req, res, next) {
-    if (req.session.student) {
-        req.session.destroy();
-    }
-    res.redirect('/');
-}
-
-exports.test_upload = function (req, res, next) {
-    res.render('student/testy', {
-        title: 'Upload form',
-    });
-}
-
-exports.post_upload = function (req, res, next) {
-    var fullPath = "files/" + req.file.filename;
-    var photo = new Uploads({
-        path: fullPath,
-        caption: req.body.caption
-    });
-    photo.save(function (err) {
-        if (err) {
-            return next(err);
-        }
-        console.log("Document Saved");
-        res.redirect('/');
     });
 }

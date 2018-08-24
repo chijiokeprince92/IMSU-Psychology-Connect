@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {{>head}}
+</head>
+
+<body>
+    {{>staff_lecbody}}
+    <br>
+    <br>
+    <h3>These are the List of 300-Level Students</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>E-MAIL</th>
+                                <th>SURNAME</th>
+                                <th>FIRSTNAME</th>
+                                <th>MAT-NUMBER</th>
+                                <th>LEVEL</th>
+                                <th>GENDER</th>
+                                <th>PHONE NUMBER</th>
+                                <th>PROFILE</th>
+                            </tr>
+                        </thead>
+                        {{#each slow}}
+                            <tr>
+                                <td>{{@ index}}</td>
+                                <td>{{this.email}}</td>
+                                <td>{{this.surname}}</td>
+                                <td>{{this.firstname}}</td>
+                                <td>{{this.matnumber}}</td>
+                                <td>{{this.level}}</td>
+                                <td>{{this.gender}}</td>
+                                <td>{{this.phone}}</td>
+                                <td><a href="/staffstudentprofile/{{this.id}}">view Profile</a></td>
+                            </tr>
+                        {{/each}}
+                    </table>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br> {{>footer}}
+</body>
+
+</html>
