@@ -8,43 +8,51 @@
 <body>
     {{>view_body}}
     <br>
-    <h1>Students SignUp</h1>
-    {{#if errors}}
-        <p>{{errors}}</p>
-    {{/if}}
-    <nav class="col-lg-10">
-        <form class="form group" action="" method="POST" enctype="multipart/form-data">
-            <label for="email"><b>E-mail:</b></label>
-            <input type="email" name="email" class="form-control" autocomplete="on" placeholder="Email.com" required>
+    <h1>STUDENT SIGNUP</h1>
+    {{#each errors}}
+        <p>{{this}}</p>
+    {{/each}}
+    <nav class="col-sm-12 col-xl-9">
+        <form class="form group input-group-lg" action="" method="POST" enctype="multipart/form-data">
+            <label for="email"><b>E-MAIL:</b></label>
+            <input type="email" name="email" class="form-control" placeholder="Email.com" required>
             <br>
-            <label for="surname"><b>Surname:</b></label>
-            <input type="text" name="surname" class="form-control" autocomplete="on" placeholder="surname" required>
+            <label for="surname"><b>SURNAME:</b></label>
+            <input type="text" name="surname" class="form-control" placeholder="surname" required>
             <br>
-            <label for="firstname"><b>First name:</b></label>
-            <input type="text" name="firstname" class="form-control" autocomplete="on" placeholder="first name" required>
+            <label for="firstname"><b>FIRST NAME:</b></label>
+            <input type="text" name="firstname" class="form-control" placeholder="first name" required>
             <br>
-            <label for="matnumber"><b>Mat Number:</b></label>
+            <label for="matnumber"><b>MAT_NUMBER:</b></label>
             <input type="text" name="matnumber" class="form-control" minlength="7" maxlength="8" placeholder="1234567" required>
             <br>
-            <label for="level"><b>Current level:</b></label>
-            <input type="text" name="level" class="form-control" placeholder="100">
+            <label for="level"><b>CURRENT LEVEL:</b></label>
+            <select name="level" class="form-control" required>
+                <option value="100">100 level</option>
+                <option value="200">200 level</option>
+                 <option value="300">300 level</option>
+                <option value="400">400 level</option>
+                </select>
             <br>
-            <label for="gender"><b>Gender:</b></label>
-            <input type="text" name="gender" class="form-control" placeholder="male/female" required>
+            <label for="gender"><b>GENDER:</b></label>
+            <select name="gender" class="form-control" required>
+                <option value="male">male</option>
+                <option value="female">female</option>
+                </select>
             <br>
-            <label for="phone"><b>Phone Number:</b></label>
+            <label for="phone"><b>PHONE NUMBER:</b></label>
             <input type="tel" name="phone" class="form-control" minlength="11" maxlength="11" required>
             <br>
-            <label for="image"><b>Profile Picture:</b></label>
+            <label for="image"><b>PROFILE PHOTO:</b></label>
             <input type="file" class="form-control" name="image" placeholder="upload photo" required>
             <br>
-            <label for="bio"><b>Bio:</b></label>
+            <label for="bio"><b>BIO:</b></label>
             <input type="text" class="form-control" name="bio" placeholder="About you" required>
             <br>
-            <label for="password"><b>Password:</b></label>
+            <label for="password"><b>PASSWORD:</b></label>
             <input type="password" name="password" class="form-control" required>
             <br><br>
-            <button type="submit" class="btn btn-success btn-block"><b>Sign Up</b></button>
+            <button type="submit" class="btn btn-success btn-block"><b>SIGNUP</b></button>
         </form>
         <p></p>
     </nav>

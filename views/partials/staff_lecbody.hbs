@@ -5,15 +5,12 @@
     <ul class="nav nav-pills nav-justified">
         {{#if staff_session}}
             <li class="nav-item" title="Staff Home">
-                <a href="/staffhome" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-home"></span>Home</a></li>
-            <li class="nav-item" title="library">
-                <a href="/stafflibrary" class="btn btn-primary btn-block">Schedule</a>
-            </li>
+                <a href="/staffhome" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-home"></span>STAFF_HOME</a></li>
             <li class="nav-item" title="Your Profile">
-                <a href="/staffss/{{staff_session}}" class="btn btn-primary btn-block">{{#if staff_firstname}} {{staff_firstname}} {{else}} Profile {{/if}}</a>
+                <a href="/staffss/{{staff_session}}" class="btn btn-primary btn-block">{{#if staff_firstname}} {{staff_firstname}} {{else}} PROFILE {{/if}}</a>
             </li>
-            <li class="nav-item" title="LogOut">
-                <a href="/stafflogout" class="btn btn-danger btn-block">LogOut</a>
+            <li class="nav-item" title="LOGOUT">
+                <a href="/stafflogout" class="btn btn-danger btn-block">LOGOUT</a>
             </li>
         {{/if}}
     </ul>

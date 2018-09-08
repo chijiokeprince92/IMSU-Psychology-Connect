@@ -3,13 +3,6 @@
 
 <head>
     {{>head}}
-    <script>
-        $('document').ready(function () {
-            $("p.gracey").click(function () {
-                $(this).hide();
-            });
-        });
-    </script>
 </head>
 
 <body>
@@ -18,14 +11,14 @@
     <ul>
         <li class="container-fluid">
             <div class="row">
-                <div class="col-sm-2">
-                    <img src="../images/barbie.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (5).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
-                <div class="col-sm-10">
-                    <p><a href="/getlastnews">NEWS</a></p>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="/getlastnews">NEWS AND INFORMATIONS</a></p>
                     <br>
                     <p>
-                        Latest NEWS as it happens in IMO State, Imo State University and Psychology Department.
+                        Latest NEWS as it happens in Nigeria, IMO State, Imo State University and Psychology Department.
                     </p>
                 </div>
             </div>
@@ -33,15 +26,17 @@
         <br>
         <li class="container-fluid">
             <div class="row">
-                <div class="col-sm-2">
-                    <img src="../images/psylogo4.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (11).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
-                <div class="col-sm-10">
-                    <p><a href="/getnewsform">Upload NEWS</a></p>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="/studentlist">LIST OF NAPS STUDENTS</a></p>
                     <br>
                     <p>
-                        Dear {{name}}, you can Upload NEWS and Informations to Users of this site. Uploaded NEWS can be viewed by both students and
-                        staffs, and would also be seen by other people viewing this website.
+                        You can see all the NAPS Students, View their Profiles , and Send anyone of them a message. You can also sort them by level
+                        by clicking <a href="/list100students">100 Level Students</a>,
+                        <a href="/list200students">200 Level Students</a>,
+                        <a href="/list300students">300 Level Students</a>, or <a href="/list400students">400 Level Students</a>.
                     </p>
                 </div>
             </div>
@@ -49,14 +44,14 @@
         <br>
         <li class="container-fluid">
             <div class="row">
-                <div class="col-sm-2">
-                    <img src="../images/psylogo.png" alt="NAPS image" class="rounded" width="100%" height="150" />
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (17).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
-                <div class="col-sm-10">
-                    <p><a href="/getprojectform">Project Topics</a></p>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="/getprojecttopicss">PROJECT TOPICS</a></p>
                     <br>
                     <p>You can see all project Topics that have been uploaded on this website. You can also delete and edit
-                        projects which would take effect onthe whole website, which can be viewed on the <a href "#">Project Topics</a>column.
+                        projects which would take effect on the whole website.
                     </p>
                 </div>
             </div>
@@ -64,26 +59,86 @@
         <br>
         <li class="container-fluid">
             <div class="row">
-                <div class="col-sm-2">
-                    <img src="../images/lee.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (23).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
-                <div class="col-sm-10">
-                    <p><a href="/getprojectform">Upload Projects</a></p>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="/stafflist">LIST OF NAPS STAFFS</a></p>
                     <br>
-                    <p> You can also upload Project Topics that is on pdf format. Uploaded projects can be viewed by both students
-                        and staffs, and would also be seen by other people viewing this website, which can be viewed in the
-                        <a href="#">Project Topic</a> column.</p>
+                    <p> You can check the number of Psychology Staffs, view their Profiles, and also designate courses to them.
+                    </p>
                 </div>
             </div>
         </li>
         <br>
         <li class="container-fluid">
             <div class="row">
-                <div class="col-sm-2">
-                    <img src="../images/imsulogo.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (16).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
-                <div class="col-sm-10">
-                    <p><a href="#">Upload TextBook</a></p>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="/getallcourses">VIEW UNDERGRADUATE COURSES</a></p>
+                    <br>
+                    <p>Click to view courses offered by each level, You can also Sort it by levels by clicking <a href="/getallcourses">100 Level Courses</a>,
+                        <a href="/get200courses">200 Level Courses</a> , <a href="/get300courses">300 Level Courses</a> ,
+                        and
+                        <a href="/get400courses">400 Level Courses.</a>
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (20).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="/getcourseform">ADD UNDERGRADUATE COURSE</a></p>
+                    <br>
+                    <p>Click to add courses offered by undergraduate students...
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (1).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="/getnewsform">UPLOAD NEWS</a></p>
+                    <br>
+                    <p>
+                        You can Upload NEWS and Informations to Users of this site. Uploaded NEWS can be viewed by both students and staffs, and
+                        would also be seen by other people nit registered on this website.
+                    </p>
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (19).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="/getprojectform">UPLOAD PROJECTS</a></p>
+                    <br>
+                    <p> You can also upload Project Topics that is on pdf format. Uploaded projects can be viewed by both students
+                        and staffs...
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (8).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="#">UPLOAD TEXTBOOKS</a></p>
                     <br>
                     <p>You can Upload a TextBook that is on .PDF Format to the library section of this website, and it can be
                         accessed by everybody.
@@ -94,45 +149,15 @@
         <br>
         <li class="container-fluid">
             <div class="row">
-                <div class="col-sm-2">
-                    <img src="../images/advert2.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                <div class="col-sm-4 col-lg-3">
+                    <img src="../images/images (18).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
-                <div class="col-sm-10">
-                    <p><a href="/stafflist">View Staffs</a></p>
+                <div class="col-sm-6 col-lg-9">
+                    <p><a href="/student/results">UPLOAD STUDENTS RESULTS</a></p>
                     <br>
-                    <p>Dr. {{name}}, as an Admin, You can check the number of Staffs, view their Profile, and also send them
-                        a message.
-                    </p>
-                </div>
-            </div>
-        </li>
-        <br>
-        <li class="container-fluid">
-            <div class="row">
-                <div class="col-sm-2">
-                    <img src="../images/psylogo4.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
-                </div>
-                <div class="col-sm-10">
-                    <p><a href="/student/results">Upload Students Results</a></p>
-                    <br>
-                    <p>You can also Upload Students results. The purpose of this result is just a file where students can know
-                        their CGPA only. The result added on this website, cannot be used as an Evidence during Clearance
-                        or conflict in correlation to the Faculty Data.
-                    </p>
-                </div>
-            </div>
-        </li>
-        <br>
-        <li class="container-fluid">
-            <div class="row">
-                <div class="col-sm-2">
-                    <img src="../images/lee.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
-                </div>
-                <div class="col-sm-10">
-                    <p><a href="#">Post Exam Time Table</a></p>
-                    <br>
-                    <p>This Option is for Posting Exam Time table, Which would appear in the <a href="#">NEWS</a> column. Add
-                        the Exam Time table file, which should be in .PDF format or a Picture.
+                    <p>This is still under construction. When done, You can Upload Students results. The purpose of this result
+                        is just a file where students can know their CGPA only. The results added on this website, cannot
+                        be used as an Evidence during Clearance or conflict in correlation to the School Results.
                     </p>
                 </div>
             </div>

@@ -25,13 +25,15 @@ var studentSchema = new schema({
     },
     gender: {
         type: String,
-        required: true,
-        enum: ["male", "female"]
+        required: true
     },
     phone: {
         type: Number,
         required: true
     },
+
+    courses_offered: [],
+
     photo: {
         type: String,
         required: true
@@ -55,6 +57,13 @@ studentSchema
     .virtual('url')
     .get(function () {
         return '/studentss/' + this._id;
+    });
+
+//Virtual for Student's URL
+studentSchema
+    .virtual('name')
+    .get(function () {
+        return this.firstname;
     });
 
 // creating a student model and exporting the module

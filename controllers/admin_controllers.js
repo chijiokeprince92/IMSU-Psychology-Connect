@@ -3,6 +3,7 @@ const StudentSigns = require('../models/studentSchema');
 const Staff = require('../models/staffSchema');
 const News = require('../models/newsSchema');
 const Project = require('../models/projectSchema');
+const Courses = require('../models/coursesSchema');
 const async = require('async');
 var multer = require('multer');
 var path = require('path');
@@ -89,6 +90,7 @@ exports.admin_signup_post = [
                 firstname: req.body.firstname,
                 gender: req.body.gender,
                 verify: req.body.verify,
+                phone: req.body.phone,
                 password: req.body.password
             });
             judge.save(function (err) {
@@ -129,6 +131,48 @@ exports.admin_login_post = function (req, res, next) {
             })
         }
     })
+}
+
+//--------------------------------------------------------------------------
+// Display Author update form on GET.
+exports.admin_update_get = function (req, res, next) {
+
+    Admins.findById(req.params.id, function (err, coursey) {
+        if (err) {
+            return next(err);
+        }
+        if (coursey == null) { // No results.
+            var err = new Error('Admin not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Success.
+        res.render('admin/admin_update', {
+            title: 'Update Profile',
+            admin: req.session.admin,
+            coursey: coursey
+        });
+
+    });
+};
+
+exports.admin_update_post = function (req, res, next) {
+    var judge = new Admins({
+        email: req.body.email,
+        surname: req.body.surname,
+        firstname: req.body.firstname,
+        gender: req.body.gender,
+        verify: req.body.verify,
+        phone: req.body.phone,
+        password: req.body.password,
+        _id: req.params.id
+    });
+    Admins.findByIdAndUpdate(req.params.id, judge, {}, function (err, adminupdate) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect(adminupdate.url);
+    });
 }
 
 //----------------------------------------------------------------------------------------
@@ -172,7 +216,7 @@ exports.profiler = function (req, res, next) {
                 admin_verify: results.verify,
                 admin_gender: results.gender,
                 admin_phone: results.phone,
-                urlline: results.url
+                urlline: results.id
             });
         })
 };
@@ -243,9 +287,10 @@ exports.list_100_student = function (req, res, next) {
         if (swagger == null) {
             res.redirect('/hercules/gladiators/spartans/admin');
         }
-        res.render('admin/list_100_student', {
+        res.render('admin/list_student', {
             admin: req.session.admin,
             title: "Complete List of 100 Student",
+            message: "These are the List of All 100 Level NAPS Students",
             slow: swagger,
         });
     })
@@ -261,9 +306,10 @@ exports.list_200_student = function (req, res, next) {
         if (swagger == null) {
             res.redirect('/hercules/gladiators/spartans/admin');
         }
-        res.render('admin/list_200_student', {
+        res.render('admin/list_student', {
             admin: req.session.admin,
             title: "Complete List of 200 Student",
+            message: "These are the List of All 200 Level NAPS Students",
             slow: swagger,
         });
     })
@@ -279,9 +325,10 @@ exports.list_300_student = function (req, res, next) {
         if (swagger == null) {
             res.redirect('/hercules/gladiators/spartans/admin');
         }
-        res.render('admin/list_300_student', {
+        res.render('admin/list_student', {
             admin: req.session.admin,
             title: "Complete List of 300 Student",
+            message: "These are the List of All 300 Level NAPS Students",
             slow: swagger,
         });
     })
@@ -297,9 +344,10 @@ exports.list_400_student = function (req, res, next) {
         if (swagger == null) {
             res.redirect('/hercules/gladiators/spartans/admin');
         }
-        res.render('admin/list_400_student', {
+        res.render('admin/list_student', {
             admin: req.session.admin,
             title: "Complete List of 400 Student",
+            message: "These are the List of All 400 level NAPS Students",
             slow: swagger,
         });
     })
@@ -371,7 +419,8 @@ exports.post_upload_project = function (req, res, next) {
     var fullPath = "./project_topics/" + req.file.filename;
     var projectile = new Project({
         project: fullPath,
-        topic: req.body.topic
+        topic: req.body.topic,
+        description: req.body.description
     });
     console.log(projectile);
     projectile.save(function (err) {
@@ -379,8 +428,7 @@ exports.post_upload_project = function (req, res, next) {
             console.log(err);
             return next(err);
         }
-        console.log("Document Saved");
-        res.redirect('/getprojecttopics');
+        res.redirect('/getprojecttopicss');
     });
 
 }
@@ -410,7 +458,7 @@ exports.get_upload_news = function (req, res, next) {
     });
 }
 
-// POST Admin form for Posting NEWS 
+// POST Admin form for NEWS 
 exports.post_upload_news = function (req, res, next) {
     var fullPath = "./newsproject/" + req.file.filename;
     var latest = new News({
@@ -422,7 +470,6 @@ exports.post_upload_news = function (req, res, next) {
         if (err) {
             return next(err);
         }
-        console.log("Document Saved");
         res.redirect('/getlastnews');
     });
 }
@@ -488,4 +535,356 @@ exports.admin_logout = function (req, res, next) {
         req.session.destroy();
     }
     res.redirect('/');
+}
+//------------------------------------------------------------------------------------
+// ADMIN GET course registration
+exports.add_courses = function (req, res, next) {
+    Staff.find({}, function (err, teacher) {
+        if (err) {
+            return next(err);
+        }
+        res.render('admin/add_courses', {
+            title: 'Add Courses',
+            admin: req.session.admin,
+            teacher: teacher
+        });
+    })
+
+}
+
+//ADMIN POST Course Registration
+exports.post_course = function (req, res, next) {
+    var course = new Courses({
+        coursecode: req.body.coursecode,
+        coursetitle: req.body.coursetitle,
+        level: req.body.level,
+        semester: req.body.semester,
+        units: req.body.units,
+        borrowed: req.body.borrowed,
+        lecturer: req.body.lecturer,
+        courseoutline: req.body.courseoutline
+    });
+    course.save(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect(course.url);
+    });
+}
+
+// GET List of 100Level Courses...
+exports.get_100_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 1,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 2,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/');
+        }
+        res.render('admin/list_courses', {
+            title: "100 Level Courses",
+            admin: req.session.admin,
+            levy: 100,
+            first: hundred.first_semester,
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective1: 'ANY TWO',
+            elective2: 'ANY TWO'
+        });
+    });
+};
+
+// GET List of 200Level Courses...
+exports.get_200_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 1,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 2,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/getallcourses');
+        }
+        res.render('admin/list_courses', {
+            title: "200 Level Courses",
+            admin: req.session.admin,
+            levy: 200,
+            first: hundred.first_semester,
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective1: 'ANY TWO',
+            elective2: 'ANY TWO'
+        });
+    });
+};
+
+// GET List of 300Level Courses...
+exports.get_300_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 1,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 2,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/');
+        }
+        res.render('admin/list_courses', {
+            title: "300 Level Courses",
+            admin: req.session.admin,
+            levy: 300,
+            first: hundred.first_semester,
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective1: 'ONE',
+            elective2: 'ANY ONE'
+        });
+    });
+};
+
+// GET List of 400Level Courses...
+exports.get_400_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 1,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 2,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/');
+        }
+        res.render('admin/list_courses', {
+            title: "400 Level Courses",
+            admin: req.session.admin,
+            levy: 400,
+            first: hundred.first_semester,
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective2: 'ANY ONE'
+        });
+    });
+};
+
+// GET detailed Page for a particular course
+exports.view_course = function (req, res, next) {
+    Courses.findById(req.params.id)
+        .exec(function (err, course) {
+            if (err) {
+                return next(err);
+            }
+            Staff.findById(course.lecturer)
+                .exec(function (err, staff) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.render('admin/view_course', {
+                        title: 'Psychology Course',
+                        admin: req.session.admin,
+                        kind: course,
+                        teacher: staff
+                    });
+                });
+        });
+}
+
+// GET course form for update.
+exports.course_update_get = function (req, res, next) {
+    async.parallel({
+        coursess: function (callback) {
+            Courses.findById(req.params.id)
+                .exec(callback);
+        },
+        teacher: function (callback) {
+            Staff.find({})
+                .exec(callback);
+        }
+    }, function (err, coursey) {
+        if (err) {
+            return next(err);
+        }
+        if (coursey.coursess == null) { // No results.
+            var err = new Error('Course not found');
+            err.status = 404;
+            return next(err);
+        }
+        if (coursey.teacher == null) { // No results.
+            var err = new Error('Lecturer not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Success.
+        res.render('admin/edit_course', {
+            title: 'Update Course_Outline',
+            admin: req.session.admin,
+            coursey: coursey.coursess,
+            teacher: coursey.teacher
+        });
+    });
+};
+
+//POST course form for update
+exports.course_update_post = function (req, res, next) {
+    var course = new Courses({
+        coursecode: req.body.coursecode,
+        coursetitle: req.body.coursetitle,
+        level: req.body.level,
+        semester: req.body.semester,
+        units: req.body.units,
+        borrowed: req.body.borrowed,
+        lecturer: req.body.lecturer,
+        courseoutline: req.body.courseoutline,
+        _id: req.params.id
+    });
+    Courses.findByIdAndUpdate(req.params.id, course, {}, function (err, courseupdate) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect(courseupdate.url);
+    });
 }

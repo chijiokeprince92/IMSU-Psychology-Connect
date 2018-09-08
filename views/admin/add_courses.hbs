@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {{>head}}
+</head>
+
+<body>
+    {{>admin_lecbody}}
+    <br>
+    <br>
+    <h3>REGISTER COURSE</h3>
+    <br>
+    <ul>
+        <li>1. <b>Course_Code</b> should be in Capital letters.</li><br>
+        <li>2. <b>Course_Title</b> should also be in capital Letters.</li><br>
+        <li>3. The <b>Level</b> should be the level offering the course.</li><br>
+        <li>4. The <b>Semester</b> should be the semester the course is being taught.</li><br>
+        <li>5. The <b>UNIT/S</b> should be a Number, and should be the unit/s of the course selected.</li><br>
+        <li>6. <b>Is_Borrowed</b> should indicate if the course selected above is a Borrowed Course.</li><br>
+        <li>7. <b>Course_Outline</b> should be numbered (1). (2). inside the box for easy reading.</li>
+    </ul>
+    <nav class="col-sm-12 col-xl-10">
+        <form class="form-group input-group-lg" action="" method="POST">
+            <div class="form-group input-group-lg">
+                <label for="coursecode"><b>COURSE CODE:</b></label>
+                <input type="text" class="form-control" name="coursecode" placeholder="Course Code..." required>
+            </div>
+            <br>
+            <div class="form-group input-group-lg">
+                <label for="coursetitle"><b>COURSE TITLE:</b></label>
+                <input type="text" class="form-control" name="coursetitle" placeholder="Course title" required>
+            </div>
+            <div class="form-group input-group-lg">
+                <label for="level"><b>LEVEL:</b></label>
+                <select name="level" class="form-control" required>
+                <option value="100">100 Level</option>
+                <option value="200">200 Level</option>
+                <option value="300">300 Level</option>
+                <option value="400">400 Level</option>
+                </select>
+            </div>
+            <div class="form-group input-group-lg">
+                <label for="semester"><b>SEMESTER:</b></label>
+                <select name="semester" class="form-control" required>
+                <option value="1">1st</option>
+                <option value="2">2nd</option>
+                </select>
+            </div>
+            <div class="form-group input-group-lg">
+                <label for="units"><b>UNITS:</b></label>
+                <input type="number" class="form-control" name="units" placeholder="units" required>
+            </div>
+            <div class="form-group input-group-lg">
+                <label for="borrowed"><b>IS_BORROWED ?</b></label>
+                <select name="borrowed" class="form-control">
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                </select>
+            </div>
+            <div class="form-group input-group-lg">
+                <label for="lecturer"><b>LECTURER</b></label>
+                <select name="lecturer" class="form-control">
+                    {{#each teacher}}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="form-group input-group-lg">
+                <label for="courseoutline"><b>Type Course_Outline:</b></label>
+                <textarea type="text" class="form-control" name="courseoutline" placeholder="Course_Outline..."></textarea>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-success btn-block"><b>ADD COURSE</b></button>
+        </form>
+    </nav>
+    <br><br> {{>footer}}
+</body>
+
+</html>

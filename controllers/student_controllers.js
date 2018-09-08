@@ -3,6 +3,9 @@
 
 var StudentSigns = require('../models/studentSchema');
 var Staff = require('../models/staffSchema');
+var News = require('../models/newsSchema');
+const Project = require('../models/projectSchema');
+const Courses = require('../models/coursesSchema');
 var async = require('async');
 var multer = require('multer');
 var path = require('path');
@@ -38,6 +41,20 @@ exports.ensureCorrectuser = function (req, res, next) {
 }
 
 //----------------------------------------------------------------------------
+exports.get_student_home = function (req, res, next) {
+    StudentSigns.findOne({
+            '_id': req.session.student
+        })
+        .exec(function (err, result) {
+            res.render('student/student_home', {
+                title: 'Student HomePage',
+                allowed: req.session.student,
+                student_firstname: result.firstname
+            })
+        })
+}
+//----------------------------------------------------------------------------------------
+
 // GET the Student signup form
 exports.student_signup_get = function (req, res, next) {
     res.render('homefile/student_signup', {
@@ -136,21 +153,22 @@ exports.get_login_form = function (req, res, next) {
 // function for Student Login POST
 exports.test_login = function (req, res, next) {
     StudentSigns.findOne({
-        'email': req.body.email
+        'matnumber': req.body.matnumber
     }, function (err, glad) {
         if (err) {
             return next(err);
         } else if (glad == null) {
             res.render('student/login', {
                 title: 'Student Login',
-                ohno: 'Your email was not found on the database'
-            })
+                ohno: 'Your Mat_Number was not found on the database'
+            });
         } else if (glad.password !== req.body.password) {
             //password is incorrect
             res.render('student/login', {
                 title: 'Login',
                 ohno: 'Password is incorrect'
-            })
+            });
+            return;
         } else if (glad && glad.password == req.body.password) {
             req.session.student = glad.id;
             res.render('student/student_home', {
@@ -164,12 +182,52 @@ exports.test_login = function (req, res, next) {
 
 };
 
-exports.get_student_home = function (req, res, next) {
-    res.render('student/student_home', {
-        title: 'Student HomePage',
-        allowed: req.session.student
-    })
+// Display Student update form on GET.
+exports.student_update_get = function (req, res, next) {
+
+    StudentSigns.findById(req.params.id, function (err, coursey) {
+        if (err) {
+            return next(err);
+        }
+        if (coursey == null) { // No results.
+            var err = new Error('Student not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Success.
+        res.render('student/edit_profile', {
+            title: 'Update Profile',
+            allowed: req.session.student,
+            coursey: coursey
+        });
+
+    });
+};
+
+exports.student_update_post = function (req, res, next) {
+    var fullPath = "files/" + req.file.filename;
+    var qualified = new StudentSigns({
+        email: req.body.email,
+        surname: req.body.surname,
+        firstname: req.body.firstname,
+        matnumber: req.body.matnumber,
+        level: req.body.level,
+        gender: req.body.gender,
+        phone: req.body.phone,
+        photo: fullPath,
+        bio: req.body.bio,
+        password: req.body.password,
+        _id: req.params.id
+    });
+    StudentSigns.findByIdAndUpdate(req.params.id, qualified, {}, function (err, studentupdate) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect(studentupdate.url);
+    });
 }
+
+
 
 // Profile page for a specific Student.
 exports.profiler = function (req, res, next) {
@@ -195,7 +253,14 @@ exports.profiler = function (req, res, next) {
                     gracelevel: results.level,
                     gracegender: results.gender,
                     gracephone: results.phone,
-                    gracephoto: results.photo,
+                    gracephoto: function () {
+                        if (!results.photo) {
+                            results.photo = "../images/psylogo4.jpg";
+                            return results.photo;
+                        } else {
+                            return results.photo;
+                        }
+                    },
                     gracebio: results.bio
                 });
             }
@@ -261,6 +326,201 @@ exports.list_coursemates = function (req, res, next) {
         )
 }
 
+// GET Student latest NEWS
+exports.get_last_news = function (req, res, next) {
+    News.find({}, function (err, release) {
+        if (err) {
+            return next(err);
+        }
+        if (release == null) {
+            res.send('There is no NEWS Content');
+        }
+        res.render('student/student_read_news', {
+            allowed: req.session.student,
+            title: 'Psychology News',
+            newspaper: release
+        });
+    })
+}
+
+// GET List of 100Level Courses...
+exports.get_100_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 1
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 2
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/');
+        }
+        res.render('student/list_courses', {
+            title: "100 Level Courses",
+            allowed: req.session.student,
+            first: hundred.first_semester,
+            second: hundred.second_semester
+        });
+    });
+};
+
+// GET List of 200Level Courses...
+exports.get_200_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 1
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 2
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/getallcourses');
+        }
+        res.render('student/list_courses', {
+            title: "200 Level Courses",
+            allowed: req.session.student,
+            first: hundred.first_semester,
+            second: hundred.second_semester
+        });
+    });
+};
+
+// GET List of 300Level Courses...
+exports.get_300_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 1
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 2
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/');
+        }
+        res.render('student/list_courses', {
+            title: "300 Level Courses",
+            allowed: req.session.student,
+            first: hundred.first_semester,
+            second: hundred.second_semester
+        });
+    });
+};
+
+// GET List of 400Level Courses...
+exports.get_400_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 1
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 2
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/');
+        }
+        res.render('student/list_courses', {
+            title: "400 Level Courses",
+            allowed: req.session.student,
+            first: hundred.first_semester,
+            second: hundred.second_semester
+        });
+    });
+};
+
+// GET detailed Page for a particular course
+exports.view_courses = function (req, res, next) {
+    Courses.findById(req.params.id)
+        .exec(function (err, course) {
+            if (err) {
+                return next(err);
+            }
+            Staff.findById(course.lecturer)
+                .exec(function (err, staff) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.render('student/view_courses', {
+                        title: 'Psychology Course',
+                        allowed: req.session.student,
+                        kind: course,
+                        teacher: staff
+                    });
+                });
+        });
+}
+
+// GET Student PROJECT Topics
+exports.get_project_topic = function (req, res, next) {
+    Project.find({}, function (err, release) {
+        if (err) {
+            return next(err);
+        }
+        if (release == null) {
+            res.send('There is no PROJECT Content');
+        }
+        res.render('student/project_topics', {
+            allowed: req.session.student,
+            title: 'Psychology Project Topics',
+            projectss: release
+        });
+    })
+}
 
 exports.get_elibrary = function (req, res, next) {
     res.render('student/Elibrary', {

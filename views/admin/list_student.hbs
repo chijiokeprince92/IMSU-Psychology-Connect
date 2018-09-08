@@ -9,15 +9,15 @@
     {{>admin_lecbody}}
     <br>
     <br>
-    <h3>These are the List of All Bsc. NAPS Students</h3>
+    <h3>{{message}}</h3>
     <div class="container-fluid">
         <div class="row">
             <nav class="col-sm-12">
-                <div class="table-responsive">
-                    <table class="table table-hover">
+                <div class="table-responsive-sm">
+                    <table class="table table-hover table-striped">
                         <thead class="thead-dark">
                             <tr>
-                                <th>ID</th>
+                                <th>PICS</th>
                                 <th>E-MAIL</th>
                                 <th>SURNAME</th>
                                 <th>FIRSTNAME</th>
@@ -30,7 +30,7 @@
                         </thead>
                         {{#each slow}}
                             <tr>
-                                <td>{{@ index}}</td>
+                                <td><img src="/{{this.photo}}" alt="profile image" class="rounded" height="40" /></td>
                                 <td>{{this.email}}</td>
                                 <td>{{this.surname}}</td>
                                 <td>{{this.firstname}}</td>
@@ -40,6 +40,8 @@
                                 <td>{{this.phone}}</td>
                                 <td><a href="/studentprofile/{{this.id}}">profile</a></td>
                             </tr>
+                            {{else}}
+                                <p>THERE ARE NO REGISTERED STUDENT</p>
                         {{/each}}
                     </table>
                 </div>

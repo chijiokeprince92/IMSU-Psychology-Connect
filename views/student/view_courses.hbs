@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {{>head}}
+</head>
+
+<body>
+    {{>student_lecbody}}
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                <img src="../images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" height="300" />
+            </div>
+            <div class="col-sm-9">
+                <p><b>Course_Code:</b> {{kind.coursecode}}</p>
+                <p><b>Course_Title: </b> {{kind.coursetitle}}</p>
+                <p><b>Level: </b> {{kind.level}}</p>
+                <p><b>Semester:</b> {{kind.semester}}</p>
+                <p><b>Units: </b>{{kind.units}}</p>
+                <p><b>Borrowed_Course: </b>{{kind.borrowed}}</p>
+                <p><b>Lecturer: </b>{{teacher.name}}</p>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h3>COURSE OUTLINE</h3>
+    <br>
+    <p>{{kind.courseoutline}}</p>
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="/addcourseoutline/{{kind.id}}" type="button" class="btn btn-primary">EDIT COURSE</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="#" type="button" class="btn btn-primary">DELETE COURSE</a>
+            </div>
+        </div>
+    </div>
+    <br><br> {{>footer}}
+</body>
+
+</html>

@@ -8,16 +8,25 @@
 <body>
     {{>student_lecbody}}
     <br>
-    <h2>
-        <center>Welcome {{gracesurname}} , {{gracefirstname}} !!</center>
-    </h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10">
+                <h3>
+                    <center>{{gracefirstname}}'s Profile.</center>
+                </h3>
+            </div>
+            <div class="col-sm-2">
+                <div class="card"><img src="/{{gracephoto}}" alt="profile image" class="rounded" height="40" /></div>
+            </div>
+        </div>
+    </div>
+    <br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-5 col-lg-3">
                 <img src="/{{gracephoto}}" alt="profile image" class="rounded" width="100%" height="300" />
             </div>
-            <div class="col-sm-9">
-                <p><b>User ID:</b> {{user}}</p>
+            <div class="col-sm-7 col-lg-9">
                 <p><b>Email:</b> {{graceemail}}</p>
                 <p><b>Surname: </b> {{gracesurname}}</p>
                 <p><b>FirstName: </b> {{gracefirstname}}</p>
@@ -29,11 +38,22 @@
             </div>
         </div>
     </div>
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4">
+                <a href="#" type="button" class="btn btn-primary btn-block">CHECK RESULTS</a>
+            </div>
+            <div class="col-4">
+                <a href="/studentupdateprofile/{{user}}" type="button" class="btn btn-success btn-block">EDIT PROFILE</a>
+            </div>
+            <div class="col-4">
+                <a href="#" type="button" class="btn btn-primary btn-block">COURSEMATES</a>
+            </div>
+        </div>
+    </div>
     <br><br>
-    <a href="" type="button" class="btn btn-primary">Check Result</a>
-    <button class="btn btn-primary">Time Table</button>
-    <a href="#" type="button" class="btn btn-primary">Edit Profile</a>
-    <br><br> {{>footer}}
+    <div class="card-footer bg-secondary">{{>footer}}</div>
 </body>
 
 </html>

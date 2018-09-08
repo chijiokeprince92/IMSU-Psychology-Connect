@@ -5,45 +5,22 @@
     <ul class="nav nav-pills nav-justified">
         {{#if admin}}
             <li class="nav-item" title="Staff Home">
-                <a href="/hercules/admin" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-home"></span>Admin Home</a></li>
-            <li class="dropdown" title="Clicks to see Students">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">View_Students
-                        <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/list100students">100 level Students</a></li>
-                    <li><a href="/list200students">200 level Students</a></li>
-                    <li><a href="/list300students">300 level Students</a></li>
-                    <li><a href="/list400students">400 level Students</a></li>
-                    <li><a href="/studentlist">All Students</a></li>
-                </ul>
-            </li>
+                <a href="/hercules/admin" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-home"></span>ADMIN HOME</a></li>
             <li class="nav-item" title="Your Profile">
-                <a href="/adminss/{{admin}}" class="btn btn-primary btn-block">ADMIN Profile</a>
-            </li>
-            <li class="dropdown" title="Send Messages">
-                <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">Send_Message
-                        <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="/send100">100 Level Students</a></li>
-                    <li><a href="/send200">200 Level Students</a></li>
-                    <li><a href="/send300">300 Level Students</a></li>
-                    <li><a href="/send400">400 Level Students</a></li>
-                    <li><a href="/staffexamination">All Students<br></a></li>
-                    <li><a href="/stafflibinfo">All Staffs</a></li>
-                </ul>
+                <a href="/adminss/{{admin}}" class="btn btn-primary btn-block">ADMIN PROFILE</a>
             </li>
             <li class="nav-item" title="LogOut">
-                <a href="/adminlogout" class="btn btn-danger btn-block">LogOut</a>
+                <a href="/adminlogout" class="btn btn-danger btn-block">LOGOUT</a>
             </li>
         {{else}}
             <li class="nav-item" title="Admin Login">
-                <a href="/" class="btn btn-primary btn-block">HomePage</a>
+                <a href="/" class="btn btn-primary btn-block">HOMEPAGE</a>
             </li>
             <li class="nav-item" title="Admin Login">
-                <a href="/adminlogin" class="btn btn-primary btn-block">Admin Login</a>
+                <a href="/adminlogin" class="btn btn-primary btn-block">ADMIN LOGIN</a>
             </li>
             <li class="nav-item" title="Admin SignUp">
-                <a href="/x2f4hjks8xmn" class="btn btn-primary btn-block">Admin SignUp</a>
+                <a href="/x2f4hjks8xmn" class="btn btn-primary btn-block">ADMIN SIGNUP</a>
             </li>
         {{/if}}
     </ul>

@@ -4,7 +4,7 @@ var multer = require('multer');
 var path = require('path');
 var uploaded = require('../upload');
 var newsproject = require('../news_project');
-var projectvalid = require('../project_valid');
+var projectmulter = require('../project_multer');
 
 var controllers = require('../controllers/view_controller');
 var student_controllers = require('../controllers/student_controllers');
@@ -23,6 +23,9 @@ var admin_controllers = require('../controllers/admin_controllers');
 /* GET home page. */
 router.get('/', controllers.home);
 
+router.get('/defaultnews', controllers.default_news);
+
+router.get('/aboutus', controllers.aboutus);
 // Get the history,guidelines,objectives,orientation program,examination, and library information
 
 router.get('/history', controllers.history);
@@ -80,9 +83,14 @@ router.get('/login', student_controllers.get_login_form);
 
 router.post('/login', student_controllers.test_login);
 
-router.get('/studenthome', student_controllers.get_student_home);
+//GET student profile for update
+router.get('/studentupdateprofile/:id', student_controllers.student_update_get);
 
-router.get('/getelibrary', student_controllers.get_elibrary);
+//POST student profile for update
+router.post('/staffupdateprofile/:id', uploaded, student_controllers.student_update_post);
+
+
+router.get('/studenthome', student_controllers.get_student_home);
 
 router.get('/getprojecttopics', student_controllers.get_project_topics);
 
@@ -90,6 +98,27 @@ router.get('/getprojecttopics', student_controllers.get_project_topics);
 router.get('/studentstudentlist', student_controllers.list_coursemates);
 
 router.get('/studentstudentprofile/:id', student_controllers.view_coursemate_profile);
+
+router.get('/studentgetlastnews', student_controllers.get_last_news);
+
+// GET all Courses
+router.get('/studentgetallcourses', student_controllers.get_100_courses);
+
+//GET 200 Level courses
+router.get('/studentget200courses', student_controllers.get_200_courses);
+
+//GET 300 Level courses
+router.get('/studentget300courses', student_controllers.get_300_courses);
+
+//GET 400 Level courses
+router.get('/studentget400courses', student_controllers.get_400_courses);
+
+
+//GET a particular course details
+router.get('/studentviewcourse/:id', student_controllers.view_courses);
+
+// GET student project topics
+router.get('/studentgetprojecttopics', student_controllers.get_project_topic);
 
 router.get('/logout', student_controllers.logout);
 
@@ -104,9 +133,6 @@ router.get('/gettimetable', student_controllers.get_time_table);
 
 // Chat Request
 router.get('/chat', student_controllers.loginRequired, student_controllers.chat);
-
-
-
 
 
 //-----------------------------------------------------------------------------------------------------
@@ -143,6 +169,13 @@ router.get('/staffstudentlist', staff_controllers.list_students);
 
 router.get('/staffstudentprofile/:id', staff_controllers.view_student_profile);
 
+//GET staff profile for update
+router.get('/staffupdateprofile/:id', staff_controllers.staff_update_get);
+
+//GET staff profile for update
+router.post('/staffupdateprofile/:id', uploaded, staff_controllers.staff_update_post);
+
+
 router.get('/stafflist100students', staff_controllers.list_100_student);
 
 router.get('/stafflist200students', staff_controllers.list_200_student);
@@ -159,48 +192,24 @@ router.get('/staffgetlastnews', staff_controllers.get_last_news);
 
 router.get('/saffuploadproject', staff_controllers.upload_projects);
 
-router.get('/staffgetprojecttopics', staff_controllers.staff_get_project_topics);
+router.get('/staffgetprojecttopics', staff_controllers.get_project_topics);
 
 
+// GET all Courses
+router.get('/staffgetallcourses', staff_controllers.get_100_courses);
+
+//GET 200 Level courses
+router.get('/staffget200courses', staff_controllers.get_200_courses);
+
+//GET 300 Level courses
+router.get('/staffget300courses', staff_controllers.get_300_courses);
+
+//GET 400 Level courses
+router.get('/staffget400courses', staff_controllers.get_400_courses);
 
 
-// Get the history,guidelines,objectives,orientation program,examination, and library information
-
-// get NAPS informations and current event
-router.get('/staffnews', staff_controllers.staff_news);
-
-router.get('/staffhistory', staff_controllers.staff_history);
-
-router.get('/staffobjectives', staff_controllers.staff_objectives);
-
-router.get('/staffguidelines', staff_controllers.staff_guidelines);
-
-router.get('/stafforientation', staff_controllers.staff_orientation);
-
-router.get('/staffexamination', staff_controllers.staff_exam);
-
-router.get('/stafflibinfo', staff_controllers.staff_libinfo);
-
-
-// get library page
-router.get('/stafflibrary', staff_controllers.staff_library);
-
-//-------------------------------------------------------------------
-// this is the column that deals with the library components
-
-router.get('/staffelibrary', staff_controllers.staff_elibrary);
-
-router.get('/staffprojecttopics', staff_controllers.staff_project);
-
-// -----------------------------------------------------------------
-// get the pages that renders the various courses
-router.get('/staff100level', staff_controllers.staff_onelevel);
-
-router.get('/staff200level', staff_controllers.staff_twolevel);
-
-router.get('/staff300level', staff_controllers.staff_threelevel);
-
-router.get('/staff400level', staff_controllers.staff_fourlevel);
+//GET a particular course details
+router.get('/staffviewcourse/:id', staff_controllers.view_courses);
 
 
 //-------------------------------------------------------------------------------------------------
@@ -231,6 +240,13 @@ router.get('/studentlist', admin_controllers.admin_session_force, admin_controll
 
 router.get('/studentprofile/:id', admin_controllers.view_student_profile);
 
+//GET admin profile for update
+router.get('/updateprofile/:id', admin_controllers.admin_session_force, admin_controllers.admin_update_get);
+
+//POST admin profile for update
+router.post('/updateprofile/:id', admin_controllers.admin_session_force, admin_controllers.admin_update_post);
+
+
 router.get('/list100students', admin_controllers.admin_session_force, admin_controllers.list_100_student);
 
 router.get('/list200students', admin_controllers.admin_session_force, admin_controllers.list_200_student);
@@ -250,9 +266,9 @@ router.get('/student/results', admin_controllers.admin_session_force, admin_cont
 //GET and POST routes for handling PROJECT Topics
 router.get('/getprojectform', admin_controllers.admin_session_force, admin_controllers.get_upload_project);
 
-router.post('/getprojectform', admin_controllers.admin_session_force, admin_controllers.post_upload_project);
+router.post('/getprojectform', admin_controllers.admin_session_force, projectmulter, admin_controllers.post_upload_project);
 
-router.get('/getprojecttopics', admin_controllers.admin_session_force, projectvalid, admin_controllers.get_project_topics);
+router.get('/getprojecttopicss', admin_controllers.admin_session_force, admin_controllers.get_project_topics);
 
 // GET and POST routes for handling NEWS 
 router.get('/getnewsform', admin_controllers.admin_session_force, admin_controllers.get_upload_news);
@@ -260,6 +276,34 @@ router.get('/getnewsform', admin_controllers.admin_session_force, admin_controll
 router.post('/getnewsform', admin_controllers.admin_session_force, newsproject, admin_controllers.post_upload_news);
 
 router.get('/getlastnews', admin_controllers.admin_session_force, admin_controllers.get_last_news);
+
+// GET Courses and Courses Form
+router.get('/getcourseform', admin_controllers.admin_session_force, admin_controllers.add_courses);
+
+router.post('/getcourseform', admin_controllers.admin_session_force, admin_controllers.post_course)
+
+// GET all Courses
+router.get('/getallcourses', admin_controllers.admin_session_force, admin_controllers.get_100_courses);
+
+//GET 200 Level courses
+router.get('/get200courses', admin_controllers.admin_session_force, admin_controllers.get_200_courses);
+
+//GET 300 Level courses
+router.get('/get300courses', admin_controllers.admin_session_force, admin_controllers.get_300_courses);
+
+//GET 400 Level courses
+router.get('/get400courses', admin_controllers.admin_session_force, admin_controllers.get_400_courses);
+
+
+//GET a particular course details
+router.get('/adminviewcourse/:id', admin_controllers.admin_session_force, admin_controllers.view_course);
+
+//GET a particular course details
+router.get('/addcourseoutline/:id', admin_controllers.admin_session_force, admin_controllers.course_update_get);
+
+
+// POST UPDATE a course outline
+router.post('/addcourseoutline/:id', admin_controllers.admin_session_force, admin_controllers.course_update_post);
 
 
 // GET the various chat group and send a message

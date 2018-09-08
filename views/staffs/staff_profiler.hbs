@@ -21,10 +21,25 @@
                 <p><b>Gender: </b>{{staff_gender}}</p>
                 <p><b>Phone Number: </b>{{staff_phone}}</p>
                 <p><b>About Yourself: </b>{{staff_bio}}</p>
+                <p><b>Courses_Taught: </b>{{staff_courses}}</p>
             </div>
         </div>
     </div>
-    <br><br> {{>footer}}
+    <br><br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="/staffupdateprofile/{{urlline}}" type="button" class="btn btn-primary btn-block">EDIT PROFILE</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="#" type="button" class="btn btn-success btn-block">CHECK SCHEDULE</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="/stafflist" type="button" class="btn btn-primary btn-block">COLLEAGUES</a>
+            </div>
+        </div>
+    </div>
+    <br><br>{{>footer}}
 </body>
 
 </html>

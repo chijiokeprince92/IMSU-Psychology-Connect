@@ -3,6 +3,8 @@
 var Staff = require('../models/staffSchema');
 const StudentSigns = require('../models/studentSchema');
 const News = require('../models/newsSchema');
+const Project = require('../models/projectSchema');
+const Courses = require('../models/coursesSchema');
 var async = require('async');
 var multer = require('multer');
 var path = require('path');
@@ -110,6 +112,7 @@ exports.staff_signup_post = [
                 staff_id: req.body.staff_id,
                 gender: req.body.gender,
                 phone: req.body.phone,
+                courses_lectured: req.body.courses_lectured,
                 photo: fullPath,
                 bio: req.body.bio,
                 password: req.body.password
@@ -168,6 +171,51 @@ exports.staff_login_post = function (req, res, next) {
 
 };
 
+// Display Author update form on GET.
+exports.staff_update_get = function (req, res, next) {
+
+    Staff.findById(req.params.id, function (err, coursey) {
+        if (err) {
+            return next(err);
+        }
+        if (coursey == null) { // No results.
+            var err = new Error('Staff not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Success.
+        res.render('staffs/edit_staff', {
+            title: 'Update Profile',
+            staff_session: req.session.staff,
+            coursey: coursey
+        });
+
+    });
+};
+
+exports.staff_update_post = function (req, res, next) {
+    var fullPath = "files/" + req.file.filename;
+    var freedom = new Staff({
+        email: req.body.email,
+        surname: req.body.surname,
+        firstname: req.body.firstname,
+        staff_id: req.body.staff_id,
+        gender: req.body.gender,
+        phone: req.body.phone,
+        courses_lectured: req.body.courses_lectured,
+        photo: fullPath,
+        bio: req.body.bio,
+        password: req.body.password,
+        _id: req.params.id
+    });
+    Staff.findByIdAndUpdate(req.params.id, freedom, {}, function (err, staffupdate) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect(staffupdate.url);
+    });
+}
+
 //---------------------------------------------------------------------------------------------
 // Display detail page for a specific Staff.
 exports.staff_profiler = function (req, res, next) {
@@ -177,7 +225,6 @@ exports.staff_profiler = function (req, res, next) {
                 return next(err);
             } // Error in API usage.
             if (results == null) { // No results.
-                console.log('There are no admin');
                 var err = new Error('You are not a Staff');
                 err.status = 404;
                 return next(err);
@@ -192,7 +239,17 @@ exports.staff_profiler = function (req, res, next) {
                 staff_id: results.staff_id,
                 staff_gender: results.gender,
                 staff_phone: results.phone,
-                staff_photo: results.photo
+                staff_photo: function () {
+                    if (!results.photo) {
+                        results.photo = "../images/psylogo4.jpg";
+                        return results.photo;
+                    } else {
+                        return results.photo;
+                    }
+                },
+                staff_bio: results.bio,
+                staff_courses: results.courses_lectured,
+                urlline: results.id
             });
         })
 
@@ -226,7 +283,6 @@ exports.view_student_profile = function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                console.log(swag)
                 res.render('staffs/view_students', {
                     staff_session: req.session.staff,
                     title: "Student Profile",
@@ -255,17 +311,17 @@ exports.view_student_profile = function (req, res, next) {
 exports.list_100_student = function (req, res, next) {
     StudentSigns.find({
         'level': 100
-    }, function (err, swagger) {
+    }, function (err, swag) {
         if (err) {
             return next(err);
         }
-        if (swagger == null) {
+        if (swag == null) {
             res.redirect('/staffhome');
         }
-        res.render('staffs/list_100_students', {
+        res.render('staffs/list_student', {
             staff_session: req.session.staff,
             title: "Complete List of 100 Student",
-            slow: swagger,
+            slow: swag
         });
     })
 }
@@ -273,17 +329,17 @@ exports.list_100_student = function (req, res, next) {
 exports.list_200_student = function (req, res, next) {
     StudentSigns.find({
         'level': 200
-    }, function (err, swagger) {
+    }, function (err, swag) {
         if (err) {
             return next(err);
         }
-        if (swagger == null) {
+        if (swag == null) {
             res.redirect('/staffhome');
         }
-        res.render('staffs/list_200_students', {
+        res.render('staffs/list_student', {
             staff_session: req.session.staff,
             title: "Complete List of 200 Student",
-            slow: swagger,
+            slow: swag
         });
     })
 }
@@ -291,17 +347,17 @@ exports.list_200_student = function (req, res, next) {
 exports.list_300_student = function (req, res, next) {
     StudentSigns.find({
         'level': 300
-    }, function (err, swagger) {
+    }, function (err, swag) {
         if (err) {
             return next(err);
         }
-        if (swagger == null) {
+        if (swag == null) {
             res.redirect('/staffhome');
         }
         res.render('staffs/list_300_students', {
             staff_session: req.session.staff,
             title: "Complete List of 300 Student",
-            slow: swagger,
+            slow: swag
         });
     })
 }
@@ -309,17 +365,17 @@ exports.list_300_student = function (req, res, next) {
 exports.list_400_student = function (req, res, next) {
     StudentSigns.find({
         'level': 400
-    }, function (err, swagger) {
+    }, function (err, swag) {
         if (err) {
             return next(err);
         }
-        if (swagger == null) {
+        if (swag == null) {
             res.redirect('/staffhome');
         }
-        res.render('staffs/list_400_students', {
+        res.render('staffs/list_student', {
             staff_session: req.session.staff,
             title: "Complete List of 400 Student",
-            slow: swagger,
+            slow: swag
         });
     })
 }
@@ -373,6 +429,267 @@ exports.view_staff_profile = function (req, res, next) {
         )
 }
 
+// GET List of 100Level Courses...
+exports.get_100_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 1,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 2,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/');
+        }
+        res.render('staffs/list_courses', {
+            title: "100 Level Courses",
+            staff_session: req.session.staff,
+            levy: 100,
+            first: hundred.first_semester,
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective1: 'ANY TWO',
+            elective2: 'ANY TWO'
+        });
+    });
+};
+
+// GET List of 200Level Courses...
+exports.get_200_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 1,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 2,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/getallcourses');
+        }
+        res.render('staffs/list_courses', {
+            title: "200 Level Courses",
+            staff_session: req.session.staff,
+            levy: 200,
+            first: hundred.first_semester,
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective1: 'ANY TWO',
+            elective2: 'ANY TWO'
+        });
+    });
+};
+
+// GET List of 300Level Courses...
+exports.get_300_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 1,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 2,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/');
+        }
+        res.render('staffs/list_courses', {
+            title: "300 Level Courses",
+            staff_session: req.session.staff,
+            levy: 300,
+            first: hundred.first_semester,
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective1: 'ONE',
+            elective2: 'ANY ONE'
+        });
+    });
+};
+
+// GET List of 400Level Courses...
+exports.get_400_courses = function (req, res, next) {
+    async.parallel({
+        first_semester: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 1,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 2,
+                'borrowed': 'yes'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+    }, function (err, hundred) {
+        if (err) {
+            return next(err);
+        }
+        if (hundred.first_semester == null) {
+            res.redirect('/');
+        }
+        res.render('staffs/list_courses', {
+            title: "400 Level Courses",
+            staff_session: req.session.staff,
+            levy: 400,
+            first: hundred.first_semester,
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective2: 'ANY ONE'
+        });
+    });
+};
+
+// GET detailed Page for a particular course
+exports.view_courses = function (req, res, next) {
+    Courses.findById(req.params.id)
+        .exec(function (err, course) {
+            if (err) {
+                return next(err);
+            }
+            Staff.findById(course.lecturer)
+                .exec(function (err, staff) {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.render('staffs/view_courses', {
+                        title: 'Psychology Course',
+                        staff_session: req.session.staff,
+                        kind: course,
+                        teacher: staff
+                    });
+                });
+        });
+}
+
 // GET Admin latest NEWS
 exports.get_last_news = function (req, res, next) {
     News.find({}, function (err, release) {
@@ -390,10 +707,20 @@ exports.get_last_news = function (req, res, next) {
     })
 }
 
-exports.staff_get_project_topics = function (req, res, next) {
-    res.render('staffs/staff_projecttopic', {
-        title: "Staff Project Tpoics",
-        allowed: req.session.staff
+// GET Staff PROJECT Topics
+exports.get_project_topics = function (req, res, next) {
+    Project.find({}, function (err, release) {
+        if (err) {
+            return next(err);
+        }
+        if (release == null) {
+            res.send('There is no PROJECT Content');
+        }
+        res.render('staffs/staff_projecttopic', {
+            staff_session: req.session.staff,
+            title: 'Psychology Project Topics',
+            projectss: release
+        });
     })
 }
 
@@ -411,114 +738,3 @@ exports.staff_logout = function (req, res, next) {
     }
     res.redirect('/');
 }
-
-//..................................................................................................
-
-//----------------------------------------------------------------------------------------------
-//Staffs Pages 
-
-exports.staff_onelevel = function (req, res, next) {
-    res.render('staffs/staff_100level', {
-        title: '100level',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_twolevel = function (req, res, next) {
-    res.render('staffs/staff_200level', {
-        title: '200level',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_threelevel = function (req, res, next) {
-    res.render('staffs/staff_300level', {
-        title: '300level',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_fourlevel = function (req, res, next) {
-    res.render('staffs/staff_400level', {
-        title: '400level',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_history = function (req, res, next) {
-    res.render('staffs/staff_history', {
-        title: 'History of NAPS',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_objectives = function (req, res, next) {
-    res.render('staffs/staff_objectives', {
-        title: 'objectives of NAPS',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_guidelines = function (req, res, next) {
-    res.render('staffs/staff_guidelines', {
-        title: 'Guidelines of NAPS',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_orientation = function (req, res, next) {
-    res.render('staffs/staff_orientation', {
-        title: 'Orientation',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_exam = function (req, res, next) {
-    res.render('staffs/staff_exams', {
-        title: 'Examination Rules and Regulations',
-        staff_session: req.session.staff
-    });
-};
-
-
-exports.staff_libinfo = function (req, res, next) {
-    res.render('staffs/staff_libraryinfo', {
-        title: 'Library Informations',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_library = function (req, res, next) {
-    res.render('staffs/staff_library', {
-        title: 'library',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_news = function (req, res, next) {
-    res.render('staffs/staff_news', {
-        title: 'news',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_elibrary = function (req, res, next) {
-    res.render('staffs/staff_elibrary', {
-        title: 'E-library',
-        staff_session: req.session.staff
-    });
-};
-
-exports.staff_project = function (req, res, next) {
-    res.render('staffs/staff_projecttopic', {
-        title: 'Project Topics',
-        staff_session: req.session.staff
-    });
-};
-
-
-
-
-
-
-//---------------------------------------------------------------------------------------------

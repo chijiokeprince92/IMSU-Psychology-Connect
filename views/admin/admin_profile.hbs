@@ -18,7 +18,20 @@
     <p><b>Gender: </b>{{admin_gender}}</p>
     <p><b>Verification_ID: </b>{{admin_verify}}</p>
     <p><b>Phone Number: </b>{{admin_phone}}</p>
-    <p><b>Link: </b>{{urlline}}</p>
+    <br><br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <a href="/updateprofile/{{urlline}}" type="button" class="btn btn-primary btn-block">EDIT PROFILE</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="/studentlist" type="button" class="btn btn-success btn-block">VIEW STUDENTS</a>
+            </div>
+            <div class="col-sm-4">
+                <a href="/stafflist" type="button" class="btn btn-primary btn-block">VIEW STAFFS</a>
+            </div>
+        </div>
+    </div>
     <br><br> {{>footer}}
 </body>
 

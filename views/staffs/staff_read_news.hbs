@@ -8,7 +8,9 @@
 <body>
     {{>staff_lecbody}}
     <br>
-    <h2>Latest News</h2>
+    <h3>
+        <center>LATEST NEWS!!</center>
+    </h3>
     <ul>
         {{#each newspaper}}
             <li class="container-fluid">
@@ -23,6 +25,9 @@
                     </div>
                 </div>
             </li>
+            <br>
+            {{else}}
+                <p>THERE ARE NO UPLOADED NEWS</p>
         {{/each}}
     </ul>
     <br><br> {{>footer}}

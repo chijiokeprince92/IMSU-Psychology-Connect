@@ -27,6 +27,9 @@ var staffSchema = new schema({
         type: Number,
         required: true
     },
+
+    courses_lectured: [],
+
     photo: {
         type: String,
         required: true
@@ -45,6 +48,11 @@ var staffSchema = new schema({
     }
 });
 
+staffSchema
+    .virtual('name')
+    .get(function () {
+        return this.surname;
+    });
 
 //Virtual for Student's URL
 staffSchema

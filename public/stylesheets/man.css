@@ -162,13 +162,3 @@ td {
     font-family: Arial, sans-serif;
     text-align: center;
 }
-
-/* table colors */
-
-.succeed {
-    background-color: lightblue;
-}
-
-.nothing {
-    background-color: lightgrey;
-}

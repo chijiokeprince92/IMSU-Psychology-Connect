@@ -1,8 +1,42 @@
+const News = require('../models/newsSchema');
+const async = require('async');
+
+
 exports.home = function (req, res, next) {
-    res.render('homefile/home', {
-        title: 'Home Page'
+    async.parallel({
+        news_count: function (callback) {
+            News.count()
+                .exec(callback);
+        },
+    }, function (err, count) {
+        if (err) {
+            return next(err)
+        }
+        res.render('homefile/home', {
+            title: 'Home Page',
+            number: count.news_count
+        });
     })
+
 };
+
+exports.aboutus = function (req, res, next) {
+    res.render('homefile/aboutus', {
+        title: 'About IMSU Psychology'
+    });
+}
+
+exports.default_news = function (req, res, next) {
+    News.find({}, function (err, latest) {
+        if (err) {
+            return next(err);
+        }
+        res.render('homefile/news', {
+            title: 'NEWS PAGE',
+            newspaper: latest
+        })
+    })
+}
 
 exports.history = function (req, res, next) {
     res.render('homefile/history', {
