@@ -5,6 +5,7 @@ var schema = mongoose.Schema;
 var studentSchema = new schema({
     email: {
         type: String,
+        unique: true,
         required: true
     },
     surname: {

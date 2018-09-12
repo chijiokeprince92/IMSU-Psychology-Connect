@@ -66,7 +66,9 @@ router.post('/studentSignup', uploaded, student_controllers.student_signup_post)
 // student login form
 router.get('/login', student_controllers.get_login_form);
 
-router.post('/studenthome', student_controllers.test_login);
+router.post('/login', student_controllers.test_login);
+
+router.get('/studenthome', student_controllers.loginRequired, student_controllers.get_student_home);
 
 //GET student profile for update
 router.get('/studentupdateprofile/:id', student_controllers.student_update_get);
@@ -74,10 +76,9 @@ router.get('/studentupdateprofile/:id', student_controllers.student_update_get);
 //POST student profile for update
 router.post('/studentupdateprofile/:id', uploaded, student_controllers.student_update_post);
 
+router.get('/studentgetlastnews', student_controllers.loginRequired, student_controllers.get_last_news);
 
-router.get('/studenthome', student_controllers.loginRequired, student_controllers.get_student_home);
 
-router.get('/getprojecttopics', student_controllers.loginRequired, student_controllers.get_project_topics);
 
 // GET the list of students and their profiles
 router.get('/studentstudentlist', student_controllers.loginRequired, student_controllers.list_coursemates);
@@ -88,7 +89,8 @@ router.get('/studentstaffprofile/:id', student_controllers.loginRequired, studen
 
 router.get('/studentsstafflist', student_controllers.loginRequired, student_controllers.list_staffs);
 
-router.get('/studentgetlastnews', student_controllers.loginRequired, student_controllers.get_last_news);
+router.get('/getprojecttopics', student_controllers.loginRequired, student_controllers.get_project_topics);
+
 
 // GET all Courses
 router.get('/studentgetallcourses', student_controllers.loginRequired, student_controllers.get_100_courses);
@@ -133,7 +135,6 @@ router.get('/chat', student_controllers.loginRequired, student_controllers.chat)
 //----------------------------------------------------------------------------------------------------
 // FOR STAFFSSS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-router.get('/staffhome', staff_controllers.staffloginRequired, staff_controllers.staff_home);
 
 //staff signup form
 router.get('/staffSignup', staff_controllers.staff_signup_get);
@@ -146,17 +147,10 @@ router.get('/stafflogin', staff_controllers.staff_login_get);
 
 router.post('/stafflogin', staff_controllers.staff_login_post);
 
-// Log Staff Out
-router.get('/stafflogout', staff_controllers.staff_logout);
+router.get('/staffhome', staff_controllers.staffloginRequired, staff_controllers.staff_home);
 
 // GET Staff Profile.
 router.get('/staffss/:id', staff_controllers.staffloginRequired, staff_controllers.staff_profiler);
-
-//--------------------------------------------------------------------------------------------------
-// GET the list of students and their profiles
-router.get('/staffstudentlist', staff_controllers.staffloginRequired, staff_controllers.list_students);
-
-router.get('/staffstudentprofile/:id', staff_controllers.staffloginRequired, staff_controllers.view_student_profile);
 
 //GET staff profile for update
 router.get('/staffupdateprofile/:id', staff_controllers.staffloginRequired, staff_controllers.staff_update_get);
@@ -164,6 +158,15 @@ router.get('/staffupdateprofile/:id', staff_controllers.staffloginRequired, staf
 //GET staff profile for update
 router.post('/staffupdateprofile/:id', staff_controllers.staffloginRequired, staff_controllers.staff_update_post);
 
+// Log Staff Out
+router.get('/stafflogout', staff_controllers.staffloginRequired, staff_controllers.staff_logout);
+
+
+//--------------------------------------------------------------------------------------------------
+// GET the list of students and their profiles
+router.get('/staffstudentlist', staff_controllers.staffloginRequired, staff_controllers.list_students);
+
+router.get('/staffstudentprofile/:id', staff_controllers.staffloginRequired, staff_controllers.view_student_profile);
 
 router.get('/stafflist100students', staff_controllers.staffloginRequired, staff_controllers.list_100_student);
 
@@ -182,7 +185,6 @@ router.get('/staffgetlastnews', staff_controllers.staffloginRequired, staff_cont
 router.get('/saffuploadproject', staff_controllers.staffloginRequired, staff_controllers.upload_projects);
 
 router.get('/staffgetprojecttopics', staff_controllers.staffloginRequired, staff_controllers.get_project_topics);
-
 
 // GET all Courses
 router.get('/staffgetallcourses', staff_controllers.staffloginRequired, staff_controllers.get_100_courses);

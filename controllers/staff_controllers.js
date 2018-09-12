@@ -38,7 +38,7 @@ exports.staff_home = function (req, res, next) {
             res.render('staffs/staff_home', {
                 title: 'Staff Home Page',
                 staff_session: req.session.staff,
-                staffy: result.surname
+                staffy: result.id
             })
         })
 
@@ -156,6 +156,7 @@ exports.staff_login_post = function (req, res, next) {
             });
             return;
         } else if (blade && blade.password == req.body.password) {
+            req.session.staff = blade.id;
             res.render('staffs/staff_home', {
                 title: 'Staff Home Page',
                 staff_session: req.session.staff,
