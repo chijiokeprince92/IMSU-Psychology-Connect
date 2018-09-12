@@ -38,7 +38,7 @@ exports.staff_home = function (req, res, next) {
             res.render('staffs/staff_home', {
                 title: 'Staff Home Page',
                 staff_session: req.session.staff,
-                staff_firstname: result.firstname
+                staffy: result.surname
             })
         })
 
@@ -112,7 +112,6 @@ exports.staff_signup_post = [
                 staff_id: req.body.staff_id,
                 gender: req.body.gender,
                 phone: req.body.phone,
-                courses_lectured: req.body.courses_lectured,
                 photo: fullPath,
                 bio: req.body.bio,
                 password: req.body.password
@@ -140,30 +139,28 @@ exports.staff_login_get = function (req, res, next) {
 // staff login POST
 exports.staff_login_post = function (req, res, next) {
     Staff.findOne({
-        'email': req.body.email
+        'staff_id': req.body.staff_id
     }, function (err, blade) {
 
         if (!blade) {
             res.render('homefile/login_staff', {
                 title: 'Staff_Login',
-                ohno: "Your Email is incorrect..."
+                ohno: "Your Staff_id is incorrect..."
             });
             return;
-        } else if (blade.staff_id !== req.body.staff_id) {
-            // staff_id is incorrect
-            res.render('homefile/login_staff', {
-                title: 'Staff_Login',
-                ohno: 'Staff_Id is Incorrect'
-            })
         } else if (blade.password !== req.body.password) {
             //password is incorrect
             res.render('homefile/login_staff', {
                 title: 'Staff_Login',
                 ohno: 'Password is incorrect'
-            })
-        } else if (blade && blade.staff_id == req.body.staff_id && blade.password == req.body.password) {
-            req.session.staff = blade.id;
-            res.redirect('/staffhome');
+            });
+            return;
+        } else if (blade && blade.password == req.body.password) {
+            res.render('staffs/staff_home', {
+                title: 'Staff Home Page',
+                staff_session: req.session.staff,
+                staffy: blade.surname
+            });
         } else {
             res.redirect('/stafflogin');
         }
@@ -178,11 +175,6 @@ exports.staff_update_get = function (req, res, next) {
         if (err) {
             return next(err);
         }
-        if (coursey == null) { // No results.
-            var err = new Error('Staff not found');
-            err.status = 404;
-            return next(err);
-        }
         // Success.
         res.render('staffs/edit_staff', {
             title: 'Update Profile',
@@ -193,22 +185,22 @@ exports.staff_update_get = function (req, res, next) {
     });
 };
 
+
 exports.staff_update_post = function (req, res, next) {
-    var fullPath = "files/" + req.file.filename;
     var freedom = new Staff({
         email: req.body.email,
         surname: req.body.surname,
         firstname: req.body.firstname,
-        staff_id: req.body.staff_id,
-        gender: req.body.gender,
         phone: req.body.phone,
         courses_lectured: req.body.courses_lectured,
-        photo: fullPath,
         bio: req.body.bio,
         password: req.body.password,
         _id: req.params.id
     });
-    Staff.findByIdAndUpdate(req.params.id, freedom, {}, function (err, staffupdate) {
+    Staff.findByIdAndUpdate(req.params.id, freedom, {
+        new: true
+    }, function (err, staffupdate) {
+        console.log(err)
         if (err) {
             return next(err);
         }
@@ -219,40 +211,47 @@ exports.staff_update_post = function (req, res, next) {
 //---------------------------------------------------------------------------------------------
 // Display detail page for a specific Staff.
 exports.staff_profiler = function (req, res, next) {
-    Staff.findById(req.params.id)
-        .exec(function (err, results) {
-            if (err) {
-                return next(err);
-            } // Error in API usage.
-            if (results == null) { // No results.
-                var err = new Error('You are not a Staff');
-                err.status = 404;
-                return next(err);
+    async.parallel({
+        coursey: function (callback) {
+            Courses.find({
+                'lecturer': req.session.staff
+            }).exec(callback);
+        },
+        staffy: function (callback) {
+            Staff.findById(req.session.staff).exec(callback);
+        }
+    }, function (err, results) {
+        if (err) {
+            return next(err);
+        } // Error in API usage.
+        if (results == null) { // No results.
+            var err = new Error('You are not a Staff');
+            err.status = 404;
+            return next(err);
+        }
+        // Successful, so render.
+        res.render('staffs/staff_profiler', {
+            title: 'Staff Profile',
+            staff_session: req.session.staff,
+            staff_email: results.staffy.email,
+            staff_surname: results.staffy.surname,
+            staff_firstname: results.staffy.firstname,
+            staff_id: results.staffy.staff_id,
+            staff_gender: results.staffy.gender,
+            staff_phone: results.staffy.phone,
+            staff_bio: results.staffy.bio,
+            urlline: results.staffy.id,
+            coursess: results.coursey,
+            staff_photo: function () {
+                if (!results.staffy.photo) {
+                    results.staffy.photo = "../images/psylogo4.jpg";
+                    return results.staffy.photo;
+                } else {
+                    return results.staffy.photo;
+                }
             }
-            // Successful, so render.
-            res.render('staffs/staff_profiler', {
-                title: 'Staff Profile',
-                staff_session: req.session.staff,
-                staff_email: results.email,
-                staff_surname: results.surname,
-                staff_firstname: results.firstname,
-                staff_id: results.staff_id,
-                staff_gender: results.gender,
-                staff_phone: results.phone,
-                staff_photo: function () {
-                    if (!results.photo) {
-                        results.photo = "../images/psylogo4.jpg";
-                        return results.photo;
-                    } else {
-                        return results.photo;
-                    }
-                },
-                staff_bio: results.bio,
-                staff_courses: results.courses_lectured,
-                urlline: results.id
-            });
-        })
-
+        });
+    });
 };
 
 // GET the names of every student in Tabular form
@@ -293,6 +292,7 @@ exports.view_student_profile = function (req, res, next) {
                     level: swag.level,
                     gender: swag.gender,
                     phone: swag.phone,
+                    bio: swag.bio,
                     photo: function () {
                         if (!swag.photo) {
                             swag.photo = "../images/psylogo4.jpg";
@@ -354,7 +354,7 @@ exports.list_300_student = function (req, res, next) {
         if (swag == null) {
             res.redirect('/staffhome');
         }
-        res.render('staffs/list_300_students', {
+        res.render('staffs/list_student', {
             staff_session: req.session.staff,
             title: "Complete List of 300 Student",
             slow: swag
@@ -400,33 +400,39 @@ exports.list_staffs = function (req, res, next) {
 
 // GET Profile of a Particular Staff
 exports.view_staff_profile = function (req, res, next) {
-    Staff.findById(req.params.id)
-        .exec(
-            function (err, swag) {
-                if (err) {
-                    return next(err);
+    async.parallel({
+        coursey: function (callback) {
+            Courses.find({
+                'lecturer': req.params.id
+            }).exec(callback);
+        },
+        staffy: function (callback) {
+            Staff.findById(req.params.id).exec(callback);
+        }
+    }, function (err, swag) {
+        if (err) {
+            return next(err);
+        }
+        res.render('staffs/view_staffss', {
+            staff_session: req.session.staff,
+            title: "Staff Profile",
+            email: swag.staffy.email,
+            surname: swag.staffy.surname,
+            firstname: swag.staffy.firstname,
+            gender: swag.staffy.gender,
+            phone: swag.staffy.phone,
+            quote: swag.staffy.bio,
+            coursess: swag.coursey,
+            photo: function () {
+                if (!swag.staffy.photo) {
+                    swag.staffy.photo = "../images/psylogo4.jpg";
+                    return swag.staffy.photo;
+                } else {
+                    return swag.staffy.photo;
                 }
-                console.log(swag)
-                res.render('staffs/view_staffss', {
-                    staff_session: req.session.staff,
-                    title: "Staff Profile",
-                    email: swag.email,
-                    surname: swag.surname,
-                    firstname: swag.firstname,
-                    staff_id: swag.staff_id,
-                    gender: swag.gender,
-                    phone: swag.phone,
-                    photo: function () {
-                        if (!swag.photo) {
-                            swag.photo = "../images/psylogo4.jpg";
-                            return swag.photo;
-                        } else {
-                            return swag.photo;
-                        }
-                    }
-                });
             }
-        )
+        });
+    })
 }
 
 // GET List of 100Level Courses...

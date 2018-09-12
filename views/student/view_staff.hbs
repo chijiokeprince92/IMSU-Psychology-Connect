@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    {{>staff_lecbody}}
+    {{>student_lecbody}}
     <br>
     <h2><b><center>STAFF PROFILE</center></b></h2>
     <br>
@@ -31,20 +31,10 @@
     </h3>
     <br>
     {{#each coursess}}
-        <p><b>COURSE TITLE: </b><a href="/staffviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+        <p><b>COURSE TITLE: </b><a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
         {{else}}
             <p>NO COURSE ASSIGNED</p>
     {{/each}}
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6 col-lg-5">
-                <a href="/staffsstafflist" type="button" class="btn btn-primary btn-lg btn-block">COLLEAGUES</a>
-            </div>
-            <div class="col-sm-6 col-lg-5">
-                <button class="btn btn-success btn-lg disabled btn-block">SEND_MESSAGE</button>
-            </div>
-        </div>
     </div>
     <br><br>
     <footer>{{>footer}}</footer>

@@ -161,13 +161,13 @@ exports.admin_update_post = function (req, res, next) {
         email: req.body.email,
         surname: req.body.surname,
         firstname: req.body.firstname,
-        gender: req.body.gender,
-        verify: req.body.verify,
         phone: req.body.phone,
         password: req.body.password,
         _id: req.params.id
     });
-    Admins.findByIdAndUpdate(req.params.id, judge, {}, function (err, adminupdate) {
+    Admins.findByIdAndUpdate(req.params.id, judge, {
+        new: true
+    }, function (err, adminupdate) {
         if (err) {
             return next(err);
         }
@@ -179,8 +179,15 @@ exports.admin_update_post = function (req, res, next) {
 
 //GET Admin HOME Page
 exports.admin = function (req, res, next) {
-    Admins.findOne({
-        '_id': req.session.admin
+    async.parallel({
+        didi: function (callback) {
+            Admins.findOne({
+                '_id': req.session.admin
+            }).exec(callback);
+        },
+        newy: function (callback) {
+            News.count().exec(callback);
+        }
     }, function (err, name) {
         if (err) {
             return next(err);
@@ -188,7 +195,8 @@ exports.admin = function (req, res, next) {
         res.render('admin/admin', {
             title: 'Admin Page',
             admin: req.session.admin,
-            name: name.surname
+            name: name.didi.surname,
+            news: name.newy
         });
     })
 }
@@ -235,7 +243,8 @@ exports.list_students = function (req, res, next) {
                 res.render('admin/list_student', {
                     admin: req.session.admin,
                     title: "Complete List of Student",
-                    slow: swag
+                    slow: swag,
+                    levy: "ALL PSYCHOLOGY STUDENTS"
                 });
             }
         )
@@ -262,6 +271,7 @@ exports.view_student_profile = function (req, res, next) {
                     level: swag.level,
                     gender: swag.gender,
                     phone: swag.phone,
+                    quote: swag.bio,
                     photo: function () {
                         if (!swag.photo) {
                             swag.photo = "../images/psylogo4.jpg";
@@ -292,6 +302,7 @@ exports.list_100_student = function (req, res, next) {
             title: "Complete List of 100 Student",
             message: "These are the List of All 100 Level NAPS Students",
             slow: swagger,
+            levy: "100 LEVEL STUDENTS"
         });
     })
 }
@@ -311,6 +322,7 @@ exports.list_200_student = function (req, res, next) {
             title: "Complete List of 200 Student",
             message: "These are the List of All 200 Level NAPS Students",
             slow: swagger,
+            levy: "200 LEVEL STUDENTS"
         });
     })
 }
@@ -330,6 +342,7 @@ exports.list_300_student = function (req, res, next) {
             title: "Complete List of 300 Student",
             message: "These are the List of All 300 Level NAPS Students",
             slow: swagger,
+            levy: "300 LEVEL STUDENTS"
         });
     })
 }
@@ -349,6 +362,7 @@ exports.list_400_student = function (req, res, next) {
             title: "Complete List of 400 Student",
             message: "These are the List of All 400 level NAPS Students",
             slow: swagger,
+            levy: "400 LEVEL STUDENTS"
         });
     })
 }
@@ -374,34 +388,41 @@ exports.list_staffs = function (req, res, next) {
 
 // GET Profile of a Particular Staff
 exports.view_staff_profile = function (req, res, next) {
-    Staff.findById(req.params.id)
-        .exec(
-            function (err, swag) {
-                if (err) {
-                    return next(err);
+    async.parallel({
+        coursey: function (callback) {
+            Courses.find({
+                'lecturer': req.params.id
+            }).exec(callback);
+        },
+        staffy: function (callback) {
+            Staff.findById(req.params.id).exec(callback);
+        }
+    }, function (err, swag) {
+        if (err) {
+            return next(err);
+        }
+        res.render('admin/view_staffs', {
+            admin: req.session.admin,
+            title: "Staff Profile",
+            email: swag.staffy.email,
+            surname: swag.staffy.surname,
+            firstname: swag.staffy.firstname,
+            staff_id: swag.staffy.staff_id,
+            gender: swag.staffy.gender,
+            phone: swag.staffy.phone,
+            coursess: swag.coursey,
+            photo: function () {
+                if (!swag.staffy.photo) {
+                    swag.staffy.photo = "../images/psylogo4.jpg";
+                    return swag.staffy.photo;
+                } else {
+                    return swag.staffy.photo;
                 }
-                console.log(swag)
-                res.render('admin/view_staffs', {
-                    admin: req.session.admin,
-                    title: "Staff Profile",
-                    email: swag.email,
-                    surname: swag.surname,
-                    firstname: swag.firstname,
-                    staff_id: swag.staff_id,
-                    gender: swag.gender,
-                    phone: swag.phone,
-                    photo: function () {
-                        if (!swag.photo) {
-                            swag.photo = "../images/psylogo4.jpg";
-                            return swag.photo;
-                        } else {
-                            return swag.photo;
-                        }
-                    }
-                });
             }
-        )
+        });
+    });
 }
+
 
 
 //---------------------------------------------------------------------------------------------
@@ -464,7 +485,11 @@ exports.post_upload_news = function (req, res, next) {
     var latest = new News({
         picture: fullPath,
         heading: req.body.heading,
-        passage: req.body.passage
+        passage: req.body.passage,
+        passage1: req.body.passage2,
+        picture2: fullPath,
+        picture3: fullPath,
+        passage3: req.body.passage3
     });
     latest.save(function (err) {
         if (err) {
@@ -572,6 +597,7 @@ exports.post_course = function (req, res, next) {
     });
 }
 
+//---------------------------------------------------------------------------------------------------------------------------
 // GET List of 100Level Courses...
 exports.get_100_courses = function (req, res, next) {
     async.parallel({

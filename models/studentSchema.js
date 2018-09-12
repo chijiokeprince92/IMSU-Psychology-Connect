@@ -17,6 +17,7 @@ var studentSchema = new schema({
     },
     matnumber: {
         type: Number,
+        unique: true,
         required: true
     },
     level: {

@@ -8,15 +8,11 @@
 <body>
     {{>view_body}}
     <br>
+    <h3><b><center>STAFF LOGIN</center></b></h3>
     <br>
-    <h2>{{{message}}}</h2>
     <p>{{ohno}}</p>
-    <nav class="col-sm-12 col-xl-9">
+    <div class="col-sm-12 col-xl-9">
         <form action="" method="POST">
-            <div class="form-group input-group-lg">
-                <label for="email"><b>E-MAIL:</b></label>
-                <input type="email" class="form-control" name="email" placeholder="Email" required>
-            </div>
             <div class="form-group input-group-lg">
                 <label for="staff_id"><b>STAFF_ID:</b></label>
                 <input type="text" class="form-control" name="staff_id" placeholder="Staff_id" required>
@@ -26,10 +22,11 @@
                 <input type="password" class="form-control" name="password" placeholder="Password" required>
             </div>
             <br><br>
-            <button type="submit" class="btn btn-success btn-block"><b>Login</b></button>
+            <button type="submit" class="btn btn-success btn-lg"><b>LOGIN</b></button>
         </form>
-    </nav>
-    <br><br> {{>footer}}
+    </div>
+    <br><br>
+    <footer>{{>footer}}</footer>
 </body>
 
 </html>

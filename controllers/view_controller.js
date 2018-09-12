@@ -75,12 +75,6 @@ exports.libinfo = function (req, res, next) {
     });
 };
 
-exports.library = function (req, res, next) {
-    res.render('homefile/Library', {
-        title: 'library'
-    });
-};
-
 
 exports.onelevel = function (req, res, next) {
     res.render('homefile/100levelcourse', {
@@ -103,23 +97,5 @@ exports.threelevel = function (req, res, next) {
 exports.fourlevel = function (req, res, next) {
     res.render('homefile/400levelcourse', {
         title: '400level'
-    });
-};
-
-exports.news = function (req, res, next) {
-    res.render('homefile/News', {
-        title: 'news'
-    });
-};
-
-exports.elibrary = function (req, res, next) {
-    res.render('stu/ELibrary', {
-        title: 'E-library'
-    });
-};
-
-exports.project = function (req, res, next) {
-    res.render('student/projectTopics', {
-        title: 'Project Topics'
     });
 };

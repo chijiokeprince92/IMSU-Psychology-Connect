@@ -6,13 +6,13 @@
 </head>
 
 <body>
-    {{>admin_lecbody}}
+    {{>student_lecbody}}
     <br>
-    <h2><b><center>{{levy}}</center></b></h2>
+    <h2><b><center>ALL NAPS STAFFS</center></b></h2>
     <br><br>
-    <ul>
+    <ul class="list-group list-group">
         {{#each slow}}
-            <li class="container-fluid">
+            <li class="container-fluid list-group-item">
                 <div class="row">
                     {{#if this.photo}}
                         <div class="col-sm-4 col-md-3 col-lg-2">
@@ -24,17 +24,18 @@
                         </div>
                     {{/if}}
                     <div class="col-sm-8 col-md-9 col-lg-10">
-                        <p><a href="/studentprofile/{{this.id}}">{{this.name}}</a></p>
+                        <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
+                        <br>
                         <p>
-                            <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
+                            <b>E-MAIL: </b>{{this.email}}<br>
                             <b>GENDER: </b>{{this.gender}}<br>
-                            <b>LEVEL: </b>{{this.level}}
+                            <b>STATUS: </b>{{this.bio}}
                         </p>
                     </div>
                 </div>
             </li>
             {{else}}
-                <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+                <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
         {{/each}}
     </ul>
     </div>

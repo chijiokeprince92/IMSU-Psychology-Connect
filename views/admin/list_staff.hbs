@@ -8,45 +8,38 @@
 <body>
     {{>admin_lecbody}}
     <br>
-    <br>
-    <h3>LIST OF NAPS STAFFS</h3>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-sm-12">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>PICS</th>
-                                <th>E-MAIL</th>
-                                <th>SURNAME</th>
-                                <th>FIRSTNAME</th>
-                                <th>STAFF_ID</th>
-                                <th>GENDER</th>
-                                <th>PHONE NUMBER</th>
-                                <th>PROFILE</th>
-                            </tr>
-                        </thead>
-                        {{#each slow}}
-                            <tr>
-                                <td><img src="/{{this.photo}}" alt="profile image" class="rounded" height="40" /></td>
-                                <td>{{this.email}}</td>
-                                <td>{{this.surname}}</td>
-                                <td>{{this.firstname}}</td>
-                                <td>{{this.staff_id}}</td>
-                                <td>{{this.gender}}</td>
-                                <td>{{this.phone}}</td>
-                                <td><a href="/staffprofile/{{this.id}}">View Profile</a></td>
-                            </tr>
-                            {{else}}
-                                <p>THERE ARE NO REGISTERED STAFF</p>
-                        {{/each}}
-                    </table>
+    <h2><b><center>PSYCHOLOGY STAFFS</center></b></h2>
+    <br><br>
+    <ul>
+        {{#each slow}}
+            <li class="container-fluid">
+                <div class="row">
+                    {{#if this.photo}}
+                        <div class="col-sm-4 col-md-3 col-lg-2">
+                            <img src="/{{this.photo}}" alt="image" class="rounded-circle" width="100%" height="130" />
+                        </div>
+                    {{else}}
+                        <div class="col-sm-4 col-md-3 col-lg-2">
+                            <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" width="100%" height="130" />
+                        </div>
+                    {{/if}}
+                    <div class="col-sm-8 col-md-9 col-lg-10">
+                        <p><a href="/staffprofile/{{this.id}}">{{this.name}}</a></p>
+                        <p>
+                            <b>MAT.NUMBER: </b>{{this.email}}<br>
+                            <b>GENDER: </b>{{this.gender}}<br>
+                            <b>STATUS: </b>{{this.bio}}
+                        </p>
+                    </div>
                 </div>
-            </nav>
-        </div>
+            </li>
+            {{else}}
+                <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+        {{/each}}
+    </ul>
     </div>
-    <br><br> {{>footer}}
+    <br><br>
+    <footer>{{>footer}}</footer>
 </body>
 
 </html>

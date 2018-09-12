@@ -20,7 +20,7 @@
                 <p><b>Semester:</b> {{kind.semester}}</p>
                 <p><b>Units: </b>{{kind.units}}</p>
                 <p><b>Borrowed_Course: </b>{{kind.borrowed}}</p>
-                <p><b>Lecturer: </b>{{teacher.name}}</p>
+                <p><b>Lecturer: </b><a href="/staffprofile/{{teacher.id}}">{{teacher.name}}</a></p>
             </div>
         </div>
     </div>
@@ -32,14 +32,15 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-4">
-                <a href="/addcourseoutline/{{kind.id}}" type="button" class="btn btn-primary">EDIT COURSE</a>
+                <a href="/addcourseoutline/{{kind.id}}" type="button" class="btn btn-primary btn-lg">EDIT COURSE</a>
             </div>
             <div class="col-sm-4">
-                <a href="#" type="button" class="btn btn-primary">DELETE COURSE</a>
+                <a href="#" type="button" class="btn btn-primary btn-lg">DELETE COURSE</a>
             </div>
         </div>
     </div>
-    <br><br> {{>footer}}
+    <br><br>
+    <footer>{{>footer}}</footer>
 </body>
 
 </html>

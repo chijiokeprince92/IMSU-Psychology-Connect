@@ -8,7 +8,8 @@
 <body>
     {{>admin_lecbody}}
     <br>
-    <h1>ADMIN UPDATE</h1>
+    <h1><b><center>ADMIN UPDATE</center></b></h1>
+    <br><br>
     <nav class="col-lg-10">
         <form class="form group" action="" method="POST">
             <label for="email"><b>E-MAIL:</b></label>
@@ -20,23 +21,18 @@
             <label for="firstname"><b>FIRST_NAME:</b></label>
             <input type="text" name="firstname" class="form-control" value="{{coursey.firstname}}" required>
             <br>
-            <label for="gender"><b>GENDER:</b></label>
-            <input type="text" name="gender" class="form-control" value="{{coursey.gender}}" required>
-            <br>
-            <label for="verify"><b>VERIFICATION_ID:</b></label>
-            <input type="text" name="verify" class="form-control" value="{{coursey.verify}}" required>
-            <br>
             <label for="phone"><b>PHONE NUMBER:</b></label>
             <input type="number" name="phone" class="form-control" value="{{coursey.phone}}" required>
             <br>
             <label for="password"><b>PASSWORD:</b></label>
             <input type="password" name="password" class="form-control" value="{{coursey.password}}" required>
             <br><br>
-            <button type="submit" class="btn btn-success btn-block"><b>UPDATE</b></button>
+            <button type="submit" class="btn btn-success btn-lg"><b>UPDATE</b></button>
         </form>
         <p></p>
     </nav>
-    <br> {{>footer}}
+    <br>
+    <footer>{{>footer}}</footer>
 </body>
 
 </html>

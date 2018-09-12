@@ -14,6 +14,18 @@ var newsSchema = new schema({
     passage: {
         type: String,
         required: true
+    },
+    passage1: {
+        type: String
+    },
+    picture1: {
+        type: String
+    },
+    passage2: {
+        type: String
+    },
+    picture2: {
+        type: String
     }
 });
 

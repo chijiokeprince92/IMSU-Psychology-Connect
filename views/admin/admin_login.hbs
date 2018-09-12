@@ -14,7 +14,7 @@
     </h3>
     <p>{{ohno}}</p>
     <nav class="col-12">
-        <form class="form-group input-group-lg" action="" method="POST">
+        <form class="form-group input-group-lg" action="/hercules/admin" method="POST">
             <div class="form-group input-group-lg">
                 <label for="verify"><b>VERIFICATION_ID:</b></label>
                 <input type="text" class="form-control" name="verify" placeholder="Verification_ID" required>
@@ -27,7 +27,8 @@
             <button type="submit" class="btn btn-success btn-block"><b>ADMIN LOGIN</b></button>
         </form>
     </nav>
-    <br><br> {{>footer}}
+    <br><br>
+    <footer>{{>footer}}</footer>
 </body>
 
 </html>

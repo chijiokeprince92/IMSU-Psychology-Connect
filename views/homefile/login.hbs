@@ -9,8 +9,8 @@
     {{>view_body}}
     <br>
     <p>{{ohno}}</p>
-    <nav class="col-sm-12 col-xl-9">
-        <form action="" method="POST">
+    <div class="col-sm-12 col-xl-9">
+        <form action="/studenthome" method="POST">
             <div class="form-group input-group-lg">
                 <label for="matnumber"><b>MAT_NUMBER:</b></label>
                 <input type="text" class="form-control" name="matnumber" placeholder="15/*****" required>
@@ -20,10 +20,12 @@
                 <input type="password" class="form-control" name="password" placeholder="Password" required>
             </div>
             <br><br>
-            <button type="submit" class="btn btn-success btn-block"><b>LOGIN</b></button>
+            <button type="submit" class="btn btn-success btn-lg"><b>LOGIN</b></button>
         </form>
-    </nav>
-    <br><br> {{>footer}}
+    </div>
+    </div>
+    <br><br>
+    <footer>{{>footer}}</footer>
 </body>
 
 </html>

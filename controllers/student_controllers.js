@@ -49,7 +49,7 @@ exports.get_student_home = function (req, res, next) {
             res.render('student/student_home', {
                 title: 'Student HomePage',
                 allowed: req.session.student,
-                student_firstname: result.firstname
+                person: result.surname
             })
         })
 }
@@ -158,14 +158,15 @@ exports.test_login = function (req, res, next) {
         if (err) {
             return next(err);
         } else if (glad == null) {
-            res.render('student/login', {
+            res.render('homefile/login', {
                 title: 'Student Login',
                 ohno: 'Your Mat_Number was not found on the database'
             });
+            return;
         } else if (glad.password !== req.body.password) {
             //password is incorrect
-            res.render('student/login', {
-                title: 'Login',
+            res.render('homefile/login', {
+                title: 'Student Login',
                 ohno: 'Password is incorrect'
             });
             return;
@@ -173,7 +174,8 @@ exports.test_login = function (req, res, next) {
             req.session.student = glad.id;
             res.render('student/student_home', {
                 title: 'Student HomePage',
-                allowed: req.session.student
+                allowed: req.session.student,
+                person: glad.name
             });
         } else {
             res.redirect('/login');
@@ -205,16 +207,11 @@ exports.student_update_get = function (req, res, next) {
 };
 
 exports.student_update_post = function (req, res, next) {
-    var fullPath = "files/" + req.file.filename;
     var qualified = new StudentSigns({
         email: req.body.email,
         surname: req.body.surname,
         firstname: req.body.firstname,
-        matnumber: req.body.matnumber,
-        level: req.body.level,
-        gender: req.body.gender,
         phone: req.body.phone,
-        photo: fullPath,
         bio: req.body.bio,
         password: req.body.password,
         _id: req.params.id
@@ -286,6 +283,7 @@ exports.view_coursemate_profile = function (req, res, next) {
                     level: swag.level,
                     gender: swag.gender,
                     phone: swag.phone,
+                    status: swag.bio,
                     photo: function () {
                         if (!swag.photo) {
                             swag.photo = "../images/psylogo4.jpg";
@@ -326,6 +324,61 @@ exports.list_coursemates = function (req, res, next) {
         )
 }
 
+// function for getting the names of every staff
+exports.list_staffs = function (req, res, next) {
+    Staff.find()
+        .exec(function (err, swag) {
+            if (err) {
+                return next(err);
+            }
+            if (swag == null) {
+                res.redirect('/studenthome');
+            }
+            res.render('student/list_staff', {
+                allowed: req.session.student,
+                title: "Complete List of Staffs",
+                slow: swag
+            });
+        });
+}
+
+// GET Profile of a Particular Staff
+exports.view_staff_profile = function (req, res, next) {
+    async.parallel({
+        coursey: function (callback) {
+            Courses.find({
+                'lecturer': req.params.id
+            }).exec(callback);
+        },
+        staffy: function (callback) {
+            Staff.findById(req.params.id).exec(callback);
+        }
+    }, function (err, swag) {
+        if (err) {
+            return next(err);
+        }
+        res.render('student/view_staff', {
+            allowed: req.session.student,
+            title: "Staff Profile",
+            email: swag.staffy.email,
+            surname: swag.staffy.surname,
+            firstname: swag.staffy.firstname,
+            gender: swag.staffy.gender,
+            phone: swag.staffy.phone,
+            quote: swag.staffy.bio,
+            coursess: swag.coursey,
+            photo: function () {
+                if (!swag.staffy.photo) {
+                    swag.staffy.photo = "../images/psylogo4.jpg";
+                    return swag.staffy.photo;
+                } else {
+                    return swag.staffy.photo;
+                }
+            }
+        });
+    })
+}
+
 // GET Student latest NEWS
 exports.get_last_news = function (req, res, next) {
     News.find({}, function (err, release) {
@@ -349,7 +402,17 @@ exports.get_100_courses = function (req, res, next) {
         first_semester: function (callback) {
             Courses.find({
                 'level': 100,
-                'semester': 1
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 1,
+                'borrowed': 'yes'
             }).sort([
                 ['created', 'ascending']
             ]).exec(callback);
@@ -357,7 +420,17 @@ exports.get_100_courses = function (req, res, next) {
         second_semester: function (callback) {
             Courses.find({
                 'level': 100,
-                'semester': 2
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 100,
+                'semester': 2,
+                'borrowed': 'yes'
             }).sort([
                 ['created', 'ascending']
             ]).exec(callback);
@@ -372,8 +445,13 @@ exports.get_100_courses = function (req, res, next) {
         res.render('student/list_courses', {
             title: "100 Level Courses",
             allowed: req.session.student,
+            levy: 100,
             first: hundred.first_semester,
-            second: hundred.second_semester
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective1: 'ANY TWO',
+            elective2: 'ANY TWO'
         });
     });
 };
@@ -384,7 +462,17 @@ exports.get_200_courses = function (req, res, next) {
         first_semester: function (callback) {
             Courses.find({
                 'level': 200,
-                'semester': 1
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 1,
+                'borrowed': 'yes'
             }).sort([
                 ['created', 'ascending']
             ]).exec(callback);
@@ -392,7 +480,17 @@ exports.get_200_courses = function (req, res, next) {
         second_semester: function (callback) {
             Courses.find({
                 'level': 200,
-                'semester': 2
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 200,
+                'semester': 2,
+                'borrowed': 'yes'
             }).sort([
                 ['created', 'ascending']
             ]).exec(callback);
@@ -407,8 +505,13 @@ exports.get_200_courses = function (req, res, next) {
         res.render('student/list_courses', {
             title: "200 Level Courses",
             allowed: req.session.student,
+            levy: 200,
             first: hundred.first_semester,
-            second: hundred.second_semester
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective1: 'ANY TWO',
+            elective2: 'ANY TWO'
         });
     });
 };
@@ -419,7 +522,17 @@ exports.get_300_courses = function (req, res, next) {
         first_semester: function (callback) {
             Courses.find({
                 'level': 300,
-                'semester': 1
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 1,
+                'borrowed': 'yes'
             }).sort([
                 ['created', 'ascending']
             ]).exec(callback);
@@ -427,7 +540,17 @@ exports.get_300_courses = function (req, res, next) {
         second_semester: function (callback) {
             Courses.find({
                 'level': 300,
-                'semester': 2
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 300,
+                'semester': 2,
+                'borrowed': 'yes'
             }).sort([
                 ['created', 'ascending']
             ]).exec(callback);
@@ -442,8 +565,13 @@ exports.get_300_courses = function (req, res, next) {
         res.render('student/list_courses', {
             title: "300 Level Courses",
             allowed: req.session.student,
+            levy: 300,
             first: hundred.first_semester,
-            second: hundred.second_semester
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective1: 'ONE',
+            elective2: 'ANY ONE'
         });
     });
 };
@@ -454,7 +582,17 @@ exports.get_400_courses = function (req, res, next) {
         first_semester: function (callback) {
             Courses.find({
                 'level': 400,
-                'semester': 1
+                'semester': 1,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        first_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 1,
+                'borrowed': 'yes'
             }).sort([
                 ['created', 'ascending']
             ]).exec(callback);
@@ -462,7 +600,17 @@ exports.get_400_courses = function (req, res, next) {
         second_semester: function (callback) {
             Courses.find({
                 'level': 400,
-                'semester': 2
+                'semester': 2,
+                'borrowed': 'no'
+            }).sort([
+                ['created', 'ascending']
+            ]).exec(callback);
+        },
+        second_semester_borrowed: function (callback) {
+            Courses.find({
+                'level': 400,
+                'semester': 2,
+                'borrowed': 'yes'
             }).sort([
                 ['created', 'ascending']
             ]).exec(callback);
@@ -477,8 +625,12 @@ exports.get_400_courses = function (req, res, next) {
         res.render('student/list_courses', {
             title: "400 Level Courses",
             allowed: req.session.student,
+            levy: 400,
             first: hundred.first_semester,
-            second: hundred.second_semester
+            first_borrowed: hundred.first_semester_borrowed,
+            second: hundred.second_semester,
+            second_borrowed: hundred.second_semester_borrowed,
+            elective2: 'ANY ONE'
         });
     });
 };

@@ -8,12 +8,13 @@
 <body>
     {{>student_lecbody}}
     <br>
-    <h1>UPDATE PROFILE</h1>
+    <h1><b><center>UPDATE PROFILE</center></b></h1>
+    <br><br>
     {{#each errors}}
         <p>{{this}}</p>
     {{/each}}
-    <nav class="col-12">
-        <form class="form group input-group-lg" action="" method="POST" enctype="multipart/form-data">
+    <nav class="col-sm-12 col-lg-9">
+        <form class="form group input-group-lg" action="" method="POST">
             <label for="email"><b>E-MAIL:</b></label>
             <input type="email" name="email" class="form-control" value="{{coursey.email}}" placeholder="Email.com" required>
             <br>
@@ -23,20 +24,8 @@
             <label for="firstname"><b>FIRSTNAME:</b></label>
             <input type="text" name="firstname" class="form-control" value="{{coursey.firstname}}" placeholder="first name" required>
             <br>
-            <label for="matnumber"><b>MAT_NUMBER:</b></label>
-            <input type="number" name="matnumber" class="form-control" minlength="7" maxlength="8" value="{{coursey.matnumber}}" required>
-            <br>
-            <label for="level"><b>CURRENT_LEVEL:</b></label>
-            <input type="text" name="level" class="form-control" value="{{coursey.level}}" placeholder="100">
-            <br>
-            <label for="gender"><b>GENDER:</b></label>
-            <input type="text" name="gender" class="form-control" value="{{coursey.gender}}" placeholder="male/female" required>
-            <br>
             <label for="phone"><b>PHONE NUMBER:</b></label>
             <input type="tel" name="phone" class="form-control" minlength="11" maxlength="11" value="{{coursey.phone}}" required>
-            <br>
-            <label for="image"><b>PROFILE_PHOTO:</b></label>
-            <input type="file" class="form-control" name="image" required>
             <br>
             <label for="bio"><b>BIO:</b></label>
             <input type="text" class="form-control" name="bio" value="{{coursey.bio}}" placeholder="About you" required>
@@ -44,11 +33,12 @@
             <label for="password"><b>PASSWORD:</b></label>
             <input type="password" name="password" class="form-control" value="{{coursey.password}}" required>
             <br><br>
-            <button type="submit" class="btn btn-success btn-block"><b>UPDATE PROFILE</b></button>
+            <button type="submit" class="btn btn-success btn-lg"><b>UPDATE PROFILE</b></button>
         </form>
         <p></p>
     </nav>
-    <br> {{>footer}}
+    <br>
+    <footer>{{>footer}}</footer>
 </body>
 
 </html>

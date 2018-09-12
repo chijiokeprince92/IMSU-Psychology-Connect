@@ -5,6 +5,7 @@ var schema = mongoose.Schema;
 var staffSchema = new schema({
     email: {
         type: String,
+        unique: true,
         required: true
     },
     surname: {
@@ -17,6 +18,7 @@ var staffSchema = new schema({
     },
     staff_id: {
         type: String,
+        enum: ["12345", "54321", "12ab345"],
         required: true
     },
     gender: {
@@ -31,8 +33,7 @@ var staffSchema = new schema({
     courses_lectured: [],
 
     photo: {
-        type: String,
-        required: true
+        type: String
     },
     bio: {
         type: String,
@@ -51,7 +52,7 @@ var staffSchema = new schema({
 staffSchema
     .virtual('name')
     .get(function () {
-        return this.surname;
+        return this.surname + ' ' + this.firstname;
     });
 
 //Virtual for Student's URL

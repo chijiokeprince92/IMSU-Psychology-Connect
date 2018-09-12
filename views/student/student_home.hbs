@@ -8,9 +8,9 @@
 <body>
     {{>student_lecbody}}
     <br>
-    <h3>
-        <center>{{student_firstname}}'s HOMEPAGE</center>
-    </h3>
+    <h2>
+        <b><center>{{person}}'s HOMEPAGE</center></b>
+    </h2>
     <ul>
         <li class="container-fluid">
             <div class="row">
@@ -18,7 +18,7 @@
                     <img src="../images/unnamed.png" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
                 <div class="col-sm-6 col-lg-10">
-                    <p><a href="/studentgetlastnews">NEWS AND INFORMATIONS</a></p>
+                    <p><a href="/studentgetlastnews">NEWS AND INFORMATIONS</a> <span class="badge badge-danger badge-pill">12</span></p>
                     <br>
                     <p>
                         Get Latest NEWS and Gists as it happens in Nigerian Universities, IMO State, Imo State University and Psychology Department.
@@ -36,7 +36,7 @@
                     <p><a href="/gettimetable">SCHEDULE</a></p>
                     <br>
                     <p>
-                        Your Schedule is your Time Table for this Semester
+                        Your Schedule is your Time_Table for this Semester.
                     </p>
                 </div>
             </div>
@@ -48,10 +48,10 @@
                     <img src="../images/images (11).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
                 <div class="col-sm-6 col-lg-10">
-                    <p><a href="/studentstudentlist">LIST OF COURSEMATES</a></p>
+                    <p><a href="/studentstudentlist">VIEW COURSEMATES</a></p>
                     <br>
                     <p>
-                        You can see all your colleagues in the same level, and View their Profiles.
+                        You can see all your Colleagues in the same level, and View their Profiles.
                     </p>
                 </div>
             </div>
@@ -79,10 +79,10 @@
                     <img src="../images/images (23).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
                 <div class="col-sm-6 col-lg-10">
-                    <p><a href="#">LIST OF LECTURERS</a></p>
+                    <p><a href="/studentsstafflist">VIEW LECTURERS</a></p>
                     <br>
                     <p>
-                        You can see all your Lecturers for this Semester, the courses they handle, and View their Profiles .
+                        You can see all your Lecturers, the courses they handle, and View their Profiles .
                     </p>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                     <p><a href="#">HAND_OUTS</a></p>
                     <br>
                     <p>
-                        Get Psychological Hand-Outs and Booklets for various Courses.
+                        Get Psychological Hand-Outs and Booklets for your various Courses.
                     </p>
                 </div>
             </div>
@@ -106,13 +106,12 @@
         <li class="container-fluid">
             <div class="row">
                 <div class="col-sm-4 col-lg-2">
-                    <img src="../images/barbie.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                    <img src="../images/images (30).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
                 </div>
                 <div class="col-sm-6 col-lg-10">
-                    <p><a href="#">CHECK ACCUMULATED RESULTS</a></p>
-                    <br>
+                    <p><a href="#">CHECK  RESULTS</a></p>
                     <p>
-                        You can check your accumulated results in all the semesters, and also see your CGPA.
+                        Check your results in all the semesters, and also see your CGPA.
                     </p>
                 </div>
             </div>
@@ -133,7 +132,9 @@
             </div>
         </li>
     </ul>
-    <br> {{>footer}}
+    </div>
+    <br>
+    <footer>{{>footer}}</footer>
 </body>
 
 </html>

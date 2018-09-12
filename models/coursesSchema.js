@@ -31,11 +31,8 @@ var coursesSchema = new schema({
         type: schema.ObjectId,
         ref: 'Staff'
     },
-    courseoutline: [],
-
-    created: {
-        type: Date,
-        default: Date()
+    courseoutline: {
+        type: String
     }
 });
 

@@ -8,28 +8,28 @@
 <body>
     {{>staff_lecbody}}
     <br>
-    <h3>
-        <center>{{staff_firstname}}'s HOMEPAGE</center>
-    </h3>
-    <ul>
-        <li class="container-fluid">
+    {{#if staffy}}
+        <h3>
+            <b><center>{{staffy}}'s HOMEPAGE</center></b>
+        </h3>
+    {{/if}}
+    <ul class="list-group list-group-flush">
+        <li class="container-fluid list-group-item">
             <div class="row">
-                <div class="border border-top-0">
-                    <div class="col-sm-4 col-lg-2">
-                        <img src="../images/images (5).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
-                    </div>
-                    <div class="col-sm-6 col-lg-10">
-                        <p><a href="/staffgetlastnews">NEWS AND INFORMATIONS</a></p>
-                        <br>
-                        <p>
-                            Get Latest NEWS and Gists as it happens in Nigeria, Imo State, Imo State University and Psychology Department.
-                        </p>
-                    </div>
+                <div class="col-sm-4 col-lg-2">
+                    <img src="../images/images (5).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-6 col-lg-10">
+                    <p><a href="/staffgetlastnews">NEWS AND INFORMATIONS</a> <span class="badge badge-danger badge-pill">{{news}}</span></p>
+                    <br>
+                    <p>
+                        Get Latest NEWS and Gists as it happens in Nigeria, Imo State, Imo State University and Psychology Department.
+                    </p>
                 </div>
             </div>
         </li>
         <br>
-        <li class="container-fluid">
+        <li class="container-fluid list-group-item">
             <div class="row">
                 <div class="col-sm-4 col-lg-2">
                     <img src="../images/images (11).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
@@ -38,7 +38,7 @@
                     <p><a href="/staffstudentlist">LIST OF NAPS STUDENTS</a></p>
                     <br>
                     <p>
-                        You can see all the NAPS Students, View their Profiles , and Send anyone of them a message. You can also sort them by level
+                        You can see all the psychology Students, View their Profiles , and get other informations. You can also sort them by level
                         by clicking <a href="/stafflist100students">100 Level Students</a>,
                         <a href="/stafflist200students">200 Level Students</a>,
                         <a href="/stafflist300students">300 Level Students</a>, or <a href="/stafflist400students">400 Level Students</a>.
@@ -47,7 +47,7 @@
             </div>
         </li>
         <br>
-        <li class="container-fluid">
+        <li class="container-fluid list-group-item">
             <div class="row">
                 <div class="col-sm-4 col-lg-2">
                     <img src="../images/unnamed (1).png" alt="NAPS image" class="rounded" width="100%" height="150" />
@@ -56,13 +56,13 @@
                     <p><a href="#">SCHEDULE</a></p>
                     <br>
                     <p>
-                        Your Schedules includes all the courses taught by you and would enable you set notifications
+                        Your Schedules includes all the Courses taught by you and would automatically set notifications for you.
                     </p>
                 </div>
             </div>
         </li>
         <br>
-        <li class="container-fluid">
+        <li class="container-fluid list-group-item">
             <div class="row">
                 <div class="col-sm-4 col-lg-2">
                     <img src="../images/images (16).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
@@ -78,7 +78,7 @@
             </div>
         </li>
         <br>
-        <li class="container-fluid">
+        <li class="container-fluid list-group-item">
             <div class="row">
                 <div class="col-sm-4 col-lg-2">
                     <img src="../images/images (23).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
@@ -87,13 +87,13 @@
                     <p><a href="/staffsstafflist">LIST OF NAPS STAFFS</a></p>
                     <br>
                     <p>
-                        You can see all the NAPS Staffs, View their Profiles , and Send anyone of them a message.
+                        You can see all the Colleagues, View their Profiles , and the courses they handle...
                     </p>
                 </div>
             </div>
         </li>
         <br>
-        <li class="container-fluid">
+        <li class="container-fluid list-group-item">
             <div class="row">
                 <div class="col-sm-4 col-lg-2">
                     <img src="../images/images (17).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
@@ -101,14 +101,26 @@
                 <div class="col-sm-6 col-lg-10">
                     <p><a href="/staffgetprojecttopics">PROJECT TOPICS</a></p>
                     <br>
-                    <p>You can see all project Topics that have been uploaded on this website. You can also delete and edit
-                        projects which would take effect on the whole website, which can be viewed on the <a href "#">Project Topics</a>column.
+                    <p>Click to view project topics uploaded on this website.
                     </p>
                 </div>
             </div>
         </li>
         <br>
-        <li class="container-fluid">
+        <li class="container-fluid list-group-item">
+            <div class="row">
+                <div class="col-sm-4 col-lg-2">
+                    <img src="../images/images (19).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                </div>
+                <div class="col-sm-6 col-lg-10">
+                    <p><a href="#">UPLOAD ASSIGNMENT</a></p>
+                    <br>
+                    <p> Click on Upload assignment, then select the level that you want to upload the assignment to...
+                </div>
+            </div>
+        </li>
+        <br>
+        <li class="container-fluid list-group-item">
             <div class="row">
                 <div class="col-sm-4 col-lg-2">
                     <img src="../images/images (20).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
@@ -123,23 +135,10 @@
             </div>
         </li>
         <br>
-        <li class="container-fluid">
-            <div class="row">
-                <div class="col-sm-4 col-lg-2">
-                    <img src="../images/images (19).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
-                </div>
-                <div class="col-sm-6 col-lg-10">
-                    <p><a href="/saffuploadproject">UPLOAD PROJECT</a></p>
-                    <br>
-                    <p> You can also upload Project Topics that is on pdf format. Uploaded projects can be viewed by both students
-                        and staffs, and would also be seen by other people viewing this website, which can be viewed in the
-                        <a href="/staffgetprojecttopics">Project Topic</a> column.</p>
-                </div>
-            </div>
-        </li>
     </ul>
     <br>
-    <br> {{>footer}}
+    <br>
+    <footer>{{>footer}}</footer>
 </body>
 
 </html>
