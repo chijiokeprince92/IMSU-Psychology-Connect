@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    {{>student_lecbody}}
+    {{>admin_lecbody}}
     <br>
     <h2><b><center>LATEST NEWS!!</center></b></h2>
     <ul>
@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h3>
-                            <center><a href="/studentgetfullnews/{{this.id}}">{{this.heading}}</a></center>
+                            <center><a href="/getfullnews/{{this.id}}">{{this.heading}}</a></center>
                         </h3>
                         <br>
                     </div>
@@ -27,14 +27,14 @@
                     <br>
                     <div class="col-sm-12 col-lg-8">
                         <p>{{this.passage}}</p>
-                        <button class="btn btn-danger">Comments<span> 4</span></button>
-                        <button class="btn btn-danger">Like<span> 12</span></button>
-                        <button class="btn btn-danger">Reply</button>
+                        <a type="button" href="/deletenews/{{this.id}}" class="btn btn-danger">DELETE</a>
+                        <a type="button" href="/editnews/{{this.id}}" class="btn btn-info">EDIT</a>
+                        <button class="btn btn-danger">COMMENTS</button>
                     </div>
                 </div>
+                {{else}}
+                    <p><b>THERE ARE NO UPLOADED NEWS</b></p>
             </li>
-            {{else}}
-                <p>THERE ARE NO UPLOADED NEWS</p>
         {{/each}}
     </ul>
     </div>

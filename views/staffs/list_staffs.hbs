@@ -10,9 +10,9 @@
     <br>
     <h2><b><center>NAPS STAFFS</center></b></h2>
     <br><br>
-    <ul class="list-group list-group">
+    <ul>
         {{#each slow}}
-            <li class="container-fluid list-group-item">
+            <li class="container-fluid">
                 <div class="row">
                     {{#if this.photo}}
                         <div class="col-sm-4 col-md-3 col-lg-2">
@@ -25,11 +25,10 @@
                     {{/if}}
                     <div class="col-sm-8 col-md-9 col-lg-10">
                         <p><a href="/staffstaffprofile/{{this.id}}">{{this.name}}</a></p>
-                        <br>
                         <p>
-                            <b>E-MAIL: {{this.email}}</b><br>
-                            <b>GENDER: {{this.gender}}</b><br>
-                            <b>STATUS: {{this.bio}}</b>
+                            <b>E-MAIL: </b>{{this.email}}<br>
+                            <b>GENDER: </b>{{this.gender}}<br>
+                            <b>STATUS: </b>{{this.bio}}
                         </p>
                     </div>
                 </div>

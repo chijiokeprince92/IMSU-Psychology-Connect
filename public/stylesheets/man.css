@@ -1,19 +1,31 @@
 .logo {
     background-size: cover;
+    height: 200px;
 }
 
 body {
     background-size: cover;
-    border: 2px;
+    font-size: 16px;
+    line-height: 1.2;
+    border: 0px;
     margin: 0;
     padding: 0;
 }
 
 p {
-    font-size: 150%;
+    font-size: 120%;
     line-height: 1.6;
     border: none;
-    font-family: italic, serif;
+    font-family: serif;
+}
+
+@media only screen and (max-width:900px) {
+    p {
+        font-size: 150%;
+    }
+    .logo {
+        height: 250px;
+    }
 }
 
 li {
@@ -38,7 +50,7 @@ a:hover {
 }
 
 footer {
-    background-color: slategray;
+    background-color: #C4D0DB;
     background-size: cover;
     color: black;
     text-align: left;

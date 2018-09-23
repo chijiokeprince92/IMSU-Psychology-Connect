@@ -31,16 +31,27 @@ exports.staffloginRequired = function (req, res, next) {
 
 
 exports.staff_home = function (req, res, next) {
-    Staff.findOne({
-            '_id': req.session.staff
-        })
-        .exec(function (err, result) {
-            res.render('staffs/staff_home', {
-                title: 'Staff Home Page',
-                staff_session: req.session.staff,
-                staffy: result.id
-            })
-        })
+
+    async.parallel({
+        didi: function (callback) {
+            Staff.findOne({
+                '_id': req.session.staff
+            }).exec(callback);
+        },
+        newy: function (callback) {
+            News.count().exec(callback);
+        }
+    }, function (err, name) {
+        if (err) {
+            return next(err);
+        }
+        res.render('staffs/staff_home', {
+            title: 'Staff Home Page',
+            staff_session: req.session.staff,
+            staffy: name.didi.surname,
+            news: name.newy
+        });
+    })
 
 };
 
@@ -269,7 +280,8 @@ exports.list_students = function (req, res, next) {
                 res.render('staffs/list_student', {
                     staff_session: req.session.staff,
                     title: "Complete List of Student",
-                    slow: swag
+                    slow: swag,
+                    heading: "ALL NAPS STUDENTS"
                 });
             }
         )
@@ -322,7 +334,8 @@ exports.list_100_student = function (req, res, next) {
         res.render('staffs/list_student', {
             staff_session: req.session.staff,
             title: "Complete List of 100 Student",
-            slow: swag
+            slow: swag,
+            heading: "100 LEVEL STUDENTS"
         });
     })
 }
@@ -340,7 +353,8 @@ exports.list_200_student = function (req, res, next) {
         res.render('staffs/list_student', {
             staff_session: req.session.staff,
             title: "Complete List of 200 Student",
-            slow: swag
+            slow: swag,
+            heading: "200 LEVEL STUDENTS"
         });
     })
 }
@@ -358,7 +372,8 @@ exports.list_300_student = function (req, res, next) {
         res.render('staffs/list_student', {
             staff_session: req.session.staff,
             title: "Complete List of 300 Student",
-            slow: swag
+            slow: swag,
+            heading: "300 LEVEL STUDENTS"
         });
     })
 }
@@ -376,7 +391,8 @@ exports.list_400_student = function (req, res, next) {
         res.render('staffs/list_student', {
             staff_session: req.session.staff,
             title: "Complete List of 400 Student",
-            slow: swag
+            slow: swag,
+            heading: "400 LEVEL STUDENTS"
         });
     })
 }
@@ -714,6 +730,22 @@ exports.get_last_news = function (req, res, next) {
     })
 }
 
+// GET Admin full NEWS
+exports.get_full_news = function (req, res, next) {
+    News.findOne({
+        '_id': req.params.id
+    }, function (err, release) {
+        if (err) {
+            return next(err);
+        }
+        res.render('staffs/fullnews', {
+            staff_session: req.session.staff,
+            title: 'Psychology Full News',
+            newspaper: release
+        });
+    })
+}
+
 // GET Staff PROJECT Topics
 exports.get_project_topics = function (req, res, next) {
     Project.find({}, function (err, release) {
@@ -728,6 +760,13 @@ exports.get_project_topics = function (req, res, next) {
             title: 'Psychology Project Topics',
             projectss: release
         });
+    })
+}
+
+exports.get_schedule = function (req, res, next) {
+    res.render('staffs/schedule', {
+        title: "Staff Schedule",
+        staff_session: req.session.staff
     })
 }
 

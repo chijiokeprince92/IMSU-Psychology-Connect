@@ -8,12 +8,14 @@
 <body>
     {{>admin_lecbody}}
     <br>
+    <h3><b><center>COURSE PAGE</center></b></h3>
+    <br><br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-12 col-md-4 col-lg-5">
                 <img src="../images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" height="300" />
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-12 col-md-8 col-lg-7">
                 <p><b>Course_Code:</b> {{kind.coursecode}}</p>
                 <p><b>Course_Title: </b> {{kind.coursetitle}}</p>
                 <p><b>Level: </b> {{kind.level}}</p>
@@ -25,9 +27,13 @@
         </div>
     </div>
     <br>
-    <h3>COURSE OUTLINE</h3>
+    <h3><b><center>COURSE OUTLINE</center></b></h3>
     <br>
-    <p>{{kind.courseoutline}}</p>
+    {{#if kind.courseoutline}}
+        <p>{{kind.courseoutline}}</p>
+    {{else}}
+        <p>COURSE OUTLINE NOT AVAILABLE</p>
+    {{/if}}
     <br>
     <div class="container-fluid">
         <div class="row">

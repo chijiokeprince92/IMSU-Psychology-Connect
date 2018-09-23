@@ -18,16 +18,21 @@ var newsSchema = new schema({
     passage1: {
         type: String
     },
-    picture1: {
-        type: String
-    },
     passage2: {
         type: String
     },
-    picture2: {
-        type: String
+    created: {
+        type: Date,
+        default: Date.now()
     }
 });
 
-// creating a student model and exporting the module
+//Virtual for ADMIN's URL
+newsSchema
+    .virtual('url')
+    .get(function () {
+        return '/getfullnews/' + this._id;
+    });
+
+// creating a news model and exporting the module
 module.exports = mongoose.model('News', newsSchema);

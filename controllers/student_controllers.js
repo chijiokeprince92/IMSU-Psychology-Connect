@@ -42,16 +42,27 @@ exports.ensureCorrectuser = function (req, res, next) {
 
 //----------------------------------------------------------------------------
 exports.get_student_home = function (req, res, next) {
-    StudentSigns.findOne({
-            '_id': req.session.student
-        })
-        .exec(function (err, result) {
-            res.render('student/student_home', {
-                title: 'Student HomePage',
-                allowed: req.session.student,
-                person: result.surname
-            })
-        })
+
+    async.parallel({
+        didi: function (callback) {
+            StudentSigns.findOne({
+                '_id': req.session.student
+            }).exec(callback);
+        },
+        newy: function (callback) {
+            News.count().exec(callback);
+        }
+    }, function (err, name) {
+        if (err) {
+            return next(err);
+        }
+        res.render('student/student_home', {
+            title: 'Student HomePage',
+            allowed: req.session.student,
+            person: name.didi.surname,
+            news: name.newy
+        });
+    })
 }
 //----------------------------------------------------------------------------------------
 
@@ -396,6 +407,22 @@ exports.get_last_news = function (req, res, next) {
     })
 }
 
+// GET Admin full NEWS
+exports.get_full_news = function (req, res, next) {
+    News.findOne({
+        '_id': req.params.id
+    }, function (err, release) {
+        if (err) {
+            return next(err);
+        }
+        res.render('student/fullnews', {
+            allowed: req.session.student,
+            title: 'Psychology Full News',
+            newspaper: release
+        });
+    })
+}
+
 // GET List of 100Level Courses...
 exports.get_100_courses = function (req, res, next) {
     async.parallel({
@@ -671,13 +698,6 @@ exports.get_project_topic = function (req, res, next) {
             title: 'Psychology Project Topics',
             projectss: release
         });
-    })
-}
-
-exports.get_elibrary = function (req, res, next) {
-    res.render('student/Elibrary', {
-        title: 'Student E-Library',
-        allowed: req.session.student
     })
 }
 

@@ -24,18 +24,14 @@
             </div>
             <div class="form-group input-group-lg">
                 <label for="level"><b>LEVEL:</b></label>
-                <select name="level" class="form-control" value="{{coursey.level}}" required>
-                <option value="100">100 Level</option>
-                <option value="200">200 Level</option>
-                <option value="300">300 Level</option>
-                <option value="400">400 Level</option>
+                <select name="level" class="form-control" required>
+                <option value="{{coursey.level}}">{{coursey.level}} level</option>
                 </select>
             </div>
             <div class="form-group input-group-lg">
                 <label for="semester"><b>SEMESTER:</b></label>
-                <select name="semester" class="form-control" value="{{coursey.semester}}" required>
-                <option value="1">1st</option>
-                <option value="2">2nd</option>
+                <select name="semester" class="form-control" required>
+                <option value="{{coursey.semester}}">{{coursey.semester}}</option>
                 </select>
             </div>
             <div class="form-group input-group-lg">
@@ -45,8 +41,8 @@
             <div class="form-group input-group-lg">
                 <label for="borrowed"><b>IS_BORROWED ?</b></label>
                 <select name="borrowed" class="form-control">
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
                 </select>
             </div>
             <div class="form-group input-group-lg">
@@ -58,11 +54,11 @@
                 </select>
             </div>
             <div class="form-group input-group-lg">
-                <label for="courseoutline"><b>Type Course_Outline:</b></label>
+                <label for="courseoutline"><b>COURSE OUTLINE:</b></label>
                 <textarea type="text" class="form-control" name="courseoutline">{{coursey.courseoutline}}</textarea>
             </div>
             <br><br>
-            <button type="submit" class="btn btn-success btn-block"><b>SAVE</b></button>
+            <button type="submit" class="btn btn-success btn-lg"><b>UPDATE</b></button>
         </form>
     </nav>
     <br><br>

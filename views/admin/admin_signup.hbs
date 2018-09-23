@@ -11,6 +11,10 @@
     <h3>
         <center>ADMIN SIGNUP</center>
     </h3>
+    <br>
+    {{#if errors}}
+        <p>{{this}}</p>
+    {{/if}}
     <nav class="col-12">
         <form class="form group input-group-lg" action="" method="POST">
             <label for="email"><b>E-MAIL:</b></label>
@@ -34,7 +38,7 @@
             <label for="password"><b>PASSWORD:</b></label>
             <input type="password" name="password" class="form-control" placeholder="Password" required>
             <br><br>
-            <button type="submit" class="btn btn-success btn-block"><b>ADMIN SIGNUP</b></button>
+            <button type="submit" class="btn btn-success btn-lg"><b>ADMIN SIGNUP</b></button>
         </form>
         <p></p>
     </nav>

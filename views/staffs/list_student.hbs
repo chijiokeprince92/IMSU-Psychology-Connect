@@ -8,11 +8,11 @@
 <body>
     {{>staff_lecbody}}
     <br>
-    <h2><b><center>NAPS STUDENTS</center></b></h2>
+    <h2><b><center>{{heading}}</center></b></h2>
     <br><br>
-    <ul class="list-group list-group">
+    <ul>
         {{#each slow}}
-            <li class="container-fluid list-group-item">
+            <li class="container-fluid">
                 <div class="row">
                     {{#if this.photo}}
                         <div class="col-sm-4 col-md-3 col-lg-2">

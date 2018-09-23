@@ -8,8 +8,24 @@
 <body>
     {{>admin_lecbody}}
     <br>
+    <h3><b><center>UPLOAD PROJECT FORM</center></b></h3>
     <br>
-    <nav class="col-12">
+    <ol>
+        <li>
+            1. Select the file that you want to upload.
+        </li>
+        <br>
+        <li>
+            2. Input the project topic in Capital Letters.
+        </li>
+        <br>
+        <li>
+            3. Type a one paragraph, explaining the content of the project topic.
+        </li>
+        <br>
+    </ol>
+    <br>
+    <nav class="col-sm-12">
         <form class="form-group input-group-lg" action="" method="POST" enctype="multipart/form-data">
             <div class="form-group input-group-lg">
                 <label for="project"><b>UPLOAD PPROJECT:</b></label>
@@ -24,9 +40,10 @@
                 <input type="text" class="form-control" name="description" placeholder="Description..." required>
             </div>
             <br><br>
-            <button type="submit" class="btn btn-success btn-block"><b>Upload Project</b></button>
+            <button type="submit" class="btn btn-success btn-lg"><b>UPLOAD PROJECT</b></button>
         </form>
     </nav>
+    </div>
     <br><br>
     <footer>{{>footer}}</footer>
 </body>

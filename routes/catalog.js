@@ -78,6 +78,9 @@ router.post('/studentupdateprofile/:id', uploaded, student_controllers.student_u
 
 router.get('/studentgetlastnews', student_controllers.loginRequired, student_controllers.get_last_news);
 
+router.get('/studentgetfullnews/:id', student_controllers.loginRequired, student_controllers.get_full_news);
+
+
 
 
 // GET the list of students and their profiles
@@ -182,6 +185,11 @@ router.get('/staffstaffprofile/:id', staff_controllers.staffloginRequired, staff
 
 router.get('/staffgetlastnews', staff_controllers.staffloginRequired, staff_controllers.get_last_news);
 
+router.get('/staffgetfullnews/:id', staff_controllers.staffloginRequired, staff_controllers.get_full_news);
+
+router.get('/getschedule', staff_controllers.staffloginRequired, staff_controllers.get_schedule);
+
+
 router.get('/saffuploadproject', staff_controllers.staffloginRequired, staff_controllers.upload_projects);
 
 router.get('/staffgetprojecttopics', staff_controllers.staffloginRequired, staff_controllers.get_project_topics);
@@ -261,12 +269,26 @@ router.post('/getprojectform', admin_controllers.admin_session_force, projectmul
 
 router.get('/getprojecttopicss', admin_controllers.admin_session_force, admin_controllers.get_project_topics);
 
+router.post('/deleteproject/:id', admin_controllers.admin_session_force, admin_controllers.delete_project);
+
+
 // GET and POST routes for handling NEWS 
 router.get('/getnewsform', admin_controllers.admin_session_force, admin_controllers.get_upload_news);
 
 router.post('/getnewsform', admin_controllers.admin_session_force, newsproject, admin_controllers.post_upload_news);
 
 router.get('/getlastnews', admin_controllers.admin_session_force, admin_controllers.get_last_news);
+
+router.get('/getfullnews/:id', admin_controllers.admin_session_force, admin_controllers.get_full_news);
+
+router.get('/editnews/:id', admin_controllers.admin_session_force, admin_controllers.news_edit_get);
+
+
+router.post('/editnews/:id', admin_controllers.admin_session_force, admin_controllers.news_edit_post);
+
+
+router.post('/deletenews/:id', admin_controllers.admin_session_force, admin_controllers.delete_news);
+
 
 // GET Courses and Courses Form
 router.get('/getcourseform', admin_controllers.admin_session_force, admin_controllers.add_courses);
