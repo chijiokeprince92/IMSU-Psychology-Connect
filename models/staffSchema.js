@@ -18,7 +18,6 @@ var staffSchema = new schema({
     },
     staff_id: {
         type: String,
-        enum: ["12345", "54321"],
         required: true
     },
     gender: {

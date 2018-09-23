@@ -26,7 +26,7 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 
-mongoose.connect(process.env.mongoDB);
+mongoose.connect(process.env.mongoDBO);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Pearly, MongoDB connection error'));

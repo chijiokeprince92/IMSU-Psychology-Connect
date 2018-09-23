@@ -5,6 +5,7 @@ var schema = mongoose.Schema;
 var adminSchema = new schema({
     email: {
         type: String,
+        unique: true,
         required: true
     },
     surname: {
@@ -21,6 +22,7 @@ var adminSchema = new schema({
     },
     verify: {
         type: String,
+        unique: true,
         required: true
     },
     password: {
