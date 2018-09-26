@@ -9,6 +9,15 @@
     {{>staff_lecbody}}
     <br>
     <h2><b><center>{{heading}}</center></b></h2>
+    <div class="dropdown" style="float:right">
+        <button class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown">search</button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/stafflist100students">100 LEVEL</a>
+            <a class="dropdown-item" href="/stafflist200students">200 LEVEL</a>
+            <a class="dropdown-item" href="/stafflist300students">300 LEVEL</a>
+            <a class="dropdown-item" href="/stafflist400students">400 LEVEL</a>
+        </div>
+    </div>
     <br><br>
     <ul>
         {{#each slow}}

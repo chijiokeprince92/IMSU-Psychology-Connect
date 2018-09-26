@@ -157,7 +157,7 @@ exports.student_signup_post = [
 // function for Student Login GET
 exports.get_login_form = function (req, res, next) {
     res.render('homefile/login', {
-        title: 'Login form',
+        title: 'Student Login',
     });
 }
 
@@ -235,6 +235,20 @@ exports.student_update_post = function (req, res, next) {
     });
 }
 
+exports.student_update_pics = function (req, res, next) {
+    var fullPath = "files/" + req.file.filename;
+    var qualified = new StudentSigns({
+        photo: fullPath,
+        _id: req.params.id
+    });
+    StudentSigns.findByIdAndUpdate(req.params.id, qualified, {}, function (err, studentupdate) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect(studentupdate.url);
+    });
+}
+
 
 
 // Profile page for a specific Student.
@@ -253,23 +267,7 @@ exports.profiler = function (req, res, next) {
                 res.render('student/profiler', {
                     allowed: req.session.student,
                     title: 'Student Profile',
-                    user: results.id,
-                    graceemail: results.email,
-                    gracesurname: results.surname,
-                    gracefirstname: results.firstname,
-                    gracematnumber: results.matnumber,
-                    gracelevel: results.level,
-                    gracegender: results.gender,
-                    gracephone: results.phone,
-                    gracephoto: function () {
-                        if (!results.photo) {
-                            results.photo = "../images/psylogo4.jpg";
-                            return results.photo;
-                        } else {
-                            return results.photo;
-                        }
-                    },
-                    gracebio: results.bio
+                    user: results
                 });
             }
         });

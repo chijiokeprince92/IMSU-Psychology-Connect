@@ -15,7 +15,7 @@
             <div class="col-sm-12 col-md-5">
                 <img src="/{{photo}}" alt="image" class="rounded" width="100%" />
             </div>
-            <div class="col-sm-12 col-lg-7">
+            <div class="col-sm-12 col-md-7">
                 <p><b>EMAIL: </b> {{email}}</p>
                 <p><b>SURNAME: </b> {{surname}}</p>
                 <p><b>FIRSTNAME: </b> {{firstname}}</p>
@@ -30,11 +30,15 @@
         <center><b>COURSES ASSIGNED</b></center>
     </h3>
     <br>
-    {{#each coursess}}
-        <p><b>COURSE TITLE: </b><a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
-        {{else}}
-            <p>NO COURSE ASSIGNED</p>
-    {{/each}}
+    <ol>
+        {{#each coursess}}
+            <li>
+                <p><b>{{this.coursecode}}: </b><a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+            </li>
+            {{else}}
+                <p>NO COURSE ASSIGNED</p>
+        {{/each}}
+    </ol>
     </div>
     <br><br>
     <footer>{{>footer}}</footer>

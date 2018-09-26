@@ -43,6 +43,12 @@ coursesSchema
         return '/adminviewcourse/' + this._id;
     });
 
+coursesSchema
+    .virtual('urly')
+    .get(function () {
+        return '/staffviewcourse/' + this._id;
+    });
+
 
 // creating a student model and exporting the module
 module.exports = mongoose.model('Courses', coursesSchema);

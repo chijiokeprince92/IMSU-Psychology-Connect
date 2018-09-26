@@ -20,10 +20,6 @@ var newsSchema = new schema({
     },
     passage2: {
         type: String
-    },
-    created: {
-        type: Date,
-        default: Date.now()
     }
 });
 

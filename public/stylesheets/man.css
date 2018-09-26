@@ -19,17 +19,36 @@ p {
     font-family: serif;
 }
 
-@media only screen and (max-width:900px) {
+@media only screen and (max-width:700px) {
+    body {
+        font-size: 20px;
+    }
     p {
         font-size: 150%;
     }
     .logo {
-        height: 250px;
+        height: 300px;
+    }
+    footer {
+        background-color: #C4D0DB;
+        background-size: cover;
+        color: black;
+        text-align: left;
+        border-radius: 0px;
+        position: auto;
+        bottom: 0;
+    }
+    table,
+    th,
+    td {
+        border: 2px solid black;
+        font-family: Arial, sans-serif;
+        font-size: 120%;
+        text-align: center;
     }
 }
 
 li {
-    display: inline;
     padding: 0.30em;
     margin: 0;
 }
@@ -128,6 +147,23 @@ th,
 td {
     border: 2px solid black;
     font-family: Arial, sans-serif;
-    font-size: 120%;
-    text-align: left;
+    font-size: 100%;
+    text-align: center;
+}
+
+input[type=text],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.kilo {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
 }

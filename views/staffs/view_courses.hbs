@@ -37,10 +37,24 @@
         <p>COURSE_OUTLINE NOT AVAILABLE</p>
     {{/if}}
     <br>
+    <form id="drake" style="display:none" action="/editcourseoutline/{{kind.id}}" method="POST">
+        <div class="form-group input-group-lg">
+            <label for="courseoutline"><b>TYPE COURSEOUTLINE</b></label>
+            <textarea type="text" class="form-control" name="courseoutline" placeholder="Type a message...">{{kind.courseoutline}}</textarea>
+        </div>
+        <button type="submit" class="btn btn-danger">EDIT</button>
+    </form>
+    <script>
+        $(document).ready(function () {
+            $('#cousin').click(function () {
+                $('#drake').toggle();
+            });
+        });
+    </script>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-4 col-lg-4">
-                <a href="#" type="button" class="btn btn-primary btn-lg btn-block disabled">UPLOAD TEST</a>
+                <a type="button" id="cousin" class="btn btn-primary btn-lg btn-block">ADD COURSEOUTLINE</a>
             </div>
             <div class="col-sm-4 col-lg-4">
                 <a href="#" type="button" class="btn btn-primary btn-lg btn-block disabled">ASSIGNMENT</a>

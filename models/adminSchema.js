@@ -22,7 +22,7 @@ var adminSchema = new schema({
     },
     verify: {
         type: String,
-        unique: true,
+        enum: [process.env.admin_key, process.env.admin_key2],
         required: true
     },
     password: {

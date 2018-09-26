@@ -120,8 +120,10 @@ exports.admin_login_post = function (req, res, next) {
             return next(err);
         } else if (sydney == null) {
             res.redirect('/adminlogin');
+            return;
         } else if (sydney.password != req.body.password) {
             res.redirect('/adminlogin');
+            return;
         } else {
             req.session.admin = sydney.id;
             res.render('admin/admin', {
@@ -283,6 +285,14 @@ exports.view_student_profile = function (req, res, next) {
         )
 }
 
+exports.delete_student = function (req, res, next) {
+    StudentSigns.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/studentlist');
+    });
+}
 
 //Functions for displaying students by their levels
 exports.list_100_student = function (req, res, next) {
@@ -421,7 +431,14 @@ exports.view_staff_profile = function (req, res, next) {
     });
 }
 
-
+exports.delete_staff = function (req, res, next) {
+    Staff.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/stafflist');
+    });
+}
 
 //---------------------------------------------------------------------------------------------
 
@@ -582,43 +599,7 @@ exports.delete_news = function (req, res, next) {
 }
 
 //----------------------------------------------------------------------
-// GET Student Result Filler form
-exports.student_results = function (req, res, next) {
-    res.render('admin/student_result_form', {
-        title: "Student result Filler",
-        admin: req.session.admin
-    });
-}
 
-// function for sending message to 100 level
-exports.send_100 = function (req, res, next) {
-    res.render('student/chat100', {
-        title: "100Level Group Chat",
-        admin: req.session.admin
-    })
-}
-
-// function for sending messsage to 200 level
-exports.send_200 = function (req, res, next) {
-    res.render('student/chat200', {
-        title: "200 Level Group Chat",
-        admin: req.session.admin
-    });
-}
-
-exports.send_300 = function (req, res, next) {
-    res.render('student/chat300', {
-        title: "300Level Group Chat",
-        admin: req.session.admin
-    });
-}
-
-exports.send_400 = function (req, res, next) {
-    res.render('student/chat400', {
-        title: "400Level Group chat",
-        admin: req.session.admin
-    });
-}
 
 //ADMIN Logout Request
 exports.admin_logout = function (req, res, next) {
@@ -716,6 +697,15 @@ exports.course_update_post = function (req, res, next) {
             return next(err);
         }
         res.redirect(courseupdate.url);
+    });
+}
+
+exports.delete_course = function (req, res, next) {
+    Courses.findByIdAndRemove(req.params.id, function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/getallcourses');
     });
 }
 
@@ -949,3 +939,121 @@ exports.view_course = function (req, res, next) {
                 });
         });
 }
+
+// GET Student Result Filler form
+exports.student_results = function (req, res, next) {
+    res.render('admin/student_result_form', {
+        title: "Student result Filler",
+        admin: req.session.admin
+    });
+}
+
+// function for sending message to 100 level
+exports.send_100 = function (req, res, next) {
+    res.render('student/chat100', {
+        title: "100Level Group Chat",
+        admin: req.session.admin
+    })
+}
+
+// function for sending messsage to 200 level
+exports.send_200 = function (req, res, next) {
+    res.render('student/chat200', {
+        title: "200 Level Group Chat",
+        admin: req.session.admin
+    });
+}
+
+exports.send_300 = function (req, res, next) {
+    res.render('student/chat300', {
+        title: "300Level Group Chat",
+        admin: req.session.admin
+    });
+}
+
+exports.send_400 = function (req, res, next) {
+    res.render('student/chat400', {
+        title: "400Level Group chat",
+        admin: req.session.admin
+    });
+}
+
+// staff signup GET
+exports.staff_signup_get = function (req, res, next) {
+    res.render('admin/staff_signup', {
+        title: 'STAFF SIGNUP',
+        admin: req.session.admin
+    });
+};
+
+
+// handle the POST request for the Staff signup form
+exports.staff_signup_post = [
+    body('email').isLength({
+        min: 1
+    }).trim().withMessage('email must be specified.'),
+    body('surname').isLength({
+        min: 1
+    }).trim().withMessage('Surname must be specified.'),
+    body('firstname').isLength({
+        min: 1
+    }).trim().withMessage('firstname must be specified.'),
+    body('staff_id').isLength({
+        min: 1
+    }).trim().withMessage('staff_id must be specified.'),
+    body('gender').isLength({
+        min: 1
+    }).trim().withMessage('gender must be specified.'),
+    body('phone').isLength({
+        min: 1
+    }).trim().withMessage('phone must be specified.'),
+    body('password').isLength({
+        min: 1
+    }).trim().withMessage('password must be specified.'),
+
+    // Sanitize the fields
+    sanitizeBody('email').trim().escape(),
+    sanitizeBody('surname').trim().escape(),
+    sanitizeBody('firstname').trim().escape(),
+    sanitizeBody('staff_id').trim().escape(),
+    sanitizeBody('gender').trim().escape(),
+    sanitizeBody('phone').trim().escape(),
+    sanitizeBody('password').trim().escape(),
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/errors messages.
+            res.render('sadmin/staff_signup', {
+                title: 'Create Staff',
+                staff: req.body,
+                errors: errors.array()
+            });
+            return;
+        } else {
+            // Data from form is valid.
+            // Create a Staff object with escaped and trimmed data.
+            var freedom = new Staff({
+                email: req.body.email,
+                surname: req.body.surname,
+                firstname: req.body.firstname,
+                staff_id: req.body.staff_id,
+                gender: req.body.gender,
+                phone: req.body.phone,
+                bio: req.body.bio,
+                password: req.body.password
+            });
+            freedom.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                // Successful - redirect to Staff login page.
+                res.redirect(freedom.urly);
+            });
+        }
+    }
+];

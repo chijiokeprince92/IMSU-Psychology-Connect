@@ -61,6 +61,13 @@ staffSchema
         return '/staffss/' + this._id;
     });
 
+//Virtual for Student's URL
+staffSchema
+    .virtual('urly')
+    .get(function () {
+        return '/staffprofile/' + this._id;
+    });
+
 
 // creating a student model and exporting the module
 module.exports = mongoose.model('Staff', staffSchema);

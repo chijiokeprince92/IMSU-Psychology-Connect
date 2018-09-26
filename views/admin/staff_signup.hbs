@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    {{>view_body}}
+    {{>admin_lecbody}}
     <br><br>
     <h1><b><center>STAFF SIGNUP</center></b></h1>
     <br>
@@ -16,7 +16,7 @@
     <div class="container-fluid">
         <div class="row">
             <nav class="col-sm-12 col-xl-9">
-                <form class="form group input-group-lg" action="" method="POST" enctype="multipart/form-data">
+                <form class="form group input-group-lg" action="" method="POST">
                     <label for="email"><b>E-MAIL:</b></label>
                     <input type="email" name="email" class="form-control" placeholder="Email.com" required>
                     <br>
@@ -27,7 +27,7 @@
                     <input type="text" name="firstname" class="form-control" placeholder="first name" required>
                     <br>
                     <label for="staff_id"><b>STAFF_ID:</b></label>
-                    <input type="password" name="staff_id" class="form-control" minlength="5" maxlength="5" required>
+                    <input type="number" name="staff_id" class="form-control" required>
                     <br>
                     <label for="gender"><b>GENDER:</b></label>
                     <select name="gender" class="form-control" required>
@@ -37,9 +37,6 @@
                     <br>
                     <label for="phone"><b>PHONE NUMBER:</b></label>
                     <input type="tel" name="phone" class="form-control" placeholder="" required>
-                    <br>
-                    <label for="image"><b>PROFILE PHOTO:</b></label>
-                    <input type="file" class="form-control" name="image" placeholder="upload photo" required>
                     <br>
                     <label for="bio"><b>STATUS:</b></label>
                     <input type="text" class="form-control" name="bio" placeholder="About you" required>
@@ -51,6 +48,7 @@
                 </form>
             </nav>
         </div>
+    </div>
     </div>
     <br> {{>footer}}
 </body>

@@ -76,12 +76,12 @@ router.get('/studentupdateprofile/:id', student_controllers.student_update_get);
 //POST student profile for update
 router.post('/studentupdateprofile/:id', uploaded, student_controllers.student_update_post);
 
+router.post('/studentupdatepics/:id', uploaded, student_controllers.student_update_pics);
+
+
 router.get('/studentgetlastnews', student_controllers.loginRequired, student_controllers.get_last_news);
 
 router.get('/studentgetfullnews/:id', student_controllers.loginRequired, student_controllers.get_full_news);
-
-
-
 
 // GET the list of students and their profiles
 router.get('/studentstudentlist', student_controllers.loginRequired, student_controllers.list_coursemates);
@@ -139,12 +139,6 @@ router.get('/chat', student_controllers.loginRequired, student_controllers.chat)
 // FOR STAFFSSS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-//staff signup form
-router.get('/staffSignup', staff_controllers.staff_signup_get);
-
-router.post('/staffSignup', uploaded, staff_controllers.staff_signup_post);
-
-
 // staff login form
 router.get('/stafflogin', staff_controllers.staff_login_get);
 
@@ -160,6 +154,9 @@ router.get('/staffupdateprofile/:id', staff_controllers.staffloginRequired, staf
 
 //GET staff profile for update
 router.post('/staffupdateprofile/:id', staff_controllers.staffloginRequired, staff_controllers.staff_update_post);
+
+router.post('/staffupdatepics/:id', uploaded, staff_controllers.staff_update_pics);
+
 
 // Log Staff Out
 router.get('/stafflogout', staff_controllers.staffloginRequired, staff_controllers.staff_logout);
@@ -206,6 +203,7 @@ router.get('/staffget300courses', staff_controllers.staffloginRequired, staff_co
 //GET 400 Level courses
 router.get('/staffget400courses', staff_controllers.staffloginRequired, staff_controllers.get_400_courses);
 
+router.post('/editcourseoutline/:id', staff_controllers.staffloginRequired, staff_controllers.edit_courseoutline);
 
 //GET a particular course details
 router.get('/staffviewcourse/:id', staff_controllers.staffloginRequired, staff_controllers.view_courses);
@@ -244,6 +242,7 @@ router.get('/studentlist', admin_controllers.admin_session_force, admin_controll
 
 router.get('/studentprofile/:id', admin_controllers.view_student_profile);
 
+router.post('/deletestudent/:id', admin_controllers.admin_session_force, admin_controllers.delete_student);
 
 
 router.get('/list100students', admin_controllers.admin_session_force, admin_controllers.list_100_student);
@@ -259,6 +258,9 @@ router.get('/list400students', admin_controllers.admin_session_force, admin_cont
 router.get('/stafflist', admin_controllers.admin_session_force, admin_controllers.list_staffs);
 
 router.get('/staffprofile/:id', admin_controllers.admin_session_force, admin_controllers.view_staff_profile);
+
+router.post('/deletestaff/:id', admin_controllers.admin_session_force, admin_controllers.delete_staff);
+
 
 router.get('/student/results', admin_controllers.admin_session_force, admin_controllers.student_results);
 
@@ -314,9 +316,10 @@ router.get('/adminviewcourse/:id', admin_controllers.admin_session_force, admin_
 //GET a particular course details
 router.get('/addcourseoutline/:id', admin_controllers.admin_session_force, admin_controllers.course_update_get);
 
-
 // POST UPDATE a course outline
 router.post('/addcourseoutline/:id', admin_controllers.admin_session_force, admin_controllers.course_update_post);
+
+router.post('/deletecourse/:id', admin_controllers.admin_session_force, admin_controllers.delete_course);
 
 
 // GET the various chat group and send a message
@@ -328,5 +331,11 @@ router.get('/send200', admin_controllers.admin_session_force, admin_controllers.
 router.get('/send300', admin_controllers.admin_session_force, admin_controllers.send_300);
 
 router.get('/send400', admin_controllers.admin_session_force, admin_controllers.send_400);
+
+//staff signup form
+router.get('/staffSignup', admin_controllers.admin_session_force, admin_controllers.staff_signup_get);
+
+router.post('/staffSignup', admin_controllers.admin_session_force, admin_controllers.staff_signup_post);
+
 
 module.exports = router;

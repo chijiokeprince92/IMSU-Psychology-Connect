@@ -55,89 +55,7 @@ exports.staff_home = function (req, res, next) {
 
 };
 
-//--------------------------------------------------------------------------------------------
-
-// staff signup GET
-exports.staff_signup_get = function (req, res, next) {
-    res.render('homefile/staff_signup', {
-        title: 'staff_signUp'
-    });
-};
-
-
-// handle the POST request for the Staff signup form
-exports.staff_signup_post = [
-    body('email').isLength({
-        min: 1
-    }).trim().withMessage('email must be specified.'),
-    body('surname').isLength({
-        min: 1
-    }).trim().withMessage('Surname must be specified.'),
-    body('firstname').isLength({
-        min: 1
-    }).trim().withMessage('firstname must be specified.'),
-    body('staff_id').isLength({
-        min: 1
-    }).trim().withMessage('staff_id must be specified.'),
-    body('gender').isLength({
-        min: 1
-    }).trim().withMessage('gender must be specified.'),
-    body('phone').isLength({
-        min: 1
-    }).trim().withMessage('phone must be specified.'),
-    body('password').isLength({
-        min: 1
-    }).trim().withMessage('password must be specified.'),
-
-    // Sanitize the fields
-    sanitizeBody('email').trim().escape(),
-    sanitizeBody('surname').trim().escape(),
-    sanitizeBody('firstname').trim().escape(),
-    sanitizeBody('staff_id').trim().escape(),
-    sanitizeBody('gender').trim().escape(),
-    sanitizeBody('phone').trim().escape(),
-    sanitizeBody('password').trim().escape(),
-
-    // Process request after validation and sanitization.
-    (req, res, next) => {
-
-        // Extract the validation errors from a request.
-        const errors = validationResult(req);
-
-        if (!errors.isEmpty()) {
-            // There are errors. Render form again with sanitized values/errors messages.
-            res.render('staffs/staff_signup', {
-                title: 'Create Staff',
-                staff: req.body,
-                errors: errors.array()
-            });
-            return;
-        } else {
-            // Data from form is valid.
-            var fullPath = "files/" + req.file.filename;
-            // Create a Staff object with escaped and trimmed data.
-            var freedom = new Staff({
-                email: req.body.email,
-                surname: req.body.surname,
-                firstname: req.body.firstname,
-                staff_id: req.body.staff_id,
-                gender: req.body.gender,
-                phone: req.body.phone,
-                photo: fullPath,
-                bio: req.body.bio,
-                password: req.body.password
-            });
-            freedom.save(function (err) {
-                if (err) {
-                    return next(err);
-                }
-                // Successful - redirect to Staff login page.
-                res.redirect('/stafflogin');
-            });
-        }
-    }
-];
-
+//-------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------
 
 // staff login GET
@@ -152,7 +70,9 @@ exports.staff_login_post = function (req, res, next) {
     Staff.findOne({
         'staff_id': req.body.staff_id
     }, function (err, blade) {
-
+        if (err) {
+            return next(err);
+        }
         if (!blade) {
             res.render('homefile/login_staff', {
                 title: 'Staff_Login',
@@ -193,7 +113,6 @@ exports.staff_update_get = function (req, res, next) {
             staff_session: req.session.staff,
             coursey: coursey
         });
-
     });
 };
 
@@ -213,6 +132,20 @@ exports.staff_update_post = function (req, res, next) {
         new: true
     }, function (err, staffupdate) {
         console.log(err)
+        if (err) {
+            return next(err);
+        }
+        res.redirect(staffupdate.url);
+    });
+}
+
+exports.staff_update_pics = function (req, res, next) {
+    var fullPath = "files/" + req.file.filename;
+    var qualified = new Staff({
+        photo: fullPath,
+        _id: req.params.id
+    });
+    Staff.findByIdAndUpdate(req.params.id, qualified, {}, function (err, staffupdate) {
         if (err) {
             return next(err);
         }
@@ -711,6 +644,19 @@ exports.view_courses = function (req, res, next) {
                     });
                 });
         });
+}
+
+exports.edit_courseoutline = function (req, res, next) {
+    var course = new Courses({
+        courseoutline: req.body.courseoutline,
+        _id: req.params.id
+    });
+    Courses.findByIdAndUpdate(req.params.id, course, {}, function (err, courseupdate) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect(courseupdate.urly);
+    });
 }
 
 // GET Admin latest NEWS

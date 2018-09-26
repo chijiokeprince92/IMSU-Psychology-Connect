@@ -28,17 +28,18 @@
     </div>
     <h3><b><center>COURSES HANDLED</center></b></h3>
     <br>
-    {{#each coursess}}
-        <p><a href="/adminviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
-        {{else}}
-            <p>NO COURSE ASSIGNED</p>
-    {{/each}}
+    <ol>
+        {{#each coursess}}
+            <li>
+                <p><b>{{this.coursecode}}: </b><a href="/adminviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+            </li>
+            {{else}}
+                <p>NO COURSE ASSIGNED</p>
+        {{/each}}
+    </ol>
     <br><br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-4">
-                <a href="#" type="button" class="btn btn-primary btn-lg btn-block">ADD COURSE</a>
-            </div>
             <div class="col-sm-4">
                 <a href="#" type="button" class="btn btn-success btn-lg disabled btn-block">SEND MESSAGE</a>
             </div>

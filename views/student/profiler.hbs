@@ -16,21 +16,36 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12 col-lg-4">
-                <a href="/{{gracephoto}}"><img src="/{{gracephoto}}" alt="profile image" class="rounded" width="100%" /></a>
+                <a href="/{{user.photo}}"><img src="/{{user.photo}}" alt="profile image" class="rounded" width="100%" /></a>
+                <br>
+                <form id="drake" style="display:none" action="/studentupdatepics/{{user.id}}" method="POST" enctype="multipart/form-data"
+                    style="display:inline">
+                    <input type="file" class="form-control" name="image" placeholder="upload photo" required>
+                    <button type="submit" class="btn btn-danger">EDIT</button>
+                </form>
+                <button id="cousin" class="btn btn-danger btn-lg">EDIT</button>
                 <br><br>
             </div>
             <div class="col-sm-12 col-lg-8">
-                <p><b>E-MAIL:</b> {{graceemail}}</p>
-                <p><b>SURNAME: </b> {{gracesurname}}</p>
-                <p><b>FIRSTNAME: </b> {{gracefirstname}}</p>
-                <p><b>MAT. NUMBER :</b> {{gracematnumber}}</p>
-                <p><b>LEVEL: </b>{{gracelevel}}</p>
-                <p><b>GENDER: </b>{{gracegender}}</p>
-                <p><b>PHONE NUMBER: </b>{{gracephone}}</p>
-                <p><b>STATUS: </b>{{gracebio}}</p>
+                <p><b>E-MAIL:</b> {{user.email}}</p>
+                <p><b>SURNAME: </b> {{user.surname}}</p>
+                <p><b>FIRSTNAME: </b> {{user.firstname}}</p>
+                <p><b>MAT. NUMBER :</b> {{user.matnumber}}</p>
+                <p><b>LEVEL: </b>{{user.level}}</p>
+                <p><b>GENDER: </b>{{user.gender}}</p>
+                <p><b>PHONE NUMBER: </b>{{user.phone}}</p>
+                <p><b>STATUS: </b>{{user.bio}}</p>
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#cousin').click(function () {
+                $('#drake').toggle();
+                $('#cousin').toggle();
+            });
+        });
+    </script>
     <br>
     <div class="container-fluid">
         <div class="row">
@@ -38,7 +53,7 @@
                 <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled">RESULTS</a>
             </div>
             <div class="col-4">
-                <a href="/studentupdateprofile/{{user}}" type="button" class="btn btn-success btn-lg btn-block">EDIT PROFILE</a>
+                <a href="/studentupdateprofile/{{user.id}}" type="button" class="btn btn-success btn-lg btn-block">EDIT PROFILE</a>
             </div>
             <div class="col-4">
                 <a href="/studentstudentlist" type="button" class="btn btn-primary btn-lg btn-block">COURSEMATES</a>

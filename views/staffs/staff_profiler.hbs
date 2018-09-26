@@ -11,7 +11,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12 col-md-4">
-                <a href="/files/{{staff_photo}}"><img src="/{{staff_photo}}" alt="profile image" class="rounded" width="100%" height="300" /></a>
+                <a href="/{{staff_photo}}"><img src="/{{staff_photo}}" alt="profile image" class="rounded" width="100%" height="300" /></a>
+                <form id="drake" style="display:none" action="/staffupdatepics/{{urlline}}" method="POST" enctype="multipart/form-data" style="display:inline">
+                    <input type="file" class="form-control" name="image" placeholder="upload photo" required>
+                    <button type="submit" class="btn btn-danger">EDIT</button>
+                </form>
+                <button id="cousin" class="btn btn-danger btn-lg">EDIT</button>
+                <br><br>
             </div>
             <div class="col-sm-12 col-md-8">
                 <p><b>Email:</b> {{staff_email}}</p>
@@ -26,12 +32,24 @@
     </div>
     <h3><b><center>YOUR COURSES</center></b></h3>
     <br>
-    {{#each coursess}}
-        <p><b>COURSE_TITLE: </b><a href="/staffviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
-        {{else}}
-            <p>NO COURSE ASSIGNED</p>
-    {{/each}}
-    <br><br>
+    <ol>
+        {{#each coursess}}
+            <li>
+                <p><b>{{this.coursecode}}: </b><a href="/staffviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+            </li>
+            {{else}}
+                <p>NO COURSE ASSIGNED</p>
+        {{/each}}
+    </ol>
+    <br>
+    <script>
+        $(document).ready(function () {
+            $('#cousin').click(function () {
+                $('#drake').toggle();
+                $('#cousin').toggle();
+            });
+        });
+    </script>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
