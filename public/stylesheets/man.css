@@ -1,29 +1,6 @@
-.logo {
-    background-size: cover;
-    height: 200px;
-}
-
-body {
-    background-size: cover;
-    font-size: 16px;
-    line-height: 1.2;
-    border: 0px;
-    margin: 0;
-    padding: 0;
-}
-
-p {
-    font-size: 120%;
-    line-height: 1.6;
-    border: none;
-    font-family: serif;
-    padding: 0;
-    margin: 0;
-}
-
 @media only screen and (max-width:700px) {
     p {
-        font-size: 250%;
+        font-size: 350%;
     }
     .logo {
         height: 300px;
@@ -42,14 +19,49 @@ p {
     td {
         border: 2px solid black;
         font-family: Arial, sans-serif;
-        font-size: 120%;
+        font-size: 250%;
         text-align: center;
     }
     li {
-        font-size: 200%;
+        font-size: 230%;
         padding: 0;
         margin: 0;
     }
+    #kilo {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+        width: 100%;
+    }
+    #foot {
+        font-size: 250%;
+    }
+    #footcopy {
+        text-align: right;
+    }
+}
+
+.logo {
+    background-size: cover;
+    height: 200px;
+}
+
+body {
+    background-size: cover;
+    font-size: 16px;
+    line-height: 1.2;
+    border: 0px;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    font-size: 150%;
+    line-height: 1.6;
+    border: none;
+    font-family: serif;
+    padding: 0;
+    margin: 0;
 }
 
 ul {
@@ -59,9 +71,13 @@ ul {
 }
 
 li {
-    font-size: 150%;
+    font-size: 120%;
     padding: 0;
     margin: 0;
+}
+
+#mum {
+    height: 50px;
 }
 
 a:hover {
@@ -72,7 +88,7 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 1;
-    background-color: black;
+    background-color: lightblue;
 }
 
 .wrap {
@@ -166,7 +182,7 @@ th,
 td {
     border: 2px solid black;
     font-family: Arial, sans-serif;
-    font-size: 100%;
+    font-size: 120%;
     text-align: center;
 }
 
@@ -181,7 +197,7 @@ select {
     box-sizing: border-box;
 }
 
-.kilo {
+#kilo {
     border-radius: 5px;
     background-color: #f2f2f2;
     padding: 20px;

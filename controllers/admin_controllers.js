@@ -260,7 +260,6 @@ exports.view_student_profile = function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                console.log(swag)
                 res.render('admin/view_student', {
                     admin: req.session.admin,
                     title: "Student Profile",

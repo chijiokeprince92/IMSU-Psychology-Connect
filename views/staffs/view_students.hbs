@@ -12,19 +12,27 @@
     <br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 col-md-5 col-lg-6">
+            <div class="col-12 col-sm-12 col-md-5 col-lg-6">
                 <a href="/{{photo}}"><img src="/{{photo}}" alt="profile image" class="rounded" width="100%" /></a>
                 <br><br>
             </div>
-            <div class="col-sm-12 col-md-7 col-lg-6">
+            <div class="col-12 col-sm-12 col-md-7 col-lg-6">
                 <p><b>E-MAIL:</b> {{email}}</p>
+                <br>
                 <p><b>SURNAME: </b> {{surname}}</p>
+                <br>
                 <p><b>FIRSTNAME: </b> {{firstname}}</p>
+                <br>
                 <p><b>MAT. NUMBER :</b> {{matnumber}}</p>
+                <br>
                 <p><b>LEVEL: </b>{{level}}</p>
+                <br>
                 <p><b>GENDER: </b>{{gender}}</p>
+                <br>
                 <p><b>PHONE NUMBER: </b>{{phone}}</p>
+                <br>
                 <p><b>STATUS: </b>{{bio}}</p>
+                <br>
             </div>
         </div>
     </div>
@@ -32,13 +40,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4">
-                <a href="/stafflist{{level}}students" type="button" class="btn btn-primary btn-block btn-lg">COURSEMATES</a>
+                <a href="/stafflist{{level}}students" type="button" class="btn btn-primary btn-block btn-lg"><span class="fa fa-users" style="font-size:25px"></span></a>
             </div>
             <div class="col-4">
-                <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled">RESULTS</a>
+                <button class="btn btn-success btn-block btn-lg disabled"><span class="fa fa-whatsapp" style="font-size:25px"></span></button>
             </div>
             <div class="col-4">
-                <button class="btn btn-primary btn-block btn-lg disabled">SEND_MESSAGE</button>
+                <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
             </div>
         </div>
     </div>

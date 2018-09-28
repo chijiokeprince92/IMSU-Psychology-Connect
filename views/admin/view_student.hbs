@@ -20,13 +20,21 @@
             <br><br>
             <div class="col-sm-12 col-md-8 col-lg-6">
                 <p><b>E-MAIL:</b> {{email}}</p>
+                <br>
                 <p><b>SURNAME: </b> {{surname}}</p>
+                <br>
                 <p><b>FIRSTNAME: </b> {{firstname}}</p>
+                <br>
                 <p><b>MAT. NUMBER :</b> {{matnumber}}</p>
+                <br>
                 <p><b>LEVEL: </b>{{level}}</p>
+                <br>
                 <p><b>GENDER: </b>{{gender}}</p>
+                <br>
                 <p><b>PHONE NUMBER: </b>{{phone}}</p>
+                <br>
                 <p><b>STATUS: </b>{{quote}}</p>
+                <br>
             </div>
         </div>
     </div>
@@ -34,16 +42,15 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-4">
-                <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled">RESULTS</a>
+                <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled">RESULTS <span class="fa fa-book" style="font-size:25px"></span></a>
             </div>
             <div class="col-sm-4">
-                <a href="#" type="button" class="btn btn-primary btn-lg disabled btn-block">SEND_MESSAGE</a>
+                <a href="#" type="button" class="btn btn-success btn-lg disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></a>
             </div>
             <div class="col-sm-4">
-                <a href="/list{{level}}students" type="button" class="btn btn-primary btn-lg btn-block">FRIENDS</a>
+                <a href="/list{{level}}students" type="button" class="btn btn-primary btn-lg btn-block"><span class="fa fa-users" style="font-size:25px"></span></a>
             </div>
         </div>
-    </div>
     </div>
     <br><br>
     <footer>{{>footer}}</footer>

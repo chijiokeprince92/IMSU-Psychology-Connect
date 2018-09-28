@@ -214,7 +214,7 @@ exports.list_students = function (req, res, next) {
                     staff_session: req.session.staff,
                     title: "Complete List of Student",
                     slow: swag,
-                    heading: "ALL NAPS STUDENTS"
+                    heading: "ALL PSYCHOLOGY STUDENTS"
                 });
             }
         )

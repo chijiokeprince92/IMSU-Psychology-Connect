@@ -2,12 +2,14 @@
 <div class="stay">
     <ul class="nav nav-pills nav-justified">
         <li class="nav-item" title="Homepage">
-            <a href="/studenthome" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-home"></span>STUDENT_HOME</a></li>
+            <a href="/studenthome" class="btn btn-primary btn-lg btn-block" id="mum"><span class="fa fa-home" style="font-size:40px"></span></a></li>
+        <li class="nav-item" title="News">
+            <a href="/studentgetlastnews" class="btn btn-primary btn-lg btn-block" id="mum"><span class="fa fa-bell" style="font-size:40px" >  </span> <span class="badge badge-danger badge-pill" style="font-size:20px">{{news}}</span></a></li>
         <li class="nav-item" title="Your Profile">
-            <a href="/studentss/{{allowed}}" class="btn btn-success btn-lg btn-block">PROFILE</a>
+            <a href="/studentss/{{allowed}}" class="btn btn-primary btn-lg btn-block" id="mum"><span class="fa fa-user-o" style="font-size:40px"></span></a>
         </li>
         <li class="nav-item" title="LogOut">
-            <a href="/logout" class="btn btn-danger btn-lg btn-block">LOGOUT</a>
+            <a href="/logout" class="btn btn-primary btn-lg btn-block" id="mum"><span class="fa fa-power-off" style="font-size:40px;color:red"></span> </a>
         </li>
     </ul>
 </div>

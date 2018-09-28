@@ -9,11 +9,12 @@
     {{>staff_lecbody}}
     <br><br>
     <h3>
-        <center>UPDATE PROFILE</center>
+        <b><center>UPDATE PROFILE</center></b>
     </h3>
+    <br><br>
     <div class="container-fluid">
         <div class="row">
-            <nav class="col-sm-12 col-lg-10">
+            <div class="col-12 col-md-8 col-lg-6" id="kilo">
                 <form class="form group input-group-lg" action="" method="POST">
                     <label for="email"><b>E-MAIL:</b></label>
                     <input type="email" name="email" class="form-control" value="{{coursey.email}}" placeholder="Email.com" required>
@@ -33,9 +34,10 @@
                     <label for="password"><b>PASSWORD:</b></label>
                     <input type="password" class="form-control" name="password" value="{{coursey.password}}" required>
                     <br><br>
-                    <button type="submit" class="btn btn-success btn-lg"><b>UPDATE PROFILE</b></button>
+                    <button type="submit" class="btn btn-success btn-lg"><b><span class="fa fa-cloud-upload"></span> UPDATE PROFILE</b></button>
                 </form>
-            </nav>
+                </nav>
+            </div>
         </div>
     </div>
     </div>
