@@ -10,12 +10,11 @@
 .logo {
     background-size: cover;
     width: 100%;
-    height: 300px;
+    height: 200px;
 }
 
 div p {
-    font-size: 350%;
-    line-height: 1.2;
+    font-size: 120%;
     border: none;
     font-family: serif;
     padding: 0;
@@ -23,44 +22,65 @@ div p {
 }
 
 li p {
-    font-size: 300%;
+    font-size: 70%;
     border: none;
     font-family: serif;
     padding: 0;
     margin: 0;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+footer {
+    background-color: #C4D0DB;
+    background-size: cover;
+    color: black;
+    text-align: left;
+    border-radius: 0px;
+    position: auto;
+    bottom: 0;
+}
+
+footer p {
+    font-size: 150%;
+    font-family: italic;
+}
+
+table,
+th,
+td {
+    border: 2px solid black;
+    font-family: Arial, sans-serif;
+    font-size: 100%;
+    text-align: center;
 }
 
 li {
-    font-size: 120%;
+    font-size: 230%;
     padding: 0;
     margin: 0;
 }
 
-ul li .mum {
-    height: 100px;
+#kilo {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    width: 100%;
 }
 
-ul #mum {
-    height: 100px;
+ul li .mum {
+    height: 50px;
 }
 
 ul .mum #mum2 {
-    font-size: 90px;
+    font-size: 40px;
 }
 
 li a:hover {
-    color: red;
+    color: green;
 }
 
 li .aboutus {
     width: 100%;
-    height: 400px;
+    height: 200px;
 }
 
 .stay {
@@ -74,50 +94,7 @@ li .aboutus {
     text-align: center;
 }
 
-footer {
-    background-color: #C4D0DB;
-    background-size: cover;
-    color: black;
-    text-align: left;
-    border-radius: 0px;
-}
-
-footer p {
-    font-size: 300%;
-    font-family: italic;
-}
-
-table,
-th,
-td {
-    border: 2px solid black;
-    font-family: Arial, sans-serif;
-    font-size: 300%;
-    text-align: center;
-}
-
-input[type=text],
-select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-#kilo {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-}
-
 .courses {
-    text-align: left;
-}
-
-.align {
     text-align: left;
 }
 
@@ -177,4 +154,19 @@ select {
     to {
         opacity: 1
     }
+}
+
+.align {
+    text-align: left;
+}
+
+input[type=text],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
