@@ -42,7 +42,7 @@ footer {
 
 footer p {
     font-size: 150%;
-    font-family: italic;
+    font-family: italic, serif;
 }
 
 table,
