@@ -1,7 +1,7 @@
 .broda {
     background-size: cover;
     background-color: pink;
-    font-size: 16px;
+    font-size: 1em;
     line-height: 1.2;
     border: 0px;
     margin: 0;
@@ -14,8 +14,17 @@
     height: 300px;
 }
 
+p {
+    font-size: 300%;
+    line-height: 1.2;
+    border: none;
+    font-family: serif;
+    padding: 0;
+    margin: 0;
+}
+
 div p {
-    font-size: 350%;
+    font-size: 300%;
     line-height: 1.2;
     border: none;
     font-family: serif;
@@ -47,12 +56,16 @@ ul li .mum {
     height: 100px;
 }
 
-ul #mum {
+ul .mum {
     height: 100px;
 }
 
 ul .mum #mum2 {
     font-size: 90px;
+}
+
+ul li .spany {
+    font-size: 45px;
 }
 
 li a:hover {
@@ -93,7 +106,7 @@ th,
 td {
     border: 2px solid black;
     font-family: Arial, sans-serif;
-    font-size: 300%;
+    font-size: 150%;
     text-align: center;
 }
 

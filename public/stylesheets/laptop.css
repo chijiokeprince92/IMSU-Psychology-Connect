@@ -14,6 +14,10 @@
     height: 200px;
 }
 
+h1 {
+    font-size: 32em;
+}
+
 div p {
     font-size: 120%;
     border: none;
@@ -54,6 +58,12 @@ td {
     text-align: center;
 }
 
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
 li {
     font-size: 230%;
     padding: 0;
@@ -73,6 +83,10 @@ ul li .mum {
 
 ul .mum #mum2 {
     font-size: 40px;
+}
+
+ul li .spany {
+    font-size: 20px;
 }
 
 li a:hover {
