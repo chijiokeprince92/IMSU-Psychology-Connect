@@ -18,6 +18,15 @@ h1 {
     font-size: 32em;
 }
 
+p {
+    font-size: 120%;
+    line-height: 1.2;
+    border: none;
+    font-family: serif;
+    padding: 0;
+    margin: 0;
+}
+
 div p {
     font-size: 120%;
     border: none;
@@ -113,6 +122,7 @@ li .aboutus {
     text-align: left;
 }
 
+
 /* Slideshow container */
 
 .slideshow-container {
@@ -125,6 +135,7 @@ li .aboutus {
 .mySlides {
     display: none;
 }
+
 
 /* The dots/bullets/indicators */
 
@@ -143,6 +154,7 @@ li .aboutus {
 .dot:hover {
     background-color: black;
 }
+
 
 /* Fading animation */
 
