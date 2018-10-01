@@ -10,7 +10,9 @@
     <br>
     <br>
     <h3>
-        <b><center>YOUR PROFILE.</center></b>
+        <b>
+            <center>YOUR PROFILE.</center>
+        </b>
     </h3>
     <br>
     <div class="container-fluid">
@@ -28,13 +30,21 @@
             </div>
             <div class="col-sm-12 col-lg-8">
                 <p><b>E-MAIL:</b> {{user.email}}</p>
+                <br>
                 <p><b>SURNAME: </b> {{user.surname}}</p>
+                <br>
                 <p><b>FIRSTNAME: </b> {{user.firstname}}</p>
+                <br>
                 <p><b>MAT. NUMBER :</b> {{user.matnumber}}</p>
+                <br>
                 <p><b>LEVEL: </b>{{user.level}}</p>
+                <br>
                 <p><b>GENDER: </b>{{user.gender}}</p>
+                <br>
                 <p><b>PHONE NUMBER: </b>{{user.phone}}</p>
+                <br>
                 <p><b>STATUS: </b>{{user.bio}}</p>
+                <br>
             </div>
         </div>
     </div>
@@ -53,7 +63,8 @@
                 <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled">RESULTS</a>
             </div>
             <div class="col-4">
-                <a href="/studentupdateprofile/{{user.id}}" type="button" class="btn btn-success btn-lg btn-block">EDIT PROFILE</a>
+                <a href="/studentupdateprofile/{{user.id}}" type="button" class="btn btn-success btn-lg btn-block">EDIT
+                    PROFILE</a>
             </div>
             <div class="col-4">
                 <a href="/studentstudentlist" type="button" class="btn btn-primary btn-lg btn-block">COURSEMATES</a>

@@ -11,8 +11,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12 col-md-4">
-                <a href="/{{staff_photo}}"><img src="/{{staff_photo}}" alt="profile image" class="rounded" width="100%" height="300" /></a>
-                <form id="drake" style="display:none" action="/staffupdatepics/{{urlline}}" method="POST" enctype="multipart/form-data" style="display:inline">
+                <a href="/{{staff_photo}}"><img src="/{{staff_photo}}" alt="profile image" class="rounded" width="100%"
+                        height="300" /></a>
+                <form id="drake" style="display:none" action="/staffupdatepics/{{urlline}}" method="POST" enctype="multipart/form-data"
+                    style="display:inline">
                     <input type="file" class="form-control" name="image" placeholder="upload photo" required>
                     <button type="submit" class="btn btn-danger">EDIT</button>
                 </form>
@@ -21,16 +23,25 @@
             </div>
             <div class="col-sm-12 col-md-8">
                 <p><b>Email:</b> {{staff_email}}</p>
+                <br>
                 <p><b>Surname: </b> {{staff_surname}}</p>
+                <br>
                 <p><b>FirstName: </b> {{staff_firstname}}</p>
+                <br>
                 <p><b>Staff_id :</b> {{staff_id}}</p>
+                <br>
                 <p><b>Gender: </b>{{staff_gender}}</p>
+                <br>
                 <p><b>Phone Number: </b>{{staff_phone}}</p>
+                <br>
                 <p><b>About Yourself: </b>{{staff_bio}}</p>
+                <br>
             </div>
         </div>
     </div>
-    <h3><b><center>YOUR COURSES</center></b></h3>
+    <h3><b>
+            <center>YOUR COURSES</center>
+        </b></h3>
     <br>
     <ol>
         {{#each coursess}}
@@ -53,7 +64,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <a href="/staffupdateprofile/{{urlline}}" type="button" class="btn btn-primary btn-lg btn-block">EDIT PROFILE</a>
+                <a href="/staffupdateprofile/{{urlline}}" type="button" class="btn btn-primary btn-lg btn-block">EDIT
+                    PROFILE</a>
             </div>
             <div class="col-sm-6">
                 <a href="/staffsstafflist" type="button" class="btn btn-primary btn-lg btn-block">COLLEAGUES</a>

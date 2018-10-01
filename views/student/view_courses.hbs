@@ -10,9 +10,6 @@
     <br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 col-md-9 col-lg-5">
-                <img src="../images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" height="300" />
-            </div>
             <div class="col-sm-12 col-lg-7">
                 <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
                 <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
@@ -25,7 +22,10 @@
         </div>
     </div>
     <br>
-    <h3><b><center>COURSE OUTLINE</center></b></h3>
+    <h1><b>
+            <center>COURSE OUTLINE</center>
+        </b>
+    </h1>
     <br>
     {{#if kind.courseoutline}}
         <p>{{kind.courseoutline}}</p>
