@@ -8,7 +8,9 @@
 <body>
     {{>staff_lecbody}}
     <br>
-    <h2><b><center>{{heading}}</center></b></h2>
+    <h2><b>
+            <center>{{heading}}</center>
+        </b></h2>
     <div class="dropdown" style="float:right">
         <button class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown">search</button>
         <div class="dropdown-menu">
@@ -19,16 +21,16 @@
         </div>
     </div>
     <br><br>
-    <ul class="list-group">
+    <ul>
         {{#each slow}}
-            <li class="container-fluid list-group-item">
+            <li class="container-fluid">
                 <div class="row">
                     {{#if this.photo}}
-                        <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                        <div class="col-4 col-md-3 col-lg-2">
                             <img src="/{{this.photo}}" alt="image" class="rounded-circle" width="100%" height="130" />
                         </div>
                     {{else}}
-                        <div class="col-4 col-sm-4 col-md-3 col-lg-2">
+                        <div class="col-4 col-md-3 col-lg-2">
                             <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" width="100%" height="130" />
                         </div>
                     {{/if}}
@@ -42,11 +44,11 @@
                     </div>
                 </div>
             </li>
+            <br><br>
             {{else}}
                 <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
         {{/each}}
     </ul>
-    </div>
     <br><br>
     <footer>{{>footer}}</footer>
 </body>

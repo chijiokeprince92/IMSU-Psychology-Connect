@@ -8,17 +8,19 @@
 <body>
     {{>admin_lecbody}}
     <br>
-    <h3><b><center>STUDENT'S PROFILE</center></b></h3>
+    <h3><b>
+            <center>STUDENT'S PROFILE</center>
+        </b></h3>
     <br><br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 col-md-4 col-lg-6">
-                <a href="/{{photo}}"> 
+            <div class="col-12 col-md-4 col-lg-6">
+                <a href="/{{photo}}">
                     <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
                 </a>
             </div>
             <br><br>
-            <div class="col-sm-12 col-md-8 col-lg-6">
+            <div class="col-12 col-md-8 col-lg-6">
                 <p><b>E-MAIL:</b> {{email}}</p>
                 <br>
                 <p><b>SURNAME: </b> {{surname}}</p>
@@ -41,14 +43,17 @@
     <br><br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-4">
-                <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled">RESULTS <span class="fa fa-book" style="font-size:25px"></span></a>
+            <div class="col-4">
+                <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled">RESULTS <span class="fa fa-book"
+                        style="font-size:25px"></span></a>
             </div>
-            <div class="col-sm-4">
-                <a href="#" type="button" class="btn btn-success btn-lg disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></a>
+            <div class="col-4">
+                <a href="#" type="button" class="btn btn-success btn-lg disabled btn-block"><span class="fa fa-whatsapp"
+                        style="font-size:25px"></span></a>
             </div>
-            <div class="col-sm-4">
-                <a href="/list{{level}}students" type="button" class="btn btn-primary btn-lg btn-block"><span class="fa fa-users" style="font-size:25px"></span></a>
+            <div class="col-4">
+                <a href="/list{{level}}students" type="button" class="btn btn-primary btn-lg btn-block"><span class="fa fa-users"
+                        style="font-size:25px"></span></a>
             </div>
         </div>
     </div>

@@ -15,27 +15,33 @@
         </b>
     </h2>
     <br><br>
-    <p><b>EMAIL:</b> {{admin_email}}</p>
-    <br>
-    <p><b>SURNAME: </b> {{admin_surname}}</p>
-    <br>
-    <p><b>FIRSTNAME: </b> {{admin_firstname}}</p>
-    <br>
-    <p><b>GENDER: </b>{{admin_gender}}</p>
-    <br>
-    <p><b>VERIFICATION_ID: </b>{{admin_verify}}</p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <p><b>EMAIL:</b> {{admin_email}}</p>
+                <br>
+                <p><b>SURNAME: </b> {{admin_surname}}</p>
+                <br>
+                <p><b>FIRSTNAME: </b> {{admin_firstname}}</p>
+                <br>
+                <p><b>GENDER: </b>{{admin_gender}}</p>
+                <br>
+                <p><b>VERIFICATION_ID: </b>{{admin_verify}}</p>
+            </div>
+        </div>
+    </div>
     <br><br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-4">
-                <a href="/updateprofile/{{urlline}}" type="button" class="btn btn-primary btn-lg btn-block">EDIT
+            <div class="col-4">
+                <a href="/updateprofile/{{urlline}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-edit"></span>
                     PROFILE</a>
             </div>
-            <div class="col-sm-4">
-                <a href="/studentlist" type="button" class="btn btn-success btn-lg btn-block">VIEW STUDENTS</a>
+            <div class="col-4">
+                <a href="/studentlist" type="button" class="btn btn-success btn-block">VIEW STUDENTS</a>
             </div>
-            <div class="col-sm-4">
-                <a href="/stafflist" type="button" class="btn btn-primary btn-lg btn-block">VIEW STAFFS</a>
+            <div class="col-4">
+                <a href="/stafflist" type="button" class="btn btn-primary btn-block">VIEW STAFFS</a>
             </div>
         </div>
     </div>

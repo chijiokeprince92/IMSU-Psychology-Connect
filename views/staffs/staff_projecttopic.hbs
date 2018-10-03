@@ -11,24 +11,25 @@
     <h3>
         <center>PROJECT TOPICS</center>
     </h3>
-    <ul>
+    <ol>
         {{#each projectss}}
             <li class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-3">
-                        <img src="../images/psylogo4.jpg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                    <div class="col-12">
+                        <p><a href="/{{this.project}}">{{this.topic}}</a></p>
+                        <br>
                     </div>
-                    <div class="col-sm-9">
-                        <p><a href="/{{this.project}}">{{this.topic}}</a></p><br>
+                    <br>
+                    <div class="col-12 col-lg-8">
                         <p>{{this.description}}</p>
                     </div>
                 </div>
             </li>
-            <br>
+            <br><br>
             {{else}}
                 <p>THERE ARE NO UPLOADED PROJECT TOPIC.</p>
         {{/each}}
-    </ul>
+    </ol>
     <br><br>
     <footer>{{>footer}}</footer>
 </body>

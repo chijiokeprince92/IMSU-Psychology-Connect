@@ -8,30 +8,32 @@
 <body>
     {{>admin_lecbody}}
     <br>
-    <h2><b><center>PSYCHOLOGY STAFFS</center></b></h2>
+    <h2><b>
+            <center>PSYCHOLOGY STAFFS</center>
+        </b></h2>
     <br><br>
-    <ul class="list-group list-group">
+    <ul>
         {{#each slow}}
-            <li class="container-fluid list-group-item">
+            <li class="container-fluid">
                 <div class="row">
                     {{#if this.photo}}
-                        <div class="col-sm-4 col-md-3 col-lg-2">
+                        <div class="col-4 col-md-3 col-lg-2">
                             <img src="/{{this.photo}}" alt="image" class="rounded-circle" width="100%" height="130" />
                         </div>
                     {{else}}
-                        <div class="col-sm-4 col-md-3 col-lg-2">
+                        <div class="col-4 col-md-3 col-lg-2">
                             <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" width="100%" height="130" />
                         </div>
                     {{/if}}
-                    <div class="col-sm-6 col-md-7 col-lg-8">
+                    <div class="col-6 col-md-7 col-lg-8">
                         <p><a href="/staffprofile/{{this.id}}">{{this.name}}</a></p>
+                        <br>
                         <p>
-                            <b>MAT.NUMBER: </b>{{this.email}}<br>
                             <b>GENDER: </b>{{this.gender}}<br>
                             <b>STATUS: </b>{{this.bio}}
                         </p>
                     </div>
-                    <div class="col-sm-2 col-md-2 col-lg-2">
+                    <div class="col-2 col-md-2 col-lg-2">
                         <form action="/deletestaff/{{this.id}}" method="POST">
                             <input type="hidden" />
                             <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:30px"></span></button>
@@ -39,6 +41,7 @@
                     </div>
                 </div>
             </li>
+            <br><br>
             {{else}}
                 <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
         {{/each}}
