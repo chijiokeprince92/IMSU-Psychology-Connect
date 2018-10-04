@@ -10,7 +10,7 @@
     <br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 col-md-4">
+            <div class="col-12 col-md-4">
                 <a href="/{{staff_photo}}"><img src="/{{staff_photo}}" alt="profile image" class="rounded" width="100%"
                         height="300" /></a>
                 <form id="drake" style="display:none" action="/staffupdatepics/{{urlline}}" method="POST" enctype="multipart/form-data"
@@ -21,7 +21,7 @@
                 <button id="cousin" class="btn btn-danger btn-lg"><span class="fa fa-edit"></span> EDIT</button>
                 <br><br>
             </div>
-            <div class="col-sm-12 col-md-8">
+            <div class="col-12 col-md-8">
                 <p><b>Email:</b> {{staff_email}}</p>
                 <br>
                 <p><b>Surname: </b> {{staff_surname}}</p>
@@ -39,9 +39,10 @@
             </div>
         </div>
     </div>
-    <h3><b>
+    <h4><b>
             <center>YOUR COURSES</center>
-        </b></h3>
+        </b>
+    </h4>
     <br>
     <ol>
         {{#each coursess}}

@@ -8,16 +8,16 @@
 <body>
     {{>admin_lecbody}}
     <br>
-    <h1><b>
+    <h4><b>
             <center>STAFF'S PROFILE</center>
-        </b></h1>
+        </b></h4>
     <br><br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-12 col-lg-6">
                 <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
             </div>
-            <div class="col-sm-12 col-lg-6">
+            <div class="col-12 col-lg-6">
                 <p><b>E-MAIL:</b> {{email}}</p>
                 <br>
                 <p><b>SURNAME: </b> {{surname}}</p>
@@ -36,9 +36,9 @@
         </div>
     </div>
     <br><br>
-    <h3><b>
+    <h5><b>
             <center>COURSES HANDLED</center>
-        </b></h3>
+        </b></h5>
     <br>
     <ol>
         {{#each coursess}}
@@ -53,10 +53,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4">
-                <a href="/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-users" style="font-size:25px"></span></a>
+                <a href="/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"></span></a>
             </div>
             <div class="col-4">
-                <a href="#" type="button" class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></a>
+                <a href="#" type="button" class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp"></span></a>
             </div>
         </div>
     </div>

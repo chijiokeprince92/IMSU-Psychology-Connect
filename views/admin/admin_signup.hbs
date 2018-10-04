@@ -8,31 +8,34 @@
 <body>
     {{>admin_lecbody}}
     <br>
-    <h3>
+    <h4>
         <center>ADMIN SIGNUP</center>
-    </h3>
+    </h4>
     <br>
     {{#if errors}}
         <p>{{this}}</p>
     {{/if}}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 col-md-8 col-lg-6" id="kilo">
-                <form class="form group input-group-lg" action="" method="POST">
+            <div class="col-12 col-md-8 col-lg-6" id="kilo">
+                <form class="form group" action="" method="POST">
                     <label for="email"><b>E-MAIL:</b></label>
-                    <input type="email" name="email" class="form-control" autocomplete="on" placeholder="Email.com" required>
+                    <input type="email" name="email" class="form-control" autocomplete="on" placeholder="Email.com"
+                        required>
                     <br>
                     <label for="surname"><b>SURNAME:</b></label>
-                    <input type="text" name="surname" class="form-control" autocomplete="on" placeholder="surname" required>
+                    <input type="text" name="surname" class="form-control" autocomplete="on" placeholder="surname"
+                        required>
                     <br>
                     <label for="firstname"><b>FIRST NAME:</b></label>
-                    <input type="text" name="firstname" class="form-control" autocomplete="on" placeholder="first name" required>
+                    <input type="text" name="firstname" class="form-control" autocomplete="on" placeholder="first name"
+                        required>
                     <br>
                     <label for="gender"><b>GENDER:</b></label>
                     <select name="gender" class="form-control" required>
-                <option value="male">male</option>
-                <option value="female">female</option>
-            </select>
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                    </select>
                     <br>
                     <label for="verify"><b>VERIFICATION_ID:</b></label>
                     <input type="text" name="verify" class="form-control" placeholder="Verification_ID" required>
@@ -40,7 +43,7 @@
                     <label for="password"><b>PASSWORD:</b></label>
                     <input type="password" name="password" class="form-control" placeholder="Password" required>
                     <br><br>
-                    <button type="submit" class="btn btn-success btn-lg"><b>ADMIN SIGNUP</b></button>
+                    <button type="submit" class="btn btn-success"><b>ADMIN SIGNUP</b></button>
                 </form>
             </div>
         </div>

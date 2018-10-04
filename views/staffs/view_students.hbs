@@ -8,11 +8,13 @@
 <body>
     {{>staff_lecbody}}
     <br>
-    <h2><b><center>STUDENT PROFILE</center></b></h2>
+    <h4><b>
+            <center>STUDENT PROFILE</center>
+        </b></h4>
     <br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-sm-12 col-md-5 col-lg-6">
+            <div class="col-12 col-md-5 col-lg-6">
                 <a href="/{{photo}}"><img src="/{{photo}}" alt="profile image" class="rounded" width="100%" /></a>
                 <br><br>
             </div>
@@ -40,16 +42,17 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4">
-                <a href="/stafflist{{level}}students" type="button" class="btn btn-primary btn-block btn-lg"><span class="fa fa-users" style="font-size:25px"></span></a>
+                <a href="/stafflist{{level}}students" type="button" class="btn btn-primary btn-block btn-lg"><span
+                        class="fa fa-users" style="font-size:25px"></span></a>
             </div>
             <div class="col-4">
                 <button class="btn btn-success btn-block btn-lg disabled"><span class="fa fa-whatsapp" style="font-size:25px"></span></button>
             </div>
             <div class="col-4">
-                <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
+                <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled"><span class="fa fa-book"
+                        style="font-size:25px"></span></a>
             </div>
         </div>
-    </div>
     </div>
     <br><br>
     <footer>{{>footer}}</footer>

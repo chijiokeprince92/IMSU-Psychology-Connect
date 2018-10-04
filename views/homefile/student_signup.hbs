@@ -8,14 +8,16 @@
 <body>
     {{>view_body}}
     <br>
-    <h1><b><center> </center></b></h1>
+    <h4><b>
+            <center>STUDENT SIGNUP</center>
+        </b></h4>
     {{#each errors}}
         <p>{{this}}</p>
     {{/each}}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 col-md-8 col-lg-6" id="kilo">
-                <form class="form group input-group-lg" action="" method="POST" enctype="multipart/form-data">
+            <div class="col-12 col-md-8 col-lg-6" id="kilo">
+                <form class="form group" action="" method="POST" enctype="multipart/form-data">
                     <label for="email"><b>E-MAIL:</b></label>
                     <input type="email" name="email" class="form-control" placeholder="Email.com" required>
                     <br>
@@ -26,21 +28,22 @@
                     <input type="text" name="firstname" class="form-control" placeholder="first name" required>
                     <br>
                     <label for="matnumber"><b>MAT_NUMBER:</b></label>
-                    <input type="number" name="matnumber" class="form-control" minlength="7" maxlength="8" placeholder="1234567" required>
+                    <input type="number" name="matnumber" class="form-control" minlength="7" maxlength="8" placeholder="1234567"
+                        required>
                     <br>
                     <label for="level"><b>CURRENT LEVEL:</b></label>
                     <select name="level" class="form-control" required>
-                <option value="100">100 level</option>
-                <option value="200">200 level</option>
-                 <option value="300">300 level</option>
-                <option value="400">400 level</option>
-                </select>
+                        <option value="100">100 level</option>
+                        <option value="200">200 level</option>
+                        <option value="300">300 level</option>
+                        <option value="400">400 level</option>
+                    </select>
                     <br>
                     <label for="gender"><b>GENDER:</b></label>
                     <select name="gender" class="form-control" required>
-                <option value="male">male</option>
-                <option value="female">female</option>
-                </select>
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                    </select>
                     <br>
                     <label for="phone"><b>PHONE NUMBER:</b></label>
                     <input type="tel" name="phone" class="form-control" minlength="11" maxlength="11" required>
@@ -54,7 +57,7 @@
                     <label for="password"><b>PASSWORD:</b></label>
                     <input type="password" name="password" class="form-control" required>
                     <br><br>
-                    <button type="submit" class="btn btn-success btn-lg"><b>SIGNUP</b></button>
+                    <button type="submit" class="btn btn-success"><b>SIGNUP</b></button>
                 </form>
                 <p></p>
             </div>

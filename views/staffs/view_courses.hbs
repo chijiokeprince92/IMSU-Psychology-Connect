@@ -8,27 +8,35 @@
 <body>
     {{>staff_lecbody}}
     <br>
-    <h2><b>
+    <h4><b>
             <center>COURSE PROFILE</center>
-        </b></h2>
+        </b>
+    </h4>
     <br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 col-md-8">
+            <div class="col-12 col-md-8">
                 <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
+                <br>
                 <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
+                <br>
                 <p><b>LEVEL: </b> {{kind.level}}</p>
+                <br>
                 <p><b>SEMESTER:</b> {{kind.semester}}</p>
+                <br>
                 <p><b>UNITS: </b>{{kind.units}}</p>
+                <br>
                 <p><b>BORROWED_COURSE: </b>{{kind.borrowed}}</p>
+                <br>
                 <p><b>LECTURER: </b><a href="/staffstaffprofile/{{teacher.id}}">{{teacher.name}}</a></p>
+                <br>
             </div>
         </div>
     </div>
     <br>
-    <h3>
+    <h4>
         <center><b>COURSE OUTLINE</b></center>
-    </h3>
+    </h4>
     <br>
     {{#if kind.courseoutline}}
         <p>{{kind.courseoutline}}</p>
@@ -53,13 +61,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4">
-                <a type="button" id="cousin" class="btn btn-primary btn-lg btn-block">ADD OUTLINE</a>
+                <a type="button" id="cousin" class="btn btn-primary btn-block"><span class="fa fa-edit" style="font-size:25px"></span></a>
             </div>
             <div class="col-4">
-                <a href="#" type="button" class="btn btn-primary btn-lg btn-block disabled">ASSIGNMENT</a>
+                <a href="#" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
             </div>
             <div class="col-4">
-                <a href="#" type="button" class="btn btn-primary btn-lg btn-block disabled"> HANDOUT</a>
+                <a href="#" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-file" style="font-size:25px"></span></a>
             </div>
         </div>
     </div>

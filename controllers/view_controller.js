@@ -2,13 +2,13 @@ const News = require('../models/newsSchema');
 const async = require('async');
 
 
-exports.home = function (req, res, next) {
+exports.home = function(req, res, next) {
     async.parallel({
-        news_count: function (callback) {
+        news_count: function(callback) {
             News.count()
                 .exec(callback);
         },
-    }, function (err, count) {
+    }, function(err, count) {
         if (err) {
             return next(err)
         }
@@ -20,14 +20,14 @@ exports.home = function (req, res, next) {
 
 };
 
-exports.aboutus = function (req, res, next) {
+exports.aboutus = function(req, res, next) {
     res.render('homefile/aboutus', {
         title: 'About IMSU Psychology'
     });
 }
 
-exports.default_news = function (req, res, next) {
-    News.find({}, function (err, latest) {
+exports.default_news = function(req, res, next) {
+    News.find({}, function(err, latest) {
         if (err) {
             return next(err);
         }
@@ -38,63 +38,78 @@ exports.default_news = function (req, res, next) {
     })
 }
 
-exports.history = function (req, res, next) {
+// GET Home full NEWS
+exports.get_full_news = function(req, res, next) {
+    News.findOne({
+        '_id': req.params.id
+    }, function(err, release) {
+        if (err) {
+            return next(err);
+        }
+        res.render('homefile/fullnews', {
+            title: 'Psychology Full News',
+            newspaper: release
+        });
+    })
+}
+
+exports.history = function(req, res, next) {
     res.render('homefile/history', {
         title: 'History of NAPS'
     });
 };
 
-exports.objective = function (req, res, next) {
+exports.objective = function(req, res, next) {
     res.render('homefile/objectives', {
         title: 'objectives of NAPS'
     });
 };
 
-exports.guidelines = function (req, res, next) {
+exports.guidelines = function(req, res, next) {
     res.render('homefile/guidelines', {
         title: 'Guidelines of NAPS'
     });
 };
 
-exports.orientation = function (req, res, next) {
+exports.orientation = function(req, res, next) {
     res.render('homefile/orientation', {
         title: 'Orientation'
     });
 };
 
-exports.exam = function (req, res, next) {
+exports.exam = function(req, res, next) {
     res.render('homefile/examination', {
         title: 'Examination Rules and Regulations'
     });
 };
 
 
-exports.libinfo = function (req, res, next) {
+exports.libinfo = function(req, res, next) {
     res.render('homefile/libraryInfo', {
         title: 'Library Informations'
     });
 };
 
 
-exports.onelevel = function (req, res, next) {
+exports.onelevel = function(req, res, next) {
     res.render('homefile/100levelcourse', {
         title: '100level'
     });
 };
 
-exports.twolevel = function (req, res, next) {
+exports.twolevel = function(req, res, next) {
     res.render('homefile/200levelcourse', {
         title: '200level'
     });
 };
 
-exports.threelevel = function (req, res, next) {
+exports.threelevel = function(req, res, next) {
     res.render('homefile/300levelcourse', {
         title: '300level'
     });
 };
 
-exports.fourlevel = function (req, res, next) {
+exports.fourlevel = function(req, res, next) {
     res.render('homefile/400levelcourse', {
         title: '400level'
     });

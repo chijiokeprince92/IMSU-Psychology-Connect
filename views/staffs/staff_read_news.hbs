@@ -8,24 +8,27 @@
 <body>
     {{>staff_lecbody}}
     <br>
-    <h2><b><center>LATEST NEWS!!</center></b></h2>
+    <h4><b>
+            <center>LATEST NEWS!!</center>
+        </b>
+    </h4>
     <ul>
         {{#each newspaper}}
             <li class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-12">
                         <h3>
                             <center><a href="/staffgetfullnews/{{this.id}}">{{this.heading}}</a></center>
                         </h3>
                         <br>
                     </div>
                     <br>
-                    <div class="col-sm-12 col-lg-4">
+                    <div class="col-12 col-lg-4">
                         <img src="{{this.picture}}" alt="image" class="rounded" width="100%" height="300" />
                         <br><br>
                     </div>
                     <br>
-                    <div class="col-sm-12 col-lg-8">
+                    <div class="col-12 col-lg-8">
                         <p>{{this.passage}}</p>
                         <button class="btn btn-primary">Like<span> 12</span></button>
                         <button class="btn btn-danger">Comments<span> 4</span></button>
@@ -36,7 +39,6 @@
                 <p>THERE ARE NO UPLOADED NEWS</p>
         {{/each}}
     </ul>
-    </div>
     <br><br>
     <footer>{{>footer}}</footer>
 </body>

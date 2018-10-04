@@ -8,15 +8,18 @@
 <body>
     {{>admin_lecbody}}
     <br><br>
-    <h1><b><center>STAFF SIGNUP</center></b></h1>
+    <h4><b>
+            <center>STAFF SIGNUP</center>
+        </b>
+    </h4>
     <br>
     {{#each errors}}
         <p>{{this}}</p>
     {{/each}}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 col-md-8 col-lg-6" id="kilo">
-                <form class="form group input-group-lg" action="" method="POST">
+            <div class="col-12 col-md-8 col-lg-6" id="kilo">
+                <form class="form group" action="" method="POST">
                     <label for="email"><b>E-MAIL:</b></label>
                     <input type="email" name="email" class="form-control" placeholder="Email.com" required>
                     <br>
@@ -31,9 +34,9 @@
                     <br>
                     <label for="gender"><b>GENDER:</b></label>
                     <select name="gender" class="form-control" required>
-                <option value="male">male</option>
-                <option value="female">female</option>
-                </select>
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                    </select>
                     <br>
                     <label for="phone"><b>PHONE NUMBER:</b></label>
                     <input type="tel" name="phone" class="form-control" placeholder="" required>
@@ -44,7 +47,8 @@
                     <label for="password"><b>PASSWORD:</b></label>
                     <input type="password" class="form-control" name="password" required>
                     <br><br>
-                    <button type="submit" class="btn btn-success btn-lg"><b><span class="fa fa-cloud-upload" style="font-size:30px"></span>STAFF SIGNUP</b></button>
+                    <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"></span>STAFF
+                            SIGNUP</b></button>
                 </form>
             </div>
         </div>

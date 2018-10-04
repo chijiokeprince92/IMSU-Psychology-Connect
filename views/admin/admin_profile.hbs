@@ -9,11 +9,11 @@
     {{>admin_lecbody}}
     <br>
     <br>
-    <h2>
+    <h4>
         <b>
             <center>{{admin_surname}}'s ADMIN PROFILE</center>
         </b>
-    </h2>
+    </h4>
     <br><br>
     <div class="container-fluid">
         <div class="row">
@@ -34,17 +34,15 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-4">
-                <a href="/updateprofile/{{urlline}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-edit"></span>
-                    PROFILE</a>
+                <a href="/updateprofile/{{urlline}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-edit"></span></a>
             </div>
             <div class="col-4">
-                <a href="/studentlist" type="button" class="btn btn-success btn-block">VIEW STUDENTS</a>
+                <a href="/studentlist" type="button" class="btn btn-success btn-block"><span class="fa fa-users"></span></a>
             </div>
             <div class="col-4">
-                <a href="/stafflist" type="button" class="btn btn-primary btn-block">VIEW STAFFS</a>
+                <a href="/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"></span></a>
             </div>
         </div>
-    </div>
     </div>
     <br><br>
     <footer>{{>footer}}</footer>

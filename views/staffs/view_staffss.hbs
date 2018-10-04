@@ -8,15 +8,17 @@
 <body>
     {{>staff_lecbody}}
     <br>
-    <h2><b><center>STAFF PROFILE</center></b></h2>
+    <h4><b>
+            <center>STAFF PROFILE</center>
+        </b></h4>
     <br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-sm-12 col-md-5">
+            <div class="col-12 col-md-5">
                 <a href="/{{photo}}"><img src="/{{photo}}" alt="image" class="rounded" width="100%" /></a>
                 <br><br>
             </div>
-            <div class="col-12 col-sm-12 col-md-7">
+            <div class="col-12 col-md-7">
                 <p><b>EMAIL: </b> {{email}}</p>
                 <br>
                 <p><b>SURNAME: </b> {{surname}}</p>
@@ -32,9 +34,9 @@
         </div>
     </div>
     <br>
-    <h3>
+    <h4>
         <center><b>COURSES ASSIGNED</b></center>
-    </h3>
+    </h4>
     <br>
     {{#each coursess}}
         <p><b>COURSE TITLE: </b><a href="/staffviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
@@ -44,11 +46,12 @@
     <br><br>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6 col-lg-5">
-                <a href="/staffsstafflist" type="button" class="btn btn-primary btn-lg btn-block">COLLEAGUES</a>
+            <div class="col-6 col-lg-5">
+                <a href="/staffsstafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
+                        style="font-size:25px"></span></a>
             </div>
-            <div class="col-sm-6 col-lg-5">
-                <button class="btn btn-success btn-lg disabled btn-block">SEND_MESSAGE</button>
+            <div class="col-6 col-lg-5">
+                <button class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></button>
             </div>
         </div>
     </div>

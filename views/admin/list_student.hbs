@@ -8,12 +8,12 @@
 <body>
     {{>admin_lecbody}}
     <br>
-    <h2><b>
+    <h4><b>
             <center>{{levy}}</center>
         </b>
-    </h2>
+    </h4>
     <div class="dropdown" style="float:right">
-        <button class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown">search</button>
+        <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">search</button>
         <div class="dropdown-menu">
             <a class="dropdown-item" href="/list100students">100 LEVEL</a>
             <a class="dropdown-item" href="/list200students">200 LEVEL</a>
@@ -23,20 +23,20 @@
     </div>
     <br><br>
     <ul>
-        <br>
+        <br><br>
         {{#each slow}}
             <li class="container-fluid">
                 <div class="row">
                     {{#if this.photo}}
-                        <div class="col-4 col-md-3 col-lg-2">
-                            <img src="/{{this.photo}}" alt="image" class="rounded-circle" width="100%" height="130" />
+                        <div class="col-5 col-md-3 col-lg-2">
+                            <img src="/{{this.photo}}" alt="image" class="rounded-circle" id="picss" />
                         </div>
                     {{else}}
-                        <div class="col-4 col-md-3 col-lg-2">
-                            <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" width="100%" height="130" />
+                        <div class="col-5 col-md-3 col-lg-2">
+                            <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" id="picss" />
                         </div>
                     {{/if}}
-                    <div class="col-6 col-md-7 col-lg-8">
+                    <div class="col-5 col-md-7 col-lg-8">
                         <p><a href="/studentprofile/{{this.id}}">{{this.name}}</a></p>
                         <p>
                             <b>MAT.NUMBER: </b>{{this.matnumber}}<br>

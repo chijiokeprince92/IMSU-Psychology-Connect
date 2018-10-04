@@ -25,6 +25,9 @@ router.get('/', controllers.home);
 
 router.get('/defaultnews', controllers.default_news);
 
+router.get('/homegetfullnews/:id', controllers.get_full_news);
+
+
 router.get('/aboutus', controllers.aboutus);
 
 // Get the history,guidelines,objectives,orientation program,examination, and library information
