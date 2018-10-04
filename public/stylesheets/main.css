@@ -1,7 +1,6 @@
 @media only screen and (min-width:900px) {
     .broda {
         background-size: cover;
-        background-color: lightgreen;
         font-size: 1em;
         line-height: 1.2;
         border: 0px;
@@ -66,7 +65,7 @@
         font-size: 20px;
     }
     li a:hover {
-        color: green;
+        color: red;
     }
     li .aboutus {
         width: 100%;
@@ -111,7 +110,7 @@
         position: sticky;
         top: 0;
         z-index: 1;
-        background-color: lightblue;
+        background-color: rgb(0, 81, 255);
     }
     #kilo {
         border-radius: 5px;
@@ -181,7 +180,6 @@
 @media only screen and (max-width:900px) {
     .broda {
         background-size: cover;
-        background-color: lightsalmon;
         font-size: 1em;
         line-height: 1.2;
         border: 0px;
@@ -355,7 +353,6 @@
 @media only screen and (max-width:500px) {
     .broda {
         background-size: cover;
-        background-color: lightblue;
         font-size: 0.5em;
         line-height: 1.2;
         border: 0px;
