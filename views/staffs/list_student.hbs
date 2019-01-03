@@ -1,58 +1,45 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>staff_lecbody}}
-    <br>
-    <h4><b>
-            <center>{{heading}}</center>
-        </b>
-    </h4>
-    <div class="dropdown" style="float:right">
-        <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">search</button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="/stafflist100students">100 LEVEL</a>
-            <a class="dropdown-item" href="/stafflist200students">200 LEVEL</a>
-            <a class="dropdown-item" href="/stafflist300students">300 LEVEL</a>
-            <a class="dropdown-item" href="/stafflist400students">400 LEVEL</a>
-        </div>
+<br>
+<h4><b>
+        <center>{{heading}}</center>
+    </b>
+</h4>
+<div class="dropdown" style="float:right">
+    <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">search</button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="/staff/list100students">100 LEVEL</a>
+        <a class="dropdown-item" href="/staff/list200students">200 LEVEL</a>
+        <a class="dropdown-item" href="/staff/list300students">300 LEVEL</a>
+        <a class="dropdown-item" href="/staff/list400students">400 LEVEL</a>
     </div>
+</div>
+<br><br>
+<ul>
     <br><br>
-    <ul>
-        <br><br>
-        {{#each slow}}
-            <li class="container-fluid">
-                <div class="row">
-                    {{#if this.photo}}
-                        <div class="col-4 col-md-3 col-lg-2">
-                            <img src="/{{this.photo}}" alt="image" class="rounded" width="100%" height="100" />
-                        </div>
-                    {{else}}
-                        <div class="col-4 col-md-3 col-lg-2">
-                            <img src="../images/psylogo4.jpg" alt="image" class="rounded" width="100%" />
-                        </div>
-                    {{/if}}
-                    <div class="col-8 col-md-9 col-lg-10">
-                        <p><a href="/staffstudentprofile/{{this.id}}">{{this.surname}} {{this.firstname}}</a></p>
-                        <p>
-                            <b>LEVEL: </b>{{this.level}}<br>
-                            <b>GENDER: </b>{{this.gender}}<br>
-                            <b>STATUS:</b> {{this.bio}}
-                        </p>
+    {{#each slow}}
+        <li class="container-fluid">
+            <div class="row">
+                {{#if this.photo}}
+                    <div class="col-5 col-md-3 col-lg-2">
+                        <img src="/{{this.photo}}" alt="image" class="rounded-circle" id="picss" />
                     </div>
+                {{else}}
+                    <div class="col-5 col-md-3 col-lg-2">
+                        <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" id="picss" />
+                    </div>
+                {{/if}}
+                <div class="col-7 col-md-9 col-lg-10">
+                    <p><a href="/staff/studentprofile/{{this.id}}">{{this.surname}} {{this.firstname}}</a></p>
+                    <p>
+                        <b>LEVEL: </b>{{this.level}}<br>
+                        <b>GENDER: </b>{{this.gender}}<br>
+                        <b>STATUS:</b> {{this.bio}}
+                    </p>
                 </div>
-            </li>
-            <br><br>
-            {{else}}
-                <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
-        {{/each}}
-    </ul>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+            </div>
+        </li>
+        <br><br>
+        {{else}}
+            <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+    {{/each}}
+</ul>
+<br><br>

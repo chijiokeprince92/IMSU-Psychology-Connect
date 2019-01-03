@@ -27,10 +27,16 @@ var coursesSchema = new schema({
         type: String,
         required: true
     },
-    lecturer: {
+    lecturer: [{
         type: schema.ObjectId,
         ref: 'Staff'
-    },
+    }],
+
+    student_offering: [{
+        type: schema.ObjectId,
+        ref: 'StudentSigns'
+    }],
+
     courseoutline: {
         type: String
     }
@@ -39,13 +45,13 @@ var coursesSchema = new schema({
 //Virtual for Course's URL
 coursesSchema
     .virtual('url')
-    .get(function () {
+    .get(function() {
         return '/adminviewcourse/' + this._id;
     });
 
 coursesSchema
     .virtual('urly')
-    .get(function () {
+    .get(function() {
         return '/staffviewcourse/' + this._id;
     });
 

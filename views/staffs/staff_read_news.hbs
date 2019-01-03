@@ -1,46 +1,49 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>staff_lecbody}}
-    <br>
-    <h4><b>
-            <center>LATEST NEWS!!</center>
-        </b>
-    </h4>
-    <ul>
-        {{#each newspaper}}
-            <li class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <h3>
-                            <center><a href="/staffgetfullnews/{{this.id}}">{{this.heading}}</a></center>
-                        </h3>
+<br>
+<h4><b>
+        <center>LATEST NEWS!!</center>
+    </b>
+</h4>
+<br>
+<ul>
+    <div class="container-fluid">
+        <div class="row">
+            {{#each newspaper}}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <li class="card">
+                        <div class="col-12 card-header">
+                            <h4>
+                                <b>
+                                    <center><a href="/staff/getfullnews/{{this.id}}">{{this.heading}}</a></center>
+                                </b>
+                            </h4>
+                        </div>
+                        <div class="col-12">
+                            <br>
+                            <img src="{{this.picture}}" alt="image" class="rounded" width="100%" height="250" />
+                        </div>
                         <br>
-                    </div>
-                    <br>
-                    <div class="col-12 col-lg-4">
-                        <img src="{{this.picture}}" alt="image" class="rounded" width="100%" height="300" />
-                        <br><br>
-                    </div>
-                    <br>
-                    <div class="col-12 col-lg-8">
-                        <p>{{this.passage}}</p>
-                        <button class="btn btn-primary">Like<span> 12</span></button>
-                        <button class="btn btn-danger">Comments<span> 4</span></button>
-                    </div>
+                        <div class="col-12 col-md-6 col-lg-7 card-body">
+                            <p>{{this.passage}}</p>
+                        </div>
+                        <div class="col-12 card-footer">
+                            <button class="btn btn-danger"><span class="fa fa-commenting-o"></span> comments<span></span></button>
+                            <form action="/studentnewslike/{{this.id}}" method="POST" style="display:inline">
+                                <input type="text" style="display:none" class="form-control" name="like" />
+                                <button type="submit" id="sender{{this.id}}" class="btn btn-primary"><span class="fa fa-thumbs-o-up">
+                                        Like<span>
+                                            {{this.likes}}</span></button>
+                            </form>
+                            <form action="/studentnewsdislike/{{this.id}}" method="POST" style="display:inline">
+                                <input type="text" style="display:none" class="form-control" name="like" />
+                                <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span>
+                                    Dislike <span>
+                                        {{this.dislikes}}</span></button>
+                            </form>
+                        </div>
+                    </li>
                 </div>
-            </li>
-            {{else}}
-                <p>THERE ARE NO UPLOADED NEWS</p>
-        {{/each}}
-    </ul>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+            {{/each}}
+        </div>
+    </div>
+</ul>
+<br><br>

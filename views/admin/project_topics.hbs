@@ -1,42 +1,29 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>admin_lecbody}}
-    <br>
-    <h2><b>
-            <center>PROJECT TOPICS</center>
-        </b></h2>
-    <br><br>
-    <ol>
-        {{#each projectss}}
-            <li class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <p><a href="/{{this.project}}">{{this.topic}}</a></p>
-                        <br>
-                    </div>
-                    <br><br>
-                    <div class="col-12 col-lg-8">
-                        <p>{{this.description}}</p>
-                    </div>
+<br>
+<h2><b>
+        <center>PROJECT TOPICS</center>
+    </b></h2>
+<br><br>
+<ol>
+    {{#each projectss}}
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <p><a href="/{{this.project}}">{{this.topic}}</a></p>
+                    <br>
                 </div>
-                <form action="/deleteproject/{{this.id}}" method="POST">
-                    <input type="hidden" class="form-control">
-                    <button type="submit" class="btn btn-danger">DELETE</button>
-                </form>
-            </li>
-            <br><br>
-            {{else}}
-                <p>THERE ARE NO UPLOADED PROJECT TOPICS</p>
-        {{/each}}
-    </ol>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+                <br><br>
+                <div class="col-12 col-lg-8">
+                    <p>{{this.description}}</p>
+                </div>
+            </div>
+            <form action="/deleteproject/{{this.id}}" method="POST">
+                <input type="hidden" class="form-control">
+                <button type="submit" class="btn btn-danger">DELETE</button>
+            </form>
+        </li>
+        <br><br>
+        {{else}}
+            <p>THERE ARE NO UPLOADED PROJECT TOPICS</p>
+    {{/each}}
+</ol>
+<br><br>

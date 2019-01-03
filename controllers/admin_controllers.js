@@ -4,8 +4,8 @@ const Staff = require('../models/staffSchema');
 const News = require('../models/newsSchema');
 const Project = require('../models/projectSchema');
 const Courses = require('../models/coursesSchema');
+const Result = require('../models/resultSchema');
 const async = require('async');
-var multer = require('multer');
 var path = require('path');
 
 const {
@@ -20,17 +20,17 @@ const {
 //ADMIN Functions
 
 // Checking for Admin logins and verifications
-exports.admin_session_force = function (req, res, next) {
-    if (!req.session.admin) {
-        res.redirect('/adminlogin');
-    } else {
-        next();
+exports.admin_session_force = function(req, res, next) {
+        if (!req.session.admin) {
+            res.redirect('/admin/login');
+        } else {
+            next();
+        }
     }
-}
-//--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
 // GET Admin Signup Form
-exports.admin_signup_get = function (req, res, next) {
+exports.admin_signup_get = function(req, res, next) {
     res.render('admin/admin_signup', {
         title: 'ADMIN_signUp'
     });
@@ -92,7 +92,7 @@ exports.admin_signup_post = [
                 verify: req.body.verify,
                 password: req.body.password
             });
-            judge.save(function (err) {
+            judge.save(function(err) {
                 if (err) {
                     return next(err);
                 }
@@ -105,40 +105,34 @@ exports.admin_signup_post = [
 //----------------------------------------------------------------------------------------------
 
 // GET Admin login form
-exports.admin_login_get = function (req, res, next) {
+exports.admin_login_get = function(req, res, next) {
     res.render('admin/admin_login', {
         title: 'Admin Login'
     })
 }
 
 // POST Admin login form
-exports.admin_login_post = function (req, res, next) {
+exports.admin_login_post = function(req, res, next) {
     Admins.findOne({
         'verify': req.body.verify
-    }, function (err, sydney) {
+    }, function(err, sydney) {
         if (err) {
             return next(err);
-        } else if (sydney == null) {
-            res.redirect('/adminlogin');
-            return;
         } else if (sydney.password != req.body.password) {
-            res.redirect('/adminlogin');
+            res.redirect('/admin/adminlogin');
             return;
         } else {
             req.session.admin = sydney.id;
-            res.render('admin/admin', {
-                title: 'Admin Page',
-                admin: req.session.admin
-            })
+            res.redirect('/admin/hercules');
         }
     })
 }
 
 //--------------------------------------------------------------------------
 // Display Author update form on GET.
-exports.admin_update_get = function (req, res, next) {
+exports.admin_update_get = function(req, res, next) {
 
-    Admins.findById(req.params.id, function (err, coursey) {
+    Admins.findById(req.params.id, function(err, coursey) {
         if (err) {
             return next(err);
         }
@@ -157,17 +151,17 @@ exports.admin_update_get = function (req, res, next) {
     });
 };
 
-exports.admin_update_post = function (req, res, next) {
-    var judge = new Admins({
+exports.admin_update_post = function(req, res, next) {
+    var judge = {
         email: req.body.email,
         surname: req.body.surname,
         firstname: req.body.firstname,
         password: req.body.password,
         _id: req.params.id
-    });
+    };
     Admins.findByIdAndUpdate(req.params.id, judge, {
         new: true
-    }, function (err, adminupdate) {
+    }, function(err, adminupdate) {
         if (err) {
             return next(err);
         }
@@ -178,17 +172,17 @@ exports.admin_update_post = function (req, res, next) {
 //----------------------------------------------------------------------------------------
 
 //GET Admin HOME Page
-exports.admin = function (req, res, next) {
+exports.admin = function(req, res, next) {
     async.parallel({
-        didi: function (callback) {
+        didi: function(callback) {
             Admins.findOne({
                 '_id': req.session.admin
             }).exec(callback);
         },
-        newy: function (callback) {
+        newy: function(callback) {
             News.count().exec(callback);
         }
-    }, function (err, name) {
+    }, function(err, name) {
         if (err) {
             return next(err);
         }
@@ -202,9 +196,9 @@ exports.admin = function (req, res, next) {
 }
 
 // GET Profile page for a specific Admin.
-exports.profiler = function (req, res, next) {
+exports.profiler = function(req, res, next) {
     Admins.findById(req.params.id)
-        .exec(function (err, results) {
+        .exec(function(err, results) {
             if (err) {
                 return next(err);
             } // Error in API usage.
@@ -214,6 +208,8 @@ exports.profiler = function (req, res, next) {
                 err.status = 404;
                 return next(err);
             }
+
+
             // Successful, so render.
             res.render('admin/admin_profile', {
                 title: 'Admin Profile',
@@ -228,15 +224,15 @@ exports.profiler = function (req, res, next) {
             });
         })
 };
-
+//----------------------------------------------------------------------------------------------
 // GET the names of every student in Tabular form
-exports.list_students = function (req, res, next) {
+exports.list_students = function(req, res, next) {
     StudentSigns.find()
         .sort([
             ['level', 'ascending']
         ])
         .exec(
-            function (err, swag) {
+            function(err, swag) {
                 if (err) {
                     return next(err);
                 }
@@ -253,25 +249,25 @@ exports.list_students = function (req, res, next) {
 
 
 // GET Profile  of a student
-exports.view_student_profile = function (req, res, next) {
+exports.view_student_profile = function(req, res, next) {
     StudentSigns.findById(req.params.id)
         .exec(
-            function (err, swag) {
+            function(err, swag) {
                 if (err) {
                     return next(err);
                 }
                 res.render('admin/view_student', {
                     admin: req.session.admin,
                     title: "Student Profile",
-                    email: swag.email,
-                    surname: swag.surname,
-                    firstname: swag.firstname,
-                    matnumber: swag.matnumber,
-                    level: swag.level,
-                    gender: swag.gender,
-                    phone: swag.phone,
-                    quote: swag.bio,
-                    photo: function () {
+                    student: swag,
+                    courserepno: function() {
+                        if (swag.is_courserep == "No") {
+                            return swag.is_courserep;
+                        } else {
+                            return;
+                        }
+                    },
+                    photo: function() {
                         if (!swag.photo) {
                             swag.photo = "../images/psylogo4.jpg";
                             return swag.photo;
@@ -284,8 +280,22 @@ exports.view_student_profile = function (req, res, next) {
         )
 }
 
-exports.delete_student = function (req, res, next) {
-    StudentSigns.findByIdAndRemove(req.params.id, function (err) {
+// Make Course Rep.
+exports.student_make_courserep = function(req, res, next) {
+    var qualified = {
+        is_courserep: req.body.courserep,
+        _id: req.params.id
+    };
+    StudentSigns.findByIdAndUpdate(req.params.id, qualified, {}, function(err, studentupdate) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/studentprofile/' + studentupdate.id);
+    });
+};
+
+exports.delete_student = function(req, res, next) {
+    StudentSigns.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
             return next(err);
         }
@@ -294,10 +304,10 @@ exports.delete_student = function (req, res, next) {
 }
 
 //Functions for displaying students by their levels
-exports.list_100_student = function (req, res, next) {
+exports.list_100_student = function(req, res, next) {
     StudentSigns.find({
         'level': 100
-    }, function (err, swagger) {
+    }, function(err, swagger) {
         if (err) {
             return next(err);
         }
@@ -314,10 +324,10 @@ exports.list_100_student = function (req, res, next) {
     })
 }
 
-exports.list_200_student = function (req, res, next) {
+exports.list_200_student = function(req, res, next) {
     StudentSigns.find({
         'level': 200
-    }, function (err, swagger) {
+    }, function(err, swagger) {
         if (err) {
             return next(err);
         }
@@ -334,10 +344,10 @@ exports.list_200_student = function (req, res, next) {
     })
 }
 
-exports.list_300_student = function (req, res, next) {
+exports.list_300_student = function(req, res, next) {
     StudentSigns.find({
         'level': 300
-    }, function (err, swagger) {
+    }, function(err, swagger) {
         if (err) {
             return next(err);
         }
@@ -354,10 +364,10 @@ exports.list_300_student = function (req, res, next) {
     })
 }
 
-exports.list_400_student = function (req, res, next) {
+exports.list_400_student = function(req, res, next) {
     StudentSigns.find({
         'level': 400
-    }, function (err, swagger) {
+    }, function(err, swagger) {
         if (err) {
             return next(err);
         }
@@ -376,9 +386,9 @@ exports.list_400_student = function (req, res, next) {
 
 
 // function for getting the names of every staff
-exports.list_staffs = function (req, res, next) {
+exports.list_staffs = function(req, res, next) {
     Staff.find()
-        .exec(function (err, swag) {
+        .exec(function(err, swag) {
             if (err) {
                 return next(err);
             }
@@ -394,17 +404,17 @@ exports.list_staffs = function (req, res, next) {
 }
 
 // GET Profile of a Particular Staff
-exports.view_staff_profile = function (req, res, next) {
+exports.view_staff_profile = function(req, res, next) {
     async.parallel({
-        coursey: function (callback) {
+        coursey: function(callback) {
             Courses.find({
                 'lecturer': req.params.id
             }).exec(callback);
         },
-        staffy: function (callback) {
+        staffy: function(callback) {
             Staff.findById(req.params.id).exec(callback);
         }
-    }, function (err, swag) {
+    }, function(err, swag) {
         if (err) {
             return next(err);
         }
@@ -418,7 +428,7 @@ exports.view_staff_profile = function (req, res, next) {
             gender: swag.staffy.gender,
             phone: swag.staffy.phone,
             coursess: swag.coursey,
-            photo: function () {
+            photo: function() {
                 if (!swag.staffy.photo) {
                     swag.staffy.photo = "../images/psylogo4.jpg";
                     return swag.staffy.photo;
@@ -430,8 +440,8 @@ exports.view_staff_profile = function (req, res, next) {
     });
 }
 
-exports.delete_staff = function (req, res, next) {
-    Staff.findByIdAndRemove(req.params.id, function (err) {
+exports.delete_staff = function(req, res, next) {
+    Staff.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
             return next(err);
         }
@@ -441,8 +451,16 @@ exports.delete_staff = function (req, res, next) {
 
 //---------------------------------------------------------------------------------------------
 
+exports.get_time_table = function(req, res, next) {
+    res.render('admin/add_timetable', {
+        title: "Add TimeTable",
+        admin: req.session.admin
+    })
+}
+
+
 // GET Admin form for Project Upload
-exports.get_upload_project = function (req, res, next) {
+exports.get_upload_project = function(req, res, next) {
     res.render('admin/upload_project', {
         title: "Upload Project Topic",
         admin: req.session.admin
@@ -450,7 +468,7 @@ exports.get_upload_project = function (req, res, next) {
 }
 
 // POST Admin form for Project Upload
-exports.post_upload_project = function (req, res, next) {
+exports.post_upload_project = function(req, res, next) {
     var fullPath = "./project_topics/" + req.file.filename;
     var projectile = new Project({
         project: fullPath,
@@ -458,7 +476,7 @@ exports.post_upload_project = function (req, res, next) {
         description: req.body.description
     });
     console.log(projectile);
-    projectile.save(function (err) {
+    projectile.save(function(err) {
         if (err) {
             console.log(err);
             return next(err);
@@ -469,8 +487,8 @@ exports.post_upload_project = function (req, res, next) {
 }
 
 // GET Admin PROJECT Topics
-exports.get_project_topics = function (req, res, next) {
-    Project.find({}, function (err, release) {
+exports.get_project_topics = function(req, res, next) {
+    Project.find({}, function(err, release) {
         if (err) {
             return next(err);
         }
@@ -485,8 +503,8 @@ exports.get_project_topics = function (req, res, next) {
     })
 }
 
-exports.delete_project = function (req, res, next) {
-    Project.findByIdAndRemove(req.params.id, function (err) {
+exports.delete_project = function(req, res, next) {
+    Project.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
             return next(err);
         }
@@ -496,7 +514,7 @@ exports.delete_project = function (req, res, next) {
 
 //----------------------------------------------------------------------------
 // GET Admin form for Posting NEWS
-exports.get_upload_news = function (req, res, next) {
+exports.get_upload_news = function(req, res, next) {
     res.render('admin/admin_get_news', {
         title: 'Admin Upload Projects',
         admin: req.session.admin
@@ -504,7 +522,7 @@ exports.get_upload_news = function (req, res, next) {
 }
 
 // POST Admin form for NEWS 
-exports.post_upload_news = function (req, res, next) {
+exports.post_upload_news = function(req, res, next) {
     var fullPath = "./newsproject/" + req.file.filename;
     var latest = new News({
         picture: fullPath,
@@ -513,7 +531,7 @@ exports.post_upload_news = function (req, res, next) {
         passage1: req.body.passage1,
         passage2: req.body.passage2
     });
-    latest.save(function (err) {
+    latest.save(function(err) {
         if (err) {
             return next(err);
         }
@@ -521,10 +539,10 @@ exports.post_upload_news = function (req, res, next) {
     });
 }
 
-exports.news_edit_get = function (req, res, next) {
+exports.news_edit_get = function(req, res, next) {
     News.findOne({
         '_id': req.params.id
-    }, function (err, newy) {
+    }, function(err, newy) {
         if (err) {
             return next(err);
         }
@@ -537,7 +555,7 @@ exports.news_edit_get = function (req, res, next) {
 
 }
 
-exports.news_edit_post = function (req, res, next) {
+exports.news_edit_post = function(req, res, next) {
     var latest = new News({
         heading: req.body.heading,
         passage: req.body.passage,
@@ -545,7 +563,7 @@ exports.news_edit_post = function (req, res, next) {
         passage2: req.body.passage2,
         _id: req.params.id
     });
-    News.findByIdAndUpdate(req.params.id, latest, {}, function (err, newsupdate) {
+    News.findByIdAndUpdate(req.params.id, latest, {}, function(err, newsupdate) {
         if (err) {
             return next(err);
         }
@@ -554,10 +572,10 @@ exports.news_edit_post = function (req, res, next) {
 }
 
 // GET Admin latest NEWS
-exports.get_last_news = function (req, res, next) {
+exports.get_last_news = function(req, res, next) {
     News.find({}).sort([
         ['created', 'ascending']
-    ]).exec(function (err, release) {
+    ]).exec(function(err, release) {
         if (err) {
             return next(err);
         }
@@ -573,23 +591,49 @@ exports.get_last_news = function (req, res, next) {
 }
 
 // GET Admin full NEWS
-exports.get_full_news = function (req, res, next) {
+exports.get_full_news = function(req, res, next) {
     News.findOne({
         '_id': req.params.id
-    }, function (err, release) {
+    }, function(err, release) {
         if (err) {
             return next(err);
         }
         res.render('admin/fullnews', {
             admin: req.session.admin,
             title: 'Psychology Full News',
-            newspaper: release
+            newspaper: release,
+            comments: release.comments
         });
     })
 }
 
-exports.delete_news = function (req, res, next) {
-    News.findByIdAndRemove(req.params.id, function (err) {
+//Post comments
+exports.post_comment_news = function(req, res, next) {
+    Admins.findById(req.session.admin)
+        .exec(function(err, namey) {
+            var commerce = {
+                user: "Admin: " + namey.firstname,
+                comment: req.body.comment
+            }
+            if (err) {
+                return next(err);
+            }
+            News.findByIdAndUpdate(req.params.id, {
+                $push: {
+                    comments: commerce
+                }
+            }, function(err, commet) {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/getfullnews/' + commet.id);
+            });
+
+        });
+}
+
+exports.delete_news = function(req, res, next) {
+    News.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
             return next(err);
         }
@@ -601,16 +645,16 @@ exports.delete_news = function (req, res, next) {
 
 
 //ADMIN Logout Request
-exports.admin_logout = function (req, res, next) {
-    if (req.session.admin) {
-        req.session.destroy();
+exports.admin_logout = function(req, res, next) {
+        if (req.session.admin) {
+            req.session.destroy();
+        }
+        res.redirect('/');
     }
-    res.redirect('/');
-}
-//------------------------------------------------------------------------------------
-// ADMIN GET course registration
-exports.add_courses = function (req, res, next) {
-    Staff.find({}, function (err, teacher) {
+    //------------------------------------------------------------------------------------
+    // ADMIN GET course registration
+exports.add_courses = function(req, res, next) {
+    Staff.find({}, function(err, teacher) {
         if (err) {
             return next(err);
         }
@@ -624,7 +668,7 @@ exports.add_courses = function (req, res, next) {
 }
 
 //ADMIN POST Course Registration
-exports.post_course = function (req, res, next) {
+exports.post_course = function(req, res, next) {
     var course = new Courses({
         coursecode: req.body.coursecode,
         coursetitle: req.body.coursetitle,
@@ -634,7 +678,7 @@ exports.post_course = function (req, res, next) {
         borrowed: req.body.borrowed,
         courseoutline: req.body.courseoutline
     });
-    course.save(function (err) {
+    course.save(function(err) {
         if (err) {
             return next(err);
         }
@@ -644,17 +688,14 @@ exports.post_course = function (req, res, next) {
 
 
 // GET course form for update.
-exports.course_update_get = function (req, res, next) {
+exports.course_update_get = function(req, res, next) {
     async.parallel({
-        coursess: function (callback) {
+        coursess: function(callback) {
             Courses.findById(req.params.id)
                 .exec(callback);
-        },
-        teacher: function (callback) {
-            Staff.find({})
-                .exec(callback);
         }
-    }, function (err, coursey) {
+
+    }, function(err, coursey) {
         if (err) {
             return next(err);
         }
@@ -663,23 +704,17 @@ exports.course_update_get = function (req, res, next) {
             err.status = 404;
             return next(err);
         }
-        if (coursey.teacher == null) { // No results.
-            var err = new Error('Lecturer not found');
-            err.status = 404;
-            return next(err);
-        }
         // Success.
         res.render('admin/edit_course', {
             title: 'Update Course_Outline',
             admin: req.session.admin,
-            coursey: coursey.coursess,
-            teacher: coursey.teacher
+            coursey: coursey.coursess
         });
     });
 };
 
 //POST course form for update
-exports.course_update_post = function (req, res, next) {
+exports.course_update_post = function(req, res, next) {
     var course = new Courses({
         coursecode: req.body.coursecode,
         coursetitle: req.body.coursetitle,
@@ -687,11 +722,10 @@ exports.course_update_post = function (req, res, next) {
         semester: req.body.semester,
         units: req.body.units,
         borrowed: req.body.borrowed,
-        lecturer: req.body.lecturer,
         courseoutline: req.body.courseoutline,
         _id: req.params.id
     });
-    Courses.findByIdAndUpdate(req.params.id, course, {}, function (err, courseupdate) {
+    Courses.findByIdAndUpdate(req.params.id, course, {}, function(err, courseupdate) {
         if (err) {
             return next(err);
         }
@@ -699,8 +733,8 @@ exports.course_update_post = function (req, res, next) {
     });
 }
 
-exports.delete_course = function (req, res, next) {
-    Courses.findByIdAndRemove(req.params.id, function (err) {
+exports.delete_course = function(req, res, next) {
+    Courses.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
             return next(err);
         }
@@ -711,37 +745,37 @@ exports.delete_course = function (req, res, next) {
 
 //---------------------------------------------------------------------------------------------------------------------------
 // GET List of 100Level Courses...
-exports.get_100_courses = function (req, res, next) {
+exports.get_100_courses = function(req, res, next) {
     async.parallel({
-        first_semester: function (callback) {
+        first_semester: function(callback) {
             Courses.find({
                 'level': 100,
                 'semester': 1,
                 'borrowed': 'no'
             }).exec(callback);
         },
-        first_semester_borrowed: function (callback) {
+        first_semester_borrowed: function(callback) {
             Courses.find({
                 'level': 100,
                 'semester': 1,
                 'borrowed': 'yes'
             }).exec(callback);
         },
-        second_semester: function (callback) {
+        second_semester: function(callback) {
             Courses.find({
                 'level': 100,
                 'semester': 2,
                 'borrowed': 'no'
             }).exec(callback);
         },
-        second_semester_borrowed: function (callback) {
+        second_semester_borrowed: function(callback) {
             Courses.find({
                 'level': 100,
                 'semester': 2,
                 'borrowed': 'yes'
             }).exec(callback);
         },
-    }, function (err, hundred) {
+    }, function(err, hundred) {
         if (err) {
             return next(err);
         }
@@ -763,37 +797,37 @@ exports.get_100_courses = function (req, res, next) {
 };
 
 // GET List of 200Level Courses...
-exports.get_200_courses = function (req, res, next) {
+exports.get_200_courses = function(req, res, next) {
     async.parallel({
-        first_semester: function (callback) {
+        first_semester: function(callback) {
             Courses.find({
                 'level': 200,
                 'semester': 1,
                 'borrowed': 'no'
             }).exec(callback);
         },
-        first_semester_borrowed: function (callback) {
+        first_semester_borrowed: function(callback) {
             Courses.find({
                 'level': 200,
                 'semester': 1,
                 'borrowed': 'yes'
             }).exec(callback);
         },
-        second_semester: function (callback) {
+        second_semester: function(callback) {
             Courses.find({
                 'level': 200,
                 'semester': 2,
                 'borrowed': 'no'
             }).exec(callback);
         },
-        second_semester_borrowed: function (callback) {
+        second_semester_borrowed: function(callback) {
             Courses.find({
                 'level': 200,
                 'semester': 2,
                 'borrowed': 'yes'
             }).exec(callback);
         },
-    }, function (err, hundred) {
+    }, function(err, hundred) {
         if (err) {
             return next(err);
         }
@@ -815,37 +849,37 @@ exports.get_200_courses = function (req, res, next) {
 };
 
 // GET List of 300Level Courses...
-exports.get_300_courses = function (req, res, next) {
+exports.get_300_courses = function(req, res, next) {
     async.parallel({
-        first_semester: function (callback) {
+        first_semester: function(callback) {
             Courses.find({
                 'level': 300,
                 'semester': 1,
                 'borrowed': 'no'
             }).exec(callback);
         },
-        first_semester_borrowed: function (callback) {
+        first_semester_borrowed: function(callback) {
             Courses.find({
                 'level': 300,
                 'semester': 1,
                 'borrowed': 'yes'
             }).exec(callback);
         },
-        second_semester: function (callback) {
+        second_semester: function(callback) {
             Courses.find({
                 'level': 300,
                 'semester': 2,
                 'borrowed': 'no'
             }).exec(callback);
         },
-        second_semester_borrowed: function (callback) {
+        second_semester_borrowed: function(callback) {
             Courses.find({
                 'level': 300,
                 'semester': 2,
                 'borrowed': 'yes'
             }).exec(callback);
         },
-    }, function (err, hundred) {
+    }, function(err, hundred) {
         if (err) {
             return next(err);
         }
@@ -867,37 +901,37 @@ exports.get_300_courses = function (req, res, next) {
 };
 
 // GET List of 400Level Courses...
-exports.get_400_courses = function (req, res, next) {
+exports.get_400_courses = function(req, res, next) {
     async.parallel({
-        first_semester: function (callback) {
+        first_semester: function(callback) {
             Courses.find({
                 'level': 400,
                 'semester': 1,
                 'borrowed': 'no'
             }).exec(callback);
         },
-        first_semester_borrowed: function (callback) {
+        first_semester_borrowed: function(callback) {
             Courses.find({
                 'level': 400,
                 'semester': 1,
                 'borrowed': 'yes'
             }).exec(callback);
         },
-        second_semester: function (callback) {
+        second_semester: function(callback) {
             Courses.find({
                 'level': 400,
                 'semester': 2,
                 'borrowed': 'no'
             }).exec(callback);
         },
-        second_semester_borrowed: function (callback) {
+        second_semester_borrowed: function(callback) {
             Courses.find({
                 'level': 400,
                 'semester': 2,
                 'borrowed': 'yes'
             }).exec(callback);
         },
-    }, function (err, hundred) {
+    }, function(err, hundred) {
         if (err) {
             return next(err);
         }
@@ -918,37 +952,369 @@ exports.get_400_courses = function (req, res, next) {
 };
 
 // GET detailed Page for a particular course
-exports.view_course = function (req, res, next) {
+exports.view_course = function(req, res, next) {
     Courses.findById(req.params.id)
-        .exec(function (err, course) {
+        .exec(function(err, course) {
             if (err) {
                 return next(err);
             }
-            Staff.findById(course.lecturer)
-                .exec(function (err, staff) {
+            Staff.find({})
+                .exec(function(err, staff) {
+
                     if (err) {
                         return next(err);
                     }
+                    staff.forEach(element => {
+                        console.log(element.surname);
+                    });
+
                     res.render('admin/view_course', {
                         title: 'Psychology Course',
                         admin: req.session.admin,
                         kind: course,
-                        teacher: staff
+                        teacher: staff,
+                        lecky: function() {
+                            var dealer = [];
+                            var seal = course.lecturer;
+                            var deal = staff;
+                            seal.forEach(element => {
+                                dealer.push(element);
+                            });
+
+                            var marvel = deal.filter(function(hero) {
+                                return hero.id == dealer[0] || hero.id == dealer[1];
+                            });
+
+                            return marvel;
+                        }
                     });
                 });
         });
 }
 
+exports.edit_course_lecturer = function(req, res, next) {
+    var staffy = req.body.lecturee;
+    Courses.findByIdAndUpdate(req.params.id, {
+        $addToSet: {
+            lecturer: staffy
+        }
+    }, function(err, courseupdate) {
+        if (err) {
+            return next(err);
+        }
+
+        res.redirect(courseupdate.url);
+    });
+
+
+}
+
+exports.delete_course_lecturer = function(req, res, next) {
+    Courses.findOneAndUpdate({
+        'id': req.params.id
+    }, {
+        $pull: {
+            'lecturer.$._id': req.params.id
+        }
+    }, function(err, courseupdate) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/adminviewcourse/' + courseupdate.id);
+    });
+
+
+}
+
+// GET List of students offering a course...
+exports.student_coursesoffered = function(req, res, next) {
+    StudentSigns.find({})
+        .exec(function(err, fresh) {
+            if (err) {
+                return next(err);
+            }
+            Courses.findOne({
+                '_id': req.params.id
+            }).exec(function(err, result) {
+                if (err) {
+                    return next(err);
+                }
+
+                res.render('admin/view_select', {
+                    title: "Student Offering",
+                    admin: req.session.admin,
+                    courses: result,
+                    upload: function() {
+                        var dealer = [];
+                        var studunt = [];
+                        var seal = result.student_offering;
+                        var deal = fresh;
+                        seal.forEach(element => {
+                            dealer.push(element);
+                        });
+                        dealer.forEach(read => {
+                            console.log(read);
+                            var marvel = deal.filter(function(hero) {
+                                if (hero.id == read) {
+                                    console.log(hero.surname);
+                                    studunt.push(hero);
+                                }
+                            });
+                            console.log(studunt);
+
+                        });
+                        return studunt;
+                    }
+                });
+            });
+        });
+}
+
+exports.delete_registered_course = function(req, res, next) {
+    Courses.findOne({
+        "id": req.params.course
+    }).exec(function(err, dere) {
+        if (err) {
+            return next(err);
+        }
+        console.log(dere);
+        Courses.findOneAndUpdate({
+            "_id": req.params.course
+        }, {
+            $pull: {
+                "student_offering.$.id": req.params.id
+
+            }
+
+        }, function(err, success) {
+            if (err) {
+                return next(err)
+            }
+            console.log("successfully deleted");
+            res.redirect('/adminviewcourse/' + success.id);
+        })
+    })
+
+}
+
 // GET Student Result Filler form
-exports.student_results = function (req, res, next) {
-    res.render('admin/student_result_form', {
-        title: "Student result Filler",
+exports.student_fillresult = function(req, res, next) {
+    res.render('admin/fill_result', {
+        title: "Add Student Result",
         admin: req.session.admin
+    });
+
+}
+
+// GET Student Result Filler form
+exports.student_fillresult_post = function(req, res, next) {
+    Courses.findOne({
+        'coursecode': req.body.coursecode
+    }).exec(function(err, result) {
+        if (err) {
+            return next(err);
+        }
+
+        res.redirect('/studentaddresult/' + result.id);
     });
 }
 
+// GET Student Result Filler form
+exports.student_addresult_get = function(req, res, next) {
+    Courses.findOne({
+        '_id': req.params.id
+    }).exec(function(err, result) {
+        if (err) {
+            return next(err);
+        }
+        StudentSigns.find({
+            'level': result.level
+        }).exec(function(err, fresh) {
+            if (err) {
+                return next(err);
+            }
+            res.render('admin/student_result_form', {
+                title: "Add Student Result",
+                admin: req.session.admin,
+                courses: result,
+                upload: function() {
+                    var dealer = [];
+                    var studunt = [];
+                    var seal = result.student_offering;
+                    var deal = fresh;
+                    seal.forEach(element => {
+                        dealer.push(element);
+                    });
+                    dealer.forEach(read => {
+                        var marvel = deal.filter(function(hero) {
+                            if (hero.id == read) {
+
+                                studunt.push(hero);
+                            }
+                        });
+
+                    });
+                    return studunt;
+                }
+            });
+        });
+    });
+
+}
+
+
+exports.student_addresults_post = function(req, res, next) {
+    var resulty = new Result({
+        course: req.body.course,
+        student: req.body.student,
+        score: req.body.score,
+        grade: req.body.grade
+    });
+    resulty.save(function(err) {
+        if (err) {
+            return next(err);
+        }
+        console.log("SAVED");
+        res.redirect('/studentaddresult/' + req.params.id);
+    })
+
+
+}
+
+exports.view_all_results = function(req, res, next) {
+    Result.find({})
+        .exec(function(err, result) {
+            if (err) {
+                return next(err);
+            }
+            res.render('admin/view_all_results', {
+                title: 'ALL STUDENTS RESULTS',
+                admin: req.session.admin,
+                result: result
+            });
+        })
+}
+
+exports.delete_result = function(req, res, next) {
+    Result.findByIdAndRemove({
+        '_id': req.params.id
+    }).
+    exec(function(err, glory) {
+        if (err) {
+            return next(er);
+        }
+        res.redirect('/viewallresults');
+    })
+}
+
+//View Student Result
+exports.student_result = function(req, res, next) {
+    StudentSigns.findById(req.params.id)
+        .exec(function(err, myresults) {
+            if (err) {
+                return next(err);
+            }
+            res.render('admin/view_result', {
+                title: 'Student Result',
+                admin: req.session.admin,
+                allresult: myresults.results,
+                oneresult: function() {
+                    if (myresults.results) {
+                        var heroes = myresults.results;
+                        var marvel = heroes.filter(function(hero) {
+                            return hero.level == 100 && hero.semester == 1;
+                        })
+                        return marvel;
+                    }
+                },
+                onetworesult: function() {
+                    if (myresults.results) {
+                        var heroes = myresults.results;
+                        var marvel = heroes.filter(function(hero) {
+                            return hero.level == 100 && hero.semester == 2;
+                        })
+                        return marvel;
+                    }
+                },
+                tworesult: function() {
+                    if (myresults.results) {
+                        var heroes = myresults.results;
+                        var marvel = heroes.filter(function(hero) {
+                            return hero.level == 200 && hero.semester == 1;
+                        })
+                        return marvel;
+                    }
+                },
+                twotworesult: function() {
+                    if (myresults.results) {
+                        var heroes = myresults.results;
+                        var marvel = heroes.filter(function(hero) {
+                            return hero.level == 200 && hero.semester == 2;
+                        })
+                        return marvel;
+                    }
+                },
+                threeresult: function() {
+                    if (myresults.results) {
+                        var heroes = myresults.results;
+                        var marvel = heroes.filter(function(hero) {
+                            return hero.level == 300 && hero.semester == 1;
+                        })
+                        return marvel;
+                    }
+                },
+                threetworesult: function() {
+                    if (myresults.results) {
+                        var heroes = myresults.results;
+                        var marvel = heroes.filter(function(hero) {
+                            return hero.level == 300 && hero.semester == 2;
+                        })
+                        return marvel;
+                    }
+                },
+                fourresult: function() {
+                    if (myresults.results) {
+                        var heroes = myresults.results;
+                        var marvel = heroes.filter(function(hero) {
+                            return hero.level == 400 && hero.semester == 1;
+                        })
+                        return marvel;
+                    }
+                },
+                fourtworesult: function() {
+                    if (myresults.results) {
+                        var heroes = myresults.results;
+                        var marvel = heroes.filter(function(hero) {
+                            return hero.level == 400 && hero.semester == 2;
+                        })
+                        return marvel;
+                    }
+                }
+
+            });
+        });
+}
+
+exports.student_delete_result = function(req, res, next) {
+    StudentSigns.findByIdAndUpdate(req.params.id, {
+        $pull: {
+            results: {
+                "_id": req.params.id
+            }
+        }
+    }, function(error, success) {
+        if (error) {
+            return next(error)
+        }
+        console.log("successfully deleted");
+        res.redirect('/studentfullresults/' + success.id)
+    })
+}
+
+
+
 // function for sending message to 100 level
-exports.send_100 = function (req, res, next) {
+exports.send_100 = function(req, res, next) {
     res.render('student/chat100', {
         title: "100Level Group Chat",
         admin: req.session.admin
@@ -956,21 +1322,21 @@ exports.send_100 = function (req, res, next) {
 }
 
 // function for sending messsage to 200 level
-exports.send_200 = function (req, res, next) {
+exports.send_200 = function(req, res, next) {
     res.render('student/chat200', {
         title: "200 Level Group Chat",
         admin: req.session.admin
     });
 }
 
-exports.send_300 = function (req, res, next) {
+exports.send_300 = function(req, res, next) {
     res.render('student/chat300', {
         title: "300Level Group Chat",
         admin: req.session.admin
     });
 }
 
-exports.send_400 = function (req, res, next) {
+exports.send_400 = function(req, res, next) {
     res.render('student/chat400', {
         title: "400Level Group chat",
         admin: req.session.admin
@@ -978,7 +1344,7 @@ exports.send_400 = function (req, res, next) {
 }
 
 // staff signup GET
-exports.staff_signup_get = function (req, res, next) {
+exports.staff_signup_get = function(req, res, next) {
     res.render('admin/staff_signup', {
         title: 'STAFF SIGNUP',
         admin: req.session.admin
@@ -1046,7 +1412,7 @@ exports.staff_signup_post = [
                 bio: req.body.bio,
                 password: req.body.password
             });
-            freedom.save(function (err) {
+            freedom.save(function(err) {
                 if (err) {
                     return next(err);
                 }

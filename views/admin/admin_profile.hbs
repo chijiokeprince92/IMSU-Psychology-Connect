@@ -1,51 +1,40 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>admin_lecbody}}
-    <br>
-    <br>
-    <h4>
-        <b>
-            <center>{{admin_surname}}'s ADMIN PROFILE</center>
-        </b>
-    </h4>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <p><b>EMAIL:</b> {{admin_email}}</p>
-                <br>
-                <p><b>SURNAME: </b> {{admin_surname}}</p>
-                <br>
-                <p><b>FIRSTNAME: </b> {{admin_firstname}}</p>
-                <br>
-                <p><b>GENDER: </b>{{admin_gender}}</p>
-                <br>
-                <p><b>VERIFICATION_ID: </b>{{admin_verify}}</p>
-            </div>
+<br>
+<h4>
+    <b>
+        <center>{{admin_surname}}'s ADMIN PROFILE</center>
+    </b>
+</h4>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <p><b>EMAIL:</b> {{admin_email}}</p>
+            <br>
+            <p><b>SURNAME: </b> {{admin_surname}}</p>
+            <br>
+            <p><b>FIRSTNAME: </b> {{admin_firstname}}</p>
+            <br>
+            <p><b>GENDER: </b>{{admin_gender}}</p>
+            <br>
+            <p><b>VERIFICATION_ID: </b>{{admin_verify}}</p>
         </div>
     </div>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4">
-                <a href="/updateprofile/{{urlline}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-edit"></span></a>
-            </div>
-            <div class="col-4">
-                <a href="/studentlist" type="button" class="btn btn-success btn-block"><span class="fa fa-users"></span></a>
-            </div>
-            <div class="col-4">
-                <a href="/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"></span></a>
-            </div>
+</div>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <a href="/updateprofile/{{urlline}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-edit"
+                    style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="/admin/studentlist" type="button" class="btn btn-success btn-block"><span class="fa fa-users"
+                    style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="/admin/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"
+                    style="font-size:25px"></span></a>
         </div>
     </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

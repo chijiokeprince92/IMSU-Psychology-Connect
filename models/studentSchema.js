@@ -31,14 +31,28 @@ var studentSchema = new schema({
     },
     phone: {
         type: Number,
+        unique: true,
         required: true
     },
 
-    courses_offered: [],
+    courses_offered: [{
+        type: schema.ObjectId,
+        ref: 'Courses'
+    }],
+
+    results: [],
 
     photo: {
         type: String,
         required: true
+    },
+    is_courserep: {
+        type: String,
+        default: "No"
+    },
+    is_graduate: {
+        type: String,
+        default: "No"
     },
     bio: {
         type: String,
@@ -57,14 +71,14 @@ var studentSchema = new schema({
 //Virtual for Student's URL
 studentSchema
     .virtual('url')
-    .get(function () {
+    .get(function() {
         return '/studentss/' + this._id;
     });
 
 //Virtual for Student's URL
 studentSchema
     .virtual('name')
-    .get(function () {
+    .get(function() {
         return this.firstname;
     });
 

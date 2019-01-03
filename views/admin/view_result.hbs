@@ -1,0 +1,302 @@
+<br>
+<h4><b>
+        <center> RESULTS</center>
+    </b>
+</h4>
+<br>
+<h5><b>
+        <center>100 LEVEL, FIRST SEMESTER</center>
+    </b></h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th>LEVEL</th>
+                            <th>SCORES</th>
+                            <th>GRADE</th>
+                            <th>PROFILE</th>
+                        </tr>
+                    </thead>
+                    {{#each oneresult}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td>{{this.level}}</td>
+                            <td>{{this.score}}</td>
+                            <td>{{this.grade}}</td>
+                            <td><a href="/admindeleteresult/{{this.id}}">Delete</a></td>
+                        </tr>
+                        {{else}}
+                            <p>RESULTS NOT AVAILABLE</p>
+                    {{/each}}
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<h5><b>
+        <center>100 LEVEL, SEMESTER SEMESTER</center>
+    </b></h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th>LEVEL</th>
+                            <th>SCORES</th>
+                            <th>GRADE</th>
+                            <th>PROFILE</th>
+                        </tr>
+                    </thead>
+                    {{#each onetworesult}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td>{{this.level}}</td>
+                            <td>{{this.score}}</td>
+                            <td>{{this.grade}}</td>
+                            <td><a href="/admindeleteresult/{{this.id}}">Delete</a></td>
+                        </tr>
+                        {{else}}
+                            <p>RESULTS NOT AVAILABLE</p>
+                    {{/each}}
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<h5><b>
+        <center>200 LEVEL, FIRST SEMESTER</center>
+    </b></h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th>LEVEL</th>
+                            <th>SCORES</th>
+                            <th>GRADE</th>
+                            <th>PROFILE</th>
+                        </tr>
+                    </thead>
+                    {{#each tworesult}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td>{{this.level}}</td>
+                            <td>{{this.score}}</td>
+                            <td>{{this.grade}}</td>
+                            <td><a href="/admindeleteresult/{{this.id}}">Delete</a></td>
+                        </tr>
+                        {{else}}
+                            <p>RESULTS NOT AVAILABLE</p>
+                    {{/each}}
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<h5><b>
+        <center>200 LEVEL, SECOND SEMESTER</center>
+    </b></h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th>LEVEL</th>
+                            <th>SCORES</th>
+                            <th>GRADE</th>
+                            <th>PROFILE</th>
+                        </tr>
+                    </thead>
+                    {{#each twotworesult}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td>{{this.level}}</td>
+                            <td>{{this.score}}</td>
+                            <td>{{this.grade}}</td>
+                            <td><a href="/admindeleteresult/{{this.id}}">Delete</a></td>
+                        </tr>
+                        {{else}}
+                            <p>RESULTS NOT AVAILABLE</p>
+                    {{/each}}
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<h5><b>
+        <center>300 LEVEL, FIRST SEMESTER</center>
+    </b></h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th>LEVEL</th>
+                            <th>SCORES</th>
+                            <th>GRADE</th>
+                            <th>PROFILE</th>
+                        </tr>
+                    </thead>
+                    {{#each threeresult}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td>{{this.level}}</td>
+                            <td>{{this.score}}</td>
+                            <td>{{this.grade}}</td>
+                            <td><a href="/admindeleteresult/{{this.id}}">Delete</a></td>
+                        </tr>
+                        {{else}}
+                            <p>RESULTS NOT AVAILABLE</p>
+                    {{/each}}
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<h5><b>
+        <center>300 LEVEL, SECOND SEMESTER</center>
+    </b></h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th>LEVEL</th>
+                            <th>SCORES</th>
+                            <th>GRADE</th>
+                            <th>PROFILE</th>
+                        </tr>
+                    </thead>
+                    {{#each threetworesult}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td>{{this.level}}</td>
+                            <td>{{this.score}}</td>
+                            <td>{{this.grade}}</td>
+                            <td><a href="/admindeleteresult/{{this.id}}">Delete</a></td>
+                        </tr>
+                        {{else}}
+                            <p>RESULTS NOT AVAILABLE</p>
+                    {{/each}}
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<h5><b>
+        <center>400 LEVEL, FIRST SEMESTER</center>
+    </b></h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th>LEVEL</th>
+                            <th>SCORES</th>
+                            <th>GRADE</th>
+                            <th>PROFILE</th>
+                        </tr>
+                    </thead>
+                    {{#each fourresult}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td>{{this.level}}</td>
+                            <td>{{this.score}}</td>
+                            <td>{{this.grade}}</td>
+                            <td><a href="/admindeleteresult/{{this.id}}">Delete</a></td>
+                        </tr>
+                        {{else}}
+                            <p>RESULTS NOT AVAILABLE</p>
+                    {{/each}}
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<h5><b>
+        <center>400 LEVEL, SECOND SEMESTER</center>
+    </b></h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th>LEVEL</th>
+                            <th>SCORES</th>
+                            <th>GRADE</th>
+                            <th>PROFILE</th>
+                        </tr>
+                    </thead>
+                    {{#each fourtworesult}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td>{{this.level}}</td>
+                            <td>{{this.score}}</td>
+                            <td>{{this.grade}}</td>
+                            <td><a href="/admindeleteresult/{{this.id}}">Delete</a></td>
+                        </tr>
+                        {{else}}
+                            <p>RESULTS NOT AVAILABLE</p>
+                    {{/each}}
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>

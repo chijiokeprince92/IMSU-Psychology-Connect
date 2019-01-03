@@ -1,79 +1,98 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>student_lecbody}}
-    <br>
-    <br>
-    <h3>
-        <b>
-            <center>YOUR PROFILE.</center>
-        </b>
-    </h3>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12 col-lg-4">
-                <a href="/{{user.photo}}"><img src="/{{user.photo}}" alt="profile image" class="rounded" width="100%" /></a>
-                <br>
-                <form id="drake" style="display:none" action="/studentupdatepics/{{user.id}}" method="POST" enctype="multipart/form-data"
-                    style="display:inline">
-                    <input type="file" class="form-control" name="image" placeholder="upload photo" required>
-                    <button type="submit" class="btn btn-danger">EDIT</button>
-                </form>
-                <button id="cousin" class="btn btn-danger btn-lg">EDIT</button>
-                <br><br>
-            </div>
-            <div class="col-sm-12 col-lg-8">
-                <p><b>E-MAIL:</b> {{user.email}}</p>
-                <br>
-                <p><b>SURNAME: </b> {{user.surname}}</p>
-                <br>
-                <p><b>FIRSTNAME: </b> {{user.firstname}}</p>
-                <br>
-                <p><b>MAT. NUMBER :</b> {{user.matnumber}}</p>
-                <br>
-                <p><b>LEVEL: </b>{{user.level}}</p>
-                <br>
-                <p><b>GENDER: </b>{{user.gender}}</p>
-                <br>
-                <p><b>PHONE NUMBER: </b>{{user.phone}}</p>
-                <br>
-                <p><b>STATUS: </b>{{user.bio}}</p>
-                <br>
-            </div>
+<br>
+<h4>
+    <b>
+        <center>YOUR PROFILE.</center>
+    </b>
+</h4>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-4">
+            <img src="/{{user.photo}}" alt="profile image" class="rounded" width="100%" />
+            <br>
+            <form id="drake" style="display:none" action="/studentupdatepics/{{user.id}}" method="POST" enctype="multipart/form-data"
+                style="display:inline">
+                <input type="file" class="form-control" name="image" placeholder="upload photo" required>
+                <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
+            </form>
+            <button id="cousin" class="btn btn-danger"><span class="fa fa-edit"></span></button>
+            <button id="close" class="btn btn-danger" style="display:none">Close</button>
+            <br><br>
+        </div>
+        <div class="col-12 col-lg-8">
+            <p><b>SURNAME: </b> {{user.surname}}</p>
+            <br>
+            <p><b>FIRSTNAME: </b> {{user.firstname}}</p>
+            <br>
+            <p><b>MAT. NUMBER :</b> {{user.matnumber}}</p>
+            <br>
+            <p><b>LEVEL: </b>{{user.level}}</p>
+            <br>
+            <p><b>GENDER: </b>{{user.gender}}</p>
+            <br>
+            <p><b>E-MAIL:</b> {{user.email}}</p>
+            <br>
+            <p><b>IS_ COURSEREP:</b> {{user.is_courserep}}</p>
+            <br>
+            <p><b>PHONE NUMBER: </b>{{user.phone}}</p>
+            <br>
+            <p><b>STATUS: </b>{{user.bio}}</p>
+            <br>
         </div>
     </div>
-    <script>
-        $(document).ready(function () {
-            $('#cousin').click(function () {
-                $('#drake').toggle();
-                $('#cousin').toggle();
-            });
+</div>
+<h5><b>
+        <center>COURSES OFFERED THIS SEMESTER</center>
+    </b>
+</h5>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        {{#each user.courses_offered}}
+            <div class="col-10 col-md-8 col-lg-11">
+                <p>{{this.coursecode}}: <a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a>
+                </p>
+            </div>
+            <div class="col-2 col-md-2 col-lg-1">
+                <form action="/studentdeleteregistercourse/{{this.id}}" method="POST" style="display:inline">
+                    <input type="hidden" />
+                    <button type="submit" class="btn btn-danger btn-block">delete</button>
+                </form><br><br>
+            </div>
+            {{else}}
+                <p>NO REGISTERED COURSE</p>
+        {{/each}}
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#cousin').click(function () {
+            $('#drake').toggle("slow");
+            $('#cousin').toggle("slow");
+            $('#close').toggle("slow");
         });
-    </script>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4">
-                <a href="#" type="button" class="btn btn-primary btn-block btn-lg disabled">RESULTS</a>
-            </div>
-            <div class="col-4">
-                <a href="/studentupdateprofile/{{user.id}}" type="button" class="btn btn-success btn-lg btn-block">EDIT
-                    PROFILE</a>
-            </div>
-            <div class="col-4">
-                <a href="/studentstudentlist" type="button" class="btn btn-primary btn-lg btn-block">COURSEMATES</a>
-            </div>
+        $('#close').click(function () {
+            $('#drake').toggle("slow");
+            $('#cousin').toggle("slow");
+            $('#close').toggle("slow");
+        });
+    });
+</script>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <a href="/myfullresults/{{user.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-book"
+                    style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="/studentupdateprofile/{{user.id}}" type="button" class="btn btn-success btn-block"><span class="fa fa-edit"
+                    style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="/studentstudentlist" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
+                    style="font-size:25px"></span></a>
         </div>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

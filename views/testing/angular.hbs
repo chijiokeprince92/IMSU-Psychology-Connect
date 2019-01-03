@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {{>head}}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+
+<body>
+    {{>view_body}}
+    <br>
+    <h4><b>
+            <center>ANGULAR TESTING</center>
+        </b></h4>
+    <br>
+    <form action="/studentlikecomment/{{this.id}}" method="POST" style="display:inline">
+        <input type="text" style="display:none" class="form-control" name="like" />
+        <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-up">
+                <span>{{this.like}}</span>
+        </button>
+    </form>
+    <button id="like" class="btn btn-primary"><span class="fa fa-thumbs-o-up">Count </span><span id="county"></span></button>
+    <p id="county"></p>
+    <script>
+        $('document').ready(function () {
+            var count = 0;
+            $(function () {
+                var socket = io();
+                $('#like').click(function (event) {
+                    event.preventDefault();
+                    $.get(
+                        '/newscount',
+                        function (response, err) {
+                            if (response) {
+                                count = response;
+                                console.log(count, 'success');
+                                document.getElementById('county').innerHTML = count;
+
+                            } else {
+                                console.log('error')
+                            }
+                        });
+                });
+                socket.on('likey', function (msg) {
+                    console.log(msg, 'Message')
+                });
+            });
+        });
+    </script>
+    <br>
+    <div ng-app="chosen" ng-controller="prince">
+        <p ng-bind="firstname + ' ' + lastname + ' ' + tree"></p>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="form-group">
+                        <label for="firstname"><b>FIRSTNAME:</b></label>
+                        <input type="text" class="form-control" ng-model="firstname" placeholder="firstname">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname"><b>LASTNAME</b></label>
+                        <input type="text" class="form-control" ng-model="lastname" placeholder="lastname">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ol>
+            <li ng-repeat="x in real"><span ng-bind="x"></span></li>
+        </ol>
+        <br><br>
+        <ol>
+            <li ng-repeat="x in free"><span ng-bind="x.name"></span></li>
+        </ol>
+        <br><br>
+        <ol>
+            <li ng-repeat="x in realy"><span ng-bind="x"></span></li>
+        </ol>
+    </div>
+    <script>
+        var tree = '{{treasure}}';
+        var realy = '{{reals}}';
+        var app = angular.module('chosen', []);
+        app.controller('prince', function ($scope) {
+            $scope.firstname = "John";
+            $scope.lastname = "Doe";
+            $scope.tree = tree;
+            $scope.real = ["Tina", "Victor", "Elijah", "Queen", "Christy"];
+            $scope.realy = [realy];
+            $scope.free = [{ name: "The" }, { name: "God" }, { name: "of" }, { name: "Chosen" }];
+        });
+    </script>
+    <br><br>
+    <footer>{{>footer}}</footer>
+</body>
+
+</html>

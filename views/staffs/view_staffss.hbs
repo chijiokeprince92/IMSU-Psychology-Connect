@@ -1,62 +1,48 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>staff_lecbody}}
-    <br>
-    <h4><b>
-            <center>STAFF PROFILE</center>
-        </b></h4>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-5">
-                <a href="/{{photo}}"><img src="/{{photo}}" alt="image" class="rounded" width="100%" /></a>
-                <br><br>
-            </div>
-            <div class="col-12 col-md-7">
-                <p><b>EMAIL: </b> {{email}}</p>
-                <br>
-                <p><b>SURNAME: </b> {{surname}}</p>
-                <br>
-                <p><b>FIRSTNAME: </b> {{firstname}}</p>
-                <br>
-                <p><b>GENDER: </b>{{gender}}</p>
-                <br>
-                <p><b>PHONE NUMBER: </b>{{phone}}</p>
-                <br>
-                <p><b>STATUS: </b>{{quote}}</p>
-            </div>
+<br>
+<h4><b>
+        <center>STAFF PROFILE</center>
+    </b></h4>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-5">
+            <img src="/{{photo}}" alt="image" class="rounded" width="100%" />
+            <br><br>
+        </div>
+        <div class="col-12 col-md-7">
+            <p><b>EMAIL: </b> {{email}}</p>
+            <br>
+            <p><b>SURNAME: </b> {{surname}}</p>
+            <br>
+            <p><b>FIRSTNAME: </b> {{firstname}}</p>
+            <br>
+            <p><b>GENDER: </b>{{gender}}</p>
+            <br>
+            <p><b>PHONE NUMBER: </b>{{phone}}</p>
+            <br>
+            <p><b>STATUS: </b>{{quote}}</p>
         </div>
     </div>
-    <br>
-    <h4>
-        <center><b>COURSES ASSIGNED</b></center>
-    </h4>
-    <br>
-    {{#each coursess}}
-        <p><b>COURSE TITLE: </b><a href="/staffviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
-        {{else}}
-            <p>NO COURSE ASSIGNED</p>
-    {{/each}}
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-6 col-lg-5">
-                <a href="/staffsstafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
-                        style="font-size:25px"></span></a>
-            </div>
-            <div class="col-6 col-lg-5">
-                <button class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></button>
-            </div>
+</div>
+<br>
+<h4>
+    <center><b>COURSES ASSIGNED</b></center>
+</h4>
+<br>
+{{#each coursess}}
+    <p><b>COURSE TITLE: </b><a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+    {{else}}
+        <p>NO COURSE ASSIGNED</p>
+{{/each}}
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 col-lg-5">
+            <a href="/staff/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-users" style="font-size:25px"></span></a>
+        </div>
+        <div class="col-6 col-lg-5">
+            <button class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></button>
         </div>
     </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

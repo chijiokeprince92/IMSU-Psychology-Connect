@@ -1,49 +1,34 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>student_lecbody}}
-    <br>
-    <h2><b>
-            <center>ALL NAPS STAFFS</center>
-        </b></h2>
-    <br><br>
-    <ul>
-        {{#each slow}}
-            <li class="container-fluid">
-                <div class="row">
-                    {{#if this.photo}}
-                        <div class="col-4 col-sm-4 col-md-3 col-lg-2">
-                            <img src="/{{this.photo}}" alt="image" class="rounded-circle" width="100%" height="130" />
-                        </div>
-                    {{else}}
-                        <div class="col-4 col-sm-4 col-md-3 col-lg-2">
-                            <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" width="100%" height="130" />
-                        </div>
-                    {{/if}}
-                    <div class="col-8 col-sm-8 col-md-9 col-lg-10">
-                        <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
-                        <br>
-                        <p>
-                            <b>E-MAIL: </b>{{this.email}}<br>
-                            <b>GENDER: </b>{{this.gender}}<br>
-                            <b>STATUS: </b>{{this.bio}}
-                        </p>
+<br>
+<h4><b>
+        <center>PSYCHOLOGY STAFFS</center>
+    </b></h4>
+<br><br>
+<ul>
+    {{#each slow}}
+        <li class="container-fluid">
+            <div class="row">
+                {{#if this.photo}}
+                    <div class="col-5 col-md-3 col-lg-2">
+                        <img src="/{{this.photo}}" alt="image" class="rounded-circle" width="100%" height="130" />
                     </div>
+                {{else}}
+                    <div class="col-5 col-md-3 col-lg-2">
+                        <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" width="100%" height="130" />
+                    </div>
+                {{/if}}
+                <div class="col-7 col-md-9 col-lg-10">
+                    <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
+                    <br>
+                    <p>
+                        <b>GENDER: </b>{{this.gender}}<br>
+                        <b>STATUS: </b>{{this.bio}}
+                    </p>
                 </div>
-            </li>
-            <br><br>
-            {{else}}
-                <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
-        {{/each}}
-    </ul>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+            </div>
+        </li>
+        <br><br>
+        {{else}}
+            <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
+    {{/each}}
+</ul>
+<br><br>

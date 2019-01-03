@@ -1,114 +1,63 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>admin_lecbody}}
-    <br>
-    <h1>Students Results Filler For 100 Level(First Semester)..</h1>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-5">
-                <form class="form group" action="" method="POST">
-                    <label for="courses"><b>Course</b></label>
-                    <select name="courses" id="courses" class="form-control">
-                <option value="psy101">Introductory to Psychology</option>
-                <option value="psy103">Learning Process 1</option>
-                <option value="psy111">Quantitative Methods in Psychology</option>
-                <option value="gst101">Use of English 1</option>
-                <option value="gst103">Logic and Philosophy 1</option>
-                <option value="gst105">Citizenship Education</option>
-                <option value="soc101">Introduction to Sociology 1</option>
-                <option value="bio101">General Biology 1</option><br>
-                <option><b>ELECTIVE(2)</b></option><br>
-                <option value="pos101">Government and Public Administration 1</option>
-                <option value="frn101">Elements of French 1</option>
-                <option value="mac101">Introduction to Mass Communications 1</option>
-                <option value="eco101">Elements of Economics 1</option>
-                    </select>
-                    <br>
-                    <label for="scores"><b>Scores:</b></label>
-                    <input type="number" name="scores" id="scores" class="form-control" placeholder="Scores" required>
+<br>
+<h4>
+    <b>
+        <center>" {{courses.coursetitle}} RESULT UPLOAD "</center>
+    </b>
+</h4>
+<br>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <form class="form group" action="" method="POST">
+                <label for="course"><b>COURSE:</b></label>
+                <select name="course" class="form-control">
+                    <option value="{{courses.id}}">{{courses.coursetitle}}</option>
+                </select>
+                <br>
+                <label for="student"><b>MAT NUMBER:</b></label>
+                <select name="student" class="form-control">
+                    {{#each upload}}
+                        <option value="{{this.id}}">{{this.surname}}- {{this.matnumber}}</option>
+                    {{/each}}
+                </select>
+                <br>
+                <label for="score"><b>SCORES:</b></label>
+                <input type="number" name="score" class="form-control" placeholder="0 - 100" required>
+                <br>
+                <label for="grade"><b>GRADE:</b></label>
+                <input type="text" name="grade" class="form-control" placeholder="A - F" required>
+                <br><br>
+                <button type="submit" class="btn btn-success"><b>SAVE RESULT</b></button>
+            </form>
+        </div>
+        <div class="col-6">
+            <h5><b>
+                    <center>STUDENTS OFFERING</center>
+                </b>
+            </h5>
+            <ul>
+                <br><br>
+                {{#each upload}}
+                    <li class="container-fluid">
+                        <div class="row">
+                            <div class="col-5 col-md-7 col-lg-8">
+                                <p>
+                                    <b>NAME: </b>{{this.surname}} {{this.firstname}}<br>
+                                    <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
+                                </p>
+                            </div>
+                            <div class="col-2 col-md-2 col-lg-2">
+                                <button id="add{{this.id}}" class="btn btn-primary">ADD</button>
+                                <button id="close{{this.id}}" style="display:none" class="btn btn-primary">CLOSE</button>
+                            </div>
+                        </div>
+                    </li>
                     <br><br>
-                    <button type="submit" class="btn btn-success btn-block"><b>Save Result</b></button>
-                </form>
-            </div>
-            <div class="col-lg-7">
-                <h3>Data for Student</h3>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>CODE</th>
-                                <th>SCORES</th>
-                                <th>GRADE</th>
-                            </tr>
-                        </thead>
-                        <tr>
-                            <td id="a"></td>
-                            <td id="e"></td>
-                            <td id="i"></td>
-                        </tr>
-                    </table>
-                </div>
-                <button class="btn btn-danger" onclick="addresult()"><b>Add Result</b></button>
-            </div>
+                    {{else}}
+                        <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+                {{/each}}
+            </ul>
         </div>
     </div>
-    <div id="compute"></div>
-    <script>
-        //------------------------------------------------------------------------------
-        var user = [];
-
-
-        function addresult() {
-            var user = this.user;
-            var grades = ['A', 'B', 'C', 'D', 'E', 'F'];
-            var courses = document.getElementById('courses').value;
-            var scores = document.getElementById('scores').value;
-            // for calculating the precise GRADE 
-            function grade() {
-                if (scores <= 39) {
-                    return grades[5];
-                } else if (scores > 39 && scores <= 44) {
-                    return grades[4];
-                } else if (scores > 44 && scores <= 49) {
-                    return grades[3];
-                } else if (scores > 49 && scores <= 59) {
-                    return grades[2];
-                } else if (scores > 59 && scores <= 69) {
-                    return grades[1];
-                } else if (scores > 69 && scores <= 100) {
-                    return grades[0];
-                } else {
-                    return;
-                }
-            };
-            for (var i = 0; i < user.length; i++) {
-                if (user[i][0] == courses) {
-                    alert("You've added " + user[i][0] + " before");
-                    return;
-                }
-                if (scores > 100) {
-                    alert("The score should NOT be higher than 100");
-                    return;
-                }
-                if (!Number(scores)) {
-                    alert("The score is not a number");
-                    return;
-                }
-            }
-
-
-            this.user.push([courses, scores, grade()]);
-            return document.getElementById('compute').innerHTML = user;
-        }
-    </script>
-    <br> {{>footer}}
-</body>
-
-</html>
+</div>

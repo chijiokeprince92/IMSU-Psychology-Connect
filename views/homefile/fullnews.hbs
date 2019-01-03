@@ -1,38 +1,25 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>view_body}}
-    <br>
-    {{#if newspaper}}
-        <h3><b>
-                <center>{{newspaper.heading}}</center>
-            </b></h3>
-        <br><br>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-sm-12 col-lg-7">
-                    <a href="../{{newspaper.picture}}"><img src="/{{newspaper.picture}}" alt="image" class="rounded"
-                            width="100%" height="auto" /></a>
-                </div>
-                <br>
-                <div class="col-12 col-sm-12 col-lg-5">
-                    <p>{{newspaper.passage}}</p>
-                </div>
-                <div class="col-12 col-sm-12">
-                    <p>{{newspaper.passage1}}</p>
-                    <br>
-                    <p>{{newspaper.passage2}}</p>
-                </div>
+<br>
+{{#if newspaper}}
+    <h4><b>
+            <center>{{newspaper.heading}}</center>
+        </b></h4>
+    <br><br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <img src="/{{newspaper.picture}}" alt="image" class="rounded" width="100%" />
+            </div>
+            <br>
+            <div class="col-12 col-lg-6">
+                <p>{{newspaper.passage}}</p>
+                <br><br>
+            </div>
+            <div class="col-12">
+                <p>{{newspaper.passage1}}</p>
+                <br><br>
+                <p>{{newspaper.passage2}}</p>
             </div>
         </div>
-    {{/if}}
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+    </div>
+{{/if}}
+<br><br>

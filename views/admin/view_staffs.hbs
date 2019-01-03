@@ -1,68 +1,55 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>admin_lecbody}}
-    <br>
-    <h4><b>
-            <center>STAFF'S PROFILE</center>
-        </b></h4>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-lg-6">
-                <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-            </div>
-            <div class="col-12 col-lg-6">
-                <p><b>E-MAIL:</b> {{email}}</p>
-                <br>
-                <p><b>SURNAME: </b> {{surname}}</p>
-                <br>
-                <p><b>FIRSTNAME: </b> {{firstname}}</p>
-                <br>
-                <p><b>STAFF_ID: </b>{{staff_id}}</p>
-                <br>
-                <p><b>GENDER: </b>{{gender}}</p>
-                <br>
-                <p><b>PHONE NUMBER: </b>{{phone}}</p>
-                <br>
-                <p><b>STATUS: </b>{{quote}}</p>
-                <br>
-            </div>
+<br>
+<h4><b>
+        <center>STAFF'S PROFILE</center>
+    </b></h4>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
+        </div>
+        <div class="col-12 col-lg-6">
+            <p><b>E-MAIL:</b> {{email}}</p>
+            <br>
+            <p><b>SURNAME: </b> {{surname}}</p>
+            <br>
+            <p><b>FIRSTNAME: </b> {{firstname}}</p>
+            <br>
+            <p><b>STAFF_ID: </b>{{staff_id}}</p>
+            <br>
+            <p><b>GENDER: </b>{{gender}}</p>
+            <br>
+            <p><b>PHONE NUMBER: </b>{{phone}}</p>
+            <br>
+            <p><b>STATUS: </b>{{quote}}</p>
+            <br>
         </div>
     </div>
-    <br><br>
-    <h5><b>
-            <center>COURSES HANDLED</center>
-        </b></h5>
-    <br>
-    <ol>
-        {{#each coursess}}
-            <li>
-                <p><b>{{this.coursecode}}: </b><a href="/adminviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
-            </li>
-            {{else}}
-                <p>NO COURSE ASSIGNED</p>
-        {{/each}}
-    </ol>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4">
-                <a href="/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"></span></a>
-            </div>
-            <div class="col-4">
-                <a href="#" type="button" class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp"></span></a>
-            </div>
+</div>
+<br><br>
+<h5><b>
+        <center>COURSES HANDLED</center>
+    </b></h5>
+<br>
+<ol>
+    {{#each coursess}}
+        <li>
+            <p><b>{{this.coursecode}}: </b><a href="/adminviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+        </li>
+        {{else}}
+            <p>NO COURSE ASSIGNED</p>
+    {{/each}}
+</ol>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <a href="/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"
+                    style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="#" type="button" class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></a>
         </div>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

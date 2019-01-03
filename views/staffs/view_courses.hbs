@@ -1,79 +1,74 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>staff_lecbody}}
-    <br>
-    <h4><b>
-            <center>COURSE PROFILE</center>
-        </b>
-    </h4>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-8">
-                <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
-                <br>
-                <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
-                <br>
-                <p><b>LEVEL: </b> {{kind.level}}</p>
-                <br>
-                <p><b>SEMESTER:</b> {{kind.semester}}</p>
-                <br>
-                <p><b>UNITS: </b>{{kind.units}}</p>
-                <br>
-                <p><b>BORROWED_COURSE: </b>{{kind.borrowed}}</p>
-                <br>
-                <p><b>LECTURER: </b><a href="/staffstaffprofile/{{teacher.id}}">{{teacher.name}}</a></p>
-                <br>
-            </div>
+<br>
+<h4><b>
+        <center>COURSE PROFILE</center>
+    </b>
+</h4>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
+            <br>
+            <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
+            <br>
+            <p><b>LEVEL: </b> {{kind.level}}</p>
+            <br>
+            <p><b>SEMESTER:</b> {{kind.semester}}</p>
+            <br>
+            <p><b>UNITS: </b>{{kind.units}}</p>
+            <br>
+            <p><b>BORROWED_COURSE: </b>{{kind.borrowed}}</p>
+            <br>
+            {{#each lecky}}
+                <p><b>LECTURER: </b><a href="/staffstaffprofile/{{this.id}}">{{this.surname}}</a></p>
+            {{/each}}
+            <br>
         </div>
     </div>
-    <br>
-    <h4>
-        <center><b>COURSE OUTLINE</b></center>
-    </h4>
-    <br>
-    {{#if kind.courseoutline}}
-        <p>{{kind.courseoutline}}</p>
-    {{else}}
-        <p>COURSE_OUTLINE NOT AVAILABLE</p>
-    {{/if}}
-    <br>
-    <form id="drake" style="display:none" action="/editcourseoutline/{{kind.id}}" method="POST">
-        <div class="form-group input-group-lg">
-            <label for="courseoutline"><b>TYPE COURSEOUTLINE</b></label>
-            <textarea type="text" class="form-control" name="courseoutline" placeholder="Type a message...">{{kind.courseoutline}}</textarea>
+</div>
+<br>
+<h4>
+    <center><b>COURSE OUTLINE</b></center>
+</h4>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            {{#if kind.courseoutline}}
+                <p>{{kind.courseoutline}}</p>
+            {{else}}
+                <p>COURSE_OUTLINE NOT AVAILABLE</p>
+            {{/if}}
+            <br>
         </div>
-        <button type="submit" class="btn btn-danger">EDIT</button>
-    </form>
-    <script>
-        $(document).ready(function () {
-            $('#cousin').click(function () {
-                $('#drake').toggle();
-            });
+    </div>
+</div>
+<form id="drake" style="display:none" action="/editcourseoutline/{{kind.id}}" method="POST">
+    <div class="form-group input-group-lg">
+        <label for="courseoutline"><b>TYPE COURSEOUTLINE</b></label>
+        <textarea type="text" class="form-control" name="courseoutline" placeholder="Type a message...">{{kind.courseoutline}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-danger">EDIT</button>
+</form>
+<script>
+    $(document).ready(function () {
+        $('#cousin').click(function () {
+            $('#drake').toggle("slow");
         });
-    </script>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4">
-                <a type="button" id="cousin" class="btn btn-primary btn-block"><span class="fa fa-edit" style="font-size:25px"></span></a>
-            </div>
-            <div class="col-4">
-                <a href="#" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
-            </div>
-            <div class="col-4">
-                <a href="#" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-file" style="font-size:25px"></span></a>
-            </div>
+    });
+</script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <button id="cousin" class="btn btn-primary btn-block"><span class="fa fa-edit" style="font-size:25px"></span></button>
+        </div>
+        <div class="col-4">
+            <a href="#" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="/staff/viewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-file"
+                    style="font-size:25px"></span></a>
         </div>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

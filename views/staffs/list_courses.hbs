@@ -1,140 +1,125 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>staff_lecbody}}
-    <br>
-    <br>
-    <h4>
-        <b>
-            <center>{{levy}} LEVEL COURSES</center>
-        </b>
-    </h4>
-    <div class="dropdown" style="float:right">
-        <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">search</button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="/staffgetallcourses">100 LEVEL</a>
-            <a class="dropdown-item" href="/staffget200courses">200 LEVEL</a>
-            <a class="dropdown-item" href="/staffget300courses">300 LEVEL</a>
-            <a class="dropdown-item" href="/staffget400courses">400 LEVEL</a>
-        </div>
+<br>
+<h4>
+    <b>
+        <center>{{levy}} LEVEL COURSES</center>
+    </b>
+</h4>
+<div class="dropdown" style="float:right">
+    <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">search</button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="/staff/get100courses">100 LEVEL</a>
+        <a class="dropdown-item" href="/staff/get200courses">200 LEVEL</a>
+        <a class="dropdown-item" href="/staff/get300courses">300 LEVEL</a>
+        <a class="dropdown-item" href="/staff/get400courses">400 LEVEL</a>
     </div>
-    <br>
-    <h5>
-        <center>FIRST SEMESTER COURSES</center><b></b>
-    </h5>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-12">
-                <div class="table-responsive-sm">
-                    <table class="table table-hover table-striped">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>COURSE CODE</th>
-                                <th>COURSE TITLE</th>
-                                <th class="seek">LEVEL</th>
-                                <th class="seek">SEMESTER</th>
-                                <th class="seek">UNIT/S</th>
-                                <th>COURSE OUTLINE</th>
-                            </tr>
-                        </thead>
-                        {{#each first}}
-                            <tr>
-                                <td>{{this.coursecode}}</td>
-                                <td>{{this.coursetitle}}</td>
-                                <td class="seek">{{this.level}}</td>
-                                <td class="seek">{{this.semester}}st</td>
-                                <td class="seek">{{this.units}}</td>
-                                <td><a href="/staffviewcourse/{{this.id}}">view course</a></td>
-                            </tr>
-                            {{else}}
-                                <p>THERE ARE NO REGISTERED FIRST SEMESTER COURSES</p>
-                        {{/each}}
-                    </table>
-                    <br>
-                    <h5>
-                        <center>ELECTIVE COURSES: {{elective1}}</center>
-                    </h5>
-                    <table class="table table-hover table-striped">
-                        {{#each first_borrowed}}
-                            <tr>
-                                <td>{{this.coursecode}}</td>
-                                <td>{{this.coursetitle}}</td>
-                                <td class="seek">{{this.level}}</td>
-                                <td class="seek">{{this.semester}}st</td>
-                                <td class="seek">{{this.units}}</td>
-                                <td><a href="/staffviewcourse/{{this.id}}">view course</a></td>
-                            </tr>
-                            {{else}}
-                                <p>THERE ARE NO REGISTERED BORROWED COURSES</p>
-                        {{/each}}
-                    </table>
-                </div>
-            </nav>
-        </div>
+</div>
+<br>
+<h5>
+    <center>FIRST SEMESTER COURSES</center><b></b>
+</h5>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th class="seek">LEVEL</th>
+                            <th class="seek">SEMESTER</th>
+                            <th class="seek">UNIT/S</th>
+                            <th>COURSE OUTLINE</th>
+                        </tr>
+                    </thead>
+                    {{#each first}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td class="seek">{{this.level}}</td>
+                            <td class="seek">{{this.semester}}st</td>
+                            <td class="seek">{{this.units}}</td>
+                            <td><a href="/staff/viewcourse/{{this.id}}">view course</a></td>
+                        </tr>
+                        {{else}}
+                            <p>THERE ARE NO REGISTERED FIRST SEMESTER COURSES</p>
+                    {{/each}}
+                </table>
+                <br>
+                <h5>
+                    <center>ELECTIVE COURSES: {{elective1}}</center>
+                </h5>
+                <table class="table table-hover table-striped">
+                    {{#each first_borrowed}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td class="seek">{{this.level}}</td>
+                            <td class="seek">{{this.semester}}st</td>
+                            <td class="seek">{{this.units}}</td>
+                            <td><a href="/staff/viewcourse/{{this.id}}">view course</a></td>
+                        </tr>
+                        {{else}}
+                            <p>THERE ARE NO REGISTERED BORROWED COURSES</p>
+                    {{/each}}
+                </table>
+            </div>
+        </nav>
     </div>
-    <br>
-    <br>
-    <h5><b>
-            <center>SECOND SEMESTER COURSES</center>
-        </b></h5>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-12">
-                <div class="table-responsive-sm">
-                    <table class="table table-hover table-striped">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>COURSE CODE</th>
-                                <th>COURSE TITLE</th>
-                                <th class="seek">LEVEL</th>
-                                <th class="seek">SEMESTER</th>
-                                <th class="seek">UNIT/S</th>
-                                <th>COURSE OUTLINE</th>
-                            </tr>
-                        </thead>
-                        {{#each second}}
-                            <tr>
-                                <td>{{this.coursecode}}</td>
-                                <td>{{this.coursetitle}}</td>
-                                <td class="seek">{{this.level}}</td>
-                                <td class="seek">{{this.semester}}nd</td>
-                                <td class="seek">{{this.units}}</td>
-                                <td><a href="/staffviewcourse/{{this.id}}">view course</a></td>
-                            </tr>
-                            {{else}}
-                                <p>THERE ARE NO REGISTERED SECOND SEMESTER COURSES</p>
-                        {{/each}}
-                    </table>
-                    <br>
-                    <h5>
-                        <center>ELECTIVE COURSES: {{elective2}}</center>
-                    </h5>
-                    <table class="table table-hover table-striped">
-                        {{#each second_borrowed}}
-                            <tr>
-                                <td>{{this.coursecode}}</td>
-                                <td>{{this.coursetitle}}</td>
-                                <td class="seek">{{this.level}}</td>
-                                <td class="seek">{{this.semester}}nd</td>
-                                <td class="seek">{{this.units}}</td>
-                                <td><a href="/staffviewcourse/{{this.id}}">view course</a></td>
-                            </tr>
-                            {{else}}
-                                <p>THERE ARE NO REGISTERED BORROWED COURSES</p>
-                        {{/each}}
-                    </table>
-                </div>
-            </nav>
-        </div>
+</div>
+<br>
+<br>
+<h5><b>
+        <center>SECOND SEMESTER COURSES</center>
+    </b></h5>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-12">
+            <div class="table-responsive-sm">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>COURSE CODE</th>
+                            <th>COURSE TITLE</th>
+                            <th class="seek">LEVEL</th>
+                            <th class="seek">SEMESTER</th>
+                            <th class="seek">UNIT/S</th>
+                            <th>COURSE OUTLINE</th>
+                        </tr>
+                    </thead>
+                    {{#each second}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td class="seek">{{this.level}}</td>
+                            <td class="seek">{{this.semester}}nd</td>
+                            <td class="seek">{{this.units}}</td>
+                            <td><a href="/staff/viewcourse/{{this.id}}">view course</a></td>
+                        </tr>
+                        {{else}}
+                            <p>THERE ARE NO REGISTERED SECOND SEMESTER COURSES</p>
+                    {{/each}}
+                </table>
+                <br>
+                <h5>
+                    <center>ELECTIVE COURSES: {{elective2}}</center>
+                </h5>
+                <table class="table table-hover table-striped">
+                    {{#each second_borrowed}}
+                        <tr>
+                            <td>{{this.coursecode}}</td>
+                            <td>{{this.coursetitle}}</td>
+                            <td class="seek">{{this.level}}</td>
+                            <td class="seek">{{this.semester}}nd</td>
+                            <td class="seek">{{this.units}}</td>
+                            <td><a href="/staff/viewcourse/{{this.id}}">view course</a></td>
+                        </tr>
+                        {{else}}
+                            <p>THERE ARE NO REGISTERED BORROWED COURSES</p>
+                    {{/each}}
+                </table>
+            </div>
+        </nav>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

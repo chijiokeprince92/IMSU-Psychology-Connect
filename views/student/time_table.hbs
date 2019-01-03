@@ -1,71 +1,73 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>student_lecbody}}
-    <br>
-    <br>
-    <h3><b><center>TIME-TABLE</center></b></h3>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-sm-12">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>TIME</th>
-                                <th>MONDAY</th>
-                                <th>TUESDAY</th>
-                                <th>WEDNESDAY</th>
-                                <th>THURSDAY</th>
-                                <th>FRIDAY</th>
-                            </tr>
-                        </thead>
+<br>
+<h3><b>
+        <center>TIME-TABLE</center>
+    </b></h3>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-sm-12">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-dark">
                         <tr>
-                            <td>8AM-10AM</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <th>TIME</th>
+                            <th>MONDAY</th>
+                            <th>TUESDAY</th>
+                            <th>WEDNESDAY</th>
+                            <th>THURSDAY</th>
+                            <th>FRIDAY</th>
                         </tr>
-                        <tr>
-                            <td>10AM-12PM</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>12PM-2PM</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>2PM-4PM</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-            </nav>
-        </div>
+                    </thead>
+                    <tr>
+                        <td>8AM-10AM</td>
+                        {{#if studenty}}
+                            {{#each time}}
+                                <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
+                            {{/each}}
+                        {{else}}
+                            {{#each time}}
+                                <td>{{this.course}}</td>
+                            {{/each}}
+                        {{/if}}
+                    </tr>
+                    <tr>
+                        <td>10AM-12PM</td>
+                        {{#if studenty}}
+                            {{#each time2}}
+                                <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
+                            {{/each}}
+                        {{else}}
+                            {{#each time2}}
+                                <td>{{this.course}}</td>
+                            {{/each}}
+                        {{/if}}
+                    </tr>
+                    <tr>
+                        <td>12PM-2PM</td>{{#if studenty}}
+                            {{#each time3}}
+                                <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
+                            {{/each}}
+                        {{else}}
+                            {{#each time3}}
+                                <td>{{this.course}}</td>
+                            {{/each}}
+                        {{/if}}
+                    </tr>
+                    <tr>
+                        <td>2PM-4PM</td>
+                        {{#if studenty}}
+                            {{#each time4}}
+                                <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
+                            {{/each}}
+                        {{else}}
+                            {{#each time4}}
+                                <td>{{this.course}}</td>
+                            {{/each}}
+                        {{/if}}
+                    </tr>
+                </table>
+            </div>
+        </nav>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

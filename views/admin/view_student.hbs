@@ -1,62 +1,93 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>admin_lecbody}}
-    <br>
-    <h3><b>
-            <center>STUDENT'S PROFILE</center>
-        </b></h3>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-4 col-lg-6">
-                <a href="/{{photo}}">
-                    <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-                </a>
-            </div>
-            <br><br>
-            <div class="col-12 col-md-8 col-lg-6">
-                <p><b>E-MAIL:</b> {{email}}</p>
-                <br>
-                <p><b>SURNAME: </b> {{surname}}</p>
-                <br>
-                <p><b>FIRSTNAME: </b> {{firstname}}</p>
-                <br>
-                <p><b>MAT. NUMBER :</b> {{matnumber}}</p>
-                <br>
-                <p><b>LEVEL: </b>{{level}}</p>
-                <br>
-                <p><b>GENDER: </b>{{gender}}</p>
-                <br>
-                <p><b>PHONE NUMBER: </b>{{phone}}</p>
-                <br>
-                <p><b>STATUS: </b>{{quote}}</p>
-                <br>
-            </div>
+<br>
+<h3><b>
+        <center>STUDENT'S PROFILE</center>
+    </b></h3>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-6">
+            <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
+        </div>
+        <br><br>
+        <div class="col-12 col-md-8 col-lg-6">
+            <p><b>SURNAME: </b> {{student.surname}}</p>
+            <br>
+            <p><b>FIRSTNAME: </b> {{student.firstname}}</p>
+            <br>
+            <p><b>MAT. NUMBER :</b> {{student.matnumber}}</p>
+            <br>
+            <p><b>LEVEL: </b>{{student.level}}</p>
+            <br>
+            <p><b>GENDER: </b>{{student.gender}}</p>
+            <br>
+            <p><b>E-MAIL:</b> {{student.email}}</p>
+            <br>
+            <p><b>IS_COURSEREP:</b> {{student.is_courserep}}
+                {{#if courserepno}}
+                    <form action="/makecourserep/{{student.id}}" method="POST" style="display:inline">
+                        <input type="text" style="display:none" class="form-control" name="courserep" value="Yes" />
+                        <button type="submit" class="btn btn-success"><span class="fa fa-thumbs-o-up">
+                        </button>
+                    </form>
+                {{else}}
+                    <form action="/makecourserep/{{student.id}}" method="POST" style="display:inline">
+                        <input type="text" style="display:none" class="form-control" name="courserep" value="No" />
+                        <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down">
+                        </button>
+                    </form>
+                {{/if}}
+            </p>
+            <br>
+            <p><b>PHONE NUMBER: </b>{{student.phone}}</p>
+            <br>
+            <p><b>STATUS: </b>{{student.bio}}</p>
+            <br>
         </div>
     </div>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4">
-                <a href="#" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
+</div>
+<br>
+<h5><b>
+        <center>COURSES OFFERED THIS SEMESTER</center>
+    </b>
+</h5>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        {{#each student.courses_offered}}
+            <div class="col-8 col-md-8 col-lg-10">
+                <p>{{this.coursecode}}: <a href="/admin/viewcourse/{{this.id}}">{{this.coursetitle}}</a>
+                </p>
             </div>
-            <div class="col-4">
-                <a href="#" type="button" class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></a>
+            <div class="col-2 col-md-2 col-lg-1">
+                <a href="/admin/studentaddresult/{{this.id}}" class="btn btn-info btn-block">
+                    Result
+                </a><br><br>
             </div>
-            <div class="col-4">
-                <a href="/list{{level}}students" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
-                        style="font-size:25px"></span></a>
+            <div class="col-2 col-md-2 col-lg-1">
+                <form action="/admin/studentdeleteregistercourse/{{this.id}}" method="POST" style="display:inline">
+                    <input type="hidden" />
+                    <button type="submit" class="btn btn-danger btn-block">Delete</button>
+                </form><br><br>
             </div>
+            {{else}}
+                <p>NO REGISTERED COURSE</p>
+        {{/each}}
+    </div>
+</div>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <a href="/admin/studentfullresults/{{student.id}}" type="button" class="btn btn-primary btn-block"><span
+                    class="fa fa-book" style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="#" type="button" class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="/admin/list{{student.level}}students" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
+                    style="font-size:25px"></span></a>
         </div>
     </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

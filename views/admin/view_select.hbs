@@ -1,0 +1,29 @@
+<br>
+<h4><b>
+        <center>STUDENT OFFERING</center>
+    </b>
+</h4>
+<br><br>
+<ol>
+    {{#each upload}}
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-10">
+                    <p>
+                        <b>NAME: </b><a href="/studentprofile/{{this.id}}">{{this.surname}} {{this.firstname}}</a><br>
+                    </p>
+                </div>
+                <div class="col-2">
+                    <form action="/adminstudentdeleteregistercourse/{{this.id}}" method="POST" style="display:inline">
+                        <input type="hidden" />
+                        <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:20px"></span></button>
+                    </form>
+                </div>
+            </div>
+        </li>
+        <br><br>
+        {{else}}
+            <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+    {{/each}}
+</ol>
+<br><br>

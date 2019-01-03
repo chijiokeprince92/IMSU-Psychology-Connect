@@ -1,50 +1,45 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>student_lecbody}}
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12 col-lg-3">
-                <a href="/{{photo}}"><img src="/{{photo}}" alt="profile image" class="rounded" width="100%" /></a>
-                <br><br>
-            </div>
-            <div class="col-sm-12 col-lg-9">
-                <p><b>E-MAIL:</b> {{email}}</p>
-                <p><b>SURNAME: </b> {{surname}}</p>
-                <p><b>FIRSTNAME: </b> {{firstname}}</p>
-                <p><b>MAT_NUMBER :</b> {{matnumber}}</p>
-                <p><b>LEVEL: </b>{{level}}</p>
-                <p><b>GENDER: </b>{{gender}}</p>
-                <p><b>PHONE NUMBER: </b>{{phone}}</p>
-                <p><b>STATUS: </b>{{status}}</p>
-            </div>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-5">
+            <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
+            <br><br>
+        </div>
+        <div class="col-12 col-lg-7">
+            <p><b>SURNAME: </b> {{coursemate.surname}}</p>
+            <br>
+            <p><b>FIRSTNAME: </b> {{coursemate.firstname}}</p>
+            <br>
+            <p><b>MAT_NUMBER :</b> {{coursemate.matnumber}}</p>
+            <br>
+            <p><b>LEVEL: </b>{{coursemate.level}}</p>
+            <br>
+            <p><b>GENDER: </b>{{coursemate.gender}}</p>
+            <br>
+            <p><b>E-MAIL:</b> {{coursemate.email}}</p>
+            <br>
+            <p><b>IS_COURSEREP:</b> {{coursemate.is_courserep}}</p>
+            <br>
+            <p><b>PHONE NUMBER: </b>{{coursemate.phone}}</p>
+            <br>
+            <p><b>STATUS: </b>{{coursemate.bio}}</p>
+            <br>
         </div>
     </div>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4">
-                <a href="" type="button" class="btn btn-primary btn-lg btn-block disabled"><span class="fa fa-book"
-                        style="font-size:25px"></span></a>
-            </div>
-            <div class="col-4">
-                <button class="btn btn-success btn-block btn-lg disabled"><span class="fa fa-whatsapp" style="font-size:25px"></span></button>
-            </div>
-            <div class="col-4">
-                <a href="/studentstudentlist" type="button" class="btn btn-primary btn-lg btn-block"><span class="fa fa-users"
-                        style="font-size:25px"></span></a>
-            </div>
+</div>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <a href="" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <button class="btn btn-success btn-block btn-lg disabled"><span class="fa fa-whatsapp" style="font-size:25px"></span></button>
+        </div>
+        <div class="col-4">
+            <a href="/studentstudentlist" type="button" class="btn btn-primary btn-lg btn-block"><span class="fa fa-users"
+                    style="font-size:25px"></span></a>
         </div>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

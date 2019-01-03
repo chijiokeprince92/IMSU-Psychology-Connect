@@ -1,59 +1,44 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>admin_lecbody}}
+<br>
+<h3><b>
+        <center>UPLOAD PROJECT FORM</center>
+    </b></h3>
+<br>
+<ol>
+    <li>
+        Select the file that you want to upload.
+    </li>
     <br>
-    <h3><b>
-            <center>UPLOAD PROJECT FORM</center>
-        </b></h3>
+    <li>
+        Input the project topic in Capital Letters.
+    </li>
     <br>
-    <ol>
-        <li>
-            Select the file that you want to upload.
-        </li>
-        <br>
-        <li>
-            Input the project topic in Capital Letters.
-        </li>
-        <br>
-        <li>
-            Type a one paragraph writeup, explaining the content of the project topic.
-        </li>
-        <br>
-    </ol>
+    <li>
+        Type a one paragraph writeup, explaining the content of the project topic.
+    </li>
     <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-8 col-lg-6" id="kilo">
-                <form class="form-group" action="" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="project"><b>UPLOAD PPROJECT:</b></label>
-                        <input type="file" class="form-control" name="project" placeholder="upload Project" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="topic"><b>PROJECT TOPIC:</b></label>
-                        <input type="text" class="form-control" name="topic" placeholder="Project Topic.." required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description"><b>PROJECT DESCRIPTION:</b></label>
-                        <textarea type="text" class="form-control" name="description" placeholder="Description..."
-                            required></textarea>
-                    </div>
-                    <br><br>
-                    <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"> </span>
-                            UPLOAD PROJECT</b></button>
-                </form>
-            </div>
+</ol>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6" id="kilo">
+            <form class="form-group" action="" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="project"><b>UPLOAD PPROJECT:</b></label>
+                    <input type="file" class="form-control" name="project" placeholder="upload Project" required>
+                </div>
+                <div class="form-group">
+                    <label for="topic"><b>PROJECT TOPIC:</b></label>
+                    <input type="text" class="form-control" name="topic" placeholder="Project Topic.." required>
+                </div>
+                <div class="form-group">
+                    <label for="description"><b>PROJECT DESCRIPTION:</b></label>
+                    <textarea type="text" class="form-control" name="description" placeholder="Description..." required></textarea>
+                </div>
+                <br><br>
+                <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"> </span>
+                        UPLOAD PROJECT</b></button>
+            </form>
         </div>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

@@ -1,42 +1,27 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>staff_lecbody}}
-    <br>
-    <h5>
-        <center>UPLOAD PROJECT</center>
-    </h5>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-8 col-lg-6" id="kilo">
-                <form class="form-group" action="" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="project"><b>UPLOAD PPROJECT:</b></label>
-                        <input type="file" class="form-control" name="project" placeholder="upload Project" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="topic"><b>PROJECT TOPIC:</b></label>
-                        <input type="text" class="form-control" name="topic" placeholder="Project Topic.." required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description"><b>PROJECT DESCRIPTION:</b></label>
-                        <input type="text" class="form-control" name="description" placeholder="Description..."
-                            required>
-                    </div>
-                    <br><br>
-                    <button type="submit" class="btn btn-success"><b>UPLOAD PROJECT</b></button>
-                </form>
-            </div>
+<br>
+<h5>
+    <center>UPLOAD PROJECT</center>
+</h5>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6" id="kilo">
+            <form class="form-group" action="" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="project"><b>UPLOAD PPROJECT:</b></label>
+                    <input type="file" class="form-control" name="project" placeholder="upload Project" required>
+                </div>
+                <div class="form-group">
+                    <label for="topic"><b>PROJECT TOPIC:</b></label>
+                    <input type="text" class="form-control" name="topic" placeholder="Project Topic.." required>
+                </div>
+                <div class="form-group">
+                    <label for="description"><b>PROJECT DESCRIPTION:</b></label>
+                    <input type="text" class="form-control" name="description" placeholder="Description..." required>
+                </div>
+                <br><br>
+                <button type="submit" class="btn btn-success"><b>UPLOAD PROJECT</b></button>
+            </form>
         </div>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

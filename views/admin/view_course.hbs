@@ -1,64 +1,111 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>admin_lecbody}}
-    <br>
-    <h4><b>
-            <center>COURSE DETAILS</center>
-        </b>
-    </h4>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-8 col-lg-7">
-                <p><b>Course_Code:</b> {{kind.coursecode}}</p>
+<br>
+<h4><b>
+        <center>COURSE DETAILS</center>
+    </b>
+</h4>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-7">
+            <p><b>COURSE CODE:</b> {{kind.coursecode}}</p>
+            <br>
+            <p><b>COURSE TITLE: </b> {{kind.coursetitle}}</p>
+            <br>
+            <p><b>LEVEL: </b> {{kind.level}}</p>
+            <br>
+            <p><b>SEMESTER:</b> {{kind.semester}}</p>
+            <br>
+            <p><b>UNITS: </b>{{kind.units}}</p>
+            <br>
+            <p><b>BORROWED COURSE: </b>{{kind.borrowed}}</p>
+            <br>
+            {{#each lecky}}
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-8">
+                            <p><b>LECTURER: </b><a href="/staffprofile/{{this.id}}">{{this.surname}}</a></p>
+                        </div>
+                        <div class="col-4">
+                            <form action="/admin/deletecourselecturer/{{this.id}}" method="POST">
+                                <input type="text" name="glory" value="{{this.id}}" />
+                                <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <br>
-                <p><b>Course_Title: </b> {{kind.coursetitle}}</p>
-                <br>
-                <p><b>Level: </b> {{kind.level}}</p>
-                <br>
-                <p><b>Semester:</b> {{kind.semester}}</p>
-                <br>
-                <p><b>Units: </b>{{kind.units}}</p>
-                <br>
-                <p><b>Borrowed_Course: </b>{{kind.borrowed}}</p>
-                <br>
-                <p><b>Lecturer: </b><a href="/staffprofile/{{teacher.id}}">{{teacher.name}}</a></p>
+            {{/each}}
+            <br>
+            <button id="shew" class="btn btn-primary" style="display:inline">Add lecturer</button>
+            <button id="showed" class="btn btn-danger" style="display:none">Close</button>
+            <div id="glory" style="display:none">
+                <p><b>ADD LECTURER: </b>
+                    <form action="/admin/editcourselecturer/{{kind.id}}" method="POST">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-8">
+                                    <select name="lecturee" class="form-control">
+                                        {{#each teacher}}
+                                            <option value="{{this.id}}">{{this.name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <button type="submit" class="btn btn-success">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </p>
             </div>
+            <script>
+                $(document).ready(function () {
+                    $('#shew').click(function () {
+                        $('#glory').toggle("slow");
+                        $('#showed').toggle("slow");
+                        $('#shew').toggle("slow");
+                    });
+                    $('#showed').click(function () {
+                        $('#shew').toggle("slow");
+                        $('#glory').toggle("slow");
+                        $('#showed').toggle("slow");
+                    });
+                });
+
+            </script>
+            <br>
         </div>
     </div>
-    <br>
-    <h5><b>
-            <center>COURSE OUTLINE</center>
-        </b></h5>
-    <br>
-    {{#if kind.courseoutline}}
-        <p>{{kind.courseoutline}}</p>
-    {{else}}
-        <p>COURSE OUTLINE NOT AVAILABLE</p>
-    {{/if}}
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-4">
-                <a href="/addcourseoutline/{{kind.id}}" type="button" class="btn btn-info btn-block"><span class="fa fa-edit"></span>
-                    EDIT</a>
-            </div>
-            <div class="col-4">
-                <form action="/deletecourse/{{kind.id}}" method="POST">
-                    <input type="hidden" />
-                    <button type="submit" class="btn btn-danger btn-block"><span class="fa fa-trash"></span> DELETE</button>
-                </form>
-            </div>
+</div>
+<br>
+<h5><b>
+        <center>COURSE OUTLINE</center>
+    </b></h5>
+<br>
+{{#if kind.courseoutline}}
+    <p>{{kind.courseoutline}}</p>
+{{else}}
+    <p>COURSE OUTLINE NOT AVAILABLE</p>
+{{/if}}
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <a href="/admin/addcourseoutline/{{kind.id}}" type="button" class="btn btn-info btn-block"><span class="fa fa-edit"
+                    style="font-size:25px"></span>
+            </a>
+        </div>
+        <div class="col-4">
+            <a href="/admin/viewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-file"
+                    style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <form action="/admin/deletecourse/{{kind.id}}" method="POST">
+                <input type="hidden" />
+                <button type="submit" class="btn btn-danger btn-block disabled"><span class="fa fa-trash" style="font-size:25px"></span>
+                </button>
+            </form>
         </div>
     </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

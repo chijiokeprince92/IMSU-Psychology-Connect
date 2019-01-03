@@ -1,48 +1,41 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>student_lecbody}}
-    <br>
-    <h1><b><center>UPDATE PROFILE</center></b></h1>
-    <br><br>
-    {{#each errors}}
-        <p>{{this}}</p>
-    {{/each}}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-8 col-lg-6" id="kilo">
-                <form class="form group input-group-lg" action="" method="POST">
-                    <label for="email"><b>E-MAIL:</b></label>
-                    <input type="email" name="email" class="form-control" value="{{coursey.email}}" placeholder="Email.com" required>
-                    <br>
-                    <label for="surname"><b>SURNAME:</b></label>
-                    <input type="text" name="surname" class="form-control" value="{{coursey.surname}}" placeholder="surname" required>
-                    <br>
-                    <label for="firstname"><b>FIRSTNAME:</b></label>
-                    <input type="text" name="firstname" class="form-control" value="{{coursey.firstname}}" placeholder="first name" required>
-                    <br>
-                    <label for="phone"><b>PHONE NUMBER:</b></label>
-                    <input type="tel" name="phone" class="form-control" minlength="11" maxlength="11" value="{{coursey.phone}}" required>
-                    <br>
-                    <label for="bio"><b>BIO:</b></label>
-                    <input type="text" class="form-control" name="bio" value="{{coursey.bio}}" placeholder="About you" required>
-                    <br>
-                    <label for="password"><b>PASSWORD:</b></label>
-                    <input type="password" name="password" class="form-control" value="{{coursey.password}}" required>
-                    <br><br>
-                    <button type="submit" class="btn btn-success btn-lg"><b>UPDATE PROFILE</b></button>
-                </form>
-            </div>
+<br>
+<h1><b>
+        <center>UPDATE PROFILE</center>
+    </b></h1>
+<br><br>
+{{#each errors}}
+    <p>{{this}}</p>
+{{/each}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6" id="kilo">
+            <form class="form group input-group-lg" action="" method="POST">
+                <label for="email"><b>E-MAIL:</b></label>
+                <input type="email" name="email" class="form-control" value="{{coursey.email}}" placeholder="Email.com"
+                    required>
+                <br>
+                <label for="surname"><b>SURNAME:</b></label>
+                <input type="text" name="surname" class="form-control" value="{{coursey.surname}}" placeholder="surname"
+                    required>
+                <br>
+                <label for="firstname"><b>FIRSTNAME:</b></label>
+                <input type="text" name="firstname" class="form-control" value="{{coursey.firstname}}" placeholder="first name"
+                    required>
+                <br>
+                <label for="phone"><b>PHONE NUMBER:</b></label>
+                <input type="tel" name="phone" class="form-control" minlength="11" maxlength="11" value="{{coursey.phone}}"
+                    required>
+                <br>
+                <label for="bio"><b>BIO:</b></label>
+                <input type="text" class="form-control" name="bio" value="{{coursey.bio}}" placeholder="About you"
+                    required>
+                <br>
+                <label for="password"><b>PASSWORD:</b></label>
+                <input type="password" name="password" class="form-control" value="{{coursey.password}}" required>
+                <br><br>
+                <button type="submit" class="btn btn-success btn-lg"><b>UPDATE PROFILE</b></button>
+            </form>
         </div>
     </div>
-    </div>
-    <br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br>

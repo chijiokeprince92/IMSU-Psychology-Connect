@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    {{>head}}
+</head>
+
+<body>
+    {{>view_body}}
+    <br>
+    <h4><b>
+            <center>AJAX TESTING</center>
+        </b>
+    </h4>
+    <br>
+    <button type="button" class="btn btn-primary" onclick="loadDoc()">Prince</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-6">
+                <p id="demo"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function loadDoc() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    alert("I Love Jesus Christ");
+                    document.getElementById('demo').innerHTML = this.responseText;
+                }
+            };
+            xhttp.open('GET', 'aaa.txt', true);
+            xhtpp.send();
+        }
+    </script>
+    <br><br>
+    <footer>{{>footer}}</footer>
+</body>
+
+</html>

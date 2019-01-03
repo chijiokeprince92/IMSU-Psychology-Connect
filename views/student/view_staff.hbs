@@ -1,48 +1,41 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>student_lecbody}}
-    <br>
-    <h2><b>
-            <center>STAFF PROFILE</center>
-        </b></h2>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12 col-md-5">
-                <img src="/{{photo}}" alt="image" class="rounded" width="100%" />
-            </div>
-            <div class="col-sm-12 col-md-7">
-                <p><b>EMAIL: </b> {{email}}</p>
-                <p><b>SURNAME: </b> {{surname}}</p>
-                <p><b>FIRSTNAME: </b> {{firstname}}</p>
-                <p><b>GENDER: </b>{{gender}}</p>
-                <p><b>PHONE NUMBER: </b>{{phone}}</p>
-                <p><b>STATUS: </b>{{quote}}</p>
-            </div>
+<br>
+<h4><b>
+        <center>LECTURER PROFILE</center>
+    </b></h4>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-5">
+            <img src="/{{photo}}" alt="image" class="rounded" width="100%" />
+        </div>
+        <div class="col-12 col-md-7">
+            <p><b>EMAIL: </b> {{staffs.email}}</p>
+            <br>
+            <p><b>SURNAME: </b> {{staffs.surname}}</p>
+            <br>
+            <p><b>FIRSTNAME: </b> {{staffs.firstname}}</p>
+            <br>
+            <p><b>GENDER: </b>{{staffs.gender}}</p>
+            <br>
+            <p><b>PHONE NUMBER: </b>{{staffs.phone}}</p>
+            <br>
+            <p><b>STATUS: </b>{{staffs.bio}}</p>
+            <br>
         </div>
     </div>
-    <br>
-    <h3>
-        <center><b>COURSES ASSIGNED</b></center>
-    </h3>
-    <br>
-    <ol>
-        {{#each coursess}}
-            <li>
-                <p><b>{{this.coursecode}}: </b><a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
-            </li>
-            {{else}}
-                <p>NO COURSE ASSIGNED</p>
-        {{/each}}
-    </ol>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br>
+<h5>
+    <center><b>COURSES ASSIGNED</b></center>
+</h5>
+<br>
+<ol>
+    {{#each coursess}}
+        <li>
+            <p><b>{{this.coursecode}}: </b><a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+        </li>
+        {{else}}
+            <p>NO COURSE ASSIGNED</p>
+    {{/each}}
+</ol>
+<br><br>

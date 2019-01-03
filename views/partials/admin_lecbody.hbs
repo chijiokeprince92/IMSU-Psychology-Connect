@@ -1,17 +1,17 @@
-<img src="../images/drizzys.jpg" alt="NAPS image" class="logo" />
 <div class="stay">
     <ul class="nav nav-pills nav-justified">
         {{#if admin}}
             <li class="nav-item" title="Staff Home">
-                <a href="/hercules/admin" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home" id="mum2"></span></a></li>
+                <a href="/admin/hercules" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home" id="mum2"></span></a></li>
             <li class="nav-item" title="News">
-                <a href="/getlastnews" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-bell" id="mum2">
+                <a href="/admin/getlastnews" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-bell" id="mum2">
                     </span> <span class="badge badge-danger badge-pill spany">{{news}}</span></a></li>
             <li class="nav-item" title="Your Profile">
-                <a href="/adminss/{{admin}}" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-user-o" id="mum2"></span></a>
+                <a href="/admin/profile/{{admin}}" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-user-o"
+                        id="mum2"></span></a>
             </li>
             <li class="nav-item" title="LogOut">
-                <a href="/adminlogout" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-power-off" id="mum2"
+                <a href="/admin/logout" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-power-off" id="mum2"
                         style="color:red"></span></a>
             </li>
         {{else}}
@@ -19,10 +19,10 @@
                 <a href="/" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home" id="mum2"></span></a>
             </li>
             <li class="nav-item" title="Admin Login">
-                <a href="/adminlogin" class="btn btn-primary btn-lg btn-block mum">ADMIN LOGIN</a>
+                <a href="/admin/login" class="btn btn-primary btn-lg btn-block mum">ADMIN LOGIN</a>
             </li>
             <li class="nav-item" title="Admin SignUp">
-                <a href="/x2f4hjks8xmn" class="btn btn-primary btn-lg btn-block mum">ADMIN SIGNUP</a>
+                <a href="/admin/x2f4hjks8xmn" class="btn btn-primary btn-lg btn-block mum">ADMIN SIGNUP</a>
             </li>
         {{/if}}
     </ul>

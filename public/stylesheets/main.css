@@ -1,5 +1,5 @@
 @media only screen and (min-width:900px) {
-    .broda {
+    body {
         background-size: cover;
         font-size: 1em;
         line-height: 1.2;
@@ -22,6 +22,7 @@
     p {
         font-size: 120%;
         line-height: 1.2;
+        text-indent: 30px;
         border: none;
         font-family: serif;
         padding: 0;
@@ -178,7 +179,7 @@
 }
 
 @media only screen and (max-width:900px) {
-    .broda {
+    body {
         background-size: cover;
         font-size: 1em;
         line-height: 1.2;
@@ -189,7 +190,7 @@
     .logo {
         background-size: cover;
         width: 100%;
-        height: 150px;
+        height: 170px;
     }
     #pics {
         width: 100%;
@@ -351,7 +352,7 @@
 }
 
 @media only screen and (max-width:500px) {
-    .broda {
+    body {
         background-size: cover;
         font-size: 0.5em;
         line-height: 1.2;

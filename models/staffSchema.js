@@ -50,21 +50,21 @@ var staffSchema = new schema({
 
 staffSchema
     .virtual('name')
-    .get(function () {
+    .get(function() {
         return this.surname + ' ' + this.firstname;
     });
 
 //Virtual for Student's URL
 staffSchema
     .virtual('url')
-    .get(function () {
-        return '/staffss/' + this._id;
+    .get(function() {
+        return '/staff/profile/' + this._id;
     });
 
 //Virtual for Student's URL
 staffSchema
     .virtual('urly')
-    .get(function () {
+    .get(function() {
         return '/staffprofile/' + this._id;
     });
 

@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const createError = require('http-errors');
 const favicon = require('serve-favicon');
 const path = require('path');
@@ -11,16 +10,21 @@ const session = require('express-session');
 
 const expressHbs = require('express-handlebars');
 const logger = require('morgan');
+const debug = require('debug')('library-app:server');
 
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const catalogRouter = require('./routes/catalog');
+
+
+const staffRouter = require('./routes/staff');
+const adminRouter = require('./routes/admin');
+const studentRouter = require('./routes/student');
 
 const compression = require('compression');
 const helmet = require('helmet');
 
-
+const app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
 // mongoose connections
 const mongoose = require('mongoose');
@@ -29,7 +33,7 @@ const MongoStore = require('connect-mongo')(session);
 mongoose.connect(process.env.mongoDBO);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Pearly, MongoDB connection error'));
+db.on('error', console.error.bind(console, 'Prince,the MongoDB connection error'));
 
 
 // view engine setup
@@ -41,6 +45,10 @@ app.engine('.hbs', expressHbs({
 app.set('view engine', '.hbs');
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(function(req, res, next) {
+    req.io = io;
+    next();
+});
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -60,9 +68,9 @@ app.use(session({
 app.use(compression()); // compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/index', indexRouter);
-app.use('/users', usersRouter);
-app.use('/', catalogRouter);
+app.use('/staff', staffRouter);
+app.use('/admin', adminRouter);
+app.use('/', studentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -77,7 +85,13 @@ app.use(function(err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.render('pages/error');
+    res.render('pages/error', {
+        message: err.message,
+        error: err
+    });
 });
 
-module.exports = app;
+module.exports = {
+    app: app,
+    server: server
+};

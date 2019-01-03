@@ -1,77 +1,52 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>admin_lecbody}}
-    <br>
-    <br>
-    <h4><b>
-            <center>EDIT COURSE</center>
-        </b></h4>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-8 col-lg-6" id="kilo">
-                <form class="form-group" action="" method="POST">
-                    <div class="form-group">
-                        <label for="coursecode"><b>COURSE CODE:</b></label>
-                        <input type="text" class="form-control" name="coursecode" value="{{coursey.coursecode}}"
-                            required>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <label for="coursetitle"><b>COURSE TITLE:</b></label>
-                        <input type="text" class="form-control" name="coursetitle" value="{{coursey.coursetitle}}"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <label for="level"><b>LEVEL:</b></label>
-                        <select name="level" class="form-control" required>
-                            <option value="{{coursey.level}}">{{coursey.level}} level</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="semester"><b>SEMESTER:</b></label>
-                        <select name="semester" class="form-control" required>
-                            <option value="{{coursey.semester}}">{{coursey.semester}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="units"><b>UNITS:</b></label>
-                        <input type="number" class="form-control" name="units" value="{{coursey.units}}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="borrowed"><b>IS_BORROWED ?</b></label>
-                        <select name="borrowed" class="form-control">
-                            <option value="no">No</option>
-                            <option value="yes">Yes</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="lecturer"><b>LECTURER</b></label>
-                        <select name="lecturer" class="form-control">
-                            {{#each teacher}}
-                                <option value="{{this.id}}">{{this.name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="courseoutline"><b>COURSE OUTLINE:</b></label>
-                        <textarea type="text" class="form-control" name="courseoutline">{{coursey.courseoutline}}</textarea>
-                    </div>
-                    <br><br>
-                    <button type="submit" class="btn btn-success"><b>UPDATE</b></button>
-                </form>
-            </div>
+<br>
+<h4><b>
+        <center>EDIT COURSE</center>
+    </b></h4>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6" id="kilo">
+            <form class="form-group" action="" method="POST">
+                <div class="form-group">
+                    <label for="coursecode"><b>COURSE CODE:</b></label>
+                    <input type="text" class="form-control" name="coursecode" value="{{coursey.coursecode}}" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="coursetitle"><b>COURSE TITLE:</b></label>
+                    <input type="text" class="form-control" name="coursetitle" value="{{coursey.coursetitle}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="level"><b>LEVEL:</b></label>
+                    <select name="level" class="form-control" required>
+                        <option value="{{coursey.level}}">{{coursey.level}} level</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="semester"><b>SEMESTER:</b></label>
+                    <select name="semester" class="form-control" required>
+                        <option value="{{coursey.semester}}">{{coursey.semester}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="units"><b>UNITS:</b></label>
+                    <input type="number" class="form-control" name="units" value="{{coursey.units}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="borrowed"><b>IS_BORROWED ?</b></label>
+                    <select name="borrowed" class="form-control">
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="courseoutline"><b>COURSE OUTLINE:</b></label>
+                    <textarea type="text" class="form-control" name="courseoutline">{{coursey.courseoutline}}</textarea>
+                </div>
+                <br><br>
+                <button type="submit" class="btn btn-success"><b>UPDATE</b></button>
+            </form>
         </div>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

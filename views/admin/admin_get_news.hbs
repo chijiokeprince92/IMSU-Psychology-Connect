@@ -1,53 +1,39 @@
-<!DOCTYPE html>
-<html lang="en-US">
-
-<head>
-    {{>head}}
-</head>
-
-<body>
-    {{>admin_lecbody}}
-    <br>
-    <p>Click on <b>Choose file</b>, Select the picture that will appear in the news. <br>Write the Title of the News on
-        the
-        <b>"Title of
-            News column".</b><br>The <b>"PARAGRAPH column"</b> should contain the Body of the News<br>Then click on <b>"Upload
-            News"</b> to upload the News to the Website.</p>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-8 col-lg-6" id="kilo">
-                <form class="form-group" action="" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="picture"><b>UPLOAD PHOTO:</b></label>
-                        <input type="file" class="form-control" name="picture" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="heading"><b>TITLE OF NEWS:</b></label>
-                        <input type="text" class="form-control" name="heading" placeholder="Title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="passage"><b>PARAGRAPH 1:</b></label>
-                        <textarea type="text" class="form-control" name="passage" placeholder="Paragraph 1..." required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="passage1"><b>PARAGRAPH 2:</b></label>
-                        <textarea type="text" class="form-control" name="passage1" placeholder="Paragraph 2..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="passage2"><b>PARAGRAPH 3:</b></label>
-                        <textarea type="text" class="form-control" name="passage2" placeholder="Paragraph 3..."></textarea>
-                    </div>
-                    <br><br>
-                    <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"></span> UPLOAD
-                            NEWS</b></button>
-                </form>
-            </div>
+<br>
+<p>Click on <b>Choose file</b>, Select the picture that will appear in the news. <br>Write the Title of the News on
+    the
+    <b>"Title of
+        News column".</b><br>The <b>"PARAGRAPH column"</b> should contain the Body of the News<br>Then click on <b>"Upload
+        News"</b> to upload the News to the Website.</p>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6" id="kilo">
+            <form class="form-group" action="" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="picture"><b>UPLOAD PHOTO:</b></label>
+                    <input type="file" class="form-control" name="picture" required>
+                </div>
+                <div class="form-group">
+                    <label for="heading"><b>TITLE OF NEWS:</b></label>
+                    <input type="text" class="form-control" name="heading" placeholder="Title" required>
+                </div>
+                <div class="form-group">
+                    <label for="passage"><b>PARAGRAPH 1:</b></label>
+                    <textarea type="text" class="form-control" name="passage" placeholder="Paragraph 1..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="passage1"><b>PARAGRAPH 2:</b></label>
+                    <textarea type="text" class="form-control" name="passage1" placeholder="Paragraph 2..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="passage2"><b>PARAGRAPH 3:</b></label>
+                    <textarea type="text" class="form-control" name="passage2" placeholder="Paragraph 3..."></textarea>
+                </div>
+                <br><br>
+                <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"></span> UPLOAD
+                        NEWS</b></button>
+            </form>
         </div>
     </div>
-    </div>
-    <br><br>
-    <footer>{{>footer}}</footer>
-</body>
-
-</html>
+</div>
+<br><br>

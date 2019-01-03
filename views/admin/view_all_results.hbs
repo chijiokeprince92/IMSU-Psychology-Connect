@@ -1,0 +1,30 @@
+<br>
+<h4><b>
+        <center>ALL RESULTS</center>
+    </b>
+</h4>
+<br><br>
+<ol>
+    {{#each result}}
+        <li class="container-fluid">
+            <div class="row">
+                <div class="col-10">
+                    <p>
+                        <b>STUDENT: </b>{{this.id}}- {{this.student}} {{this.course}}
+                        {{this.score}} {{this.grade}}<br>
+                    </p>
+                </div>
+                <div class="col-2">
+                    <form action="/deleteresult/{{this.id}}" method="POST" style="display:inline">
+                        <input type="hidden" />
+                        <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:20px"></span></button>
+                    </form>
+                </div>
+            </div>
+        </li>
+        <br><br>
+        {{else}}
+            <p>THERE ARE NO UPLOADED RESULTS TO DISPLAY</p>
+    {{/each}}
+</ol>
+<br><br>
