@@ -4,6 +4,7 @@ var Staff = require('../models/staffSchema');
 const StudentSigns = require('../models/studentSchema');
 const News = require('../models/newsSchema');
 const Project = require('../models/projectSchema');
+const Result = require('../models/resultSchema');
 const Courses = require('../models/coursesSchema');
 var async = require('async');
 var path = require('path');
@@ -199,120 +200,223 @@ exports.list_students = function(req, res, next) {
 exports.view_student_profile = function(req, res, next) {
     StudentSigns.findById(req.params.id)
         .exec(
-            function(err, swag) {
+            function(err, students) {
                 if (err) {
                     return next(err);
                 }
-                res.render('staffs/view_students', {
-                    staff_session: req.session.staff,
-                    title: "Student Profile",
-                    swag: swag,
-                    email: swag.email,
-                    surname: swag.surname,
-                    firstname: swag.firstname,
-                    matnumber: swag.matnumber,
-                    level: swag.level,
-                    gender: swag.gender,
-                    phone: swag.phone,
-                    bio: swag.bio,
-                    photo: function() {
-                        if (!swag.photo) {
-                            swag.photo = "../images/psylogo4.jpg";
-                            return swag.photo;
-                        } else {
-                            return swag.photo;
+                Courses.find({
+                        'student_offering': req.params.id
+                    })
+                    .exec(function(err, mycourses) {
+                        if (err) {
+                            return next(err);
                         }
-                    }
-                });
+                        res.render('staffs/view_students', {
+                            staff_session: req.session.staff,
+                            title: "Student Profile",
+                            students: students,
+                            registered_courses: mycourses,
+                            photo: function() {
+                                if (!students.photo) {
+                                    students.photo = "../images/psylogo4.jpg";
+                                    return students.photo;
+                                } else {
+                                    return students.photo;
+                                }
+                            }
+                        });
+                    });
             }
         )
 }
 
 // function for checking students results
 exports.student_result = function(req, res, next) {
-    StudentSigns.findById(req.params.id)
+    Result.find({
+            'student': req.params.id
+        })
         .exec(function(err, myresults) {
             if (err) {
                 return next(err);
             }
-            res.render('staffs/view_result', {
-                title: 'Personal Result',
-                staff_session: req.session.staff,
-                allresult: myresults.results,
-                oneresult: function() {
-                    if (myresults.results) {
-                        var heroes = myresults.results;
-                        var marvel = heroes.filter(function(hero) {
-                            return hero.level == 100 && hero.semester == 1;
-                        })
-                        return marvel;
+            Courses.find({})
+                .exec((err, coursess) => {
+                    if (err) {
+                        return next(err);
                     }
-                },
-                onetworesult: function() {
-                    if (myresults.results) {
-                        var heroes = myresults.results;
-                        var marvel = heroes.filter(function(hero) {
-                            return hero.level == 100 && hero.semester == 2;
-                        })
-                        return marvel;
-                    }
-                },
-                tworesult: function() {
-                    if (myresults.results) {
-                        var heroes = myresults.results;
-                        var marvel = heroes.filter(function(hero) {
-                            return hero.level == 200 && hero.semester == 1;
-                        })
-                        return marvel;
-                    }
-                },
-                twotworesult: function() {
-                    if (myresults.results) {
-                        var heroes = myresults.results;
-                        var marvel = heroes.filter(function(hero) {
-                            return hero.level == 200 && hero.semester == 2;
-                        })
-                        return marvel;
-                    }
-                },
-                threeresult: function() {
-                    if (myresults.results) {
-                        var heroes = myresults.results;
-                        var marvel = heroes.filter(function(hero) {
-                            return hero.level == 300 && hero.semester == 1;
-                        })
-                        return marvel;
-                    }
-                },
-                threetworesult: function() {
-                    if (myresults.results) {
-                        var heroes = myresults.results;
-                        var marvel = heroes.filter(function(hero) {
-                            return hero.level == 300 && hero.semester == 2;
-                        })
-                        return marvel;
-                    }
-                },
-                fourresult: function() {
-                    if (myresults.results) {
-                        var heroes = myresults.results;
-                        var marvel = heroes.filter(function(hero) {
-                            return hero.level == 400 && hero.semester == 1;
-                        })
-                        return marvel;
-                    }
-                },
-                fourtworesult: function() {
-                    if (myresults.results) {
-                        var heroes = myresults.results;
-                        var marvel = heroes.filter(function(hero) {
-                            return hero.level == 400 && hero.semester == 2;
-                        })
-                        return marvel;
-                    }
-                }
-
-            });
+                    res.render('staffs/view_result', {
+                        title: 'Personal Result',
+                        staff_session: req.session.staff,
+                        oneresult: () => {
+                            var sorted_result = [];
+                            var result = myresults;
+                            var course = coursess;
+                            result.forEach(read => {
+                                course.filter((single_course) => {
+                                    if (single_course.id == read.course) {
+                                        if (single_course.level == 100 && single_course.semester == 1) {
+                                            var convert = {
+                                                coursecode: single_course.coursecode,
+                                                coursetitle: single_course.coursetitle,
+                                                score: read.score,
+                                                grade: read.grade
+                                            }
+                                            sorted_result.push(convert);
+                                        }
+                                    }
+                                });
+                            });
+                            return sorted_result;
+                        },
+                        oneresult2: function() {
+                            var real = [];
+                            var resulty = myresults;
+                            var coursey = coursess;
+                            resulty.forEach(read => {
+                                coursey.filter(function(single_course) {
+                                    if (single_course.id == read.course) {
+                                        if (single_course.level == 100 && single_course.semester == 2) {
+                                            var follow = {
+                                                coursecode: single_course.coursecode,
+                                                coursetitle: single_course.coursetitle,
+                                                score: read.score,
+                                                grade: read.grade
+                                            }
+                                            real.push(follow);
+                                        }
+                                    }
+                                });
+                            });
+                            return real;
+                        },
+                        tworesult: () => {
+                            var sorted_result = [];
+                            var result = myresults;
+                            var course = coursess;
+                            result.forEach(read => {
+                                course.filter((single_course) => {
+                                    if (single_course.id == read.course) {
+                                        if (single_course.level == 200 && single_course.semester == 1) {
+                                            var convert = {
+                                                coursecode: single_course.coursecode,
+                                                coursetitle: single_course.coursetitle,
+                                                score: read.score,
+                                                grade: read.grade
+                                            }
+                                            sorted_result.push(convert);
+                                        }
+                                    }
+                                });
+                            });
+                            return sorted_result;
+                        },
+                        tworesult2: () => {
+                            var sorted_result = [];
+                            var result = myresults;
+                            var course = coursess;
+                            result.forEach(read => {
+                                course.filter((single_course) => {
+                                    if (single_course.id == read.course) {
+                                        if (single_course.level == 100 && single_course.semester == 2) {
+                                            var convert = {
+                                                coursecode: single_course.coursecode,
+                                                coursetitle: single_course.coursetitle,
+                                                score: read.score,
+                                                grade: read.grade
+                                            }
+                                            sorted_result.push(convert);
+                                        }
+                                    }
+                                });
+                            });
+                            return sorted_result;
+                        },
+                        threeresult: () => {
+                            var sorted_result = [];
+                            var result = myresults;
+                            var course = coursess;
+                            result.forEach(read => {
+                                course.filter((single_course) => {
+                                    if (single_course.id == read.course) {
+                                        if (single_course.level == 300 && single_course.semester == 1) {
+                                            var convert = {
+                                                coursecode: single_course.coursecode,
+                                                coursetitle: single_course.coursetitle,
+                                                score: read.score,
+                                                grade: read.grade
+                                            }
+                                            sorted_result.push(convert);
+                                        }
+                                    }
+                                });
+                            });
+                            return sorted_result;
+                        },
+                        threeresult2: () => {
+                            var sorted_result = [];
+                            var result = myresults;
+                            var course = coursess;
+                            result.forEach(read => {
+                                course.filter((single_course) => {
+                                    if (single_course.id == read.course) {
+                                        if (single_course.level == 300 && single_course.semester == 2) {
+                                            var convert = {
+                                                coursecode: single_course.coursecode,
+                                                coursetitle: single_course.coursetitle,
+                                                score: read.score,
+                                                grade: read.grade
+                                            }
+                                            sorted_result.push(convert);
+                                        }
+                                    }
+                                });
+                            });
+                            return sorted_result;
+                        },
+                        fourresult: () => {
+                            var sorted_result = [];
+                            var result = myresults;
+                            var course = coursess;
+                            result.forEach(read => {
+                                course.filter((single_course) => {
+                                    if (single_course.id == read.course) {
+                                        if (single_course.level == 400 && single_course.semester == 1) {
+                                            var convert = {
+                                                coursecode: single_course.coursecode,
+                                                coursetitle: single_course.coursetitle,
+                                                score: read.score,
+                                                grade: read.grade
+                                            }
+                                            sorted_result.push(convert);
+                                        }
+                                    }
+                                });
+                            });
+                            return sorted_result;
+                        },
+                        fourresult2: () => {
+                            var sorted_result = [];
+                            var result = myresults;
+                            var course = coursess;
+                            result.forEach(read => {
+                                course.filter((single_course) => {
+                                    if (single_course.id == read.course) {
+                                        if (single_course.level == 400 && single_course.semester == 2) {
+                                            var convert = {
+                                                coursecode: single_course.coursecode,
+                                                coursetitle: single_course.coursetitle,
+                                                score: read.score,
+                                                grade: read.grade
+                                            }
+                                            sorted_result.push(convert);
+                                        }
+                                    }
+                                });
+                            });
+                            return sorted_result;
+                        },
+                    });
+                });
         });
 }
 
@@ -671,7 +775,7 @@ exports.view_courses = function(req, res, next) {
                     res.render('staffs/view_courses', {
                         title: 'Psychology Course',
                         staff_session: req.session.staff,
-                        kind: course,
+                        course: course,
                         teacher: staff,
                         lecky: function() {
                             var dealer = [];
@@ -693,59 +797,54 @@ exports.view_courses = function(req, res, next) {
 }
 
 // GET List of students offering a course...
-exports.student_coursesoffered = function(req, res, next) {
-    StudentSigns.find({})
-        .exec(function(err, fresh) {
-            if (err) {
-                return next(err);
-            }
-            Courses.findOne({
-                '_id': req.params.id
-            }).exec(function(err, result) {
+exports.student_course_registered = function(req, res, next) {
+    Courses.findOne({
+        '_id': req.params.id
+    }).exec((err, course) => {
+        if (err) {
+            return next(err);
+        }
+        StudentSigns.find({})
+            .exec((err, students) => {
                 if (err) {
                     return next(err);
                 }
-
                 res.render('staffs/view_select', {
-                    title: "Student Offering",
+                    title: "Student_Registered",
                     staff_session: req.session.staff,
-                    courses: result,
+                    courses: course,
                     upload: function() {
-                        var dealer = [];
-                        var studunt = [];
-                        var seal = result.student_offering;
-                        var deal = fresh;
-                        seal.forEach(element => {
-                            dealer.push(element);
+                        var sorted_registered = [];
+                        var chosen = [];
+                        var registered = course.student_offering;
+                        var deal = students;
+                        registered.forEach(element => {
+                            sorted_registered.push(element);
                         });
-                        dealer.forEach(read => {
-                            console.log(read);
-                            var marvel = deal.filter(function(hero) {
-                                if (hero.id == read) {
-                                    console.log(hero.surname);
-                                    studunt.push(hero);
+                        deal.filter((hero) => {
+                            for (var i = 0; i < sorted_registered.length; i++) {
+                                if (sorted_registered[i] == hero.id) {
+                                    chosen.push(hero);
                                 }
-                            });
-                            console.log(studunt);
-
+                            }
                         });
-                        return studunt;
+                        return chosen;
                     }
                 });
+
             });
-        });
+    });
 }
 
 exports.edit_courseoutline = function(req, res, next) {
     var course = {
-        courseoutline: req.body.courseoutline,
-        _id: req.params.id
+        courseoutline: req.body.courseoutline
     };
     Courses.findByIdAndUpdate(req.params.id, course, {}, function(err, courseupdate) {
         if (err) {
             return next(err);
         }
-        res.redirect(courseupdate.urly);
+        res.redirect(courseupdate.lect);
     });
 }
 

@@ -1,22 +1,22 @@
 <br>
-<h4>
+<h5>
     <b>
-        <center>{{admin_surname}}'s ADMIN PROFILE</center>
+        {{admin_info.surname}}'s ADMIN PROFILE
     </b>
-</h4>
+</h5>
 <br><br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <p><b>EMAIL:</b> {{admin_email}}</p>
+            <p><b>EMAIL:</b> {{admin_info.email}}</p>
             <br>
-            <p><b>SURNAME: </b> {{admin_surname}}</p>
+            <p><b>SURNAME: </b> {{admin_info.surname}}</p>
             <br>
-            <p><b>FIRSTNAME: </b> {{admin_firstname}}</p>
+            <p><b>FIRSTNAME: </b> {{admin_info.firstname}}</p>
             <br>
-            <p><b>GENDER: </b>{{admin_gender}}</p>
+            <p><b>GENDER: </b>{{admin_info.gender}}</p>
             <br>
-            <p><b>VERIFICATION_ID: </b>{{admin_verify}}</p>
+            <p><b>VERIFICATION_ID: </b>{{admin_info.verify}}</p>
         </div>
     </div>
 </div>
@@ -24,8 +24,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
-            <a href="/updateprofile/{{urlline}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-edit"
-                    style="font-size:25px"></span></a>
+            <a href="/admin/updateprofile/{{admin_info.id}}" type="button" class="btn btn-primary btn-block"><span
+                    class="fa fa-edit" style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
             <a href="/admin/studentlist" type="button" class="btn btn-success btn-block"><span class="fa fa-users"

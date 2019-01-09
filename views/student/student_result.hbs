@@ -2,13 +2,13 @@
 {{#each glory}}
     <p> {{this}}</p>
 {{/each}}
-<h4><b>
-        <center>YOUR RESULTS</center>
+<h5><b>
+        YOUR RESULTS
     </b>
-</h4>
+</h5>
 <br>
 <h5><b>
-        <center>100 LEVEL, FIRST SEMESTER</center>
+        100 LEVEL, FIRST SEMESTER
     </b></h5>
 <div class="container-fluid">
     <div class="row">
@@ -18,7 +18,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>COURSE CODE</th>
-                            <th>COURSE TITLE</th>
+                            <th class="seek">COURSE TITLE</th>
                             <th>SCORES</th>
                             <th>GRADE</th>
                         </tr>
@@ -26,7 +26,7 @@
                     {{#each oneresult}}
                         <tr>
                             <td>{{this.coursecode}}</td>
-                            <td>{{this.coursetitle}}</td>
+                            <td class="seek">{{this.coursetitle}}</td>
                             <td>{{this.score}}</td>
                             <td>{{this.grade}}</td>
                         </tr>
@@ -41,7 +41,7 @@
 </div>
 <br>
 <h5><b>
-        <center>100 LEVEL, SECOND SEMESTER</center>
+        100 LEVEL, SECOND SEMESTER
     </b></h5>
 <div class="container-fluid">
     <div class="row">
@@ -51,7 +51,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>COURSE CODE</th>
-                            <th>COURSE TITLE</th>
+                            <th class="seek">COURSE TITLE</th>
                             <th>SCORES</th>
                             <th>GRADE</th>
                         </tr>
@@ -59,7 +59,7 @@
                     {{#each oneresult2}}
                         <tr>
                             <td>{{this.coursecode}}</td>
-                            <td>{{this.coursetitle}}</td>
+                            <td class="seek">{{this.coursetitle}}</td>
                             <td>{{this.score}}</td>
                             <td>{{this.grade}}</td>
                         </tr>
@@ -74,7 +74,7 @@
 </div>
 <br>
 <h5><b>
-        <center>200 LEVEL, FIRST SEMESTER</center>
+        200 LEVEL, FIRST SEMESTER
     </b></h5>
 <div class="container-fluid">
     <div class="row">
@@ -84,8 +84,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>COURSE CODE</th>
-                            <th>COURSE TITLE</th>
-                            <th>LEVEL</th>
+                            <th class="seek">COURSE TITLE</th>
                             <th>SCORES</th>
                             <th>GRADE</th>
                         </tr>
@@ -93,8 +92,7 @@
                     {{#each tworesult}}
                         <tr>
                             <td>{{this.coursecode}}</td>
-                            <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
+                            <td class="seek">{{this.coursetitle}}</td>
                             <td>{{this.score}}</td>
                             <td>{{this.grade}}</td>
                         </tr>
@@ -109,7 +107,7 @@
 </div>
 <br>
 <h5><b>
-        <center>200 LEVEL, SECOND SEMESTER</center>
+        200 LEVEL, SECOND SEMESTER
     </b></h5>
 <div class="container-fluid">
     <div class="row">
@@ -119,8 +117,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>COURSE CODE</th>
-                            <th>COURSE TITLE</th>
-                            <th>LEVEL</th>
+                            <th class="seek">COURSE TITLE</th>
                             <th>SCORES</th>
                             <th>GRADE</th>
                         </tr>
@@ -128,8 +125,7 @@
                     {{#each twotworesult}}
                         <tr>
                             <td>{{this.coursecode}}</td>
-                            <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
+                            <td class="seek">{{this.coursetitle}}</td>
                             <td>{{this.score}}</td>
                             <td>{{this.grade}}</td>
                         </tr>
@@ -144,7 +140,7 @@
 </div>
 <br>
 <h5><b>
-        <center>300 LEVEL, FIRST SEMESTER</center>
+        300 LEVEL, FIRST SEMESTER
     </b></h5>
 <div class="container-fluid">
     <div class="row">
@@ -154,8 +150,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>COURSE CODE</th>
-                            <th>COURSE TITLE</th>
-                            <th>LEVEL</th>
+                            <th class="seek">COURSE TITLE</th>
                             <th>SCORES</th>
                             <th>GRADE</th>
                         </tr>
@@ -163,8 +158,7 @@
                     {{#each threeresult}}
                         <tr>
                             <td>{{this.coursecode}}</td>
-                            <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
+                            <td class="seek">{{this.coursetitle}}</td>
                             <td>{{this.score}}</td>
                             <td>{{this.grade}}</td>
                         </tr>
@@ -179,7 +173,7 @@
 </div>
 <br>
 <h5><b>
-        <center>300 LEVEL, SECOND SEMESTER</center>
+        300 LEVEL, SECOND SEMESTER
     </b></h5>
 <div class="container-fluid">
     <div class="row">
@@ -189,8 +183,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>COURSE CODE</th>
-                            <th>COURSE TITLE</th>
-                            <th>LEVEL</th>
+                            <th class="seek">COURSE TITLE</th>
                             <th>SCORES</th>
                             <th>GRADE</th>
                         </tr>
@@ -198,8 +191,7 @@
                     {{#each threetworesult}}
                         <tr>
                             <td>{{this.coursecode}}</td>
-                            <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
+                            <td class="seek">{{this.coursetitle}}</td>
                             <td>{{this.score}}</td>
                             <td>{{this.grade}}</td>
                         </tr>
@@ -214,7 +206,7 @@
 </div>
 <br>
 <h5><b>
-        <center>400 LEVEL, FIRST SEMESTER</center>
+        400 LEVEL, FIRST SEMESTER
     </b></h5>
 <div class="container-fluid">
     <div class="row">
@@ -224,8 +216,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>COURSE CODE</th>
-                            <th>COURSE TITLE</th>
-                            <th>LEVEL</th>
+                            <th class="seek">COURSE TITLE</th>
                             <th>SCORES</th>
                             <th>GRADE</th>
                         </tr>
@@ -233,8 +224,7 @@
                     {{#each fourresult}}
                         <tr>
                             <td>{{this.coursecode}}</td>
-                            <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
+                            <td class="seek">{{this.coursetitle}}</td>
                             <td>{{this.score}}</td>
                             <td>{{this.grade}}</td>
                         </tr>
@@ -249,7 +239,7 @@
 </div>
 <br>
 <h5><b>
-        <center>400 LEVEL, SECOND SEMESTER</center>
+        400 LEVEL, SECOND SEMESTER
     </b></h5>
 <div class="container-fluid">
     <div class="row">
@@ -259,8 +249,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>COURSE CODE</th>
-                            <th>COURSE TITLE</th>
-                            <th>LEVEL</th>
+                            <th class="seek">COURSE TITLE</th>
                             <th>SCORES</th>
                             <th>GRADE</th>
                         </tr>
@@ -268,8 +257,7 @@
                     {{#each fourtworesult}}
                         <tr>
                             <td>{{this.coursecode}}</td>
-                            <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
+                            <td class="seek">{{this.coursetitle}}</td>
                             <td>{{this.score}}</td>
                             <td>{{this.grade}}</td>
                         </tr>

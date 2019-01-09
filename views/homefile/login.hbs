@@ -3,7 +3,12 @@
         <center>STUDENT LOGIN</center>
     </b></h4>
 <br>
-<p>{{ohno}}</p>
+{{#if message}}
+    <p class="alert alert-success">{{message}}</p>
+{{/if}}
+{{#if ohno}}
+    <p class="alert alert-danger">{{ohno}}</p>
+{{/if}}
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-md-8 col-lg-6" id="kilo">

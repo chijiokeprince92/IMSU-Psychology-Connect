@@ -1,35 +1,41 @@
+{{#if message}}
+    <p class="alert alert-success">{{message}}</p>
+{{/if}}
 <br>
-<h2>
+<h5>
     <b>
-        <center>{{person.surname}}'s Homepage</center>
+        {{person.surname}}'s Homepage
     </b>
-</h2>
+</h5>
 <ul>
     <li class="container-fluid">
         <div class="row">
-            <div class="col-4 col-lg-2">
-                <img src="../images/unnamed (1).png" alt="NAPS image" class="rounded" width="100%" height="150" />
+            <div class="col-4 col-md-3 col-lg-2">
+                <img src="../images/unnamed (1).png" alt="NAPS image" class="rounded aboutus" />
             </div>
-            <div class="col-8 col-sm-8 col-lg-10">
+            <div class="col-8 col-md-9 col-lg-10">
+                <br>
                 <p><a href="/gettimetable">SCHEDULE</a></p>
                 <br>
                 <p>
-                    Click to view your Time Table for this Semester.
+                    Click to view your Time Table for this semester.
                 </p>
+                <p class="seek">Time tables can only be edited by a course rep</p>
             </div>
         </div>
     </li>
     <br>
     <li class="container-fluid">
         <div class="row">
-            <div class="col-4 col-lg-2">
-                <img src="../images/images (11).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+            <div class="col-4 col-md-3 col-lg-2">
+                <img src="../images/images (11).jpeg" alt="NAPS image" class="rounded aboutus" />
             </div>
-            <div class="col-8 col-lg-10">
+            <div class="col-8 col-md-9 col-lg-10">
+                <br>
                 <p><a href="/studentstudentlist">COURSEMATES</a></p>
                 <br>
                 <p>
-                    You can see all your Course Mates in the same level, and View their Profiles.
+                    You can see all your Course Mates in the same level, and view their Profiles.
                 </p>
             </div>
         </div>
@@ -37,14 +43,15 @@
     <br>
     <li class="container-fluid">
         <div class="row">
-            <div class="col-4 col-lg-2">
-                <img src="../images/images (11).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+            <div class="col-4 col-md-3 col-lg-2">
+                <img src="../images/images (11).jpeg" alt="NAPS image" class="rounded aboutus" />
             </div>
-            <div class="col-8 col-lg-10">
+            <div class="col-8 col-md-9 col-lg-10">
+                <br>
                 <p><a href="/studentlevelmates">ALL PSYCHOLOGY STUDENTS</a></p>
                 <br>
                 <p>
-                    You can also see all Psychology students, and View their Profiles.
+                    You can also see all Psychology students, and view their Profiles.
                 </p>
             </div>
         </div>
@@ -52,15 +59,18 @@
     <br>
     <li class="container-fluid">
         <div class="row">
-            <div class="col-4 col-lg-2">
-                <img src="../images/images (16).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+            <div class="col-4 col-md-3 col-lg-2">
+                <img src="../images/images (16).jpeg" alt="NAPS image" class="rounded aboutus" />
             </div>
-            <div class="col-8 col-lg-10">
+            <div class="col-8 col-md-9 col-lg-10">
+                <br>
                 <p><a href="/studentgetallcourses">COURSES</a></p>
                 <br>
                 <p>Click to view courses offered by each level. You can also register your courses for the
                     semester.
                 </p>
+                <br>
+                <p class="seek">Endeavor to register your prefered courses for proper results collations.</p>
             </div>
         </div>
     </li>
@@ -68,15 +78,18 @@
     {{#if courserep}}
         <li class="container-fluid">
             <div class="row">
-                <div class="col-4 col-lg-2">
-                    <img src="../images/images (23).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+                <div class="col-4 col-md-3 col-lg-2">
+                    <img src="../images/images (23).jpeg" alt="NAPS image" class="rounded aboutus" />
                 </div>
-                <div class="col-8 col-lg-10">
+                <div class="col-8 col-md-9 col-lg-10">
+                    <br>
                     <p><a href="/studentaddtimetable/{{person.id}}">EDIT TIME TABLE</a></p>
                     <br>
                     <p>
                         Click to edit the time table of your level.
                     </p>
+                    <br>
+                    <p class="seek">The "course rep" and "assistant course rep" can only make changes to the time table</p>
                 </div>
             </div>
         </li>
@@ -84,10 +97,11 @@
     <br>
     <li class="container-fluid">
         <div class="row">
-            <div class="col-4 col-lg-2">
-                <img src="../images/images (23).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+            <div class="col-4 col-md-3 col-lg-2">
+                <img src="../images/images (23).jpeg" alt="NAPS image" class="rounded aboutus" />
             </div>
-            <div class="col-8 col-lg-10">
+            <div class="col-8 col-md-9 col-lg-10">
+                <br>
                 <p><a href="/studentsstafflist">LECTURERS</a></p>
                 <br>
                 <p>
@@ -99,13 +113,15 @@
     <br>
     <li class="container-fluid">
         <div class="row">
-            <div class="col-4 col-lg-2">
-                <img src="../images/images (30).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+            <div class="col-4 col-md-3 col-lg-2">
+                <img src="../images/images (30).jpeg" alt="NAPS image" class="rounded aboutus" />
             </div>
-            <div class="col-8 col-lg-10">
+            <div class="col-8 col-md-9 col-lg-10">
+                <br>
                 <p><a href="/myfullresults/{{person.id}}">CHECK RESULTS</a></p>
+                <br>
                 <p>
-                    Check your results in all the semesters, and also see your CGPA.
+                    Check all your accummulated Results for the semesters, and also see your CGPA.
                 </p>
             </div>
         </div>
@@ -113,15 +129,15 @@
     <br>
     <li class="container-fluid">
         <div class="row">
-            <div class="col-4 col-lg-2">
-                <img src="../images/images (17).jpeg" alt="NAPS image" class="rounded" width="100%" height="150" />
+            <div class="col-4 col-md-3 col-lg-2">
+                <img src="../images/images (17).jpeg" alt="NAPS image" class="rounded aboutus" />
             </div>
-            <div class="col-8 col-lg-10">
+            <div class="col-8 col-md-9 col-lg-10">
+                <br>
                 <p><a href="/studentgetprojecttopics">PROJECT TOPICS </a></p>
                 <br>
-                <p> Click to view Project Topics carried out by past Psychology Students, and get insights on how
-                    to write
-                    a psychology project.
+                <p> Click to view Project Topics carried out by past Psychology Students, and get insights
+                    on how to write a psychology project.
                 </p>
             </div>
         </div>

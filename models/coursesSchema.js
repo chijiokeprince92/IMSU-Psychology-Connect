@@ -50,9 +50,9 @@ coursesSchema
     });
 
 coursesSchema
-    .virtual('urly')
+    .virtual('lect')
     .get(function() {
-        return '/staffviewcourse/' + this._id;
+        return '/staff/viewcourse/' + this._id;
     });
 
 

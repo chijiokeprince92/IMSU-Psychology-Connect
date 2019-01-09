@@ -1,7 +1,13 @@
 <br>
+<h5>
+    <b>
+        YOUR PROFILE.
+    </b>
+</h5>
+<br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-sm-10 col-md-6 col-lg-4">
             <img src="/{{staff.photo}}" alt="profile image" class="rounded" width="100%" />
             <form id="drake" style="display:none" action="/staff/staffupdatepics/{{staff.id}}" method="POST" enctype="multipart/form-data"
                 style="display:inline">
@@ -11,7 +17,7 @@
             <button id="cousin" class="btn btn-danger"><span class="fa fa-edit"></span> PICS</button>
             <br><br>
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-6 col-lg-8">
             <p><b>EMAIL:</b> {{staff.email}}</p>
             <br>
             <p><b>SURNAME: </b> {{staff.surname}}</p>
@@ -29,10 +35,10 @@
         </div>
     </div>
 </div>
-<h4><b>
-        <center>YOUR COURSES</center>
+<h5><b>
+        COURSES HANDLED
     </b>
-</h4>
+</h5>
 <br>
 <ol>
     {{#each coursess}}
@@ -55,13 +61,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
-            <a href="/staff/updateprofile/{{staff.id}}" type="button" class="btn btn-info btn-lg btn-block"><span class="fa fa-edit"
-                    style="font-size:25px"></span>
+            <a href="/staff/updateprofile/{{staff.id}}" type="button" class="btn btn-info btn-lg btn-block" title="edit profile"><span
+                    class="fa fa-edit" style="font-size:25px"></span>
             </a>
         </div>
         <div class="col-4">
-            <a href="/staff/stafflist" type="button" class="btn btn-primary btn-lg btn-block"><span class="fa fa-users"
-                    style="font-size:25px"></span></a>
+            <a href="/staff/stafflist" type="button" class="btn btn-primary btn-lg btn-block" title="colleagues"><span
+                    class="fa fa-users" style="font-size:25px"></span></a>
         </div>
     </div>
 </div>

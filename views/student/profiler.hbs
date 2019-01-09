@@ -1,13 +1,13 @@
 <br>
-<h4>
+<h5>
     <b>
-        <center>YOUR PROFILE.</center>
+        YOUR PROFILE.
     </b>
-</h4>
+</h5>
 <br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-sm-10 col-md-6 col-lg-4">
             <img src="/{{user.photo}}" alt="profile image" class="rounded" width="100%" />
             <br>
             <form id="drake" style="display:none" action="/studentupdatepics/{{user.id}}" method="POST" enctype="multipart/form-data"
@@ -19,7 +19,7 @@
             <button id="close" class="btn btn-danger" style="display:none">Close</button>
             <br><br>
         </div>
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-md-6 col-lg-8">
             <p><b>SURNAME: </b> {{user.surname}}</p>
             <br>
             <p><b>FIRSTNAME: </b> {{user.firstname}}</p>
@@ -41,22 +41,23 @@
         </div>
     </div>
 </div>
+<br><br><br>
 <h5><b>
-        <center>COURSES OFFERED THIS SEMESTER</center>
+        COURSES OFFERED THIS SEMESTER
     </b>
 </h5>
 <br><br>
 <div class="container-fluid">
     <div class="row">
-        {{#each user.courses_offered}}
-            <div class="col-10 col-md-8 col-lg-11">
+        {{#each registered_courses}}
+            <div class="col-9 col-md-8 col-lg-11">
                 <p>{{this.coursecode}}: <a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a>
                 </p>
             </div>
-            <div class="col-2 col-md-2 col-lg-1">
+            <div class="col-3 col-md-2 col-lg-1">
                 <form action="/studentdeleteregistercourse/{{this.id}}" method="POST" style="display:inline">
                     <input type="hidden" />
-                    <button type="submit" class="btn btn-danger btn-block">delete</button>
+                    <button type="submit" class="btn btn-danger btn-block"><span class="fa fa-trash"></span></button>
                 </form><br><br>
             </div>
             {{else}}
@@ -82,16 +83,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
-            <a href="/myfullresults/{{user.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-book"
-                    style="font-size:25px"></span></a>
+            <a href="/myfullresults/{{user.id}}" type="button" title="results" class="btn btn-primary btn-block"><span
+                    class="fa fa-briefcase" style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
-            <a href="/studentupdateprofile/{{user.id}}" type="button" class="btn btn-success btn-block"><span class="fa fa-edit"
-                    style="font-size:25px"></span></a>
+            <a href="/studentupdateprofile/{{user.id}}" type="button" title="Edit profile" class="btn btn-success btn-block"><span
+                    class="fa fa-edit" style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
-            <a href="/studentstudentlist" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
-                    style="font-size:25px"></span></a>
+            <a href="/studentstudentlist" type="button" title="Coursemates" class="btn btn-primary btn-block"><span
+                    class="fa fa-users" style="font-size:25px"></span></a>
         </div>
     </div>
 </div>

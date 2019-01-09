@@ -132,23 +132,24 @@ exports.admin_login_post = function(req, res, next) {
 // Display Author update form on GET.
 exports.admin_update_get = function(req, res, next) {
 
-    Admins.findById(req.params.id, function(err, coursey) {
-        if (err) {
-            return next(err);
-        }
-        if (coursey == null) { // No results.
-            var err = new Error('Admin not found');
-            err.status = 404;
-            return next(err);
-        }
-        // Success.
-        res.render('admin/admin_update', {
-            title: 'Update Profile',
-            admin: req.session.admin,
-            coursey: coursey
-        });
+    Admins.findById(req.session.admin)
+        .exec(function(err, admin) {
+            if (err) {
+                return next(err);
+            }
+            if (admin == null) { // No results.
+                var err = new Error('Admin not found');
+                err.status = 404;
+                return next(err);
+            }
+            // Success.
+            res.render('admin/admin_update', {
+                title: 'Update Profile',
+                admin: req.session.admin,
+                admin_info: admin
+            });
 
-    });
+        });
 };
 
 exports.admin_update_post = function(req, res, next) {
@@ -198,29 +199,21 @@ exports.admin = function(req, res, next) {
 // GET Profile page for a specific Admin.
 exports.profiler = function(req, res, next) {
     Admins.findById(req.params.id)
-        .exec(function(err, results) {
+        .exec(function(err, info) {
             if (err) {
                 return next(err);
             } // Error in API usage.
-            if (results == null) { // No results.
+            if (info == null) { // No results.
                 console.log('There are no admin');
                 var err = new Error('You are not an Admin');
                 err.status = 404;
                 return next(err);
             }
-
-
             // Successful, so render.
             res.render('admin/admin_profile', {
                 title: 'Admin Profile',
                 admin: req.session.admin,
-                admin_email: results.email,
-                admin_surname: results.surname,
-                admin_firstname: results.firstname,
-                admin_verify: results.verify,
-                admin_gender: results.gender,
-                admin_phone: results.phone,
-                urlline: results.id
+                admin_info: info
             });
         })
 };
@@ -240,7 +233,8 @@ exports.list_students = function(req, res, next) {
                     admin: req.session.admin,
                     title: "Complete List of Student",
                     slow: swag,
-                    levy: "ALL PSYCHOLOGY STUDENTS"
+                    levy: "ALL PSYCHOLOGY STUDENTS",
+                    message: req.flash('message')
                 });
             }
         )
@@ -256,26 +250,35 @@ exports.view_student_profile = function(req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.render('admin/view_student', {
-                    admin: req.session.admin,
-                    title: "Student Profile",
-                    student: swag,
-                    courserepno: function() {
-                        if (swag.is_courserep == "No") {
-                            return swag.is_courserep;
-                        } else {
-                            return;
+                Courses.find({
+                        'student_offering': req.params.id
+                    })
+                    .exec(function(err, mycourses) {
+                        if (err) {
+                            return next(err);
                         }
-                    },
-                    photo: function() {
-                        if (!swag.photo) {
-                            swag.photo = "../images/psylogo4.jpg";
-                            return swag.photo;
-                        } else {
-                            return swag.photo;
-                        }
-                    }
-                });
+                        res.render('admin/view_student', {
+                            admin: req.session.admin,
+                            title: "Student Profile",
+                            student: swag,
+                            registered_courses: mycourses,
+                            courserepno: function() {
+                                if (swag.is_courserep == "No") {
+                                    return swag.is_courserep;
+                                } else {
+                                    return;
+                                }
+                            },
+                            photo: function() {
+                                if (!swag.photo) {
+                                    swag.photo = "../images/psylogo4.jpg";
+                                    return swag.photo;
+                                } else {
+                                    return swag.photo;
+                                }
+                            }
+                        });
+                    });
             }
         )
 }
@@ -284,13 +287,12 @@ exports.view_student_profile = function(req, res, next) {
 exports.student_make_courserep = function(req, res, next) {
     var qualified = {
         is_courserep: req.body.courserep,
-        _id: req.params.id
     };
     StudentSigns.findByIdAndUpdate(req.params.id, qualified, {}, function(err, studentupdate) {
         if (err) {
             return next(err);
         }
-        res.redirect('/studentprofile/' + studentupdate.id);
+        res.redirect('/admin/studentprofile/' + studentupdate.id);
     });
 };
 
@@ -299,7 +301,8 @@ exports.delete_student = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.redirect('/studentlist');
+        req.flash('message', 'The student was successfully deleted')
+        res.redirect('/admin/studentlist');
     });
 }
 
@@ -399,6 +402,7 @@ exports.list_staffs = function(req, res, next) {
                 admin: req.session.admin,
                 title: "Complete List of Staffs",
                 slow: swag,
+                message: req.flash('message')
             });
         });
 }
@@ -414,26 +418,21 @@ exports.view_staff_profile = function(req, res, next) {
         staffy: function(callback) {
             Staff.findById(req.params.id).exec(callback);
         }
-    }, function(err, swag) {
+    }, function(err, staff) {
         if (err) {
             return next(err);
         }
         res.render('admin/view_staffs', {
             admin: req.session.admin,
             title: "Staff Profile",
-            email: swag.staffy.email,
-            surname: swag.staffy.surname,
-            firstname: swag.staffy.firstname,
-            staff_id: swag.staffy.staff_id,
-            gender: swag.staffy.gender,
-            phone: swag.staffy.phone,
-            coursess: swag.coursey,
+            staff: staff.staffy,
+            coursess: staff.coursey,
             photo: function() {
-                if (!swag.staffy.photo) {
-                    swag.staffy.photo = "../images/psylogo4.jpg";
-                    return swag.staffy.photo;
+                if (!staff.staffy.photo) {
+                    staff.staffy.photo = "../images/psylogo4.jpg";
+                    return staff.staffy.photo;
                 } else {
-                    return swag.staffy.photo;
+                    return staff.staffy.photo;
                 }
             }
         });
@@ -445,7 +444,8 @@ exports.delete_staff = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.redirect('/stafflist');
+        req.flash('message', 'The staff was successfully deleted')
+        res.redirect('/admin/stafflist');
     });
 }
 
@@ -973,18 +973,21 @@ exports.view_course = function(req, res, next) {
                         admin: req.session.admin,
                         kind: course,
                         teacher: staff,
-                        lecky: function() {
-                            var dealer = [];
-                            var seal = course.lecturer;
-                            var deal = staff;
-                            seal.forEach(element => {
-                                dealer.push(element);
+                        message: req.flash('delete'),
+                        lecky: () => {
+                            var sorted_lecturer = [];
+                            var course_lecturer = course.lecturer;
+                            var staffy = staff;
+                            course_lecturer.forEach(element => {
+                                sorted_lecturer.push(element);
                             });
-
-                            var marvel = deal.filter(function(hero) {
-                                return hero.id == dealer[0] || hero.id == dealer[1];
+                            var marvel = staffy.filter(function(lecturer) {
+                                for (var i = 0; i < sorted_lecturer.length; i++) {
+                                    if (sorted_lecturer[i] == lecturer.id) {
+                                        return lecturer;
+                                    }
+                                }
                             });
-
                             return marvel;
                         }
                     });
@@ -998,12 +1001,12 @@ exports.edit_course_lecturer = function(req, res, next) {
         $addToSet: {
             lecturer: staffy
         }
-    }, function(err, courseupdate) {
+    }, function(err) {
         if (err) {
             return next(err);
         }
-
-        res.redirect(courseupdate.url);
+        req.flash('delete', "The Lecturer was successfully added");
+        res.redirect('/admin/viewcourse/' + req.params.id);
     });
 
 
@@ -1011,63 +1014,58 @@ exports.edit_course_lecturer = function(req, res, next) {
 
 exports.delete_course_lecturer = function(req, res, next) {
     Courses.findOneAndUpdate({
-        'id': req.params.id
-    }, {
-        $pull: {
-            'lecturer.$._id': req.params.id
-        }
-    }, function(err, courseupdate) {
-        if (err) {
-            return next(err);
-        }
-        res.redirect('/adminviewcourse/' + courseupdate.id);
-    });
-
-
+            '_id': req.params.id
+        }, {
+            $pull: {
+                'lecturer': req.body.lect
+            }
+        },
+        function(err) {
+            if (err) {
+                return next(err);
+            }
+            req.flash('delete', "The lecturer was successfully deleted");
+            res.redirect('/admin/viewcourse/' + req.params.id);
+        });
 }
 
 // GET List of students offering a course...
 exports.student_coursesoffered = function(req, res, next) {
-    StudentSigns.find({})
-        .exec(function(err, fresh) {
-            if (err) {
-                return next(err);
-            }
-            Courses.findOne({
-                '_id': req.params.id
-            }).exec(function(err, result) {
+    Courses.findOne({
+        '_id': req.params.id
+    }).exec((err, course) => {
+        if (err) {
+            return next(err);
+        }
+        StudentSigns.find({})
+            .exec((err, students) => {
                 if (err) {
                     return next(err);
                 }
-
                 res.render('admin/view_select', {
-                    title: "Student Offering",
+                    title: "Student_Registered",
                     admin: req.session.admin,
-                    courses: result,
+                    courses: course,
                     upload: function() {
-                        var dealer = [];
-                        var studunt = [];
-                        var seal = result.student_offering;
-                        var deal = fresh;
-                        seal.forEach(element => {
-                            dealer.push(element);
+                        var sorted_registered = [];
+                        var chosen = [];
+                        var registered = course.student_offering;
+                        var deal = students;
+                        registered.forEach(element => {
+                            sorted_registered.push(element);
                         });
-                        dealer.forEach(read => {
-                            console.log(read);
-                            var marvel = deal.filter(function(hero) {
-                                if (hero.id == read) {
-                                    console.log(hero.surname);
-                                    studunt.push(hero);
+                        deal.filter((hero) => {
+                            for (var i = 0; i < sorted_registered.length; i++) {
+                                if (sorted_registered[i] == hero.id) {
+                                    chosen.push(hero);
                                 }
-                            });
-                            console.log(studunt);
-
+                            }
                         });
-                        return studunt;
+                        return chosen;
                     }
                 });
             });
-        });
+    });
 }
 
 exports.delete_registered_course = function(req, res, next) {

@@ -1,42 +1,40 @@
 <br>
-<h4><b>
-        <center>LATEST NEWS!!</center>
+<h5><b>
+        LATEST NEWS!!
     </b>
-</h4>
+</h5>
 <br>
 <ul>
     <div class="container-fluid">
         <div class="row">
             {{#each newspaper}}
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-sm-6 col-lg-4">
                     <li class="card">
                         <div class="col-12 card-header">
-                            <h4>
+                            <h5>
                                 <b>
-                                    <center><a href="/studentgetfullnews/{{this.id}}">{{this.heading}}</a></center>
+                                    <a href="/studentgetfullnews/{{this.id}}">{{this.heading}}</a>
                                 </b>
-                            </h4>
+                            </h5>
                         </div>
                         <div class="col-12">
                             <br>
-                            <img src="{{this.picture}}" alt="image" class="rounded" width="100%" height="250" />
+                            <img src="/{{this.picture}}" alt="news image" class="rounded" width="100%" height="250" />
                         </div>
                         <br>
                         <div class="col-12 col-md-6 col-lg-7 card-body">
                             <p>{{this.passage}}</p>
                         </div>
                         <div class="col-12 card-footer">
-                            <button class="btn btn-danger"><span class="fa fa-commenting-o"></span> comments<span></span></button>
+                            <button class="btn btn-danger"><span class="fa fa-commenting-o"></span></button>
                             <form action="/studentnewslike/{{this.id}}" method="POST" style="display:inline">
                                 <input type="text" style="display:none" class="form-control" name="like" />
                                 <button type="submit" id="sender{{this.id}}" class="btn btn-primary"><span class="fa fa-thumbs-o-up">
-                                        Like<span>
-                                            {{this.likes}}</span></button>
+                                        {{this.likes}}</span></button>
                             </form>
                             <form action="/studentnewsdislike/{{this.id}}" method="POST" style="display:inline">
                                 <input type="text" style="display:none" class="form-control" name="like" />
-                                <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span>
-                                    Dislike <span>
+                                <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down">
                                         {{this.dislikes}}</span></button>
                             </form>
                         </div>

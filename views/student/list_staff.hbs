@@ -1,7 +1,7 @@
 <br>
-<h4><b>
-        <center>PSYCHOLOGY STAFFS</center>
-    </b></h4>
+<h5><b>
+        PSYCHOLOGY STAFFS
+    </b></h5>
 <br><br>
 <ul>
     {{#each slow}}
@@ -9,19 +9,19 @@
             <div class="row">
                 {{#if this.photo}}
                     <div class="col-5 col-md-3 col-lg-2">
-                        <img src="/{{this.photo}}" alt="image" class="rounded-circle" width="100%" height="130" />
+                        <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
                     </div>
                 {{else}}
                     <div class="col-5 col-md-3 col-lg-2">
-                        <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" width="100%" height="130" />
+                        <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
                     </div>
                 {{/if}}
                 <div class="col-7 col-md-9 col-lg-10">
-                    <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
                     <br>
+                    <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
                     <p>
-                        <b>GENDER: </b>{{this.gender}}<br>
-                        <b>STATUS: </b>{{this.bio}}
+                        <b>Gender: </b>{{this.gender}}<br>
+                        <b>Status: </b>{{this.bio}}
                     </p>
                 </div>
             </div>

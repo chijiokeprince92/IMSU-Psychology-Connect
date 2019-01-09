@@ -1,25 +1,26 @@
 <br>
-<h2><b>
-        <center>PROJECT TOPICS</center>
-    </b></h2>
+<h5><b>
+        PROJECT TOPICS
+    </b></h5>
 <br><br>
 <ol>
-    {{#each projectss}}
-        <li class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <p><a href="/{{this.project}}">{{this.topic}}</a></p>
-                    <br>
-                </div>
-                <br><br>
-                <div class="col-12">
-                    <p>{{this.description}}</p>
-                </div>
-            </div>
-        </li>
-        <br><br>
-        {{else}}
-            <p>THERE ARE NO UPLOADED PROJECT TOPIC ON THIS WEBSITE</p>
-    {{/each}}
+    <div class="container-fluid">
+        <div class="row">
+            {{#each projectss}}
+                <li>
+                    <div class="col-12">
+                        <p><a href="/{{this.project}}">{{this.topic}}</a></p>
+                        <br>
+                    </div>
+                    <div class="col-12">
+                        <p>{{this.description}}</p>
+                    </div>
+                    <br><br>
+                </li>
+                {{else}}
+                    <p>THERE ARE NO UPLOADED PROJECT TOPIC ON THIS WEBSITE</p>
+            {{/each}}
+        </div>
+    </div>
 </ol>
 <br><br>

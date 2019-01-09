@@ -7,6 +7,7 @@ const multer = require('multer');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 const expressHbs = require('express-handlebars');
 const logger = require('morgan');
@@ -30,7 +31,7 @@ var io = require('socket.io')(server);
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 
-mongoose.connect(process.env.mongoDBO);
+mongoose.connect(process.env.mongoDB);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Prince,the MongoDB connection error'));
@@ -62,15 +63,16 @@ app.use(session({
     store: new MongoStore({
         mongooseConnection: db
     })
-
 }));
+app.use(flash());
 
 app.use(compression()); // compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', studentRouter);
 app.use('/staff', staffRouter);
 app.use('/admin', adminRouter);
-app.use('/', studentRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

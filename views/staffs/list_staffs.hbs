@@ -1,23 +1,23 @@
 <br>
-<h4><b>
-        <center>PSYCHOLOGY STAFFS</center>
+<h5><b>
+        COLLEAGUES
     </b>
-</h4>
+</h5>
 <br><br>
 <ul>
     {{#each slow}}
         <li class=" container-fluid">
             <div class="row ">
                 {{#if this.photo}}
-                    <div class="col-4 col-md-3 col-lg-2">
-                        <img src="/{{this.photo}} " alt="image" class="rounded-circle " width="100% " />
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                        <img src="/{{this.photo}} " alt="staff image" class="rounded-circle  profile" />
                     </div>
                 {{else}}
-                    <div class="col-4 col-md-3 col-lg-2 ">
-                        <img src="../images/psylogo4.jpg " alt="image" class="rounded-circle" width="100%" />
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2 ">
+                        <img src="../images/psylogo4.jpg " alt="staff image" class="rounded-circle profile" />
                     </div>
                 {{/if}}
-                <div class="col-8 col-md-9 col-lg-10">
+                <div class="col-7 col-sm-8 col-md-9 col-lg-10">
                     <p><a href="/staff/colleague/{{this.id}}">{{this.name}}</a></p>
                     <p>
                         <b>GENDER: </b>{{this.gender}}<br>

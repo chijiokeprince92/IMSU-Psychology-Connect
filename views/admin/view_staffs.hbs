@@ -1,41 +1,43 @@
 <br>
-<h4><b>
-        <center>STAFF'S PROFILE</center>
-    </b></h4>
+<h5><b>
+        STAFF'S PROFILE
+    </b></h5>
 <br><br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
             <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
+            <br><br>
         </div>
         <div class="col-12 col-lg-6">
-            <p><b>E-MAIL:</b> {{email}}</p>
+            <p><b>E-MAIL:</b> {{staff.email}}</p>
             <br>
-            <p><b>SURNAME: </b> {{surname}}</p>
+            <p><b>SURNAME: </b> {{staff.surname}}</p>
             <br>
-            <p><b>FIRSTNAME: </b> {{firstname}}</p>
+            <p><b>FIRSTNAME: </b> {{staff.firstname}}</p>
             <br>
-            <p><b>STAFF_ID: </b>{{staff_id}}</p>
+            <p><b>STAFF_ID: </b>{{staff.staff_id}}</p>
             <br>
-            <p><b>GENDER: </b>{{gender}}</p>
+            <p><b>GENDER: </b>{{staff.gender}}</p>
             <br>
-            <p><b>PHONE NUMBER: </b>{{phone}}</p>
+            <p><b>PHONE NUMBER: </b>{{staff.phone}}</p>
             <br>
-            <p><b>STATUS: </b>{{quote}}</p>
+            <p><b>STATUS: </b>{{staff.quote}}</p>
             <br>
         </div>
     </div>
 </div>
 <br><br>
 <h5><b>
-        <center>COURSES HANDLED</center>
+        COURSES HANDLED
     </b></h5>
 <br>
 <ol>
     {{#each coursess}}
         <li>
-            <p><b>{{this.coursecode}}: </b><a href="/adminviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+            <p><b>{{this.coursecode}}: </b><a href="/admin/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
         </li>
+        <br>
         {{else}}
             <p>NO COURSE ASSIGNED</p>
     {{/each}}
@@ -44,7 +46,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
-            <a href="/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"
+            <a href="/admin/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"
                     style="font-size:25px"></span></a>
         </div>
         <div class="col-4">

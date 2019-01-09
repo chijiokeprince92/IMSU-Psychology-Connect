@@ -121,6 +121,7 @@ exports.student_signup_post = [
                     return next(err);
                 }
                 // Successful - redirect to login page.
+                req.flash('message', "You've been Registered, Please login")
                 res.redirect('/login');
             });
         }
@@ -133,6 +134,8 @@ exports.student_signup_post = [
 exports.get_login_form = (req, res) => {
     res.render('homefile/login', {
         title: 'Student Login',
+        ohno: req.flash('ohno'),
+        message: req.flash('message')
     });
 }
 
@@ -144,18 +147,12 @@ exports.test_login = (req, res, next) => {
         if (err) {
             return next(err);
         } else if (!user) {
-            res.render('homefile/login', {
-                title: 'Student Login',
-                ohno: 'Your Mat_Number was not found on the database'
-            });
-            return;
+            req.flash('ohno', "Mat. Number not found");
+            res.redirect(302, '/login');
         } else if (user.password !== req.body.password) {
             //password is incorrect
-            res.render('homefile/login', {
-                title: 'Student Login',
-                ohno: 'Password is incorrect'
-            });
-            return;
+            req.flash('ohno', "Prince, Password is Incorrect")
+            res.redirect(302, '/login');
         } else if (user && user.password == req.body.password) {
             req.session.student = {
                 id: user.id,
@@ -164,6 +161,7 @@ exports.test_login = (req, res, next) => {
                 firstname: user.firstname,
                 surname: user.surname
             }
+            req.flash('message', `Welcome ${user.surname}`);
             res.redirect('/studenthome');
         } else {
             res.redirect('/login');
@@ -196,7 +194,8 @@ exports.get_student_home = (req, res, next) => {
                     return name.didi.is_courserep;
                 }
             },
-            news: name.newy
+            news: name.newy,
+            message: req.flash('message')
         });
     })
 };
@@ -208,18 +207,26 @@ exports.profiler = (req, res, next) => {
             if (err) {
                 return next(err);
             } // Error in API usage.
-            else if (user == null) { // No results.
+            if (user == null) { // No results.
                 var err = new Error('Student not found');
                 err.status = 404;
                 return next(err);
-            } else {
-                // Successful, so render.
-                res.render('student/profiler', {
-                    allowed: req.session.student,
-                    title: 'Student Profile',
-                    user: user
-                });
             }
+            Courses.find({
+                    'student_offering': req.session.student.id
+                })
+                .exec(function(err, mycourses) {
+                    if (err) {
+                        return next(err);
+                    }
+                    // Successful, so render.
+                    res.render('student/profiler', {
+                        allowed: req.session.student,
+                        title: 'Student Profile',
+                        user: user,
+                        registered_courses: mycourses
+                    });
+                });
         });
 };
 
@@ -284,19 +291,28 @@ exports.view_coursemate_profile = (req, res, next) => {
                 if (err) {
                     return next(err);
                 }
-                res.render('student/views_student', {
-                    allowed: req.session.student,
-                    title: "CourseMate Profile",
-                    coursemate: coursemate,
-                    photo: () => {
-                        if (!coursemate.photo) {
-                            coursemate.photo = "../images/psylogo4.jpg";
-                            return coursemate.photo;
-                        } else {
-                            return coursemate.photo;
+                Courses.find({
+                        'student_offering': req.params.id
+                    })
+                    .exec(function(err, mycourses) {
+                        if (err) {
+                            return next(err);
                         }
-                    }
-                });
+                        res.render('student/views_student', {
+                            allowed: req.session.student,
+                            title: "CourseMate Profile",
+                            coursemate: coursemate,
+                            registered_courses: mycourses,
+                            photo: () => {
+                                if (!coursemate.photo) {
+                                    coursemate.photo = "../images/psylogo4.jpg";
+                                    return coursemate.photo;
+                                } else {
+                                    return coursemate.photo;
+                                }
+                            }
+                        });
+                    });
             }
         )
 }
@@ -325,14 +341,14 @@ exports.list_coursemates = (req, res, next) => {
 //Functions for displaying just your coursemates
 exports.list_psychology_students = (req, res, next) => {
     StudentSigns.find({})
-        .exec((err, swagger) => {
+        .exec((err, students) => {
             if (err) {
                 return next(err);
             }
             res.render('student/lists_students', {
                 allowed: req.session.student,
                 title: "ALL PSYCHOLOGY STUDENTS",
-                slow: swagger,
+                slow: students,
                 head: "ALL PSYCHOLOGY STUDENTS"
             });
         });
@@ -459,14 +475,14 @@ exports.view_staff_profile = (req, res, next) => {
 exports.get_last_news = (req, res, next) => {
     News.find({}).sort([
         ['created', 'ascending']
-    ]).exec((err, release) => {
+    ]).exec((err, news) => {
         if (err) {
             return next(err);
         }
         res.render('student/student_read_news', {
             allowed: req.session.student,
             title: 'Psychology News',
-            newspaper: release
+            newspaper: news
         });
     })
 }
@@ -483,7 +499,8 @@ exports.get_full_news = (req, res, next) => {
             allowed: req.session.student,
             title: 'Psychology Full News',
             newspaper: news,
-            comments: news.comments
+            comments: news.comments,
+            reply: req.flash('reply')
         });
     });
 }
@@ -492,13 +509,13 @@ exports.get_full_news = (req, res, next) => {
 exports.post_comment_news = (req, res, next) => {
     console.log(req.body, 'request');
     user = req.session.student;
-    var commerce = {
-        user: "Student: " + user.firstname + " " + user.surname,
+    var commentor = {
+        user: user.firstname,
         comment: req.body.comment
     }
     News.findByIdAndUpdate(req.params.id, {
         $push: {
-            comments: commerce
+            comments: commentor
         }
     }, (err, comment) => {
         if (err) {
@@ -517,40 +534,38 @@ exports.post_comment_news = (req, res, next) => {
 //Post reply comments
 exports.post_reply_comment = (req, res, next) => {
     async.parallel({
-        student: (callback) => {
-            StudentSigns.findById(req.session.student)
-                .exec(callback);
-        },
         news: (callback) => {
             News.findOne({
                     "comments._id": req.params.id
                 })
                 .exec(callback);
         },
-    }, function(err, coming) {
+    }, function(err, paper) {
         if (err) {
             return next(err);
         }
         var ones = req.params.id;
-        var commerce = {
-            user: " Reply @ : " + coming.student.firstname,
+        var replyer = {
+            user: req.session.student.firstname,
+            commentor: req.body.commentor,
             comment: req.body.commenta
         }
         News.findOneAndUpdate({
-            '_id': coming.news.id,
+            '_id': paper.news.id,
             'comments._id': ones
         }, {
             $push: {
-                "comments.$.reply": commerce
+                "comments.$.reply": replyer
 
             },
         }, function(err) {
             if (err) {
                 return next(err);
             }
-            res.redirect('/studentgetfullnews/' + coming.news.id);
+            req.flash('reply', 'Nice Comment!')
+            res.redirect('/studentgetfullnews/' + paper.news.id);
         });
-    })
+    });
 }
 
 //Post Like News
@@ -559,18 +574,18 @@ exports.post_news_like = (req, res, next) => {
     News.findOne({
             '_id': req.params.id
         })
-        .exec(function(err, ion) {
+        .exec(function(err, news) {
             if (err) {
                 return next(err)
             }
 
             News.findOneAndUpdate({
-                '_id': ion.id
+                '_id': news.id
             }, {
                 $inc: {
                     'likes': 1
                 }
-            }, function(err, commet) {
+            }, function(err) {
                 if (err) {
                     return next(err);
                 }
@@ -588,18 +603,18 @@ exports.post_news_dislike = (req, res, next) => {
     News.findOne({
             '_id': req.params.id
         })
-        .exec(function(err, ion) {
+        .exec(function(err, news) {
             if (err) {
                 return next(err)
             }
 
             News.findOneAndUpdate({
-                '_id': ion.id
+                '_id': news.id
             }, {
                 $inc: {
                     'dislikes': 1
                 }
-            }, function(err, commet) {
+            }, function(err) {
                 if (err) {
                     return next(err);
                 }
@@ -883,6 +898,8 @@ exports.view_courses = (req, res, next) => {
                         allowed: req.session.student,
                         kind: course,
                         teacher: staff,
+                        succeed: req.flash('succeed'),
+                        war: req.flash('war'),
                         lecky: () => {
                             var sorted_lecturer = [];
                             var course_lecturer = course.lecturer;
@@ -904,7 +921,6 @@ exports.view_courses = (req, res, next) => {
         });
 }
 
-
 // GET List of students offering a course...
 exports.student_course_registered = (req, res, next) => {
     Courses.findOne({
@@ -919,7 +935,6 @@ exports.student_course_registered = (req, res, next) => {
                     return next(err);
                 }
                 if (req.session.student.level >= course.level) {
-                    console.log('you can view this course');
                     res.render('student/view_select', {
                         title: "Student_Registered",
                         allowed: req.session.student,
@@ -943,7 +958,7 @@ exports.student_course_registered = (req, res, next) => {
                         }
                     });
                 } else {
-                    console.log('You can not view this course');
+                    req.flash('succ', 'You can not view this course');
                     res.redirect('/studentviewcourse/' + req.params.id);
                 }
             });
@@ -969,22 +984,16 @@ exports.register_course = (req, res, next) => {
                     }, de, {},
                     function(err) {
                         if (err) {
-                            return next(err)
+                            return next(err);
                         }
-                        res.render('student/view_courses', {
-                            title: 'Psychology Course',
-                            allowed: req.session.student,
-                            kind: course,
-                            status: "Your Course registration was Successful"
-                        });
+                        req.flash('succeed', 'Your Course registration was Successful');
+                        res.redirect('/studentviewcourse/' + req.params.id);
+
                     });
-            } else if (course.level != student.level) {
-                res.render('student/view_courses', {
-                    title: 'Psychology Course',
-                    allowed: req.session.student,
-                    kind: course,
-                    status: "Your level is not eligible to register for this course"
-                });
+            } else if (student.level != course.level) {
+
+                req.flash('war', 'Your level is not eligible to register for this course');
+                res.redirect('/studentviewcourse/' + req.params.id);
             } else {
                 return;
             }

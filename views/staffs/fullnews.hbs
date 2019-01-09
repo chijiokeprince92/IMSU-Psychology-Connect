@@ -1,123 +1,134 @@
 <br>
-{{#if newspaper}}
-    <h4><b>
-            <center>{{newspaper.heading}}</center>
-        </b>
-    </h4>
-    <br><br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-lg-6">
-                <img src="/{{newspaper.picture}}" alt="image" class="rounded" width="100%" height="400px" />
-            </div>
-            <br><br>
-            <div class="col-12 col-lg-6">
-                <p>{{newspaper.passage}}</p>
-                <br><br>
-                <div class="col-12">
-                    <p>{{newspaper.passage1}}</p>
-                    <br><br>
-                    <p>{{newspaper.passage2}}</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<h5><b>
+        {{newspaper.heading}}
+    </b>
+</h5>
+{{#if reply}}
+    <br>
+    <p class="alert alert-success">{{reply}}</p>
 {{/if}}
 <br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-10 col-md-6">
+            <img src="/{{newspaper.picture}}" alt="news image" class="rounded" width="100%" />
+            <br><br><br><br>
+        </div>
+        <div class="col-12 col-md-6">
+            <p>{{newspaper.passage}}</p>
+            <br><br>
+            <p>{{newspaper.passage1}}</p>
+            <br><br>
+            <p>{{newspaper.passage2}}</p>
+        </div>
+    </div>
+</div>
+<br><br>
 <h5><b>
-        <center>COMMENTS</center>
+        COMMENTS<span class="badge badge-danger badge-pill spany">12</span>
     </b>
 </h5>
 <br>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-10 col-md-6 col-lg-4">
+<ul>
+    <div class="container-fluid">
+        <div class="row">
             {{#each comments}}
-                <div class="card" id="added">
-                    <p class="card-header" style="background-color:lightpink"><b><a href="#">{{this.user}}</a>
-                        </b></p>
-                    <br>
-                    <p class="class-body"> {{this.comment}}</p>
-                    <p class="class-footer">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <li class="card" id="added">
+                        <div class="col-12">
+                            <p><b><a href="/studentstudentprofile/{{this.specialid}}">{{this.user}}</a>
+                                </b>
+                            </p>
+                        </div>
+                        <div class="col-12">
+                            <p>{{this.comment}}</p>
+                        </div>
+                    </li>
+                    <div class="col-12">
                         <div class="container-fluid">
-                            <div class="row">
+                            <div class="row no-gutters">
                                 <div class="col-4">
                                     <form action="/studentlikecomment/{{this.id}}" method="POST" style="display:inline">
                                         <input type="text" style="display:none" class="form-control" name="like" />
-                                        <button type="submit" class="btn btn-primary btn-block"><span class="fa fa-thumbs-o-up">
-                                                <span>{{this.like}}</span>
+                                        <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-up">
+                                                {{this.like}}</span>
                                         </button>
                                     </form>
                                 </div>
                                 <div class="col-4">
                                     <form action="/studentdislikecomment/{{this.id}}" method="POST" style="display:inline">
                                         <input type="text" style="display:none" class="form-control" name="dislike" />
-                                        <button type="submit" class="btn btn-danger btn-block"><span class="fa fa-thumbs-o-down">
-                                                <span>{{this.dislike}}</span>
+                                        <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-down">
+                                                {{this.dislike}}</span>
                                         </button>
                                     </form>
                                 </div>
                                 <div class="col-4">
-                                    <button id="cousin{{this.id}}" class="btn btn-danger btn-block" style="display:inline">Reply</button>
-                                    <button id="close{{this.id}}" class="btn btn-danger btn-block" style="display:none">Close</button>
+                                    <button id="cousin{{this.id}}" class="btn btn-light btn-sm btn-block" style="display:inline"><span
+                                            class="fa fa-reply"></span></button>
+                                    <button id="close{{this.id}}" class="btn btn-danger btn-sm btn-block" style="display:none"><span
+                                            class="fa fa-close"></span></button>
                                 </div>
                             </div>
                         </div>
                         <form id="drake{{this.id}}" action="/studentreplycomments/{{this.id}}" method="POST" style="display:none">
-                            <textarea type="text" class="form-control" name="commenta" placeholder="Reply" required></textarea>
-                            <button type="submit" class="btn btn-success">Reply</button>
+                            <input type="text" class="form-control" name="commentor" value="{{this.user}}" required />
+                            <input type="text" class="form-control" name="commenta" placeholder="Type a reply" required />
+                            <button type="submit" class="btn btn-success btn-sm"><span class="fa fa-reply"></span></button>
                         </form>
-                    </p>
-                </div>
-                <script>
-                    $(document).ready(function () {
-                        $('#cousin{{this.id}}').click(function () {
-                            $('#drake{{this.id}}').toggle("slow");
-                            $('#cousin{{this.id}}').toggle("slow");
-                            $('#close{{this.id}}').toggle("slow");
-                        });
-                        $('#close{{this.id}}').click(function () {
-                            $('#drake{{this.id}}').toggle("slow");
-                            $('#cousin{{this.id}}').toggle("slow");
-                            $('#close{{this.id}}').toggle("slow");
-                        });
-                    });
-                </script>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <br>
-                            {{#each this.reply}}
-                                <div class="card">
-                                    <p class="card-header" style="background-color:lightblue"><b>{{this.user}}:
-                                        </b></p>
-                                    <br>
-                                    <p class="class-body">{{this.comment}}</p>
-                                    <br>
-                                </div>
-                                <br><br>
-                            {{/each}}
-                        </div>
                     </div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#cousin{{this.id}}').click(function () {
+                                $('#drake{{this.id}}').toggle("slow");
+                                $('#cousin{{this.id}}').toggle("slow");
+                                $('#close{{this.id}}').toggle("slow");
+                            });
+                            $('#close{{this.id}}').click(function () {
+                                $('#drake{{this.id}}').toggle("slow");
+                                $('#cousin{{this.id}}').toggle("slow");
+                                $('#close{{this.id}}').toggle("slow");
+                            });
+                        });
+                    </script>
+                    <ul>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <li class="col-12">
+                                    {{#each this.reply}}
+                                        <div class="card">
+                                            <p><b>{{this.user}}: @ {{this.commentor}}
+                                                </b>
+                                            </p>
+                                            <p>{{this.comment}}</p>
+                                            <br>
+                                        </div>
+                                        <br><br>
+                                    {{/each}}
+                                </li>
+                            </div>
+                        </div>
+                    </ul>
+                    <br><br>
                 </div>
-                <br>
             {{/each}}
         </div>
     </div>
-</div>
+</ul>
 <ul id="messages"></ul>
-<br><br><br><br>
-<form id="formy" style="display:inline;width:100%;position:fixed;bottom:0">
+<br><br><br>
+<form id="formy" style="display:inline-block;width:100%;position:fixed;bottom:0">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-9">
-                <input id="comment-id" type="hidden" value="{{newspaper.id}}">
+        <div class="row no-gutters">
+            <div class="col-9" style="display:none">
+                <input id="comment-id" value="{{newspaper.id}}" />
             </div>
             <div class="col-9">
-                <textarea type="text" class="form-control" id="comment" name="comment" placeholder="Comment" required></textarea>
+                <textarea type="text" rows="1" cols="20" class="form-control" id="comment" name="comment" placeholder="Type a comment..."
+                    required></textarea>
             </div>
             <div class="col-3">
-                <button type="submit" class="btn btn-success">POST</button>
+                <button type="submit" class="btn btn-success" id="stylus"><span class="fa fa-play"></span></button>
             </div>
         </div>
     </div>
@@ -145,7 +156,7 @@
             });
             socket.on('chat_message', function (msg) {
                 console.log(msg, 'Message')
-                $('#messages').append($('<li></li>').html('<div class="container-fluid"><div class="row"><div class="col-10 col-md-6 col-lg-4"><div class="card"><p class="card-header" style="background-color:lightpink">You</p><p class="class-body">' + msg + '</p><br><p class="class-footer"></p></div></div></div></div>' + '<br>'));
+                $('#messages').append($('<li></li>').html('<div class="container-fluid"><div class="row"><div class="col-10 col-md-6 col-lg-4"><div class="card"><p class="card-header">You</p><p class="class-body">' + msg + '</p><br><p class="class-footer"></p></div></div></div></div>' + '<br>'));
             });
         });
     });

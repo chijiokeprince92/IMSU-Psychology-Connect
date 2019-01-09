@@ -1,24 +1,23 @@
 <div class="stay">
-    <ul class="nav nav-pills nav-justified">
+    <ul class="nav nav-pills nav-justified manu">
         <li class="nav-item" title="Homepage">
             <a href="/studenthome" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home" id="mum2"></span></a></li>
         <li class="nav-item" title="News">
             <a href="/studentgetlastnews" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-bell" id="mum2">
-                </span> <span class="badge badge-danger badge-pill spany">{{news}}</span></a></li>
+                </span><span class="badge badge-danger badge-pill spany">{{news}}</span></a></li>
         <li class="nav-item" title="Your Profile">
             <a href="/studentss/{{allowed}}" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-user-o" id="mum2"></span></a>
         </li>
-        <li class="nav-item" title="Your Profile">
+        <li class="nav-item" title="Messages">
             <a href="#" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-whatsapp" id="mum2"></span></a>
         </li>
         <li class="nav-item dropdown">
-            <button class="btn btn-primary btn-lg btn-block mum dropdown-toggle" data-toggle="dropdown"><span class="fa fa-book"
+            <button class="btn btn-primary btn-lg btn-block mum dropdown" data-toggle="dropdown"><span class="fa fa-bars"
                     id="mum2"></span></button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">COURSEMATES</a>
-                <a class="dropdown-item" href="#">RESULTS</a>
-                <a class="dropdown-item" href="#">MESSAGES</a>
-                <a class="dropdown-item" href="/logout">LOG OUT</a>
+                <a class="dropdown-item" href="/studentstudentlist">Coursemates</a>
+                <a class="dropdown-item" href="#">Medals</a>
+                <a class="dropdown-item" href="/logout">Logout</a>
             </div>
         </li>
     </ul>

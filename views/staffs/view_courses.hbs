@@ -1,41 +1,43 @@
 <br>
-<h4><b>
-        <center>COURSE PROFILE</center>
+<h5><b>
+        COURSE DETAILS
     </b>
-</h4>
+</h5>
 <br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-md-8">
-            <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
+            <p><b>COURSE_CODE:</b> {{course.coursecode}}</p>
             <br>
-            <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
+            <p><b>COURSE_TITLE: </b> {{course.coursetitle}}</p>
             <br>
-            <p><b>LEVEL: </b> {{kind.level}}</p>
+            <p><b>LEVEL: </b> {{course.level}}</p>
             <br>
-            <p><b>SEMESTER:</b> {{kind.semester}}</p>
+            <p><b>SEMESTER:</b> {{course.semester}}</p>
             <br>
-            <p><b>UNITS: </b>{{kind.units}}</p>
+            <p><b>UNITS: </b>{{course.units}}</p>
             <br>
-            <p><b>BORROWED_COURSE: </b>{{kind.borrowed}}</p>
+            <p><b>BORROWED_COURSE: </b>{{course.borrowed}}</p>
+            <br>
+            <p><b>LECTURER / S: </b></p>
             <br>
             {{#each lecky}}
-                <p><b>LECTURER: </b><a href="/staffstaffprofile/{{this.id}}">{{this.surname}}</a></p>
+                <p> <a href="/staff/colleague/{{this.id}}">{{this.surname}} {{this.firstname}}</a></p>
+                <br>
             {{/each}}
-            <br>
         </div>
     </div>
 </div>
 <br>
-<h4>
-    <center><b>COURSE OUTLINE</b></center>
-</h4>
+<h5>
+    <b>COURSE OUTLINE</b>
+</h5>
 <br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            {{#if kind.courseoutline}}
-                <p>{{kind.courseoutline}}</p>
+            {{#if course.courseoutline}}
+                <p>{{course.courseoutline}}</p>
             {{else}}
                 <p>COURSE_OUTLINE NOT AVAILABLE</p>
             {{/if}}
@@ -43,12 +45,12 @@
         </div>
     </div>
 </div>
-<form id="drake" style="display:none" action="/editcourseoutline/{{kind.id}}" method="POST">
+<form id="drake" style="display:none" action="/staff/editcourseoutline/{{course.id}}" method="POST">
     <div class="form-group input-group-lg">
         <label for="courseoutline"><b>TYPE COURSEOUTLINE</b></label>
-        <textarea type="text" class="form-control" name="courseoutline" placeholder="Type a message...">{{kind.courseoutline}}</textarea>
+        <textarea type="text" class="form-control" name="courseoutline" placeholder="Type a message...">{{course.courseoutline}}</textarea>
     </div>
-    <button type="submit" class="btn btn-danger">EDIT</button>
+    <button type="submit" class="btn btn-danger">Update</button>
 </form>
 <script>
     $(document).ready(function () {
@@ -66,7 +68,7 @@
             <a href="#" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
-            <a href="/staff/viewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-file"
+            <a href="/staff/viewcourselect/{{course.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
                     style="font-size:25px"></span></a>
         </div>
     </div>

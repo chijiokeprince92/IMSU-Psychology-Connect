@@ -27,18 +27,38 @@
         </div>
     </div>
 </div>
+<br><br><br>
+<h5><b>
+        COURSES OFFERED THIS SEMESTER
+    </b>
+</h5>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        {{#each registered_courses}}
+            <div class="col-10 col-md-8 col-lg-11">
+                <p>{{this.coursecode}}: <a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a>
+                </p>
+            </div>
+            {{else}}
+                <p>NO REGISTERED COURSE</p>
+        {{/each}}
+    </div>
+</div>
 <br><br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
-            <a href="" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
-        </div>
-        <div class="col-4">
-            <button class="btn btn-success btn-block btn-lg disabled"><span class="fa fa-whatsapp" style="font-size:25px"></span></button>
-        </div>
-        <div class="col-4">
-            <a href="/studentstudentlist" type="button" class="btn btn-primary btn-lg btn-block"><span class="fa fa-users"
+            <a href="#" type="button" class="btn btn-primary btn-block disabled" title="result"><span class="fa fa-briefcase"
                     style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="#" type="button" class="btn btn-success btn-block disabled" title="chat"><span class="fa fa-whatsapp"
+                    style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="/student{{coursemate.level}}mates" type="button" class="btn btn-primary btn-block" title="coursemates"><span
+                    class="fa fa-users" style="font-size:25px"></span></a>
         </div>
     </div>
 </div>

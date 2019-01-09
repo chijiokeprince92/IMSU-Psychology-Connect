@@ -1,12 +1,14 @@
 <br>
-<h4><b>
-        <center>COURSE DETAILS</center>
-    </b></h4>
-<br>
 <h5><b>
-        <center>{{status}}</center>
-    </b>
-</h5>
+        COURSE DETAILS
+    </b></h5>
+<br>
+{{#if succeed}}
+    <p class="alert alert-success">{{succeed}}</p>
+{{/if}}
+{{#if war}}
+    <p class="alert alert-danger">{{war}}</p>
+{{/if}}
 <br>
 <div class="container-fluid">
     <div class="row">
@@ -34,7 +36,7 @@
     </div>
 </div>
 <h5><b>
-        <center>COURSE OUTLINE</center>
+        COURSE OUTLINE
     </b>
 </h5>
 <br>
@@ -50,15 +52,16 @@
         <div class="col-4">
             <form action="/studentregistercourse/{{kind.id}}" method="POST" style="display:inline">
                 <input type="hidden" />
-                <button type="submit" class="btn btn-danger btn-block">REG.</button>
+                <button type="submit" title="register" class="btn btn-danger btn-block">REG</button>
             </form>
         </div>
         <div class="col-4">
-            <a href="/studentviewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-file"
-                    style="font-size:25px"></span></a>
+            <a href="/studentviewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block" title="registered students"><span
+                    class="fa fa-users" style="font-size:20px"></span></a>
         </div>
         <div class="col-4">
-            <a href="#" type="button" class="btn btn-success btn-block disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
+            <a href="#" type="button" class="btn btn-success btn-block disabled" title="textbooks"><span class="fa fa-book"
+                    style="font-size:20px"></span></a>
         </div>
     </div>
 </div>

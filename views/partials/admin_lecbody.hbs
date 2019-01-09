@@ -10,19 +10,25 @@
                 <a href="/admin/profile/{{admin}}" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-user-o"
                         id="mum2"></span></a>
             </li>
-            <li class="nav-item" title="LogOut">
-                <a href="/admin/logout" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-power-off" id="mum2"
-                        style="color:red"></span></a>
+            <li class="nav-item dropdown">
+                <button class="btn btn-primary btn-lg btn-block mum dropdown" data-toggle="dropdown"><span class="fa fa-bars"
+                        id="mum2"></span></button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/admin/studentlist">Students</a>
+                    <a class="dropdown-item" href="/admin/stafflist">Staffs</a>
+                    <a class="dropdown-item" href="#">Activities</a>
+                    <a class="dropdown-item" href="/admin/logout">Logout</a>
+                </div>
             </li>
         {{else}}
-            <li class="nav-item" title="Admin Login">
+            <li class="nav-item" title="HomePage">
                 <a href="/" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home" id="mum2"></span></a>
             </li>
             <li class="nav-item" title="Admin Login">
-                <a href="/admin/login" class="btn btn-primary btn-lg btn-block mum">ADMIN LOGIN</a>
+                <a href="/admin/login" class="btn btn-primary btn-lg btn-block mum">LOGIN</a>
             </li>
-            <li class="nav-item" title="Admin SignUp">
-                <a href="/admin/x2f4hjks8xmn" class="btn btn-primary btn-lg btn-block mum">ADMIN SIGNUP</a>
+            <li class="nav-item" title="Admin Signup">
+                <a href="/admin/x2f4hjks8xmn" class="btn btn-primary btn-lg btn-block mum">SIGNUP</a>
             </li>
         {{/if}}
     </ul>

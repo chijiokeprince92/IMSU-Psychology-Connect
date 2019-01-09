@@ -1,8 +1,8 @@
 <br>
-<h4><b>
-        <center>{{levy}}</center>
+<h5><b>
+        {{levy}}
     </b>
-</h4>
+</h5>
 <div class="dropdown" style="float:right">
     <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">search</button>
     <div class="dropdown-menu">
@@ -13,32 +13,35 @@
     </div>
 </div>
 <br><br>
+{{#if message}}
+    <p class="alert alert-success">{{message}}</p>
+{{/if}}
 <ul>
     <br><br>
     {{#each slow}}
         <li class="container-fluid">
             <div class="row">
                 {{#if this.photo}}
-                    <div class="col-5 col-md-3 col-lg-2">
-                        <img src="/{{this.photo}}" alt="image" class="rounded-circle" id="picss" />
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                        <img src="/{{this.photo}}" alt="image" class="rounded-circle profile" />
                     </div>
                 {{else}}
-                    <div class="col-5 col-md-3 col-lg-2">
-                        <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle" id="picss" />
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                        <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle profile" />
                     </div>
                 {{/if}}
                 <div class="col-5 col-md-7 col-lg-8">
-                    <p><a href="/admin/studentprofile/{{this.id}}">{{this.name}}</a></p>
+                    <p><a href="/admin/studentprofile/{{this.id}}">{{this.surname}} {{this.firstname}}</a></p>
                     <p>
                         <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
                         <b>GENDER: </b>{{this.gender}}<br>
                         <b>LEVEL: </b>{{this.level}}
                     </p>
                 </div>
-                <div class="col-2 col-md-2 col-lg-2">
+                <div class="col-2">
                     <form action="/admin/deletestudent/{{this.id}}" method="POST">
                         <input type="hidden" />
-                        <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:30px"></span></button>
+                        <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:20px"></span></button>
                     </form>
                 </div>
             </div>

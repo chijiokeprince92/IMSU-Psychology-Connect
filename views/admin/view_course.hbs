@@ -1,9 +1,12 @@
 <br>
-<h4><b>
-        <center>COURSE DETAILS</center>
+<h5><b>
+        COURSE DETAILS
     </b>
-</h4>
+</h5>
 <br><br>
+{{#if message}}
+    <p class="alert alert-success">{{message}}</p>
+{{/if}}
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-md-8 col-lg-7">
@@ -19,15 +22,17 @@
             <br>
             <p><b>BORROWED COURSE: </b>{{kind.borrowed}}</p>
             <br>
+            <p><b>LECTURER / S: </b></p>
+            <br>
             {{#each lecky}}
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-8">
-                            <p><b>LECTURER: </b><a href="/staffprofile/{{this.id}}">{{this.surname}}</a></p>
+                            <a href="/admin/staffprofile/{{this.id}}">{{this.surname}} {{this.firstname}}</a>
                         </div>
                         <div class="col-4">
-                            <form action="/admin/deletecourselecturer/{{this.id}}" method="POST">
-                                <input type="text" name="glory" value="{{this.id}}" />
+                            <form action="/admin/deletecourselecturer/{{../kind.id}}" method="POST">
+                                <input style="display:none" type="text" name="lect" value="{{this.id}}" />
                                 <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span></button>
                             </form>
                         </div>
@@ -79,7 +84,7 @@
 </div>
 <br>
 <h5><b>
-        <center>COURSE OUTLINE</center>
+        COURSE OUTLINE
     </b></h5>
 <br>
 {{#if kind.courseoutline}}
@@ -96,7 +101,7 @@
             </a>
         </div>
         <div class="col-4">
-            <a href="/admin/viewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-file"
+            <a href="/admin/viewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
                     style="font-size:25px"></span></a>
         </div>
         <div class="col-4">

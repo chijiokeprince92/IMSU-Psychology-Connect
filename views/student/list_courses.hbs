@@ -1,33 +1,34 @@
 <br>
-<h4><b>
-        <center>{{levy}} LEVEL COURSES</center>
+<h5><b>
+        {{levy}} LEVEL COURSES
     </b>
-</h4>
-<div class="dropdown" style="float:right">
-    <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">search</button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="/studentgetallcourses">100 LEVEL</a>
-        <a class="dropdown-item" href="/studentget200courses">200 LEVEL</a>
-        <a class="dropdown-item" href="/studentget300courses">300 LEVEL</a>
-        <a class="dropdown-item" href="/studentget400courses">400 LEVEL</a>
-    </div>
-</div>
-<br>
-<h3><b>
-        <center>FIRST SEMESTER COURSES</center>
-    </b></h3>
+</h5>
+<h6><b>
+        FIRST SEMESTER COURSES
+    </b>
+</h6>
 <div class="container-fluid">
     <div class="row">
+        <div class="dropdown" style="float:right">
+            <button class="btn btn-secondary dropdown" data-toggle="dropdown">search</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/studentgetallcourses">100 LEVEL</a>
+                <a class="dropdown-item" href="/studentget200courses">200 LEVEL</a>
+                <a class="dropdown-item" href="/studentget300courses">300 LEVEL</a>
+                <a class="dropdown-item" href="/studentget400courses">400 LEVEL</a>
+            </div>
+        </div>
         <nav class="col-12">
+            <br>
             <div class="table-responsive-sm">
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">
                         <tr>
                             <th>COURSE CODE</th>
                             <th>COURSE TITLE</th>
-                            <th>LEVEL</th>
-                            <th>SEMESTER</th>
-                            <th>UNIT/S</th>
+                            <th class="seek">LEVEL</th>
+                            <th class="seek">SEMESTER</th>
+                            <th class="seek">UNIT/S</th>
                             <th>COURSE OUTLINE</th>
                         </tr>
                     </thead>
@@ -35,9 +36,9 @@
                         <tr>
                             <td>{{this.coursecode}}</td>
                             <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
-                            <td>{{this.semester}}st</td>
-                            <td>{{this.units}}</td>
+                            <td class="seek">{{this.level}}</td>
+                            <td class="seek">{{this.semester}}st</td>
+                            <td class="seek">{{this.units}}</td>
                             <td><a href="/studentviewcourse/{{this.id}}">view course</a></td>
                         </tr>
                         {{else}}
@@ -45,17 +46,17 @@
                     {{/each}}
                 </table>
                 <br>
-                <h3>
-                    <center>ELECTIVE COURSES: {{elective1}}</center>
-                </h3>
+                <h5>
+                    ELECTIVE COURSES: {{elective1}}
+                </h5>
                 <table class="table table-hover table-striped">
                     {{#each first_borrowed}}
                         <tr>
                             <td>{{this.coursecode}}</td>
                             <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
-                            <td>{{this.semester}}st</td>
-                            <td>{{this.units}}</td>
+                            <td class="seek">{{this.level}}</td>
+                            <td class="seek">{{this.semester}}st</td>
+                            <td class="seek">{{this.units}}</td>
                             <td><a href="/studentviewcourse/{{this.id}}">view course</a></td>
                         </tr>
                         {{else}}
@@ -68,9 +69,9 @@
 </div>
 <br>
 <br>
-<h3><b>
-        <center>SECOND SEMESTER COURSES</center>
-    </b></h3>
+<h5><b>
+        SECOND SEMESTER COURSES
+    </b></h5>
 <div class="container-fluid">
     <div class="row">
         <nav class="col-sm-12">
@@ -80,9 +81,9 @@
                         <tr>
                             <th>COURSE CODE</th>
                             <th>COURSE TITLE</th>
-                            <th>LEVEL</th>
-                            <th>SEMESTER</th>
-                            <th>UNIT/S</th>
+                            <th class="seek">LEVEL</th>
+                            <th class="seek">SEMESTER</th>
+                            <th class="seek">UNIT/S</th>
                             <th>COURSE OUTLINE</th>
                         </tr>
                     </thead>
@@ -90,9 +91,9 @@
                         <tr>
                             <td>{{this.coursecode}}</td>
                             <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
-                            <td>{{this.semester}}nd</td>
-                            <td>{{this.units}}</td>
+                            <td class="seek">{{this.level}}</td>
+                            <td class="seek">{{this.semester}}nd</td>
+                            <td class="seek">{{this.units}}</td>
                             <td><a href="/studentviewcourse/{{this.id}}">view course</a></td>
                         </tr>
                         {{else}}
@@ -100,17 +101,17 @@
                     {{/each}}
                 </table>
                 <br>
-                <h3>
-                    <center>ELECTIVE COURSES: {{elective2}}</center>
-                </h3>
+                <h5>
+                    ELECTIVE COURSES: {{elective2}}
+                </h5>
                 <table class="table table-hover table-striped">
                     {{#each second_borrowed}}
                         <tr>
                             <td>{{this.coursecode}}</td>
                             <td>{{this.coursetitle}}</td>
-                            <td>{{this.level}}</td>
-                            <td>{{this.semester}}nd</td>
-                            <td>{{this.units}}</td>
+                            <td class="seek">{{this.level}}</td>
+                            <td class="seek">{{this.semester}}nd</td>
+                            <td class="seek">{{this.units}}</td>
                             <td><a href="/studentviewcourse/{{this.id}}">view course</a></td>
                         </tr>
                         {{else}}

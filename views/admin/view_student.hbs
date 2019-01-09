@@ -1,7 +1,7 @@
 <br>
-<h3><b>
-        <center>STUDENT'S PROFILE</center>
-    </b></h3>
+<h5><b>
+        STUDENT'S PROFILE
+    </b></h5>
 <br><br>
 <div class="container-fluid">
     <div class="row">
@@ -24,13 +24,13 @@
             <br>
             <p><b>IS_COURSEREP:</b> {{student.is_courserep}}
                 {{#if courserepno}}
-                    <form action="/makecourserep/{{student.id}}" method="POST" style="display:inline">
+                    <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
                         <input type="text" style="display:none" class="form-control" name="courserep" value="Yes" />
                         <button type="submit" class="btn btn-success"><span class="fa fa-thumbs-o-up">
                         </button>
                     </form>
                 {{else}}
-                    <form action="/makecourserep/{{student.id}}" method="POST" style="display:inline">
+                    <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
                         <input type="text" style="display:none" class="form-control" name="courserep" value="No" />
                         <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down">
                         </button>
@@ -46,28 +46,19 @@
     </div>
 </div>
 <br>
+<br><br><br>
 <h5><b>
-        <center>COURSES OFFERED THIS SEMESTER</center>
+        COURSES OFFERED THIS SEMESTER
     </b>
 </h5>
 <br><br>
 <div class="container-fluid">
     <div class="row">
-        {{#each student.courses_offered}}
-            <div class="col-8 col-md-8 col-lg-10">
+        {{#each registered_courses}}
+            <div class="col-12">
                 <p>{{this.coursecode}}: <a href="/admin/viewcourse/{{this.id}}">{{this.coursetitle}}</a>
                 </p>
-            </div>
-            <div class="col-2 col-md-2 col-lg-1">
-                <a href="/admin/studentaddresult/{{this.id}}" class="btn btn-info btn-block">
-                    Result
-                </a><br><br>
-            </div>
-            <div class="col-2 col-md-2 col-lg-1">
-                <form action="/admin/studentdeleteregistercourse/{{this.id}}" method="POST" style="display:inline">
-                    <input type="hidden" />
-                    <button type="submit" class="btn btn-danger btn-block">Delete</button>
-                </form><br><br>
+                <br>
             </div>
             {{else}}
                 <p>NO REGISTERED COURSE</p>

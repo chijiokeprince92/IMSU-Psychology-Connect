@@ -122,6 +122,9 @@ router.get('/student400mates', student_controllers.loginRequired, student_contro
 //Router GET for viewing a particular student profile
 router.get('/studentstudentprofile/:id', student_controllers.loginRequired, student_controllers.view_coursemate_profile);
 
+//Router for getting the list of all psychology staffs
+router.get('/studentsstafflist', student_controllers.loginRequired, student_controllers.list_staffs);
+
 //Router Get for viewing a particular profile
 router.get('/studentstaffprofile/:id', student_controllers.loginRequired, student_controllers.view_staff_profile);
 
@@ -148,9 +151,6 @@ router.post('/studentlikecomment/:id', student_controllers.loginRequired, studen
 
 //Router for disliking a particular comment on a NEWS
 router.post('/studentdislikecomment/:id', student_controllers.loginRequired, student_controllers.post_dislike_comment);
-
-//Router for getting the list of all psychology staffs
-router.get('/studentsstafflist', student_controllers.loginRequired, student_controllers.list_staffs);
 
 // GET all Courses
 router.get('/studentgetallcourses', student_controllers.loginRequired, student_controllers.get_100_courses);

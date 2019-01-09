@@ -81,7 +81,7 @@ router.post('/editcourseoutline/:id', staff_controllers.staffloginRequired, staf
 router.get('/viewcourse/:id', staff_controllers.staffloginRequired, staff_controllers.view_courses);
 
 //GET a particular course details
-router.get('/viewcourselect/:id', staff_controllers.staffloginRequired, staff_controllers.student_coursesoffered);
+router.get('/viewcourselect/:id', staff_controllers.staffloginRequired, staff_controllers.student_course_registered);
 
 //GET the latest news
 router.get('/getlastnews', staff_controllers.staffloginRequired, staff_controllers.get_last_news);

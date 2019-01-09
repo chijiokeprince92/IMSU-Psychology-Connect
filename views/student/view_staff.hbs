@@ -1,12 +1,14 @@
 <br>
-<h4><b>
-        <center>LECTURER PROFILE</center>
-    </b></h4>
+<h5><b>
+        LECTURER PROFILE
+    </b>
+</h5>
 <br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-md-5">
             <img src="/{{photo}}" alt="image" class="rounded" width="100%" />
+            <br><br>
         </div>
         <div class="col-12 col-md-7">
             <p><b>EMAIL: </b> {{staffs.email}}</p>
@@ -26,7 +28,7 @@
 </div>
 <br>
 <h5>
-    <center><b>COURSES ASSIGNED</b></center>
+    <b>COURSES HANDLED</b>
 </h5>
 <br>
 <ol>
@@ -34,8 +36,26 @@
         <li>
             <p><b>{{this.coursecode}}: </b><a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
         </li>
+        <br>
         {{else}}
             <p>NO COURSE ASSIGNED</p>
     {{/each}}
 </ol>
+<br><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <a href="#" type="button" class="btn btn-primary btn-block disabled" title="books"><span class="fa fa-book"
+                    style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="#" type="button" class="btn btn-success btn-block disabled" title="chat"><span class="fa fa-whatsapp"
+                    style="font-size:25px"></span></a>
+        </div>
+        <div class="col-4">
+            <a href="/studentsstafflist" type="button" class="btn btn-primary btn-block" title="colleagues"><span class="fa fa-users"
+                    style="font-size:25px"></span></a>
+        </div>
+    </div>
+</div>
 <br><br>

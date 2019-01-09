@@ -5,8 +5,8 @@
     {{>head}}
 </head>
 
-<body class="broda">
-    <img src="../images/drizzys.jpg" alt="NAPS image" class="logo" />
+<body class="body">
+    <img src="/images/drizzys.jpg" alt="NAPS image" class="logo" />
     {{#if allowed}}
         {{>student_lecbody}}
     {{else if admin}}
@@ -19,13 +19,7 @@
     <br>
     {{{body}}}
     <footer>
-        <p>You can follow NAPS on various social media platforms by contacting the various Course-reps of each level...<img
-                src="../images/facebook.png" alt="image" class="rounded" width="5%" height="30" /> <img src="../images/twitter.png"
-                alt="image" class="rounded" width="5%" height="30" /><img src="../images/whatsapp.png" alt="image"
-                class="rounded" width="7%" height="40" /><img src="../images/instagram.jpeg" alt="image" class="rounded"
-                width="5%" height="30" /><br><b>2018 <span class="fa fa-copyright" style="font-size:20px"></span>
-                Prestige...07065585474</b>
-        </p>
+        {{>footer}}
     </footer>
 </body>
 
