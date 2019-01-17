@@ -1,15 +1,12 @@
 <br>
-<h1><b>
-        <center>UPDATE PROFILE</center>
-    </b></h1>
+<h5><b>
+        UPDATE PROFILE
+    </b></h5>
 <br><br>
-{{#each errors}}
-    <p>{{this}}</p>
-{{/each}}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-md-8 col-lg-6" id="kilo">
-            <form class="form group input-group-lg" action="" method="POST">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6" id="kilo">
+            <form class="form group" action="" method="POST">
                 <label for="email"><b>E-MAIL:</b></label>
                 <input type="email" name="email" class="form-control" value="{{coursey.email}}" placeholder="Email.com"
                     required>

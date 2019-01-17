@@ -1,13 +1,15 @@
 <br>
-<h4>
-    <center>ADMIN LOGIN</center>
-</h4>
-<p>{{ohno}}</p>
+<h5>
+    ADMIN LOGIN
+</h5>
+{{#if ohno}}
+    <p class="alert alert-danger">{{ohno}}</p>
+{{/if}}
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-md-8 col-lg-6" id="kilo">
-            <form class="form-group" action="/admin/hercules" method="POST">
-                <div class="form-group input-group-lg">
+            <form action="/admin/hercules" method="POST">
+                <div class="form-group">
                     <label for="verify"><b>VERIFICATION_ID:</b></label>
                     <input type="text" class="form-control" name="verify" placeholder="Verification_ID" required>
                 </div>
@@ -16,8 +18,8 @@
                     <input type="password" class="form-control" name="password" placeholder="Password" required>
                 </div>
                 <br><br>
-                <button type="submit" class="btn btn-success btn-lg"><b><span class="fa fa-cloud-upload"></span>
-                        ADMIN LOGIN</b></button>
+                <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"></span>
+                        LOGIN</b></button>
             </form>
         </div>
     </div>

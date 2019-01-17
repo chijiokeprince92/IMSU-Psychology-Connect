@@ -97,7 +97,7 @@ exports.admin_signup_post = [
                     return next(err);
                 }
                 // Successful - redirect to ADMIN login page.
-                res.redirect('/adminlogin');
+                res.redirect('/admin/login');
             });
         }
     }
@@ -107,7 +107,8 @@ exports.admin_signup_post = [
 // GET Admin login form
 exports.admin_login_get = function(req, res, next) {
     res.render('admin/admin_login', {
-        title: 'Admin Login'
+        title: 'Admin Login',
+        ohno: req.flash('ohno')
     })
 }
 
@@ -118,11 +119,15 @@ exports.admin_login_post = function(req, res, next) {
     }, function(err, sydney) {
         if (err) {
             return next(err);
+        } else if (!sydney) {
+            req.flash('ohno', 'Your verification_Id is incorrect')
+            res.redirect('/admin/login');
         } else if (sydney.password != req.body.password) {
-            res.redirect('/admin/adminlogin');
-            return;
+            req.flash('ohno', 'Your password is incorrect')
+            res.redirect('/admin/login');
         } else {
             req.session.admin = sydney.id;
+            req.flash('message', 'Welcome, You are the Admin of this website');
             res.redirect('/admin/hercules');
         }
     })
@@ -157,8 +162,7 @@ exports.admin_update_post = function(req, res, next) {
         email: req.body.email,
         surname: req.body.surname,
         firstname: req.body.firstname,
-        password: req.body.password,
-        _id: req.params.id
+        password: req.body.password
     };
     Admins.findByIdAndUpdate(req.params.id, judge, {
         new: true
@@ -191,7 +195,8 @@ exports.admin = function(req, res, next) {
             title: 'Admin Page',
             admin: req.session.admin,
             name: name.didi.surname,
-            news: name.newy
+            news: name.newy,
+            message: req.flash('message')
         });
     })
 }
@@ -301,7 +306,7 @@ exports.delete_student = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        req.flash('message', 'The student was successfully deleted')
+        req.flash('message', 'The student was successfully deleted');
         res.redirect('/admin/studentlist');
     });
 }
@@ -644,15 +649,9 @@ exports.delete_news = function(req, res, next) {
 //----------------------------------------------------------------------
 
 
-//ADMIN Logout Request
-exports.admin_logout = function(req, res, next) {
-        if (req.session.admin) {
-            req.session.destroy();
-        }
-        res.redirect('/');
-    }
-    //------------------------------------------------------------------------------------
-    // ADMIN GET course registration
+
+//------------------------------------------------------------------------------------
+// ADMIN GET course registration
 exports.add_courses = function(req, res, next) {
     Staff.find({}, function(err, teacher) {
         if (err) {
@@ -1068,33 +1067,6 @@ exports.student_coursesoffered = function(req, res, next) {
     });
 }
 
-exports.delete_registered_course = function(req, res, next) {
-    Courses.findOne({
-        "id": req.params.course
-    }).exec(function(err, dere) {
-        if (err) {
-            return next(err);
-        }
-        console.log(dere);
-        Courses.findOneAndUpdate({
-            "_id": req.params.course
-        }, {
-            $pull: {
-                "student_offering.$.id": req.params.id
-
-            }
-
-        }, function(err, success) {
-            if (err) {
-                return next(err)
-            }
-            console.log("successfully deleted");
-            res.redirect('/adminviewcourse/' + success.id);
-        })
-    })
-
-}
-
 // GET Student Result Filler form
 exports.student_fillresult = function(req, res, next) {
     res.render('admin/fill_result', {
@@ -1113,51 +1085,63 @@ exports.student_fillresult_post = function(req, res, next) {
             return next(err);
         }
 
-        res.redirect('/studentaddresult/' + result.id);
+        res.redirect('/admin/studentaddresult/' + result.id);
     });
 }
+
 
 // GET Student Result Filler form
 exports.student_addresult_get = function(req, res, next) {
     Courses.findOne({
         '_id': req.params.id
-    }).exec(function(err, result) {
+    }).exec(function(err, course) {
         if (err) {
             return next(err);
         }
         StudentSigns.find({
-            'level': result.level
-        }).exec(function(err, fresh) {
+            '_id': course.student_offering
+        }).exec(function(err, students) {
             if (err) {
                 return next(err);
             }
-            res.render('admin/student_result_form', {
-                title: "Add Student Result",
-                admin: req.session.admin,
-                courses: result,
-                upload: function() {
-                    var dealer = [];
-                    var studunt = [];
-                    var seal = result.student_offering;
-                    var deal = fresh;
-                    seal.forEach(element => {
-                        dealer.push(element);
-                    });
-                    dealer.forEach(read => {
-                        var marvel = deal.filter(function(hero) {
-                            if (hero.id == read) {
+            Result.find({
+                'course': course.id,
+                'student': course.student_offering
+            }).exec(function(err, results) {
+                if (err) {
+                    return next(err);
+                }
+                res.render('admin/student_result_form', {
+                    title: "Add Student Result",
+                    admin: req.session.admin,
+                    courses: course,
+                    upload: students,
+                    results: results,
+                    message: req.flash('message'),
+                    accept: function() {
+                        var filled = [];
+                        var result = results;
+                        var student = students;
+                        student.forEach(element => {
+                            result.filter(function(resul) {
+                                if (element.id == resul.student) {
+                                    var jesus = {
+                                        name: `${element.surname} ${element.firstname}`,
+                                        matnumber: element.matnumber,
+                                        grade: resul.grade
+                                    }
+                                    filled.push(jesus);
+                                }
 
-                                studunt.push(hero);
-                            }
+                            });
                         });
 
-                    });
-                    return studunt;
-                }
+                        return filled;
+                    }
+                });
             });
         });
     });
-
 }
 
 
@@ -1172,8 +1156,8 @@ exports.student_addresults_post = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        console.log("SAVED");
-        res.redirect('/studentaddresult/' + req.params.id);
+        req.flash('message', "The result was successfully saved");
+        res.redirect('/admin/studentaddresult/' + req.params.id);
     })
 
 
@@ -1197,11 +1181,11 @@ exports.delete_result = function(req, res, next) {
     Result.findByIdAndRemove({
         '_id': req.params.id
     }).
-    exec(function(err, glory) {
+    exec(function(err) {
         if (err) {
-            return next(er);
+            return next(err);
         }
-        res.redirect('/viewallresults');
+        res.redirect('/admin/viewallresults');
     })
 }
 
@@ -1305,40 +1289,8 @@ exports.student_delete_result = function(req, res, next) {
             return next(error)
         }
         console.log("successfully deleted");
-        res.redirect('/studentfullresults/' + success.id)
+        res.redirect('/admin/studentfullresults/' + success.id)
     })
-}
-
-
-
-// function for sending message to 100 level
-exports.send_100 = function(req, res, next) {
-    res.render('student/chat100', {
-        title: "100Level Group Chat",
-        admin: req.session.admin
-    })
-}
-
-// function for sending messsage to 200 level
-exports.send_200 = function(req, res, next) {
-    res.render('student/chat200', {
-        title: "200 Level Group Chat",
-        admin: req.session.admin
-    });
-}
-
-exports.send_300 = function(req, res, next) {
-    res.render('student/chat300', {
-        title: "300Level Group Chat",
-        admin: req.session.admin
-    });
-}
-
-exports.send_400 = function(req, res, next) {
-    res.render('student/chat400', {
-        title: "400Level Group chat",
-        admin: req.session.admin
-    });
 }
 
 // staff signup GET
@@ -1400,7 +1352,7 @@ exports.staff_signup_post = [
         } else {
             // Data from form is valid.
             // Create a Staff object with escaped and trimmed data.
-            var freedom = new Staff({
+            var staff_register = new Staff({
                 email: req.body.email,
                 surname: req.body.surname,
                 firstname: req.body.firstname,
@@ -1410,13 +1362,21 @@ exports.staff_signup_post = [
                 bio: req.body.bio,
                 password: req.body.password
             });
-            freedom.save(function(err) {
+            staff_register.save(function(err) {
                 if (err) {
                     return next(err);
                 }
                 // Successful - redirect to Staff login page.
-                res.redirect(freedom.urly);
+                res.redirect(staff_register.urly);
             });
         }
     }
 ];
+
+//ADMIN Logout Request
+exports.admin_logout = (req, res) => {
+    if (req.session.admin) {
+        req.session.destroy();
+    }
+    res.redirect('/');
+}

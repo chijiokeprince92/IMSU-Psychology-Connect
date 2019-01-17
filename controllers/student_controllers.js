@@ -224,7 +224,8 @@ exports.profiler = (req, res, next) => {
                         allowed: req.session.student,
                         title: 'Student Profile',
                         user: user,
-                        registered_courses: mycourses
+                        registered_courses: mycourses,
+                        message: req.flash('message')
                     });
                 });
         });
@@ -991,13 +992,44 @@ exports.register_course = (req, res, next) => {
 
                     });
             } else if (student.level != course.level) {
-
                 req.flash('war', 'Your level is not eligible to register for this course');
                 res.redirect('/studentviewcourse/' + req.params.id);
             } else {
                 return;
             }
         });
+}
+
+exports.delete_registered_course = function(req, res, next) {
+    Courses.findOne({
+        "_id": req.params.id
+    }).exec(function(err, course) {
+        if (err) {
+            return next(err);
+        }
+
+        course.student_offering.filter((student) => {
+            if (req.session.student.id == student) {
+                console.log("You can delete this course");
+                Courses.findOneAndUpdate({
+                    "_id": req.params.id
+                }, {
+                    $pull: {
+                        "student_offering": req.session.student.id
+                    }
+
+                }, function(err) {
+                    if (err) {
+                        return next(err)
+                    }
+                    req.flash('message', 'You have successfully deleted a course from your registered courses');
+                    res.redirect('/studentss/' + req.session.student.id);
+                });
+            }
+        })
+
+    });
+
 }
 
 

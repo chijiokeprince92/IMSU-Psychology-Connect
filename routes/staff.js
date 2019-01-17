@@ -13,7 +13,7 @@ var staff_controllers = require('../controllers/staff_controllers');
 
 
 // staff login form
-router.get('/stafflogin', staff_controllers.staff_login_get);
+router.get('/login', staff_controllers.staff_login_get);
 
 router.post('/staffhome', staff_controllers.staff_login_post);
 

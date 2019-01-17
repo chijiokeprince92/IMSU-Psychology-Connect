@@ -1,13 +1,15 @@
 <br>
-<h4><b>
-        <center>STAFF LOGIN</center>
+<h5><b>
+        STAFF LOGIN
     </b>
-</h4>
+</h5>
+{{#if ohno}}
+    <p class="alert alert-danger">{{ohno}}</p>
+{{/if}}
 <br>
-<p>{{ohno}}</p>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-md-8 col-lg-6" id="kilo">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-5" id="kilo">
             <form action="/staff/staffhome" method="POST">
                 <div class="form-group">
                     <label for="staff_id"><b>STAFF_ID:</b></label>

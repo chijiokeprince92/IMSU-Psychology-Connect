@@ -92,6 +92,10 @@ router.post('/studenthome', student_controllers.test_login);
 //GET Logged in student home
 router.get('/studenthome', authMiddleware.loginRequired, student_controllers.get_student_home);
 
+//Router to view a Student Profile.
+router.get('/studentss/:id', student_controllers.loginRequired, student_controllers.profiler);
+
+
 //GET student profile for update
 router.get('/studentupdateprofile/:id', student_controllers.student_update_get);
 
@@ -173,11 +177,11 @@ router.get('/studentviewcourselect/:id', student_controllers.loginRequired, stud
 //Router to register for a particular course
 router.post('/studentregistercourse/:id', student_controllers.loginRequired, student_controllers.register_course);
 
+//Router to delete a registered course
+router.post('/deleteregisteredcourse/:id', student_controllers.loginRequired, student_controllers.delete_registered_course);
+
 // Router to GET project topics
 router.get('/studentgetprojecttopics', student_controllers.loginRequired, student_controllers.get_project_topics);
-
-//Router to view a Student Profile.
-router.get('/studentss/:id', student_controllers.loginRequired, student_controllers.profiler);
 
 //Router to Get a your Result
 router.get('/myfullresults/:id', student_controllers.loginRequired, student_controllers.student_result);

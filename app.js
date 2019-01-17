@@ -14,8 +14,6 @@ const logger = require('morgan');
 const debug = require('debug')('library-app:server');
 
 
-
-
 const staffRouter = require('./routes/staff');
 const adminRouter = require('./routes/admin');
 const studentRouter = require('./routes/student');
@@ -31,7 +29,7 @@ var io = require('socket.io')(server);
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 
-mongoose.connect(process.env.mongoDB);
+mongoose.connect(process.env.mongoDBO);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Prince,the MongoDB connection error'));

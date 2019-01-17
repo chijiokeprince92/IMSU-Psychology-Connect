@@ -1,6 +1,6 @@
 // This is the function for handling anything Staff
 
-var Staff = require('../models/staffSchema');
+const Staff = require('../models/staffSchema');
 const StudentSigns = require('../models/studentSchema');
 const News = require('../models/newsSchema');
 const Project = require('../models/projectSchema');
@@ -22,7 +22,7 @@ const {
 
 exports.staffloginRequired = function(req, res, next) {
         if (!req.session.staff) {
-            res.redirect('/staff/stafflogin');
+            res.redirect('/staff/login');
         } else {
             return next();
         }
@@ -35,38 +35,29 @@ exports.staffloginRequired = function(req, res, next) {
 // staff login GET
 exports.staff_login_get = (req, res) => {
     res.render('staffs/login_staff', {
-        title: 'staff_signUp'
+        title: 'staff_login',
+        ohno: req.flash('ohno')
     });
 };
 
 // staff login POST
-exports.staff_login_post = (req, res, next) => {
+exports.staff_login_post = function(req, res, next) {
     Staff.findOne({
         'staff_id': req.body.staff_id
-    }, (err, blade) => {
+    }, function(err, blade) {
         if (err) {
             return next(err);
-        }
-        if (!blade) {
-            res.render('staffs/login_staff', {
-                title: 'Staff_Login',
-                ohno: "Your Staff_id is incorrect..."
-            });
-            return;
+        } else if (!blade) {
+            req.flash('ohno', 'Your staff_Id is incorrect');
+            res.redirect('/staff/login');
         } else if (blade.password !== req.body.password) {
             //password is incorrect
-            res.render('staffs/login_staff', {
-                title: 'Staff_Login',
-                ohno: 'Password is incorrect'
-            });
-            return;
-        } else if (blade && blade.password == req.body.password) {
-            req.session.staff = {
-                user: blade.id
-            }
-            res.redirect('/staff/staffhome');
+            req.flash('ohno', 'Your Password is incorrect');
+            res.redirect('/staff/login');
         } else {
-            res.redirect('/staff/stafflogin');
+            req.session.staff = blade.id;
+            req.flash('message', `Welcome ${blade.surname}, You are logged in`);
+            res.redirect('/staff/staffhome');
         }
     });
 
@@ -77,7 +68,7 @@ exports.staff_home = (req, res, next) => {
     async.parallel({
         didi: (callback) => {
             Staff.findOne({
-                '_id': req.session.staff.user
+                '_id': req.session.staff
             }).exec(callback);
         },
         newy: (callback) => {
@@ -91,7 +82,8 @@ exports.staff_home = (req, res, next) => {
             title: 'Staff Home Page',
             staff_session: req.session.staff,
             staffy: name.didi.surname,
-            news: name.newy
+            news: name.newy,
+            message: req.flash('message')
         });
     })
 
@@ -100,7 +92,7 @@ exports.staff_home = (req, res, next) => {
 // Display Author update form on GET.
 exports.staff_update_get = (req, res, next) => {
 
-    Staff.findById(req.session.staff.user, function(err, staff) {
+    Staff.findById(req.session.staff, function(err, staff) {
         if (err) {
             return next(err);
         }
@@ -124,7 +116,7 @@ exports.staff_update_post = (req, res, next) => {
         bio: req.body.bio,
         password: req.body.password
     };
-    Staff.findByIdAndUpdate(req.session.staff.user, updated_staff, {}, function(err, staffupdate) {
+    Staff.findByIdAndUpdate(req.session.staff, updated_staff, {}, function(err, staffupdate) {
         if (err) {
             return next(err);
         }
@@ -138,7 +130,7 @@ exports.staff_update_pics = (req, res, next) => {
         photo: fullPath,
         _id: req.params.id
     };
-    Staff.findByIdAndUpdate(req.session, staff.user, qualified, {}, function(err, staffupdate) {
+    Staff.findByIdAndUpdate(req.session.staff, qualified, {}, function(err, staffupdate) {
         if (err) {
             return next(err);
         }
@@ -152,11 +144,11 @@ exports.staff_profiler = function(req, res, next) {
     async.parallel({
         coursey: function(callback) {
             Courses.find({
-                'lecturer': req.session.staff.user
+                'lecturer': req.session.staff
             }).exec(callback);
         },
         staffy: function(callback) {
-            Staff.findById(req.session.staff.user)
+            Staff.findById(req.session.staff)
                 .exec(callback);
         }
     }, (err, results) => {
@@ -169,6 +161,14 @@ exports.staff_profiler = function(req, res, next) {
             staff_session: req.session.staff,
             staff: results.staffy,
             coursess: results.coursey,
+            photo: function() {
+                if (!results.staffy.photo) {
+                    results.staffy.photo = "../images/psylogo4.jpg";
+                    return results.staffy.photo;
+                } else {
+                    return results.staffy.photo;
+                }
+            }
 
 
         });

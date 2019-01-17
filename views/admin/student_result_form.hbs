@@ -1,14 +1,17 @@
 <br>
-<h4>
+<h5>
     <b>
-        <center>" {{courses.coursetitle}} RESULT UPLOAD "</center>
+        " {{courses.coursetitle}} RESULT UPLOAD "
     </b>
-</h4>
+</h5>
 <br>
+{{#if message}}
+    <p class="alert alert-success">{{message}}</p>
+{{/if}}
 <br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-lg-6">
             <form class="form group" action="" method="POST">
                 <label for="course"><b>COURSE:</b></label>
                 <select name="course" class="form-control">
@@ -18,7 +21,7 @@
                 <label for="student"><b>MAT NUMBER:</b></label>
                 <select name="student" class="form-control">
                     {{#each upload}}
-                        <option value="{{this.id}}">{{this.surname}}- {{this.matnumber}}</option>
+                        <option value="{{this.id}}">{{this.matnumber}} - {{this.surname}} {{this.firstname}}</option>
                     {{/each}}
                 </select>
                 <br>
@@ -31,9 +34,34 @@
                 <button type="submit" class="btn btn-success"><b>SAVE RESULT</b></button>
             </form>
         </div>
-        <div class="col-6">
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <ul>
+                <br><br>
+                {{#each accept}}
+                    <li class="container-fluid">
+                        <div class="row">
+                            <div class="col-9">
+                                <p>
+                                    <b>NAME: </b>{{this.name}}<br>
+                                    <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
+                                </p>
+                            </div>
+                            <div class="col-2">
+                                <button id="add{{this.id}}" class="btn btn-primary">{{this.grade}}</button>
+                            </div>
+                        </div>
+                    </li>
+                    <br><br>
+                    {{else}}
+                        <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+                {{/each}}
+            </ul>
             <h5><b>
-                    <center>STUDENTS OFFERING</center>
+                    UPLOADED RESULTS
                 </b>
             </h5>
             <ul>
@@ -41,19 +69,47 @@
                 {{#each upload}}
                     <li class="container-fluid">
                         <div class="row">
-                            <div class="col-5 col-md-7 col-lg-8">
+                            <div class="col-9">
                                 <p>
                                     <b>NAME: </b>{{this.surname}} {{this.firstname}}<br>
                                     <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
                                 </p>
                             </div>
-                            <div class="col-2 col-md-2 col-lg-2">
+                            <div class="col-2">
                                 <button id="add{{this.id}}" class="btn btn-primary">ADD</button>
-                                <button id="close{{this.id}}" style="display:none" class="btn btn-primary">CLOSE</button>
+                                <button id="close{{this.id}}" style="display:none" class="btn btn-danger">CLOSE</button>
                             </div>
+                            <form id="formy{{this.id}}" style="display:none" class="form group" action="" method="POST">
+                                <select style="display:none" name="course" class="form-control">
+                                    <option value="{{../courses.id}}">{{../courses.coursetitle}}</option>
+                                </select>
+                                <select style="display:none" name="student" class="form-control">
+                                    <option value="{{../courses.id}}">{{this.matnumber}} - {{this.surname}}
+                                        {{this.firstname}}</option>
+                                </select>
+                                <input type="number" name="score" class="form-control" placeholder="0 - 100" required>
+                                <input type="text" name="grade" class="form-control" placeholder="A - F" required>
+                                <br>
+                                <button type="submit" class="btn btn-success"><b>SAVE</b></button>
+                            </form>
                         </div>
                     </li>
                     <br><br>
+                    <script>
+                        $(document).ready(function () {
+                            $('#add{{this.id}}').click(function () {
+                                $('#formy{{this.id}}').toggle("slow");
+                                $('#close{{this.id}}').toggle("slow");
+                                $('#add{{this.id}}').toggle("slow");
+                            });
+                            $('#close{{this.id}}').click(function () {
+                                $('#formy{{this.id}}').toggle("slow");
+                                $('#close{{this.id}}').toggle("slow");
+                                $('#add{{this.id}}').toggle("slow");
+                            });
+                        });
+
+                    </script>
                     {{else}}
                         <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
                 {{/each}}

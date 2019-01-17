@@ -135,9 +135,6 @@ router.get('/viewcourse/:id', admin_controllers.admin_session_force, admin_contr
 //GET a particular course details
 router.get('/viewcourselect/:id', admin_controllers.admin_session_force, admin_controllers.student_coursesoffered);
 
-router.post('/studentdeleteregistercourse/:id', admin_controllers.admin_session_force, admin_controllers.delete_registered_course);
-
-
 //GET a particular course details
 router.get('/addcourseoutline/:id', admin_controllers.admin_session_force, admin_controllers.course_update_get);
 
@@ -149,17 +146,6 @@ router.post('/editcourselecturer/:id', admin_controllers.admin_session_force, ad
 router.post('/deletecourselecturer/:id', admin_controllers.admin_session_force, admin_controllers.delete_course_lecturer);
 
 router.post('/deletecourse/:id', admin_controllers.admin_session_force, admin_controllers.delete_course);
-
-
-// GET the various chat group and send a message
-
-router.get('/send100', admin_controllers.admin_session_force, admin_controllers.send_100);
-
-router.get('/send200', admin_controllers.admin_session_force, admin_controllers.send_200);
-
-router.get('/send300', admin_controllers.admin_session_force, admin_controllers.send_300);
-
-router.get('/send400', admin_controllers.admin_session_force, admin_controllers.send_400);
 
 //staff signup form
 router.get('/staffSignup', admin_controllers.admin_session_force, admin_controllers.staff_signup_get);

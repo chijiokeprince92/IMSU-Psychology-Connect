@@ -8,8 +8,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-sm-10 col-md-6 col-lg-4">
-            <img src="/{{staff.photo}}" alt="profile image" class="rounded" width="100%" />
-            <form id="drake" style="display:none" action="/staff/staffupdatepics/{{staff.id}}" method="POST" enctype="multipart/form-data"
+            {{#if photo}}
+                <img src="/{{staff.photo}}" alt="profile image" class="rounded" width="100%" />
+            {{else}}
+                <img src="../images/psylogo4.jpg" alt="psy image" class="rounded" width="100%" />
+            {{/if}}
+            <form id="drake" style="display:none" action="/staff/updatepics/{{staff.id}}" method="POST" enctype="multipart/form-data"
                 style="display:inline">
                 <input type="file" class="form-control" name="image" placeholder="upload photo" required>
                 <button type="submit" class="btn btn-danger">EDIT</button>
@@ -45,6 +49,7 @@
         <li>
             <p><b>{{this.coursecode}}: </b><a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
         </li>
+        <br>
         {{else}}
             <p>NO COURSE ASSIGNED</p>
     {{/each}}

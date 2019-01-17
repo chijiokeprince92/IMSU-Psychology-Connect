@@ -5,6 +5,10 @@
     </b>
 </h5>
 <br>
+{{#if message}}
+    <p class="alert alert-success">{{message}}</p>
+    <br>
+{{/if}}
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-sm-10 col-md-6 col-lg-4">
@@ -55,7 +59,7 @@
                 </p>
             </div>
             <div class="col-3 col-md-2 col-lg-1">
-                <form action="/studentdeleteregistercourse/{{this.id}}" method="POST" style="display:inline">
+                <form action="/deleteregisteredcourse/{{this.id}}" method="POST" style="display:inline">
                     <input type="hidden" />
                     <button type="submit" class="btn btn-danger btn-block"><span class="fa fa-trash"></span></button>
                 </form><br><br>

@@ -65,7 +65,7 @@ staffSchema
 staffSchema
     .virtual('urly')
     .get(function() {
-        return '/staffprofile/' + this._id;
+        return '/admin/staffprofile/' + this._id;
     });
 
 
