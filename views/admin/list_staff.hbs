@@ -1,8 +1,8 @@
 <br>
-<h4><b>
-        <center>PSYCHOLOGY STAFFS</center>
+<h5><b>
+        PSYCHOLOGY STAFFS
     </b>
-</h4>
+</h5>
 <br><br>
 {{#if message}}
     <p class="alert alert-success">{{message}}</p>
@@ -28,7 +28,7 @@
                         <b>STATUS: </b>{{this.bio}}
                     </p>
                 </div>
-                <div class="col-2 col-sm-2 col-md-2 col-lg-2">
+                <div class="col-2 col-sm-2 col-md-2 col-lg-2" style="display:none">
                     <form action="/admin/deletestaff/{{this.id}}" method="POST">
                         <input type="hidden" />
                         <button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-trash" style="font-size:20px"></span></button>

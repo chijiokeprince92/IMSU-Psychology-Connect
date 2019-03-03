@@ -11,7 +11,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-sm-10 col-md-6">
-            <img src="/{{newspaper.picture}}" alt="news image" class="rounded" width="100%" />
+            <img src="/{{newspaper.picture}}" alt="news image" class="rounded news" />
             <br><br><br><br>
         </div>
         <div class="col-12 col-md-6">
@@ -24,98 +24,181 @@
     </div>
 </div>
 <br><br>
-<h5><b>
-        COMMENTS<span class="badge badge-danger badge-pill spany">12</span>
-    </b>
-</h5>
-<br>
-<ul>
-    <div class="container-fluid">
-        <div class="row">
-            {{#each comments}}
-                <div class="col-12 col-md-6 col-lg-4">
-                    <li class="card" id="added">
-                        <div class="col-12">
-                            <p><b><a href="/studentstudentprofile/{{this.specialid}}">{{this.user}}</a>
-                                </b>
-                            </p>
-                        </div>
-                        <div class="col-12">
-                            <p>{{this.comment}}</p>
-                        </div>
-                    </li>
-                    <div class="col-12">
-                        <div class="container-fluid">
-                            <div class="row no-gutters">
-                                <div class="col-4">
-                                    <form action="/studentlikecomment/{{this.id}}" method="POST" style="display:inline">
-                                        <input type="text" style="display:none" class="form-control" name="like" />
-                                        <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-up">
-                                                {{this.like}}</span>
-                                        </button>
-                                    </form>
-                                </div>
-                                <div class="col-4">
-                                    <form action="/studentdislikecomment/{{this.id}}" method="POST" style="display:inline">
-                                        <input type="text" style="display:none" class="form-control" name="dislike" />
-                                        <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-down">
-                                                {{this.dislike}}</span>
-                                        </button>
-                                    </form>
-                                </div>
-                                <div class="col-4">
-                                    <button id="cousin{{this.id}}" class="btn btn-light btn-sm btn-block" style="display:inline"><span
-                                            class="fa fa-reply"></span></button>
-                                    <button id="close{{this.id}}" class="btn btn-danger btn-sm btn-block" style="display:none"><span
-                                            class="fa fa-close"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <form id="drake{{this.id}}" action="/studentreplycomments/{{this.id}}" method="POST" style="display:none">
-                            <input type="text" class="form-control" name="commentor" value="{{this.user}}" required />
-                            <input type="text" class="form-control" name="commenta" placeholder="Type a reply" required />
-                            <button type="submit" class="btn btn-success btn-sm"><span class="fa fa-reply"></span></button>
-                        </form>
-                    </div>
-                    <script>
-                        $(document).ready(function () {
-                            $('#cousin{{this.id}}').click(function () {
-                                $('#drake{{this.id}}').toggle("slow");
-                                $('#cousin{{this.id}}').toggle("slow");
-                                $('#close{{this.id}}').toggle("slow");
-                            });
-                            $('#close{{this.id}}').click(function () {
-                                $('#drake{{this.id}}').toggle("slow");
-                                $('#cousin{{this.id}}').toggle("slow");
-                                $('#close{{this.id}}').toggle("slow");
-                            });
-                        });
-                    </script>
-                    <ul>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <li class="col-12">
-                                    {{#each this.reply}}
-                                        <div class="card">
-                                            <p><b>{{this.user}}: @ {{this.commentor}}
-                                                </b>
-                                            </p>
-                                            <p>{{this.comment}}</p>
-                                            <br>
-                                        </div>
-                                        <br><br>
-                                    {{/each}}
-                                </li>
-                            </div>
-                        </div>
-                    </ul>
-                    <br><br>
-                </div>
-            {{/each}}
-        </div>
-    </div>
+<ul class="nav nav-tabs nav-justified">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#comments">COMMENTS</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#likes">LIKES</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#dislikes">DISLIKES</a>
+    </li>
 </ul>
-<ul id="messages"></ul>
+<div class="tab-content">
+    <div id="comments" class="container-fluid tab-pane active" style="background-color:white">
+        <br><br>
+        <h5><b>
+                COMMENTS<span class="badge badge-danger badge-pill spany">{{length newspaper.comments}}</span>
+            </b>
+        </h5>
+        <br>
+        <ul id="messages">
+            <div class="container-fluid">
+                <div class="row">
+                    {{#each comments}}
+                        <div class="col-12 col-md-6 col-lg-5">
+                            <li class="card">
+                                <div class="col-12">
+                                    <p><b><a href="/studentstudentprofile/{{this.specialid}}">{{this.user}}</a>
+                                        </b>
+                                    </p>
+                                </div>
+                                <div class="col-12">
+                                    <p>{{this.comment}}</p>
+                                </div>
+                            </li>
+                            <div class="col-12">
+                                <div class="container-fluid">
+                                    <div class="row no-gutters">
+                                        <div class="col-4">
+                                            <form action="/studentlikecomment/{{this.id}}" method="POST"
+                                                style="display:inline">
+                                                <input type="text" style="display:none" class="form-control"
+                                                    name="like" />
+                                                <button type="submit" class="btn btn-light btn-sm btn-block"><span
+                                                        class="fa fa-thumbs-o-up">
+                                                        {{this.like}}</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <form action="/studentdislikecomment/{{this.id}}" method="POST"
+                                                style="display:inline">
+                                                <input type="text" style="display:none" class="form-control"
+                                                    name="dislike" />
+                                                <button type="submit" class="btn btn-light btn-sm btn-block"><span
+                                                        class="fa fa-thumbs-o-down">
+                                                        {{this.dislike}}</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <button id="cousin{{this.id}}" class="btn btn-light btn-sm btn-block"
+                                                style="display:inline"><span class="fa fa-reply"></span></button>
+                                            <button id="close{{this.id}}" class="btn btn-danger btn-sm btn-block"
+                                                style="display:none"><span class="fa fa-close"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form id="drake{{this.id}}" action="" method="POST" style="display:none">
+                                    <input style="display:none" id="newsId" value="{{../newspaper.id}}" />
+                                    <input type="text" style="display:none" class="form-control"
+                                        id="commentId{{this.id}}" value="{{this.id}}" required />
+                                    <input type="text" style="display:none" class="form-control" id="replyer{{this.id}}"
+                                        value="{{this.user}}" required />
+                                    <input type="text" class="form-control" id="replymsg{{this.id}}"
+                                        placeholder="Type a reply" required />
+                                    <button type="submit" class="btn btn-success btn-sm"><span
+                                            class="fa fa-reply"></span></button>
+                                </form>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $('#cousin{{this.id}}').click(function () {
+                                        $('#drake{{this.id}}').toggle("slow");
+                                        $('#cousin{{this.id}}').toggle("slow");
+                                        $('#close{{this.id}}').toggle("slow");
+                                    });
+                                    $('#close{{this.id}}').click(function () {
+                                        $('#drake{{this.id}}').toggle("slow");
+                                        $('#cousin{{this.id}}').toggle("slow");
+                                        $('#close{{this.id}}').toggle("slow");
+                                    });
+                                });
+                            </script>
+                            <script>
+                                $('document').ready(function () {
+                                    $(function () {
+                                        var socket = io();
+                                        $('#drake{{this.id}}').submit(function (event) {
+                                            event.preventDefault();
+
+                                            var newsId = $('#newsId').val();
+                                            var commentId = $('#commentId{{this.id}}').val();
+                                            var replyUser = $('#replyer{{this.id}}').val();
+                                            var replyMsg = $('#replymsg{{this.id}}').val();
+
+
+                                            $.post(
+                                                '/studentreplycomments/' + newsId,
+                                                {
+                                                    newsId: newsId,
+                                                    commentId: commentId,
+                                                    replyer: replyUser,
+                                                    reply: replyMsg,
+                                                },
+                                                function (err, response) {
+                                                    if (err) {
+                                                        console.log(err, 'error')
+                                                    } else if (response) {
+                                                        console.log(response, 'error')
+                                                    }
+                                                });
+
+                                            $('#replymsg{{this.id}}').val('');
+                                        });
+                                        socket.on('reply_message', function (replyMsg) {
+                                            $('#drake{{this.id}}').toggle("slow");
+                                            $('#cousin{{this.id}}').toggle("slow");
+                                            $('#close{{this.id}}').toggle("slow");
+                                            $('#replied{{this.id}}').append($('<div class="container-fluid"><div class="row"></div></div>').html('<li class="col-12"><div class="card"><p><b>You</b></p><p>' + replyMsg + '</p></div></li>' + '<br>'));
+                                        });
+
+                                    });
+                                });
+                            </script>
+                            <ul id="replied{{this.id}}">
+                                {{#each reply}}
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <li class="col-12">
+                                                <div class="card">
+                                                    <p><b>{{this.user}}: @{{this.replyee}}
+                                                        </b>
+                                                    </p>
+                                                    <p>{{this.reply}}</p>
+                                                    <br>
+                                                </div>
+                                                <br>
+                                            </li>
+                                        </div>
+                                    </div>
+                                {{/each}}
+                            </ul>
+                            <br><br>
+                        </div>
+                        <div class="col-md-6 col-lg-7"></div>
+                    {{/each}}
+                </div>
+            </div>
+        </ul>
+    </div>
+    <div id="likes" class="container-fluid tab-pane fade" style="background-color:white">
+        <br>
+        <h6>PEOPLE WHO LIKE THIS</h6>
+        {{#each newspaper.likey}}
+            <p>{{this.user}}</p>
+        {{/each}}
+    </div>
+    <div id="dislikes" class="container-fluid tab-pane fade" style="background-color:white">
+        <br>
+        <h6>PEOPLE WHO DISLIKE THIS</h6>
+        {{#each newspaper.dislikey}}
+            <p>{{this.user}}</p>
+        {{/each}}
+    </div>
+</div>
 <br><br><br>
 <form id="formy" style="display:inline-block;width:100%;position:fixed;bottom:0">
     <div class="container-fluid">
@@ -124,8 +207,8 @@
                 <input id="comment-id" value="{{newspaper.id}}" />
             </div>
             <div class="col-9">
-                <textarea type="text" rows="1" cols="20" class="form-control" id="comment" name="comment" placeholder="Type a comment..."
-                    required></textarea>
+                <textarea type="text" rows="1" cols="20" class="form-control" id="comment" name="comment"
+                    placeholder="Type a comment..." required></textarea>
             </div>
             <div class="col-3">
                 <button type="submit" class="btn btn-success" id="stylus"><span class="fa fa-play"></span></button>
@@ -142,8 +225,9 @@
                 var commentId = $('#comment-id').val();
                 var msg = $('#comment').val();
                 $.post(
-                    '/studentcomments/' + commentId,
-                    { comment: msg },
+                    '/studentcomments/' + commentId, {
+                        comment: msg
+                    },
                     function (err, response) {
                         if (err) {
                             console.log(err, 'error')
@@ -156,7 +240,7 @@
             });
             socket.on('chat_message', function (msg) {
                 console.log(msg, 'Message')
-                $('#messages').append($('<li></li>').html('<div class="container-fluid"><div class="row"><div class="col-10 col-md-6 col-lg-4"><div class="card"><p class="card-header">You</p><p class="class-body">' + msg + '</p><br><p class="class-footer"></p></div></div></div></div>' + '<br>'));
+                $('#messages').append($('<div class="container-fluid"><div class="row"></div></div>').html('<div class="col-12 col-md-6 col-lg-5"><li class="card"><div class="col-12"><p><b>You</b></p></div><div class="col-12"><p>' + msg + '</p></div></li></div>' + '<br>'));
             });
         });
     });

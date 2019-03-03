@@ -1,34 +1,13 @@
 <br>
-<h4><b>
-        <center>EDIT TIME TABLE</center>
+<h5><b>
+        EDIT TIME TABLE
     </b>
-</h4>
+</h5>
 <br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-md-8 col-lg-6" id="kilo">
-            <form class="form-group" action="/studentedittimetable/:id" method="POST">
-                <div>
-                    <label for="level"><b>LEVEL:</b></label>
-                    <select name="level" class="form-control" required>
-                        <option value="{{timey.level}}">{{timey.level}} LEVEL</option>
-                    </select>
-                </div>
-                <br>
-                <div>
-                    <label for="day"><b>DAY:</b></label>
-                    <select name="day" class="form-control" required>
-                        <option value="{{timey.day}}">{{timey.day}}</option>
-                    </select>
-                </div>
-                <br>
-                <div>
-                    <label for="time"><b>TIME:</b></label>
-                    <select name="time" class="form-control" required>
-                        <option value="{{timey.time}}">{{timey.time}}</option>
-                    </select>
-                </div>
-                <br>
+            <form class="form-group" action="/studentedittimetable/{{timey.id}}" method="POST">
                 <div>
                     <label for="course"><b>COURSE:</b></label>
                     <select name="course" class="form-control" required>
@@ -39,7 +18,8 @@
                     </select>
                 </div>
                 <br><br>
-                <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"></span> EDIT</b></button>
+                <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"></span>
+                        EDIT</b></button>
             </form>
         </div>
     </div>

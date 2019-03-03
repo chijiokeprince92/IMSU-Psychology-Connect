@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {{>head}}
+</head>
+
+<body class="body">
+    {{#if allowed}}
+        {{>student_lecbody}}
+    {{else if admin}}
+        {{>admin_lecbody}}
+    {{else if staff_session}}
+        {{>staff_lecbody}}
+    {{else}}
+        {{>view_body}}
+    {{/if}}
+    <br>
+    {{{body}}}
+</body>
+
+</html>

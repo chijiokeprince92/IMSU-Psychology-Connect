@@ -40,7 +40,10 @@ var studentSchema = new schema({
         ref: 'Courses'
     }],
 
-    results: [],
+    messages: [{
+        type: schema.ObjectId,
+        ref: 'Messages'
+    }],
 
     photo: {
         type: String,

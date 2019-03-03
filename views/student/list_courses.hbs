@@ -11,7 +11,7 @@
     <div class="row">
         <div class="dropdown" style="float:right">
             <button class="btn btn-secondary dropdown" data-toggle="dropdown">search</button>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="/studentgetallcourses">100 LEVEL</a>
                 <a class="dropdown-item" href="/studentget200courses">200 LEVEL</a>
                 <a class="dropdown-item" href="/studentget300courses">300 LEVEL</a>
@@ -41,8 +41,8 @@
                             <td class="seek">{{this.units}}</td>
                             <td><a href="/studentviewcourse/{{this.id}}">view course</a></td>
                         </tr>
-                        {{else}}
-                            <p>THERE ARE NO REGISTERED FIRST SEMESTER COURSES</p>
+                    {{else}}
+                        <p>THERE ARE NO REGISTERED FIRST SEMESTER COURSES</p>
                     {{/each}}
                 </table>
                 <br>
@@ -59,8 +59,8 @@
                             <td class="seek">{{this.units}}</td>
                             <td><a href="/studentviewcourse/{{this.id}}">view course</a></td>
                         </tr>
-                        {{else}}
-                            <p>THERE ARE NO REGISTERED BORROWED COURSES</p>
+                    {{else}}
+                        <p>THERE ARE NO REGISTERED BORROWED COURSES</p>
                     {{/each}}
                 </table>
             </div>
@@ -96,8 +96,8 @@
                             <td class="seek">{{this.units}}</td>
                             <td><a href="/studentviewcourse/{{this.id}}">view course</a></td>
                         </tr>
-                        {{else}}
-                            <p>THERE ARE NO REGISTERED SECOND SEMESTER COURSES</p>
+                    {{else}}
+                        <p>THERE ARE NO REGISTERED SECOND SEMESTER COURSES</p>
                     {{/each}}
                 </table>
                 <br>
@@ -114,8 +114,8 @@
                             <td class="seek">{{this.units}}</td>
                             <td><a href="/studentviewcourse/{{this.id}}">view course</a></td>
                         </tr>
-                        {{else}}
-                            <p>THERE ARE NO REGISTERED BORROWED COURSES</p>
+                    {{else}}
+                        <p>THERE ARE NO REGISTERED BORROWED COURSES</p>
                     {{/each}}
                 </table>
             </div>

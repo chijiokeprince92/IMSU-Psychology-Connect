@@ -10,42 +10,84 @@
     <p class="alert alert-danger">{{war}}</p>
 {{/if}}
 <br>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-lg-7">
-            <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
-            <br>
-            <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
-            <br>
-            <p><b>LEVEL: </b> {{kind.level}}</p>
-            <br>
-            <p><b>SEMESTER:</b> {{kind.semester}}</p>
-            <br>
-            <p><b>UNITS: </b>{{kind.units}}</p>
-            <br>
-            <p><b>BORROWED_COURSE: </b>{{kind.borrowed}}</p>
-            <br>
-            <p><b>LECTURER / S: </b></p>
-            <br>
-            {{#each lecky}}
-                <p><a href="/studentstaffprofile/{{this.id}}">{{this.surname}} {{this.firstname}}</a></p>
-                <br>
-            {{/each}}
-            <br>
+<ul class="nav nav-tabs nav-justified">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#coursedetails">DETAILS</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#lecturer">LECTURER/S</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#courseoutline">COURSEOUTLINE</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div id="coursedetails" class="container-fluid tab-pane active" style="background-color:white">
+        <br><br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-lg-7">
+                    <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
+                    <br>
+                    <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
+                    <br>
+                    <p><b>LEVEL: </b> {{kind.level}}</p>
+                    <br>
+                    <p><b>SEMESTER:</b> {{kind.semester}}</p>
+                    <br>
+                    <p><b>UNITS: </b>{{kind.units}}</p>
+                    <br>
+                    <p><b>BORROWED_COURSE: </b>{{kind.borrowed}}</p>
+                    <br>
+                </div>
+            </div>
         </div>
     </div>
+    <div id="lecturer" class="container-fluid tab-pane fade" style="background-color:white">
+        <br><br>
+        <ul>
+            {{#each lecky}}
+                <li class="container-fluid">
+                    <div class="row">
+                        {{#if this.photo}}
+                            <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                                <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
+                            </div>
+                        {{else}}
+                            <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                                <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                            </div>
+                        {{/if}}
+                        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+                            <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
+                            <p>
+                                <b>Gender: </b>{{this.gender}}<br>
+                                <b>Status: </b>{{this.bio}}
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                <br><br>
+            {{else}}
+                <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
+            {{/each}}
+        </ul>
+    </div>
+    <div id="courseoutline" class="container-fluid tab-pane fade" style="background-color:white">
+        <br><br>
+        <h5><b>
+                COURSE OUTLINE
+            </b>
+        </h5>
+        <br>
+        {{#if kind.courseoutline}}
+            <p>{{kind.courseoutline}}</p>
+        {{else}}
+            <p>COURSE_OUTLINE NOT AVAILABLE</p>
+        {{/if}}
+        <br>
+    </div>
 </div>
-<h5><b>
-        COURSE OUTLINE
-    </b>
-</h5>
-<br>
-{{#if kind.courseoutline}}
-    <p>{{kind.courseoutline}}</p>
-{{else}}
-    <p>COURSE_OUTLINE NOT AVAILABLE</p>
-{{/if}}
-<br>
 <br>
 <div class="container-fluid">
     <div class="row">
@@ -56,12 +98,12 @@
             </form>
         </div>
         <div class="col-4">
-            <a href="/studentviewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block" title="registered students"><span
-                    class="fa fa-users" style="font-size:20px"></span></a>
+            <a href="/studentviewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block"
+                title="registered students"><span class="fa fa-users" style="font-size:20px"></span></a>
         </div>
         <div class="col-4">
-            <a href="#" type="button" class="btn btn-success btn-block disabled" title="textbooks"><span class="fa fa-book"
-                    style="font-size:20px"></span></a>
+            <a href="#" type="button" class="btn btn-success btn-block disabled" title="textbooks"><span
+                    class="fa fa-book" style="font-size:20px"></span></a>
         </div>
     </div>
 </div>

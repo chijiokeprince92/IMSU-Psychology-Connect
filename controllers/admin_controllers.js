@@ -4,9 +4,10 @@ const Staff = require('../models/staffSchema');
 const News = require('../models/newsSchema');
 const Project = require('../models/projectSchema');
 const Courses = require('../models/coursesSchema');
+const Timetable = require('../models/timetableSchema');
 const Result = require('../models/resultSchema');
 const async = require('async');
-var path = require('path');
+const path = require('path');
 
 const {
     body,
@@ -32,7 +33,8 @@ exports.admin_session_force = function(req, res, next) {
 // GET Admin Signup Form
 exports.admin_signup_get = function(req, res, next) {
     res.render('admin/admin_signup', {
-        title: 'ADMIN_signUp'
+        title: 'ADMIN_SIGNUP',
+        layout: "less_layout"
     });
 };
 //------------------------------------------------------------------------------------
@@ -97,6 +99,7 @@ exports.admin_signup_post = [
                     return next(err);
                 }
                 // Successful - redirect to ADMIN login page.
+                req.flash('message', "Your signup was successful, Login to have full access");
                 res.redirect('/admin/login');
             });
         }
@@ -108,7 +111,8 @@ exports.admin_signup_post = [
 exports.admin_login_get = function(req, res, next) {
     res.render('admin/admin_login', {
         title: 'Admin Login',
-        ohno: req.flash('ohno')
+        ohno: req.flash('ohno'),
+        message: req.flash('message')
     })
 }
 
@@ -217,6 +221,7 @@ exports.profiler = function(req, res, next) {
             // Successful, so render.
             res.render('admin/admin_profile', {
                 title: 'Admin Profile',
+                layout: "less_layout",
                 admin: req.session.admin,
                 admin_info: info
             });
@@ -265,6 +270,7 @@ exports.view_student_profile = function(req, res, next) {
                         res.render('admin/view_student', {
                             admin: req.session.admin,
                             title: "Student Profile",
+                            layout: "less_layout",
                             student: swag,
                             registered_courses: mycourses,
                             courserepno: function() {
@@ -315,18 +321,18 @@ exports.delete_student = function(req, res, next) {
 exports.list_100_student = function(req, res, next) {
     StudentSigns.find({
         'level': 100
-    }, function(err, swagger) {
+    }, function(err, student) {
         if (err) {
             return next(err);
         }
-        if (swagger == null) {
+        if (student == null) {
             res.redirect('/hercules/gladiators/spartans/admin');
         }
         res.render('admin/list_student', {
             admin: req.session.admin,
             title: "Complete List of 100 Student",
             message: "These are the List of All 100 Level NAPS Students",
-            slow: swagger,
+            slow: student,
             levy: "100 LEVEL STUDENTS"
         });
     })
@@ -335,18 +341,18 @@ exports.list_100_student = function(req, res, next) {
 exports.list_200_student = function(req, res, next) {
     StudentSigns.find({
         'level': 200
-    }, function(err, swagger) {
+    }, function(err, student) {
         if (err) {
             return next(err);
         }
-        if (swagger == null) {
+        if (student == null) {
             res.redirect('/hercules/gladiators/spartans/admin');
         }
         res.render('admin/list_student', {
             admin: req.session.admin,
             title: "Complete List of 200 Student",
             message: "These are the List of All 200 Level NAPS Students",
-            slow: swagger,
+            slow: student,
             levy: "200 LEVEL STUDENTS"
         });
     })
@@ -355,18 +361,18 @@ exports.list_200_student = function(req, res, next) {
 exports.list_300_student = function(req, res, next) {
     StudentSigns.find({
         'level': 300
-    }, function(err, swagger) {
+    }, function(err, student) {
         if (err) {
             return next(err);
         }
-        if (swagger == null) {
+        if (student == null) {
             res.redirect('/hercules/gladiators/spartans/admin');
         }
         res.render('admin/list_student', {
             admin: req.session.admin,
             title: "Complete List of 300 Student",
             message: "These are the List of All 300 Level NAPS Students",
-            slow: swagger,
+            slow: student,
             levy: "300 LEVEL STUDENTS"
         });
     })
@@ -375,38 +381,115 @@ exports.list_300_student = function(req, res, next) {
 exports.list_400_student = function(req, res, next) {
     StudentSigns.find({
         'level': 400
-    }, function(err, swagger) {
+    }, function(err, student) {
         if (err) {
             return next(err);
         }
-        if (swagger == null) {
+        if (student == null) {
             res.redirect('/hercules/gladiators/spartans/admin');
         }
         res.render('admin/list_student', {
             admin: req.session.admin,
             title: "Complete List of 400 Student",
             message: "These are the List of All 400 level NAPS Students",
-            slow: swagger,
+            slow: student,
             levy: "400 LEVEL STUDENTS"
         });
     })
 }
 
+exports.edit_level_info = function(req, res, next) {
+    res.render('admin/edit_level_info', {
+        admin: req.session.admin,
+        title: "EDIT LEVEL INFO",
+    });
+}
 
-// function for getting the names of every staff
-exports.list_staffs = function(req, res, next) {
-    Staff.find()
-        .exec(function(err, swag) {
+exports.edit_100level_info = function(req, res, next) {
+    StudentSigns.find({
+            'level': 100
+        })
+        .exec((err, student) => {
             if (err) {
                 return next(err);
             }
-            if (swag == null) {
+            res.render('admin/edit_final_info', {
+                admin: req.session.admin,
+                title: "EDIT 100 LEVEL INFO",
+                message: 'change 100 level',
+                student: student,
+            });
+        })
+
+}
+
+exports.edit_200level_info = function(req, res, next) {
+    StudentSigns.find({
+            'level': 200
+        })
+        .exec((err, student) => {
+            if (err) {
+                return next(err);
+            }
+            res.render('admin/edit_final_info', {
+                admin: req.session.admin,
+                title: "EDIT 200 LEVEL INFO",
+                message: 'change 200 level',
+                student: student
+            });
+        })
+
+}
+
+exports.edit_300level_info = function(req, res, next) {
+    StudentSigns.find({
+            'level': 300
+        })
+        .exec((err, student) => {
+            if (err) {
+                return next(err);
+            }
+            res.render('admin/edit_final_info', {
+                admin: req.session.admin,
+                title: "EDIT 300 LEVEL INFO",
+                message: 'change 300 level',
+                student: student
+            });
+        })
+
+}
+
+exports.edit_400level_info = function(req, res, next) {
+    StudentSigns.find({})
+        .exec((err, student) => {
+            if (err) {
+                return next(err);
+            }
+            res.render('admin/edit_final_info', {
+                admin: req.session.admin,
+                title: "EDIT 400 LEVEL INFO",
+                message: 'change 400 level',
+                student: student
+            });
+        })
+
+}
+
+//..........................................................................................................
+// function for getting the names of every staff
+exports.list_staffs = function(req, res, next) {
+    Staff.find()
+        .exec(function(err, staffs) {
+            if (err) {
+                return next(err);
+            }
+            if (staffs == null) {
                 res.redirect('/hercules/gladiators/spartans/admin');
             }
             res.render('admin/list_staff', {
                 admin: req.session.admin,
                 title: "Complete List of Staffs",
-                slow: swag,
+                slow: staffs,
                 message: req.flash('message')
             });
         });
@@ -430,6 +513,7 @@ exports.view_staff_profile = function(req, res, next) {
         res.render('admin/view_staffs', {
             admin: req.session.admin,
             title: "Staff Profile",
+            layout: "less_layout",
             staff: staff.staffy,
             coursess: staff.coursey,
             photo: function() {
@@ -456,18 +540,11 @@ exports.delete_staff = function(req, res, next) {
 
 //---------------------------------------------------------------------------------------------
 
-exports.get_time_table = function(req, res, next) {
-    res.render('admin/add_timetable', {
-        title: "Add TimeTable",
-        admin: req.session.admin
-    })
-}
-
-
 // GET Admin form for Project Upload
 exports.get_upload_project = function(req, res, next) {
     res.render('admin/upload_project', {
         title: "Upload Project Topic",
+        layout: "less_layout",
         admin: req.session.admin
     })
 }
@@ -475,18 +552,17 @@ exports.get_upload_project = function(req, res, next) {
 // POST Admin form for Project Upload
 exports.post_upload_project = function(req, res, next) {
     var fullPath = "./project_topics/" + req.file.filename;
-    var projectile = new Project({
+    var project = new Project({
         project: fullPath,
         topic: req.body.topic,
         description: req.body.description
     });
-    console.log(projectile);
-    projectile.save(function(err) {
+    project.save(function(err) {
         if (err) {
             console.log(err);
             return next(err);
         }
-        res.redirect('/getprojecttopicss');
+        res.redirect('/admin/getprojecttopicss');
     });
 
 }
@@ -502,6 +578,7 @@ exports.get_project_topics = function(req, res, next) {
         }
         res.render('admin/project_topics', {
             admin: req.session.admin,
+            layout: "less_layout",
             title: 'Psychology Project Topics',
             projectss: release
         });
@@ -513,8 +590,54 @@ exports.delete_project = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.redirect('/getprojecttopicss');
+        res.redirect('/admin/getprojecttopicss');
     });
+}
+
+//--------------------------------------------------------------------------------------------------
+exports.register_timetable = (req, res) => {
+    res.render('admin/reg_timetable', {
+        title: 'SELECT THE LEVEL',
+        admin: req.session.admin,
+        message: req.flash('message')
+    });
+}
+
+exports.register_timetable_post = (req, res, next) => {
+    Courses.find({
+            "level": req.body.level
+        })
+        .exec((err, course) => {
+            if (err) {
+                return next(err);
+            }
+            res.render('admin/add_timetable', {
+                title: "Add Time Table",
+                layout: "less_layout",
+                admin: req.session.admin,
+                course: course,
+                level: req.body.level
+            })
+        });
+}
+
+
+// POST student time table for a particular level
+exports.post_time_table = (req, res, next) => {
+    var timetable = new Timetable({
+        level: req.body.level,
+        day: req.body.day,
+        time: req.body.time,
+        course: req.body.course
+    });
+    timetable.save((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.flash('message', `The Course was successfully uploaded`);
+        res.redirect('/admin/regtimetable');
+    });
+
 }
 
 //----------------------------------------------------------------------------
@@ -522,6 +645,7 @@ exports.delete_project = function(req, res, next) {
 exports.get_upload_news = function(req, res, next) {
     res.render('admin/admin_get_news', {
         title: 'Admin Upload Projects',
+        layout: "less_layout",
         admin: req.session.admin
     });
 }
@@ -540,7 +664,7 @@ exports.post_upload_news = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.redirect('/getlastnews');
+        res.redirect('/admin/getlastnews');
     });
 }
 
@@ -553,6 +677,7 @@ exports.news_edit_get = function(req, res, next) {
         }
         res.render('admin/edit_news', {
             admin: req.session.admin,
+            layout: "less_layout",
             title: 'EDIT NEWS',
             newy: newy
         });
@@ -561,18 +686,18 @@ exports.news_edit_get = function(req, res, next) {
 }
 
 exports.news_edit_post = function(req, res, next) {
-    var latest = new News({
+    var latest = {
         heading: req.body.heading,
         passage: req.body.passage,
         passage1: req.body.passage1,
-        passage2: req.body.passage2,
-        _id: req.params.id
-    });
+        passage2: req.body.passage2
+    };
     News.findByIdAndUpdate(req.params.id, latest, {}, function(err, newsupdate) {
         if (err) {
             return next(err);
         }
-        res.redirect(newsupdate.url);
+        req.flash('message', 'This news was successfully edited');
+        res.redirect(newsupdate.adminurl);
     });
 }
 
@@ -580,17 +705,18 @@ exports.news_edit_post = function(req, res, next) {
 exports.get_last_news = function(req, res, next) {
     News.find({}).sort([
         ['created', 'ascending']
-    ]).exec(function(err, release) {
+    ]).exec(function(err, news) {
         if (err) {
             return next(err);
         }
-        if (release == null) {
+        if (news == null) {
             res.send('There is no NEWS Content');
         }
         res.render('admin/admin_news', {
             admin: req.session.admin,
             title: 'Psychology News',
-            newspaper: release
+            layout: "less_layout",
+            newspaper: news
         });
     })
 }
@@ -599,15 +725,17 @@ exports.get_last_news = function(req, res, next) {
 exports.get_full_news = function(req, res, next) {
     News.findOne({
         '_id': req.params.id
-    }, function(err, release) {
+    }, function(err, news) {
         if (err) {
             return next(err);
         }
         res.render('admin/fullnews', {
             admin: req.session.admin,
+            layout: "less_layout",
             title: 'Psychology Full News',
-            newspaper: release,
-            comments: release.comments
+            newspaper: news,
+            comments: news.comments,
+            message: req.flash('message')
         });
     })
 }
@@ -631,7 +759,7 @@ exports.post_comment_news = function(req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.redirect('/getfullnews/' + commet.id);
+                res.redirect('/admin/getfullnews/' + commet.id);
             });
 
         });
@@ -642,7 +770,7 @@ exports.delete_news = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.redirect('/getlastnews');
+        res.redirect('/admin/getlastnews');
     });
 }
 
@@ -659,6 +787,7 @@ exports.add_courses = function(req, res, next) {
         }
         res.render('admin/add_courses', {
             title: 'Add Courses',
+            layout: "less_layout",
             admin: req.session.admin,
             teacher: teacher
         });
@@ -706,6 +835,7 @@ exports.course_update_get = function(req, res, next) {
         // Success.
         res.render('admin/edit_course', {
             title: 'Update Course_Outline',
+            layout: "less_layout",
             admin: req.session.admin,
             coursey: coursey.coursess
         });
@@ -714,7 +844,7 @@ exports.course_update_get = function(req, res, next) {
 
 //POST course form for update
 exports.course_update_post = function(req, res, next) {
-    var course = new Courses({
+    var course = {
         coursecode: req.body.coursecode,
         coursetitle: req.body.coursetitle,
         level: req.body.level,
@@ -723,7 +853,7 @@ exports.course_update_post = function(req, res, next) {
         borrowed: req.body.borrowed,
         courseoutline: req.body.courseoutline,
         _id: req.params.id
-    });
+    };
     Courses.findByIdAndUpdate(req.params.id, course, {}, function(err, courseupdate) {
         if (err) {
             return next(err);
@@ -737,7 +867,7 @@ exports.delete_course = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.redirect('/getallcourses');
+        res.redirect('/admin/getallcourses');
     });
 }
 
@@ -783,6 +913,7 @@ exports.get_100_courses = function(req, res, next) {
         }
         res.render('admin/list_courses', {
             title: "100 Level Courses",
+            layout: "less_layout",
             admin: req.session.admin,
             levy: 100,
             first: hundred.first_semester,
@@ -835,6 +966,7 @@ exports.get_200_courses = function(req, res, next) {
         }
         res.render('admin/list_courses', {
             title: "200 Level Courses",
+            layout: "less_layout",
             admin: req.session.admin,
             levy: 200,
             first: hundred.first_semester,
@@ -887,6 +1019,7 @@ exports.get_300_courses = function(req, res, next) {
         }
         res.render('admin/list_courses', {
             title: "300 Level Courses",
+            layout: "less_layout",
             admin: req.session.admin,
             levy: 300,
             first: hundred.first_semester,
@@ -939,6 +1072,7 @@ exports.get_400_courses = function(req, res, next) {
         }
         res.render('admin/list_courses', {
             title: "400 Level Courses",
+            layout: "less_layout",
             admin: req.session.admin,
             levy: 400,
             first: hundred.first_semester,
@@ -963,12 +1097,10 @@ exports.view_course = function(req, res, next) {
                     if (err) {
                         return next(err);
                     }
-                    staff.forEach(element => {
-                        console.log(element.surname);
-                    });
 
                     res.render('admin/view_course', {
                         title: 'Psychology Course',
+                        layout: "less_layout",
                         admin: req.session.admin,
                         kind: course,
                         teacher: staff,
@@ -1067,28 +1199,6 @@ exports.student_coursesoffered = function(req, res, next) {
     });
 }
 
-// GET Student Result Filler form
-exports.student_fillresult = function(req, res, next) {
-    res.render('admin/fill_result', {
-        title: "Add Student Result",
-        admin: req.session.admin
-    });
-
-}
-
-// GET Student Result Filler form
-exports.student_fillresult_post = function(req, res, next) {
-    Courses.findOne({
-        'coursecode': req.body.coursecode
-    }).exec(function(err, result) {
-        if (err) {
-            return next(err);
-        }
-
-        res.redirect('/admin/studentaddresult/' + result.id);
-    });
-}
-
 
 // GET Student Result Filler form
 exports.student_addresult_get = function(req, res, next) {
@@ -1113,6 +1223,7 @@ exports.student_addresult_get = function(req, res, next) {
                 }
                 res.render('admin/student_result_form', {
                     title: "Add Student Result",
+                    layout: "less_layout",
                     admin: req.session.admin,
                     courses: course,
                     upload: students,
@@ -1125,10 +1236,12 @@ exports.student_addresult_get = function(req, res, next) {
                         student.forEach(element => {
                             result.filter(function(resul) {
                                 if (element.id == resul.student) {
+                                    console.log(resul.id);
                                     var jesus = {
                                         name: `${element.surname} ${element.firstname}`,
                                         matnumber: element.matnumber,
-                                        grade: resul.grade
+                                        grade: resul.grade,
+                                        result_id: resul.id
                                     }
                                     filled.push(jesus);
                                 }
@@ -1177,6 +1290,7 @@ exports.view_all_results = function(req, res, next) {
         })
 }
 
+//function for deleting a single student result from the list of students offering a course
 exports.delete_result = function(req, res, next) {
     Result.findByIdAndRemove({
         '_id': req.params.id
@@ -1185,7 +1299,8 @@ exports.delete_result = function(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.redirect('/admin/viewallresults');
+        req.flash('message', "A student's result was deleted from this list")
+        res.redirect('/admin/studentaddresult/' + req.body.code);
     })
 }
 
@@ -1198,6 +1313,7 @@ exports.student_result = function(req, res, next) {
             }
             res.render('admin/view_result', {
                 title: 'Student Result',
+                layout: "less_layout",
                 admin: req.session.admin,
                 allresult: myresults.results,
                 oneresult: function() {
@@ -1288,7 +1404,6 @@ exports.student_delete_result = function(req, res, next) {
         if (error) {
             return next(error)
         }
-        console.log("successfully deleted");
         res.redirect('/admin/studentfullresults/' + success.id)
     })
 }
@@ -1297,6 +1412,7 @@ exports.student_delete_result = function(req, res, next) {
 exports.staff_signup_get = function(req, res, next) {
     res.render('admin/staff_signup', {
         title: 'STAFF SIGNUP',
+        layout: "less_layout",
         admin: req.session.admin
     });
 };

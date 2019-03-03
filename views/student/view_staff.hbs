@@ -6,11 +6,11 @@
 <br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
             <img src="/{{photo}}" alt="image" class="rounded" width="100%" />
             <br><br>
         </div>
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-md-6 col-lg-8">
             <p><b>EMAIL: </b> {{staffs.email}}</p>
             <br>
             <p><b>SURNAME: </b> {{staffs.surname}}</p>
@@ -28,19 +28,19 @@
 </div>
 <br>
 <h5>
-    <b>COURSES HANDLED</b>
+    <b>COURSES HANDLED <span class="badge badge-danger badge-pill spany">{{length coursess}}</b>
 </h5>
 <br>
-<ol>
+<ul>
     {{#each coursess}}
         <li>
             <p><b>{{this.coursecode}}: </b><a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
         </li>
         <br>
-        {{else}}
-            <p>NO COURSE ASSIGNED</p>
+    {{else}}
+        <p>NO COURSE ASSIGNED</p>
     {{/each}}
-</ol>
+</ul>
 <br><br>
 <div class="container-fluid">
     <div class="row">
@@ -49,12 +49,12 @@
                     style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
-            <a href="#" type="button" class="btn btn-success btn-block disabled" title="chat"><span class="fa fa-whatsapp"
-                    style="font-size:25px"></span></a>
+            <a href="#" type="button" class="btn btn-success btn-block disabled" title="chat"><span
+                    class="fa fa-whatsapp" style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
-            <a href="/studentsstafflist" type="button" class="btn btn-primary btn-block" title="colleagues"><span class="fa fa-users"
-                    style="font-size:25px"></span></a>
+            <a href="/studentsstafflist" type="button" class="btn btn-primary btn-block" title="colleagues"><span
+                    class="fa fa-users" style="font-size:25px"></span></a>
         </div>
     </div>
 </div>

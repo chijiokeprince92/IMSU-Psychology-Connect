@@ -5,7 +5,7 @@
 <br><br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
             <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
             <br><br>
         </div>
@@ -29,7 +29,7 @@
 </div>
 <br><br>
 <h5><b>
-        COURSES HANDLED
+        COURSES HANDLED <span class="badge badge-danger badge-pill spany">{{length coursess}}
     </b></h5>
 <br>
 <ol>
@@ -38,19 +38,20 @@
             <p><b>{{this.coursecode}}: </b><a href="/admin/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
         </li>
         <br>
-        {{else}}
-            <p>NO COURSE ASSIGNED</p>
+    {{else}}
+        <p>NO COURSE ASSIGNED</p>
     {{/each}}
 </ol>
 <br><br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
-            <a href="/admin/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"
-                    style="font-size:25px"></span></a>
+            <a href="/admin/stafflist" type="button" class="btn btn-primary btn-block"><span
+                    class="fa fa-graduation-cap" style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
-            <a href="#" type="button" class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp" style="font-size:25px"></span></a>
+            <a href="#" type="button" class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp"
+                    style="font-size:25px"></span></a>
         </div>
     </div>
 </div>

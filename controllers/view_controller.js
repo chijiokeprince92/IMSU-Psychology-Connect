@@ -46,6 +46,7 @@ exports.default_news = (req, res, next) => {
         }
         res.render('homefile/news', {
             title: 'NEWS PAGE',
+            layout: "less_layout",
             newspaper: latest
         })
     })
@@ -61,7 +62,8 @@ exports.get_full_news = (req, res, next) => {
         }
         res.render('homefile/fullnews', {
             title: 'Psychology Full News',
-            newspaper: release
+            newspaper: release,
+            comments: release.comments
         });
     })
 }

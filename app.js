@@ -3,13 +3,15 @@ const createError = require('http-errors');
 const favicon = require('serve-favicon');
 const path = require('path');
 require('dotenv').config();
-const multer = require('multer');
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 
+const cloudinary = require('cloudinary');
 const expressHbs = require('express-handlebars');
+const helpers = require('handlebars-helpers')();
 const logger = require('morgan');
 const debug = require('debug')('library-app:server');
 
@@ -22,17 +24,18 @@ const compression = require('compression');
 const helmet = require('helmet');
 
 const app = express();
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 // mongoose connections
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 
-mongoose.connect(process.env.mongoDBO);
+mongoose.connect(process.env.mongoDB);
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Prince,the MongoDB connection error'));
+
 
 
 // view engine setup
@@ -87,6 +90,7 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('pages/error', {
         message: err.message,
+        layout: "no_layout",
         error: err
     });
 });

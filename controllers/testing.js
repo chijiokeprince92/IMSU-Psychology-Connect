@@ -1,6 +1,31 @@
 const News = require('../models/newsSchema');
+
 const async = require('async');
 
+
+exports.upload_files = function(req, res) {
+    res.render('testing/lovely', {
+        testing: 'I AM TESTING THIS API',
+        title: 'Testing API',
+        layout: 'less_layout'
+    })
+}
+
+exports.post_upload_files = function(req, res, next) {
+    cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+        if (err) {
+            console.log('image error');
+            return err;
+        }
+        // add cloudinary url for the image to the topic object under image property
+
+        //add image's public_id to topic object
+        console.log(result);
+
+
+        res.redirect('/');
+    });
+}
 
 exports.angula = function(req, res) {
     res.render('testing/angular', {
@@ -25,29 +50,33 @@ exports.angular = function(req, res) {
 
 // GET Student latest NEWS
 exports.get_count_news = function(req, res, next) {
-    News.count()
+
+
+    News.find({})
         .exec(function(err, release) {
             if (err) {
                 return next(err);
             }
-            console.log(release)
+
             res.json(release);
-        })
+        });
 }
 
 // GET Student latest NEWS
 exports.get_last_news = function(req, res, next) {
+
     News.find({}).sort([
         ['created', 'ascending']
     ]).exec(function(err, release) {
         if (err) {
             return next(err);
         }
-        res.render('testing/testingfull', {
+        res.render('testing/helper', {
             title: 'Testing News',
             newspaper: release
         });
-    })
+    });
+
 }
 
 // GET testing full NEWS

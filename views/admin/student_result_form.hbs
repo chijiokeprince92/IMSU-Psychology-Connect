@@ -13,22 +13,21 @@
     <div class="row">
         <div class="col-12 col-lg-6">
             <form class="form group" action="" method="POST">
-                <label for="course"><b>COURSE:</b></label>
-                <select name="course" class="form-control">
+                <select style="display:none" name="course" class="form-control">
                     <option value="{{courses.id}}">{{courses.coursetitle}}</option>
                 </select>
                 <br>
-                <label for="student"><b>MAT NUMBER:</b></label>
+                <label for="student"><b>SELECT STUDENT :</b></label>
                 <select name="student" class="form-control">
                     {{#each upload}}
                         <option value="{{this.id}}">{{this.matnumber}} - {{this.surname}} {{this.firstname}}</option>
                     {{/each}}
                 </select>
                 <br>
-                <label for="score"><b>SCORES:</b></label>
+                <label for="score"><b>SCORES :</b></label>
                 <input type="number" name="score" class="form-control" placeholder="0 - 100" required>
                 <br>
-                <label for="grade"><b>GRADE:</b></label>
+                <label for="grade"><b>GRADE :</b></label>
                 <input type="text" name="grade" class="form-control" placeholder="A - F" required>
                 <br><br>
                 <button type="submit" class="btn btn-success"><b>SAVE RESULT</b></button>
@@ -36,6 +35,10 @@
         </div>
     </div>
 </div>
+<h5><b>
+        UPLOADED RESULTS
+    </b>
+</h5>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-lg-6">
@@ -44,72 +47,25 @@
                 {{#each accept}}
                     <li class="container-fluid">
                         <div class="row">
-                            <div class="col-9">
+                            <div class="col-6">
                                 <p>
                                     <b>NAME: </b>{{this.name}}<br>
                                     <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
                                 </p>
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 <button id="add{{this.id}}" class="btn btn-primary">{{this.grade}}</button>
                             </div>
-                        </div>
-                    </li>
-                    <br><br>
-                    {{else}}
-                        <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
-                {{/each}}
-            </ul>
-            <h5><b>
-                    UPLOADED RESULTS
-                </b>
-            </h5>
-            <ul>
-                <br><br>
-                {{#each upload}}
-                    <li class="container-fluid">
-                        <div class="row">
-                            <div class="col-9">
-                                <p>
-                                    <b>NAME: </b>{{this.surname}} {{this.firstname}}<br>
-                                    <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
-                                </p>
-                            </div>
                             <div class="col-2">
-                                <button id="add{{this.id}}" class="btn btn-primary">ADD</button>
-                                <button id="close{{this.id}}" style="display:none" class="btn btn-danger">CLOSE</button>
+                                <form action="/admin/deleteresult/{{result_id}}" method="POST">
+                                    <input type="hidden" name="code" value="{{../courses.id}}" required>
+                                    <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:15px"></span>
+                                    </button>
+                                </form>
                             </div>
-                            <form id="formy{{this.id}}" style="display:none" class="form group" action="" method="POST">
-                                <select style="display:none" name="course" class="form-control">
-                                    <option value="{{../courses.id}}">{{../courses.coursetitle}}</option>
-                                </select>
-                                <select style="display:none" name="student" class="form-control">
-                                    <option value="{{../courses.id}}">{{this.matnumber}} - {{this.surname}}
-                                        {{this.firstname}}</option>
-                                </select>
-                                <input type="number" name="score" class="form-control" placeholder="0 - 100" required>
-                                <input type="text" name="grade" class="form-control" placeholder="A - F" required>
-                                <br>
-                                <button type="submit" class="btn btn-success"><b>SAVE</b></button>
-                            </form>
                         </div>
                     </li>
                     <br><br>
-                    <script>
-                        $(document).ready(function () {
-                            $('#add{{this.id}}').click(function () {
-                                $('#formy{{this.id}}').toggle("slow");
-                                $('#close{{this.id}}').toggle("slow");
-                                $('#add{{this.id}}').toggle("slow");
-                            });
-                            $('#close{{this.id}}').click(function () {
-                                $('#formy{{this.id}}').toggle("slow");
-                                $('#close{{this.id}}').toggle("slow");
-                                $('#add{{this.id}}').toggle("slow");
-                            });
-                        });
-
-                    </script>
                     {{else}}
                         <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
                 {{/each}}

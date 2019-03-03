@@ -1,0 +1,29 @@
+<br>
+<h5><b>
+        ADD TIME TABLE
+    </b>
+</h5>
+<br>
+{{#if message}}
+    <p class="alert alert-success">{{message}}</p>
+{{/if}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6" id="kilo">
+            <form class="form-group" action="" method="POST">
+                <div>
+                    <label for="level"><b>LEVEL:</b></label>
+                    <select name="level" class="form-control" required>
+                        <option value="100">100 LEVEL</option>
+                        <option value="200">200 LEVEL</option>
+                        <option value="300">300 LEVEL</option>
+                        <option value="400">400 LEVEL</option>
+                    </select>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"></span>GO</b></button>
+            </form>
+        </div>
+    </div>
+</div>
+<br><br>

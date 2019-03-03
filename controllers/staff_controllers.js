@@ -99,6 +99,7 @@ exports.staff_update_get = (req, res, next) => {
         // Success.
         res.render('staffs/edit_staff', {
             title: 'Update Profile',
+            layout: "less_layout",
             staff_session: req.session.staff,
             staff: staff
         });
@@ -158,6 +159,7 @@ exports.staff_profiler = function(req, res, next) {
         // Successful, so render.
         res.render('staffs/staff_profiler', {
             title: 'Staff Profile',
+            layout: "less_layout",
             staff_session: req.session.staff,
             staff: results.staffy,
             coursess: results.coursey,
@@ -214,6 +216,7 @@ exports.view_student_profile = function(req, res, next) {
                         res.render('staffs/view_students', {
                             staff_session: req.session.staff,
                             title: "Student Profile",
+                            layout: "less_layout",
                             students: students,
                             registered_courses: mycourses,
                             photo: function() {
@@ -246,6 +249,7 @@ exports.student_result = function(req, res, next) {
                     }
                     res.render('staffs/view_result', {
                         title: 'Personal Result',
+                        layout: "less_layout",
                         staff_session: req.session.staff,
                         oneresult: () => {
                             var sorted_result = [];
@@ -534,6 +538,7 @@ exports.view_staff_profile = function(req, res, next) {
         res.render('staffs/view_staffss', {
             staff_session: req.session.staff,
             title: "Staff Profile",
+            layout: "less_layout",
             email: swag.staffy.email,
             surname: swag.staffy.surname,
             firstname: swag.staffy.firstname,
@@ -593,6 +598,7 @@ exports.get_100_courses = function(req, res, next) {
         }
         res.render('staffs/list_courses', {
             title: "100 Level Courses",
+            layout: "less_layout",
             staff_session: req.session.staff,
             levy: 100,
             first: hundred.first_semester,
@@ -645,6 +651,7 @@ exports.get_200_courses = function(req, res, next) {
         }
         res.render('staffs/list_courses', {
             title: "200 Level Courses",
+            layout: "less_layout",
             staff_session: req.session.staff,
             levy: 200,
             first: hundred.first_semester,
@@ -697,6 +704,7 @@ exports.get_300_courses = function(req, res, next) {
         }
         res.render('staffs/list_courses', {
             title: "300 Level Courses",
+            layout: "less_layout",
             staff_session: req.session.staff,
             levy: 300,
             first: hundred.first_semester,
@@ -749,6 +757,7 @@ exports.get_400_courses = function(req, res, next) {
         }
         res.render('staffs/list_courses', {
             title: "400 Level Courses",
+            layout: "less_layout",
             staff_session: req.session.staff,
             levy: 400,
             first: hundred.first_semester,
@@ -877,6 +886,7 @@ exports.get_full_news = function(req, res, next) {
         }
         res.render('staffs/fullnews', {
             staff_session: req.session.staff,
+            layout: "less_layout",
             title: 'Psychology Full News',
             newspaper: release,
             comments: release.comments

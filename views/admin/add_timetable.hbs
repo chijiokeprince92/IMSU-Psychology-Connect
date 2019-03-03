@@ -1,17 +1,17 @@
 <br>
-<h4><b>
-        <center>UPLOAD TIME TABLE</center>
+<h5><b>
+        ADD TIME TABLE
     </b>
-</h4>
+</h5>
 <br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-md-8 col-lg-6" id="kilo">
-            <form class="form-group" action="" method="POST">
+            <form class="form-group" action="/admin/savetimetable" method="POST">
                 <div>
                     <label for="level"><b>LEVEL:</b></label>
                     <select name="level" class="form-control" required>
-                        <option value="100">100 LEVEL</option>
+                        <option value="{{level}}">{{level}} LEVEL</option>
                     </select>
                 </div>
                 <br>
@@ -29,21 +29,25 @@
                 <div>
                     <label for="time"><b>TIME:</b></label>
                     <select name="time" class="form-control" required>
-                        <option value="eight">8AM - 10AM</option>
-                        <option value="ten">10AM - 12PM</option>
-                        <option value="twelve">12PM - 2PM</option>
-                        <option value="two">2PM - 4PM</option>
+                        <option value="8">8AM - 10AM</option>
+                        <option value="10">10AM - 12PM</option>
+                        <option value="12">12PM - 2PM</option>
+                        <option value="2">2PM - 4PM</option>
                     </select>
                 </div>
                 <br>
                 <div>
                     <label for="course"><b>COURSE:</b></label>
                     <select name="course" class="form-control" required>
-                        <option value="100">100 Level</option>
+                        <option value="FREE">FREE</option>
+                        {{#each course}}
+                            <option value="{{this.coursecode}}">{{this.coursetitle}}</option>
+                        {{/each}}
                     </select>
                 </div>
                 <br><br>
-                <button type="submit" class="btn btn-success"><b><span class="fa fa-cloud-upload"></span>SAVE</b></button>
+                <button type="submit" class="btn btn-success"><b><span
+                            class="fa fa-cloud-upload"></span>SAVE</b></button>
             </form>
         </div>
     </div>

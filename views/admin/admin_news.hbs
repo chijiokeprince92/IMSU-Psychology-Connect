@@ -11,36 +11,36 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <li class="card">
                         <div class="col-12 card-header">
-                            <h4>
+                            <h5>
                                 <b>
                                     <a href="/admin/getfullnews/{{this.id}}">{{this.heading}}</a>
                                 </b>
-                            </h4>
+                            </h5>
                         </div>
-                        <div class="col-12">
+                        <div class="card-body col-12">
                             <br>
                             <img src="/{{this.picture}}" alt="image" class="rounded" width="100%" height="250" />
-                        </div>
-                        <br>
-                        <div class="col-12 col-md-6 col-lg-7 card-body">
+                            <br><br>
                             <p>{{this.passage}}</p>
                         </div>
                         <div class="col-12 card-footer">
-                            <button class="btn btn-danger"><span class="fa fa-commenting-o"></span> comments<span></span></button>
-                            <button type="button" class="btn btn-primary"><span class="fa fa-thumbs-o-up"> Like<span></span></button>
-                            <button class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span> Dislike</button>
-                            <a type="button" class="btn btn-info" href="/editnews/{{this.id}}">EDIT</a>
-                            <form action="/deletenews/{{this.id}}" method="POST" style="display:inline">
+                            <button class="btn btn-danger"><span class="fa fa-commenting-o"></span> 12</button>
+                            <button type="button" class="btn btn-primary"><span class="fa fa-thumbs-o-up"> {{this.likes}}
+                            </button>
+                            <button class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span> {{this.dislikes}}</button>
+                            <a type="button" class="btn btn-info" href="/admin/editnews/{{this.id}}"><span class="fa fa-edit"></span></a>
+                            <form action="/admin/deletenews/{{this.id}}" method="POST" style="display:inline">
                                 <input type="hidden" />
-                                <button type="submit" class="btn btn-danger">DELETE</button>
+                                <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span> </button>
                             </form>
                         </div>
                     </li>
+                    <br><br>
                 </div>
-                <br><br>
                 {{else}}
                     <p><b>THERE ARE NO UPLOADED NEWS</b></p>
             {{/each}}
+            <br><br>
         </div>
     </div>
 </ul>

@@ -1,17 +1,44 @@
-var express = require('express');
-var router = express.Router();
-var multer = require('multer');
-var path = require('path');
-var uploaded = require('../upload');
-var newsproject = require('../news_project');
-var projectmulter = require('../project_multer');
-
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const uploaded = require('../upload');
 // middlewares
-const authMiddleware = require('../controllers/middleware/auth.middleware')
+const authMiddleware = require('../controllers/middleware/auth.middleware');
 
-var testing_controllers = require('../controllers/testing');
-var controllers = require('../controllers/view_controller');
-var student_controllers = require('../controllers/student_controllers');
+const testing_controllers = require('../controllers/testing');
+const controllers = require('../controllers/view_controller');
+const student_controllers = require('../controllers/student_controllers');
+
+
+const multer = require('multer');
+const cloudinary = require('cloudinary');
+const cloudinaryStorage = require('multer-storage-cloudinary');
+
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+
+});
+
+const storage = cloudinaryStorage({
+    cloudinary: cloudinary,
+    folder: 'demo',
+    allowedFormats: ['jpg', 'png', 'jpeg'],
+    transformation: [{
+        width: 500,
+        height: 500,
+        crop: 'limit'
+    }],
+    filename: function(req, file, cb) {
+        cb(undefined, 'my-file-name');
+    }
+});
+
+const upload = multer({
+    storage: storage
+});
 
 
 
@@ -21,6 +48,10 @@ var student_controllers = require('../controllers/student_controllers');
 //-------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------
 // FOR HOMEPAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+router.get('/testpicture', testing_controllers.upload_files);
+
+router.post('/testpicture', upload.single('image'), testing_controllers.post_upload_files);
+
 router.get('/testinggetlastnews', testing_controllers.get_last_news);
 
 router.get('/testinggetfullnews/:id', testing_controllers.get_full_news);
@@ -100,7 +131,7 @@ router.get('/studentss/:id', student_controllers.loginRequired, student_controll
 router.get('/studentupdateprofile/:id', student_controllers.student_update_get);
 
 //POST student profile for update
-router.post('/studentupdateprofile/:id', uploaded, student_controllers.student_update_post);
+router.post('/studentupdateprofile/:id', student_controllers.student_update_post);
 
 //POST for student update profile pics
 router.post('/studentupdatepics/:id', uploaded, student_controllers.student_update_pics);
@@ -132,7 +163,7 @@ router.get('/studentsstafflist', student_controllers.loginRequired, student_cont
 //Router Get for viewing a particular profile
 router.get('/studentstaffprofile/:id', student_controllers.loginRequired, student_controllers.view_staff_profile);
 
-//Route for getting the NEWSPAGE
+//Route for getting the NEWSPAGE-------------------------------------------------------------------------------
 router.get('/studentgetlastnews', student_controllers.loginRequired, student_controllers.get_last_news);
 
 //route for getting a particular NEWS
@@ -142,13 +173,13 @@ router.get('/studentgetfullnews/:id', student_controllers.loginRequired, student
 router.post('/studentcomments/:id', student_controllers.loginRequired, student_controllers.post_comment_news);
 
 //Router for commenting on a reply in NEWS
-router.post('/studentreplycomments/:id', student_controllers.loginRequired, student_controllers.post_reply_comment);
+router.post('/studentreplycomments/:id', student_controllers.loginRequired, student_controllers.news_reply_comment);
 
 //Router for liking a particular NEWS
-router.post('/studentnewslike/:id', student_controllers.loginRequired, student_controllers.post_news_like);
+router.post('/newslike/:id', student_controllers.loginRequired, student_controllers.news_like);
 
 //Router for disliking a particular NEWS
-router.post('/studentnewsdislike/:id', student_controllers.loginRequired, student_controllers.post_news_dislike);
+router.post('/newsdislike/:id', student_controllers.loginRequired, student_controllers.news_dislike);
 
 //Router for liking a comment on a particular comment on a NEWS
 router.post('/studentlikecomment/:id', student_controllers.loginRequired, student_controllers.post_like_comment);
@@ -156,7 +187,8 @@ router.post('/studentlikecomment/:id', student_controllers.loginRequired, studen
 //Router for disliking a particular comment on a NEWS
 router.post('/studentdislikecomment/:id', student_controllers.loginRequired, student_controllers.post_dislike_comment);
 
-// GET all Courses
+
+// GET all Courses-----------------------------------------------------------------------------------------
 router.get('/studentgetallcourses', student_controllers.loginRequired, student_controllers.get_100_courses);
 
 //GET 200 Level courses
@@ -184,16 +216,10 @@ router.post('/deleteregisteredcourse/:id', student_controllers.loginRequired, st
 router.get('/studentgetprojecttopics', student_controllers.loginRequired, student_controllers.get_project_topics);
 
 //Router to Get a your Result
-router.get('/myfullresults/:id', student_controllers.loginRequired, student_controllers.student_result);
+router.get('/myfullresults/:id', student_controllers.loginRequired, student_controllers.my_result);
 
 //Router to GET Student timetable
 router.get('/gettimetable', student_controllers.loginRequired, student_controllers.get_time_table);
-
-//Router for course rep to add time table
-router.get('/studentaddtimetable/:id', student_controllers.loginRequired, student_controllers.add_time_table);
-
-//Router for course rep to post new timetable
-router.post('/studentaddtimetable/:id', student_controllers.loginRequired, student_controllers.post_time_table);
 
 //Router GET for course rep to edit time table
 router.get('/studentedittimetable/:id', student_controllers.loginRequired, student_controllers.edit_timetable);
@@ -202,10 +228,13 @@ router.get('/studentedittimetable/:id', student_controllers.loginRequired, stude
 router.post('/studentedittimetable/:id', student_controllers.loginRequired, student_controllers.edit_post_timetable);
 
 //Router for student to logout 
-router.get('/logout', student_controllers.loginRequired, student_controllers.logout);
+router.get('/studentmessages', student_controllers.loginRequired, student_controllers.get_messages);
 
-// Chat Request
-router.get('/chat', student_controllers.loginRequired, student_controllers.chat);
+//Router for student to logout 
+router.get('/studentchats', student_controllers.loginRequired, student_controllers.view_chat);
+
+//Router for student to logout 
+router.get('/logout', student_controllers.loginRequired, student_controllers.logout);
 
 
 module.exports = router;

@@ -1,14 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var uploaded = require('../upload');
-var newsproject = require('../news_project');
-var projectmulter = require('../project_multer');
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+const uploaded = require('../upload');
+const newsproject = require('../news_project');
+const projectmulter = require('../project_multer');
 
 // middlewares
 const authMiddleware = require('../controllers/middleware/auth.middleware');
 
-var admin_controllers = require('../controllers/admin_controllers');
+const admin_controllers = require('../controllers/admin_controllers');
 
 //-------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------
@@ -34,9 +34,6 @@ router.get('/updateprofile/:id', admin_controllers.admin_session_force, admin_co
 //POST admin profile for update
 router.post('/updateprofile/:id', admin_controllers.admin_session_force, admin_controllers.admin_update_post);
 
-router.get('/logout', admin_controllers.admin_logout);
-
-
 
 //GET the List of All the Students in Psychology
 router.get('/studentlist', admin_controllers.admin_session_force, admin_controllers.list_students);
@@ -56,6 +53,21 @@ router.get('/list300students', admin_controllers.admin_session_force, admin_cont
 
 router.get('/list400students', admin_controllers.admin_session_force, admin_controllers.list_400_student);
 
+//GET routes for editing the general details of all levels
+router.get('/editlevelinfo', admin_controllers.admin_session_force, admin_controllers.edit_level_info);
+
+//GET routes for editing the general details of 100 level
+router.get('/edit100levelinfo', admin_controllers.admin_session_force, admin_controllers.edit_100level_info);
+
+//GET routes for editing the general details of 200 level
+router.get('/edit200levelinfo', admin_controllers.admin_session_force, admin_controllers.edit_200level_info);
+
+//GET routes for editing the general details of 300 level
+router.get('/edit300levelinfo', admin_controllers.admin_session_force, admin_controllers.edit_300level_info);
+
+//GET routes for editing the general details of 400 level
+router.get('/edit400levelinfo', admin_controllers.admin_session_force, admin_controllers.edit_400level_info);
+
 // GET the number of registered staffs
 
 router.get('/stafflist', admin_controllers.admin_session_force, admin_controllers.list_staffs);
@@ -63,10 +75,6 @@ router.get('/stafflist', admin_controllers.admin_session_force, admin_controller
 router.get('/staffprofile/:id', admin_controllers.admin_session_force, admin_controllers.view_staff_profile);
 
 router.post('/deletestaff/:id', admin_controllers.admin_session_force, admin_controllers.delete_staff);
-
-router.get('/studentfillresult', admin_controllers.admin_session_force, admin_controllers.student_fillresult);
-
-router.post('/studentfillresult', admin_controllers.admin_session_force, admin_controllers.student_fillresult_post);
 
 router.get('/studentaddresult/:id', admin_controllers.admin_session_force, admin_controllers.student_addresult_get);
 
@@ -90,8 +98,14 @@ router.get('/getprojecttopicss', admin_controllers.admin_session_force, admin_co
 
 router.post('/deleteproject/:id', admin_controllers.admin_session_force, admin_controllers.delete_project);
 
+//Router for course rep to add time table
+router.get('/regtimetable', admin_controllers.admin_session_force, admin_controllers.register_timetable);
 
-router.get('/gettimetables', admin_controllers.admin_session_force, admin_controllers.get_time_table);
+//Router for course rep to add time table
+router.post('/regtimetable', admin_controllers.admin_session_force, admin_controllers.register_timetable_post);
+
+//Router for course rep to post new timetable
+router.post('/savetimetable', admin_controllers.admin_session_force, admin_controllers.post_time_table);
 
 
 // GET and POST routes for handling NEWS 
@@ -151,6 +165,9 @@ router.post('/deletecourse/:id', admin_controllers.admin_session_force, admin_co
 router.get('/staffSignup', admin_controllers.admin_session_force, admin_controllers.staff_signup_get);
 
 router.post('/staffSignup', admin_controllers.admin_session_force, admin_controllers.staff_signup_post);
+
+//admin logout
+router.get('/logout', admin_controllers.admin_logout);
 
 
 module.exports = router;

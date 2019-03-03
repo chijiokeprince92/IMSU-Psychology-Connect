@@ -3,15 +3,7 @@ var schema = mongoose.Schema;
 
 // create a schema
 var conversationSchema = new schema({
-    participants: [{
-        type: schema.ObjectId,
-        ref: 'StudentSigns'
-    }],
-    date: {
-        type: Date,
-        default: Date()
-
-    }
+    participants: []
 });
 
 // creating a student model and exporting the module

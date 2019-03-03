@@ -3,13 +3,18 @@
         {{heading}}
     </b>
 </h5>
-<div class="dropdown" style="float:right">
-    <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">search</button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="/staff/list100students">100 LEVEL</a>
-        <a class="dropdown-item" href="/staff/list200students">200 LEVEL</a>
-        <a class="dropdown-item" href="/staff/list300students">300 LEVEL</a>
-        <a class="dropdown-item" href="/staff/list400students">400 LEVEL</a>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 dropdown dropright">
+            <button class="btn btn-secondary btn-sm dropdown" data-toggle="dropdown"><span class="fa fa-search"></span>
+                search</button>
+            <div class="dropdown-menu dropdown-menu">
+                <a class="dropdown-item" href="/staff/list100students">100 LEVEL</a>
+                <a class="dropdown-item" href="/staff/list200students">200 LEVEL</a>
+                <a class="dropdown-item" href="/staff/list300students">300 LEVEL</a>
+                <a class="dropdown-item" href="/staff/list400students">400 LEVEL</a>
+            </div>
+        </div>
     </div>
 </div>
 <br><br>
@@ -38,8 +43,8 @@
             </div>
         </li>
         <br><br>
-        {{else}}
-            <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+    {{else}}
+        <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
     {{/each}}
 </ul>
 <br><br>

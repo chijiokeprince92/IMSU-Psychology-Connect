@@ -1,66 +1,92 @@
 <br>
 <h5><b>
         STUDENT PROFILE
-    </b></h5>
+    </b>
+</h5>
 <br>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-md-5 col-lg-6">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
             <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-            <br><br>
-        </div>
-        <div class="col-12 col-md-7 col-lg-6">
-            <p><b>E-MAIL:</b> {{students.email}}</p>
-            <br>
-            <p><b>SURNAME: </b> {{students.surname}}</p>
-            <br>
-            <p><b>FIRSTNAME: </b> {{students.firstname}}</p>
-            <br>
-            <p><b>MAT. NUMBER :</b> {{students.matnumber}}</p>
-            <br>
-            <p><b>LEVEL: </b>{{students.level}}</p>
-            <br>
-            <p><b>GENDER: </b>{{students.gender}}</p>
-            <br>
-            <p><b>PHONE NUMBER: </b>{{students.phone}}</p>
-            <br>
-            <p><b>STATUS: </b>{{students.bio}}</p>
             <br>
         </div>
     </div>
 </div>
-<br><br><br>
-<h5><b>
-        COURSES OFFERED THIS SEMESTER
-    </b>
-</h5>
-<br><br>
-<div class="container-fluid">
-    <div class="row">
-        {{#each registered_courses}}
-            <div class="col-12">
-                <p>{{this.coursecode}}: <a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a>
-                </p>
-                <br>
+<br>
+<ul class="nav nav-tabs nav-justified">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home">INFO</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#info">COURSES</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#result">FRIENDS</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div id="home" class="container-fluid tab-pane active" style="background-color:white">
+        <br>
+        <p><b>E-MAIL:</b> {{students.email}}</p>
+        <br>
+        <p><b>SURNAME: </b> {{students.surname}}</p>
+        <br>
+        <p><b>FIRSTNAME: </b> {{students.firstname}}</p>
+        <br>
+        <p><b>MAT. NUMBER :</b> {{students.matnumber}}</p>
+        <br>
+        <p><b>LEVEL: </b>{{students.level}}</p>
+        <br>
+        <p><b>GENDER: </b>{{students.gender}}</p>
+        <br>
+        <p><b>PHONE NUMBER: </b>{{students.phone}}</p>
+        <br>
+        <p><b>STATUS: </b>{{students.bio}}</p>
+        <br>
+    </div>
+    <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
+        <br>
+        <h5><b>
+                COURSES OFFERED THIS SEMESTER<span
+                    class="badge badge-danger badge-pill spany">{{length registered_courses}}
+            </b>
+        </h5>
+        <br><br>
+        <div class="container-fluid">
+            <div class="row">
+                {{#each registered_courses}}
+                    <div class="col-12">
+                        <p>{{this.coursecode}}: <a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a>
+                        </p>
+                        <br>
+                    </div>
+                {{else}}
+                    <p>NO REGISTERED COURSE</p>
+                {{/each}}
             </div>
-            {{else}}
-                <p>NO REGISTERED COURSE</p>
-        {{/each}}
+        </div>
+    </div>
+    <div id="result" class="container-fluid tab-pane fade" style="background-color:white">
+        <br>
+        <h3>RESULT</h3>
+        <p>This is the result tabs</p>
     </div>
 </div>
 <br><br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
-            <a href="/staff/list{{students.level}}students" type="button" title="coursemates" class="btn btn-primary btn-block btn-lg"><span
-                    class="fa fa-users" style="font-size:25px"></span></a>
+            <a href="/staff/list{{students.level}}students" type="button" title="coursemates"
+                class="btn btn-primary btn-block btn-lg"><span class="fa fa-users" style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
-            <button class="btn btn-success btn-block btn-lg disabled"><span class="fa fa-whatsapp" style="font-size:25px"></span></button>
+            <button class="btn btn-success btn-block disabled"><span class="fa fa-whatsapp"
+                    style="font-size:25px"></span></button>
         </div>
         <div class="col-4">
-            <a href="/staff/studentfullresults/{{students.id}}" type="button" title="student results" class="btn btn-primary btn-block btn-lg"><span
-                    class="fa fa-book" style="font-size:25px"></span></a>
+            <a href="/staff/studentfullresults/{{students.id}}" type="button" title="student results"
+                class="btn btn-primary btn-block btn-lg"><span class="fa fa-briefcase"
+                    style="font-size:25px"></span></a>
         </div>
     </div>
 </div>

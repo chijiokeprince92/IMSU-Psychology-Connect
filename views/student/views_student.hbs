@@ -1,64 +1,91 @@
 <br>
+{{#if message}}
+    <p class="alert alert-danger">{{message}}</p>
+    <br>
+{{/if}}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-lg-5">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
             <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-            <br><br>
-        </div>
-        <div class="col-12 col-lg-7">
-            <p><b>SURNAME: </b> {{coursemate.surname}}</p>
-            <br>
-            <p><b>FIRSTNAME: </b> {{coursemate.firstname}}</p>
-            <br>
-            <p><b>MAT_NUMBER :</b> {{coursemate.matnumber}}</p>
-            <br>
-            <p><b>LEVEL: </b>{{coursemate.level}}</p>
-            <br>
-            <p><b>GENDER: </b>{{coursemate.gender}}</p>
-            <br>
-            <p><b>E-MAIL:</b> {{coursemate.email}}</p>
-            <br>
-            <p><b>IS_COURSEREP:</b> {{coursemate.is_courserep}}</p>
-            <br>
-            <p><b>PHONE NUMBER: </b>{{coursemate.phone}}</p>
-            <br>
-            <p><b>STATUS: </b>{{coursemate.bio}}</p>
-            <br>
         </div>
     </div>
 </div>
 <br><br><br>
-<h5><b>
-        COURSES OFFERED THIS SEMESTER
-    </b>
-</h5>
-<br><br>
-<div class="container-fluid">
-    <div class="row">
-        {{#each registered_courses}}
-            <div class="col-10 col-md-8 col-lg-11">
-                <p>{{this.coursecode}}: <a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a>
-                </p>
+<ul class="nav nav-tabs nav-justified">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home">INFO</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#info">COURSES</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#result">FRIENDS</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div id="home" class="container-fluid tab-pane active" style="background-color:white">
+        <br><br>
+        <p><b>SURNAME: </b> {{coursemate.surname}}</p>
+        <br>
+        <p><b>FIRSTNAME: </b> {{coursemate.firstname}}</p>
+        <br>
+        <p><b>MAT_NUMBER :</b> {{coursemate.matnumber}}</p>
+        <br>
+        <p><b>LEVEL: </b>{{coursemate.level}}</p>
+        <br>
+        <p><b>GENDER: </b>{{coursemate.gender}}</p>
+        <br>
+        <p><b>E-MAIL:</b> {{coursemate.email}}</p>
+        <br>
+        <p><b>IS_COURSEREP:</b> {{coursemate.is_courserep}}</p>
+        <br>
+        <p><b>PHONE NUMBER: </b>{{coursemate.phone}}</p>
+        <br>
+        <p><b>STATUS: </b>{{coursemate.bio}}</p>
+        <br>
+    </div>
+    <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
+        <br>
+        <h5><b>
+                COURSES OFFERED THIS SEMESTER <span
+                    class="badge badge-danger badge-pill spany">{{length registered_courses}}
+            </b>
+        </h5>
+        <br><br>
+        <div class="container-fluid">
+            <div class="row">
+                {{#each registered_courses}}
+                    <div class="col-10 col-md-8 col-lg-11">
+                        <p>{{this.coursecode}}: <a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a>
+                        </p>
+                        <br>
+                    </div>
+                {{else}}
+                    <p>NO REGISTERED COURSE</p>
+                {{/each}}
             </div>
-            {{else}}
-                <p>NO REGISTERED COURSE</p>
-        {{/each}}
+        </div>
+    </div>
+    <div id="result" class="container-fluid tab-pane fade" style="background-color:white">
+        <br>
+        <h3>RESULT</h3>
+        <p>This is the result tabs</p>
     </div>
 </div>
 <br><br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
-            <a href="#" type="button" class="btn btn-primary btn-block disabled" title="result"><span class="fa fa-briefcase"
-                    style="font-size:25px"></span></a>
+            <a href="/myfullresults/{{coursemate.id}}" type="button" class="btn btn-primary btn-block"
+                title="result"><span class="fa fa-briefcase" style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
-            <a href="#" type="button" class="btn btn-success btn-block disabled" title="chat"><span class="fa fa-whatsapp"
-                    style="font-size:25px"></span></a>
+            <a href="#" type="button" class="btn btn-success btn-block disabled" title="chat"><span
+                    class="fa fa-whatsapp" style="font-size:25px"></span></a>
         </div>
         <div class="col-4">
-            <a href="/student{{coursemate.level}}mates" type="button" class="btn btn-primary btn-block" title="coursemates"><span
-                    class="fa fa-users" style="font-size:25px"></span></a>
+            <a href="/student{{coursemate.level}}mates" type="button" class="btn btn-primary btn-block"
+                title="coursemates"><span class="fa fa-users" style="font-size:25px"></span></a>
         </div>
     </div>
 </div>

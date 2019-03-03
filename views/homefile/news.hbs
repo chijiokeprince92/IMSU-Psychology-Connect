@@ -1,8 +1,8 @@
 <br>
-<h4><b>
-        <center>LATEST NEWS!!</center>
+<h5><b>
+        LATEST NEWS!!
     </b>
-</h4>
+</h5>
 <br>
 <ul>
     <div class="container-fluid">
@@ -11,11 +11,11 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <li class="card">
                         <div class="col-12 card-header">
-                            <h4>
+                            <h5>
                                 <b>
-                                    <center><a href="/homegetfullnews/{{this.id}}">{{this.heading}}</a></center>
+                                    <a href="/homegetfullnews/{{this.id}}">{{this.heading}}</a>
                                 </b>
-                            </h4>
+                            </h5>
                         </div>
                         <div class="col-12">
                             <br>
@@ -26,15 +26,18 @@
                             <p>{{this.passage}}</p>
                         </div>
                         <div class="col-12 card-footer">
-                            <button class="btn btn-danger"><span class="fa fa-commenting-o"></span> comments<span></span></button>
-                            <button type="button" class="btn btn-primary"><span class="fa fa-thumbs-o-up"> Like<span></span></button>
-                            <button class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span> Dislike</button>
+                            <button class="btn btn-danger"><span class="fa fa-commenting-o"></span>
+                                {{length this.comments}}</button>
+                            <button type="button" class="btn btn-primary"><span class="fa fa-thumbs-o-up"></span>
+                                {{this.likes}}</button>
+                            <button class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span>
+                                {{this.dislikes}}</button>
                         </div>
                     </li>
                     <br><br>
                 </div>
-                {{else}}
-                    <p><b>THERE ARE NO UPLOADED NEWS</b></p>
+            {{else}}
+                <p><b>THERE ARE NO UPLOADED NEWS</b></p>
             {{/each}}
         </div>
     </div>

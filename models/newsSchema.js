@@ -14,6 +14,7 @@ var newsSchema = new schema({
     passage: {
         type: String,
         required: true
+
     },
     passage1: {
         type: String
@@ -22,7 +23,6 @@ var newsSchema = new schema({
         type: String
     },
     comments: [{
-        specialid: String,
         user: String,
         comment: String,
         like: {
@@ -35,22 +35,20 @@ var newsSchema = new schema({
         },
         reply: []
     }],
-    likes: {
-        type: Number,
-        default: 0
-    },
-    dislikes: {
-        type: Number,
-        default: 0
-    }
+    likey: [{
+        user: String
+    }],
+    dislikey: [{
+        user: String
+    }]
 });
 
-//Virtual for ADMIN's URL
+//Virtual for Student's URL
 newsSchema
     .virtual('url')
     .get(function() {
         return '/getfullnews/' + this._id;
     });
 
-// creating a news model and exporting the module
+// creating a student model and exporting the module
 module.exports = mongoose.model('News', newsSchema);

@@ -1,12 +1,12 @@
 <br>
-<h4><b>
-        <center>EDIT NEWS</center>
-    </b></h4>
+<h5><b>
+        EDIT NEWS
+    </b></h5>
 <br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 col-md-8 col-lg-6" id="kilo">
-            <form class="form-group" action="" method="POST">
+            <form class="form-group" action="/admin/editnews/{{newy.id}}" method="POST">
                 <div class="form-group input-group-lg">
                     <label for="heading"><b>TITLE OF NEWS:</b></label>
                     <input type="text" class="form-control" name="heading" placeholder="Title" value="{{newy.heading}}"

@@ -3,13 +3,18 @@
         {{levy}}
     </b>
 </h5>
-<div class="dropdown" style="float:right">
-    <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">search</button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="/admin/list100students">100 LEVEL</a>
-        <a class="dropdown-item" href="/admin/list200students">200 LEVEL</a>
-        <a class="dropdown-item" href="/admin/list300students">300 LEVEL</a>
-        <a class="dropdown-item" href="/admin/list400students">400 LEVEL</a>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 dropdown">
+            <button class="btn btn-secondary dropdown" data-toggle="dropdown"><span class="fa fa-search"></span>
+                search</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="/admin/list100students">100 LEVEL</a>
+                <a class="dropdown-item" href="/admin/list200students">200 LEVEL</a>
+                <a class="dropdown-item" href="/admin/list300students">300 LEVEL</a>
+                <a class="dropdown-item" href="/admin/list400students">400 LEVEL</a>
+            </div>
+        </div>
     </div>
 </div>
 <br><br>
@@ -38,17 +43,18 @@
                         <b>LEVEL: </b>{{this.level}}
                     </p>
                 </div>
-                <div class="col-2">
+                <div class="col-2" style="display:none">
                     <form action="/admin/deletestudent/{{this.id}}" method="POST">
                         <input type="hidden" />
-                        <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:20px"></span></button>
+                        <button type="submit" class="btn btn-danger"><span class="fa fa-trash"
+                                style="font-size:20px"></span></button>
                     </form>
                 </div>
             </div>
         </li>
         <br><br>
-        {{else}}
-            <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+    {{else}}
+        <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
     {{/each}}
 </ul>
 <br><br>
