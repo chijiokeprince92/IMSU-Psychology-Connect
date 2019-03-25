@@ -1,60 +1,59 @@
-var mongoose = require('mongoose');
-var schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 // create a schema
-var coursesSchema = new schema({
-    coursecode: {
-        type: String,
-        required: true
-    },
-    coursetitle: {
-        type: String,
-        required: true
-    },
-    level: {
-        type: Number,
-        required: true
-    },
-    semester: {
-        type: Number,
-        required: true
-    },
-    units: {
-        type: Number,
-        required: true
-    },
-    borrowed: {
-        type: String,
-        required: true
-    },
-    lecturer: [{
-        type: schema.ObjectId,
-        ref: 'Staff'
-    }],
+var coursesSchema = new Schema({
+  coursecode: {
+    type: String,
+    required: true
+  },
+  coursetitle: {
+    type: String,
+    required: true
+  },
+  level: {
+    type: Number,
+    required: true
+  },
+  semester: {
+    type: Number,
+    required: true
+  },
+  units: {
+    type: Number,
+    required: true
+  },
+  borrowed: {
+    type: String,
+    required: true
+  },
+  lecturer: [{
+    type: Schema.ObjectId,
+    ref: 'Staff'
+  }],
 
-    student_offering: [{
-        type: schema.ObjectId,
-        ref: 'StudentSigns'
-    }],
+  student_offering: [{
+    type: Schema.ObjectId,
+    ref: 'StudentSigns'
+  }],
 
-    courseoutline: {
-        type: String
-    }
-});
+  courseoutline: {
+    type: String
+  }
+})
 
-//Virtual for Course's URL
+// Virtual for Course's URL
 coursesSchema
-    .virtual('url')
-    .get(function() {
-        return '/adminviewcourse/' + this._id;
-    });
+  .virtual('url')
+  .get(function () {
+    return '/adminviewcourse/' + this._id
+  })
 
 coursesSchema
-    .virtual('lect')
-    .get(function() {
-        return '/staff/viewcourse/' + this._id;
-    });
-
+  .virtual('lect')
+  .get(function () {
+    return '/staff/viewcourse/' + this._id
+  })
 
 // creating a student model and exporting the module
-module.exports = mongoose.model('Courses', coursesSchema);
+module.exports = mongoose.model('Courses', coursesSchema)

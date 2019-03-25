@@ -29,14 +29,17 @@
     <div class="stay">
         <ul class="nav nav-pills nav-justified">
             <li class="nav-item" title="Home">
-                <a href="/" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home" id="mum2"></span> </a></li>
+                <a href="/" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home" id="mum2"></span> </a>
+            </li>
             <li class="nav-item" title="News">
                 <a href="/defaultnews" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-bell" id="mum2">
                     </span> <span class="badge badge-danger badge-pill spany">{{number}}</span></a></li>
             <li class="nav-item" title="About Us">
-                <a href="/aboutus" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-file-archive-o" id="mum2"></span></a></li>
+                <a href="/aboutus" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-file-archive-o"
+                        id="mum2"></span></a></li>
             <li class="nav-item" title="About Us">
-                <a href="#" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-search" id="mum2"></span></a></li>
+                <a href="#" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-search"
+                        id="mum2"></span></a></li>
         </ul>
     </div>
     <br>
@@ -65,10 +68,12 @@
                         <p>{{this.passage}}</p>
                     </div>
                     <div class="col-12 card-footer">
-                        <button class="btn btn-danger"><span class="fa fa-commenting-o"></span> comments<span></span></button>
+                        <button class="btn btn-danger"><span class="fa fa-commenting-o"></span>
+                            comments<span></span></button>
                         <form action="/studentnewslike/{{this.id}}" method="POST" style="display:inline">
                             <input type="text" style="display:none" class="form-control" name="like" />
-                            <button type="submit" id="sender{{this.id}}" class="btn btn-primary"><span class="fa fa-thumbs-o-up">
+                            <button type="submit" id="sender{{this.id}}" class="btn btn-primary"><span
+                                    class="fa fa-thumbs-o-up">
                                     Like<span>
                                         {{this.likes}}</span></button>
                         </form>
@@ -81,13 +86,186 @@
                     </div>
                 </div>
                 <br><br><br>
-                {{else}}
-                    <p><b>THERE ARE NO UPLOADED NEWS</b></p>
+        {{else}}
+            <p><b>THERE ARE NO UPLOADED NEWS</b></p>
             </li>
         {{/each}}
     </ul>
     <br><br>
     <footer>{{>footer}}</footer>
+    <!-- Navbar Component -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="#">Boots N Straps</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Boots</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Straps
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Nylon</a>
+                        <a class="dropdown-item" href="#">Leather</a>
+                        <a class="dropdown-item" href="#">Buckles</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <!-- End of navbar -->
+    <!-- Banner -->
+    <button class="btn btn-link d-block mx-auto" data-toggle="collapse" data-target="#collapseExample" type="button"
+        aria-expanded="false" aria-controls="collapseExample">
+        By using this site you agree to eating only cookies.
+    </button>
+    <div id="collapseExample" class="collapse alert alert-secondary" role="alert">
+        <p class="text-center mb-0">Just kidding! You can eat any pastry of choice.</p>
+    </div>
+    <!-- End of banner -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <!-- Jumbotron -->
+                <div class="jumbotron h-md-50 mx-2"
+                    style="background-image: url( https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/mock+website+assets/boots_jumbotron.jpg); background-size: cover; background-repeat: no-repeat;">
+                    <div class="px-3 h-100 text-white" style="background-color: rgba(0,0,0, 0.4); overflow: auto">
+                        <h1>There's more to boots than meets the eye...</h1>
+                        <p>...there's the inside portion where you put your feet.</p>
+                    </div>
+                </div>
+                <!-- End of Jumbotron -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center">Curious? Learn More:</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-10 col-md-4">
+                <!-- First Card -->
+                <div class="card">
+                    <img class="card-img-top"
+                        src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/mock+website+assets/old+boots.jpg"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Breath some new life into old boots.</p>
+                    </div>
+                </div>
+                <!-- End of First Card -->
+            </div>
+            <div class="col-10 col-md-4">
+                <!-- Second Card -->
+                <div class="card">
+                    <img class="card-img-top"
+                        src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/mock+website+assets/straps.jpg"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Strapped buckles ensure safe goods.</p>
+                    </div>
+                </div>
+                <!-- End of Second Card -->
+            </div>
+            <div class="col-10 col-md-4">
+                <!-- Third Card -->
+                <div class="card">
+                    <img class="card-img-top"
+                        src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/mock+website+assets/Bootstrap+in+CE.png"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">Whip up a website using Bootstrap 4.</p>
+                    </div>
+                </div>
+                <!-- End of Third Card -->
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center">Boots N Straps N Action: </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-6 w-50 mx-auto">
+                <!-- Carousel -->
+                <div id="bootsNstrapExamples" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#bootsNstrapExamples" data-slide-to="0" class="active"></li>
+                        <li data-target="#bootsNstrapExamples" data-slide-to="1"></li>
+                        <li data-target="#bootsNstrapExamples" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100"
+                                src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/mock+website+assets/boots+on+mountain.jpg"
+                                alt="First slide">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100"
+                                src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/mock+website+assets/bookbag.jpg"
+                                alt="Second slide">
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100"
+                                src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/mock+website+assets/boots+on+stone.jpg"
+                                alt="Third slide">
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#bootsNstrapExamples" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#bootsNstrapExamples" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <!-- End of Carousel -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!-- Nav component -->
+                <ul class="nav justify-content-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Contact us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Submit a photo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://getbootstrap.com/docs/4.2/getting-started/introduction/"
+                            target="_blank" rel="noopener noreferrer">Learn how to use Bootstrap</a>
+                    </li>
+                </ul>
+                <!-- End of Nav Component -->
+            </div>
+        </div>
+    </div>
+    <!-- End of Container -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -1,50 +1,43 @@
 <br>
 <h5><b>
-        LATEST NEWS!!
-    </b>
+    LATEST NEWS!!
+  </b>
 </h5>
 <br>
 <ul>
-    <div class="container-fluid">
-        <div class="row">
-            {{#each newspaper}}
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <li class="card">
-                        <div class="col-12 card-header">
-                            <h5>
-                                <b>
-                                    <a href="/staff/getfullnews/{{this.id}}">{{this.heading}}</a>
-                                </b>
-                            </h5>
-                        </div>
-                        <div class="col-12">
-                            <br>
-                            <img src="/{{this.picture}}" alt="news image" class="rounded" width="100%" height="250" />
-                        </div>
-                        <br>
-                        <div class="col-12 col-md-6 col-lg-7 card-body">
-                            <p>{{this.passage}}</p>
-                        </div>
-                        <div class="col-12 card-footer">
-                            <button class="btn btn-danger"><span class="fa fa-commenting-o"></span></button>
-                            <form action="/studentnewslike/{{this.id}}" method="POST" style="display:inline">
-                                <input type="text" style="display:none" class="form-control" name="like" />
-                                <button type="submit" id="sender{{this.id}}" class="btn btn-primary"><span class="fa fa-thumbs-o-up">
-                                        {{this.likes}}</span></button>
-                            </form>
-                            <form action="/studentnewsdislike/{{this.id}}" method="POST" style="display:inline">
-                                <input type="text" style="display:none" class="form-control" name="like" />
-                                <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down">
-                                        {{this.dislikes}}</span></button>
-                            </form>
-                        </div>
-                    </li>
-                    <br><br>
-                </div>
-                {{else}}
-                    <p><b>THERE ARE NO UPLOADED NEWS</b></p>
-            {{/each}}
+  <div class="container-fluid">
+    <div class="row">
+      {{#each newspaper}}
+        <div class="col-12 col-sm-6 col-lg-4">
+          <li class="card">
+            <div class="col-12 card-header">
+              <h5>
+                <b>
+                  <a href="/staff/getfullnews/{{this.id}}">{{this.heading}}</a>
+                </b>
+              </h5>
+            </div>
+            <div class="card-body col-12">
+              <img src="/{{this.picture}}" alt="news image" class="rounded news" />
+              <br><br>
+              <p>{{truncate this.passage 130}}</p>
+            </div>
+            <div class="col-12 card-footer">
+              <button class="btn btn-light"><span class="fa fa-commenting-o" style="color:lightgreen"> </span>
+                {{length this.comments}}</button>
+              <button class="btn btn-light fa fa-thumbs-o-up" style="color:blue"></button>
+              <span id="spn{{this.id}}">{{length this.likey}}</span>
+              <button class="btn btn-light fa fa-thumbs-o-down" style="color:red"></button>
+              <span id="dis{{this.id}}">{{length this.dislikey}}</span>
+            </div>
+          </li>
+          <br><br>
         </div>
+      {{else}}
+        <p><b>THERE ARE NO UPLOADED NEWS</b></p>
+      {{/each}}
+      <br><br>
     </div>
+  </div>
 </ul>
 <br><br>

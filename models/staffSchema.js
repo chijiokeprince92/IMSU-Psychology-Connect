@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 // create a schema
-var staffSchema = new schema({
+var staffSchema = new Schema({
     email: {
         type: String,
         unique: true,
@@ -29,7 +29,19 @@ var staffSchema = new schema({
         required: true
     },
 
-    courses_lectured: [],
+    priviledges: [{
+            course_adviser: { type: Boolean, default: false }
+        },
+        {
+            hod: { type: Boolean, default: false }
+        },
+        {
+            semi_admin: { type: Boolean, default: false }
+        },
+        {
+            phd: { type: Boolean, default: false }
+        }
+    ],
 
     photo: {
         type: String
@@ -46,28 +58,27 @@ var staffSchema = new schema({
         type: Date,
         default: Date()
     }
-});
+})
 
 staffSchema
     .virtual('name')
     .get(function() {
-        return this.surname + ' ' + this.firstname;
-    });
+        return this.surname + ' ' + this.firstname
+    })
 
-//Virtual for Student's URL
+// Virtual for Student's URL
 staffSchema
     .virtual('url')
     .get(function() {
-        return '/staff/profile/' + this._id;
-    });
+        return '/staff/profile/' + this._id
+    })
 
-//Virtual for Student's URL
+// Virtual for Student's URL
 staffSchema
     .virtual('urly')
     .get(function() {
-        return '/admin/staffprofile/' + this._id;
-    });
-
+        return '/admin/staffprofile/' + this._id
+    })
 
 // creating a student model and exporting the module
-module.exports = mongoose.model('Staff', staffSchema);
+module.exports = mongoose.model('Staff', staffSchema)

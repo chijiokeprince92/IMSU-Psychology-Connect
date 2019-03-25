@@ -1,109 +1,120 @@
 <br>
 <h5><b>
-        {{newspaper.heading}}
-    </b>
+    {{newspaper.heading}}
+  </b>
 </h5>
 <br><br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-sm-10 col-md-6">
-            <img src="/{{newspaper.picture}}" alt="news image" class="rounded news" />
-            <br><br><br><br>
-        </div>
-        <div class="col-12 col-md-6">
-            <p>{{newspaper.passage}}</p>
-            <br><br>
-            <p>{{newspaper.passage1}}</p>
-            <br><br>
-            <p>{{newspaper.passage2}}</p>
-        </div>
+  <div class="row">
+    <div class="col-12">
+      <img src="/{{newspaper.picture}}" alt="news image" class="rounded news" />
+      <br><br><br><br>
     </div>
+    <div class="col-12">
+      <p>{{newspaper.passage}}</p>
+      <br><br>
+      <p>{{newspaper.passage1}}</p>
+      <br><br>
+      <p>{{newspaper.passage2}}</p>
+    </div>
+  </div>
 </div>
 <br><br>
-<h5><b>
-        COMMENTS<span class="badge badge-danger badge-pill spany">{{length newspaper.comments}}</span>
-    </b>
-</h5>
-<br>
-<ul>
-    <div class="container-fluid">
-        <div class="row">
-            {{#each comments}}
-                <div class="col-12 col-md-6 col-lg-4">
-                    <li class="card">
-                        <div class="col-12">
-                            <p><b><a href="/studentstudentprofile/{{this.specialid}}">{{this.user}}</a>
-                                </b>
-                            </p>
-                        </div>
-                        <div class="col-12">
-                            <p>{{this.comment}}</p>
-                        </div>
-                    </li>
-                    <div class="col-12">
-                        <div class="container-fluid">
-                            <div class="row no-gutters">
-                                <div class="col-4">
-                                    <form action="/studentlikecomment/{{this.id}}" method="POST" style="display:inline">
-                                        <input type="text" style="display:none" class="form-control" name="like" />
-                                        <button type="submit" class="btn btn-light btn-sm btn-block"><span
-                                                class="fa fa-thumbs-o-up">
-                                                {{this.like}}</span>
-                                        </button>
-                                    </form>
-                                </div>
-                                <div class="col-4">
-                                    <form action="/studentdislikecomment/{{this.id}}" method="POST"
-                                        style="display:inline">
-                                        <input type="text" style="display:none" class="form-control" name="dislike" />
-                                        <button type="submit" class="btn btn-light btn-sm btn-block"><span
-                                                class="fa fa-thumbs-o-down">
-                                                {{this.dislike}}</span>
-                                        </button>
-                                    </form>
-                                </div>
-                                <div class="col-4">
-                                    <button id="cousin{{this.id}}" class="btn btn-light btn-sm btn-block"
-                                        style="display:inline"><span class="fa fa-reply"></span></button>
-                                    <button id="close{{this.id}}" class="btn btn-danger btn-sm btn-block"
-                                        style="display:none"><span class="fa fa-close"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                        <form id="drake{{this.id}}" action="" method="POST" style="display:none">
-                            <input style="display:none" id="newsId" value="{{../newspaper.id}}" />
-                            <input type="text" style="display:none" class="form-control" id="commentId{{this.id}}"
-                                value="{{this.id}}" required />
-                            <input type="text" style="display:none" class="form-control" id="replyer{{this.id}}"
-                                value="{{this.user}}" required />
-                            <input type="text" class="form-control" id="replymsg{{this.id}}" placeholder="Type a reply"
-                                required />
-                            <button type="submit" class="btn btn-success btn-sm"><span
-                                    class="fa fa-reply"></span></button>
-                        </form>
-                    </div>
-                    <ul>
-                        {{#each reply}}
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <li class="col-12">
-                                        <div class="card">
-                                            <p><b>{{this.user}}: @{{this.replyee}}
-                                                </b>
-                                            </p>
-                                            <p>{{this.reply}}</p>
-                                            <br>
-                                        </div>
-                                        <br>
-                                    </li>
-                                </div>
-                            </div>
-                        {{/each}}
-                    </ul>
-                    <br><br>
-                </div>
-            {{/each}}
-        </div>
-    </div>
+<ul class="nav nav-tabs nav-justified">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#comments">COMMENTS</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#likes">LIKES</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#dislikes">DISLIKES</a>
+  </li>
 </ul>
+<div class="tab-content">
+  <div id="comments" class="container-fluid tab-pane active" style="background-color:white">
+    <br><br>
+    <h5><b>
+        COMMENTS<span class="badge badge-danger badge-pill spany">{{length newspaper.comments}}</span>
+      </b>
+    </h5>
+    <br>
+    <ul id="messages">
+      <div class="container-fluid">
+        <div class="row">
+          {{#each comments}}
+            <div class="col-12 col-sm-9 col-md-6 col-lg-5">
+              <li class="card">
+                <div class="col-12">
+                  <p><b>{{this.username}}</b>
+                  </p>
+                </div>
+                <div class="col-12">
+                  <p>{{this.comment}}</p>
+                </div>
+              </li>
+              <div class="col-12">
+                <div class="container-fluid">
+                  <div class="row no-gutters">
+                    <div class="col-4">
+                      <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-up">
+                          {{this.like}}</span>
+                      </button>
+                    </div>
+                    <div class="col-4">
+                      <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-down">
+                          {{this.dislike}}</span>
+                      </button>
+                    </div>
+                    <div class="col-4">
+                      <button id="cousin{{this.id}}" class="btn btn-light btn-sm btn-block" style="display:inline"><span
+                          class="fa fa-reply"></span></button>
+                      <button id="close{{this.id}}" class="btn btn-danger btn-sm btn-block" style="display:none"><span
+                          class="fa fa-close"></span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ul>
+                <div class="container-fluid">
+                  <div class="row">
+                    {{#each reply}}
+                      <div class="col-3"></div>
+                      <li class="col-9">
+                        <div class="card">
+                          <p><b>{{this.user}}: @{{this.replyee}}
+                            </b>
+                          </p>
+                          <p>{{this.reply}}</p>
+                          <br>
+                        </div>
+                        <br>
+                      </li>
+                    {{/each}}
+                  </div>
+                </div>
+              </ul>
+              <br><br>
+            </div>
+            <div class="col-md-6 col-lg-7"></div>
+          {{/each}}
+        </div>
+      </div>
+    </ul>
+  </div>
+  <div id="likes" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <h6>PEOPLE WHO LIKE THIS</h6>
+    {{#each newspaper.likey}}
+      <p>{{this}}</p>
+    {{/each}}
+  </div>
+  <div id="dislikes" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <h6>PEOPLE WHO DISLIKE THIS</h6>
+    {{#each newspaper.dislikey}}
+      <p>{{this}}</p>
+    {{/each}}
+  </div>
+</div>
 <br><br>

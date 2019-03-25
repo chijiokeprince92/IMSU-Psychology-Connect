@@ -1,1 +1,6 @@
-{}
+{
+    "eslint.autoFixOnSave": true,
+    "files.autoSave": "onFocusChange",
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2
+}

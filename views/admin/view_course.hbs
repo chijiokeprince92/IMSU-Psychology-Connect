@@ -1,120 +1,208 @@
 <br>
 <h5><b>
-        COURSE DETAILS
-    </b>
+    COURSE DETAILS
+  </b>
 </h5>
-<br><br>
+<br>
 {{#if message}}
-    <p class="alert alert-success">{{message}}</p>
+  <p class="alert alert-success">{{message}}</p>
 {{/if}}
+<br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-md-8 col-lg-7">
-            <p><b>COURSE CODE:</b> {{kind.coursecode}}</p>
-            <br>
-            <p><b>COURSE TITLE: </b> {{kind.coursetitle}}</p>
-            <br>
-            <p><b>LEVEL: </b> {{kind.level}}</p>
-            <br>
-            <p><b>SEMESTER:</b> {{kind.semester}}</p>
-            <br>
-            <p><b>UNITS: </b>{{kind.units}}</p>
-            <br>
-            <p><b>BORROWED COURSE: </b>{{kind.borrowed}}</p>
-            <br>
-            <p><b>LECTURER / S: </b></p>
-            <br>
-            {{#each lecky}}
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-8">
-                            <a href="/admin/staffprofile/{{this.id}}">{{this.surname}} {{this.firstname}}</a>
-                        </div>
-                        <div class="col-4">
-                            <form action="/admin/deletecourselecturer/{{../kind.id}}" method="POST">
-                                <input style="display:none" type="text" name="lect" value="{{this.id}}" />
-                                <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-7">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#coursedetails">INFO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#lecturer">LECT<span class="seek">URER/S</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#courseoutline">OUTLINE</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="coursedetails" class="container-fluid tab-pane active" style="background-color:white">
+          <br><br>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-lg-7">
+                <p><b>COURSE_CODE:</b> {{course.coursecode}}</p>
                 <br>
-            {{/each}}
-            <br>
-            <button id="shew" class="btn btn-primary" style="display:inline">Add lecturer</button>
-            <button id="showed" class="btn btn-danger" style="display:none">Close</button>
-            <div id="glory" style="display:none">
-                <p><b>ADD LECTURER: </b>
-                    <form action="/admin/editcourselecturer/{{kind.id}}" method="POST">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-8">
-                                    <select name="lecturee" class="form-control">
-                                        {{#each teacher}}
-                                            <option value="{{this.id}}">{{this.name}}</option>
-                                        {{/each}}
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-success">Add</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </p>
+                <p><b>COURSE_TITLE: </b> {{course.coursetitle}}</p>
+                <br>
+                <p><b>LEVEL: </b> {{course.level}}</p>
+                <br>
+                <p><b>SEMESTER:</b> {{course.semester}}</p>
+                <br>
+                <p><b>UNITS: </b>{{course.units}}</p>
+                <br>
+                <p><b>BORROWED_COURSE: </b>{{course.borrowed}}</p>
+                <br>
+              </div>
             </div>
-            <script>
-                $(document).ready(function () {
-                    $('#shew').click(function () {
-                        $('#glory').toggle("slow");
-                        $('#showed').toggle("slow");
-                        $('#shew').toggle("slow");
-                    });
-                    $('#showed').click(function () {
-                        $('#shew').toggle("slow");
-                        $('#glory').toggle("slow");
-                        $('#showed').toggle("slow");
-                    });
-                });
+          </div>
+        </div>
+        <div id="lecturer" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <ul>
+            {{#each lecky}}
+              <li class="container-fluid">
+                <div class="row">
+                  {{#if this.photo}}
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                      <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
+                    </div>
+                  {{else}}
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                      <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                    </div>
+                  {{/if}}
+                  <div class="col-5 col-sm-6 col-md-7 col-lg-8">
+                    <p><a href="/admin/staffprofile/{{this.id}}">{{this.name}}</a></p>
+                    <p>
+                      <b><span class="fa fa-user"></span> </b>{{this.gender}}<br>
+                    </p>
+                  </div>
+                  <div class="col-2 col-sm-2 col-md-2 col-lg-2">
+                    <form action="/admin/deletecourselecturer/{{../course.id}}" method="POST">
+                      <input style="display:none" type="text" name="lect" value="{{this.id}}" />
+                      <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span></button>
+                    </form>
+                  </div>
+                </div>
+              </li>
+              <br><br>
+            {{else}}
+              <p>THERE IS NO LECTURER ASSIGNED FOR THIS COURSE YET...</p>
+            {{/each}}
+          </ul>
+          <button id="shew" class="btn btn-primary" style="display:inline">Add lecturer</button>
+          <button id="showed" class="btn btn-danger" style="display:none">Close</button>
+          <div id="glory" style="display:none">
+            <p><b>ADD LECTURER: </b>
+              <form action="/admin/editcourselecturer/{{course.id}}" method="POST">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-8">
+                      <select name="lecturee" class="form-control">
+                        {{#each teacher}}
+                          <option value="{{this.id}}">{{this.name}}</option>
+                        {{/each}}
+                      </select>
+                    </div>
+                    <div class="col-4">
+                      <button type="submit" class="btn btn-success">Add</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </p>
+          </div>
+          <script>
+            $(document).ready(function () {
+              $('#shew').click(function () {
+                $('#glory').toggle("slow");
+                $('#showed').toggle("slow");
+                $('#shew').toggle("slow");
+              });
+              $('#showed').click(function () {
+                $('#shew').toggle("slow");
+                $('#glory').toggle("slow");
+                $('#showed').toggle("slow");
+              });
+            });
 
-            </script>
-            <br>
+          </script>
         </div>
+        <div id="courseoutline" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <h5><b>
+              COURSE OUTLINE
+            </b>
+          </h5>
+          <br>
+          {{#if course.courseoutline}}
+            <p>{{course.courseoutline}}</p>
+          {{else}}
+            <p>COURSE_OUTLINE NOT AVAILABLE</p>
+          {{/if}}
+          <br>
+        </div>
+      </div>
     </div>
-</div>
-<br>
-<h5><b>
-        COURSE OUTLINE
-    </b></h5>
-<br>
-{{#if kind.courseoutline}}
-    <p>{{kind.courseoutline}}</p>
-{{else}}
-    <p>COURSE OUTLINE NOT AVAILABLE</p>
-{{/if}}
-<br>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
-            <a href="/admin/addcourseoutline/{{kind.id}}" type="button" class="btn btn-info btn-block"><span class="fa fa-edit"
-                    style="font-size:25px"></span>
-            </a>
-        </div>
-        <div class="col-4">
-            <a href="/admin/viewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
-                    style="font-size:25px"></span></a>
-        </div>
-        <div class="col-4">
-            <a href="/admin/studentaddresult/{{kind.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-briefcase"
-                    style="font-size:25px"></span></a>
-        </div>
-        <div class="col-4" style="display:none">
-            <form action="/admin/deletecourse/{{kind.id}}" method="POST">
-                <input type="hidden" />
-                <button type="submit" class="btn btn-danger btn-block disabled"><span class="fa fa-trash" style="font-size:25px"></span>
-                </button>
-            </form>
-        </div>
+    <div class="col-12 col-sm-10 col-md-5 col-lg-4">
+      <br><br><br>
+      <ul class="card">
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold">EDIT
+            <span class="fa fa-edit" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click the button below to edit course outline for this course.</p>
+          <form id="outlineform" style="display:none" action="/staff/editcourseoutline/{{course.id}}" method="POST">
+            <div class="form-group input-group-lg">
+              <label for="courseoutline"><b>COURSEOUTLINE</b></label>
+              <textarea type="text" class="form-control" name="courseoutline"
+                placeholder="Type a message...">{{course.courseoutline}}</textarea>
+            </div>
+            <button type="submit" class="btn btn-danger">Update</button>
+          </form>
+          <script>
+            $(document).ready(function () {
+              $('#outlinebtn').click(function () {
+                $('#outlineform').toggle("slow");
+                $('#outlinebtn').toggle("slow");
+
+              });
+            });
+          </script>
+          <button id="outlinebtn" title="register" class="btn btn-success">EDIT</button>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/admin/viewcourselect/{{course.id}}"
+              title="view students">STUDENTS<span class="seek"> OFFERING</span></a> <span class="fa fa-users"
+              style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to see list of students offering this course.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/admin/addcourseoutline/{{course.id}}"
+              title="Add result">ADD COURSEOUTLINE</a>
+            <span class="fa fa-edit" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to upload the results of the students registered to this course.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/admin/studentaddresult/{{course.id}}"
+              title="Add result">ADD
+              RESULT</a>
+            <span class="fa fa-book" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to upload the results of the students registered to this course.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="#" title="Coursemates">TEST BOOK</a>
+            <span class="fa fa-book" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to see the approved textbook for this course.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold" title="delete course"> DELETE<span class="seek"> COURSE</span></h6>
+          <form action="/admin/deletecourse/{{course.id}}" method="POST">
+            <input type="hidden" />
+            <button type="submit" class="btn btn-danger float-right"><span class="fa fa-trash"></span>
+            </button>
+          </form>
+          <br>
+          <p class="card-text">Please make sure you are certain before you click this button because this will remove
+            this course from this website including all the details attached i.e results, students offering, etc.</p>
+        </li>
+      </ul>
     </div>
+  </div>
 </div>
 <br><br>

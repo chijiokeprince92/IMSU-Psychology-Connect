@@ -1,110 +1,126 @@
 <br>
 <h5><b>
-        COURSE DETAILS
-    </b></h5>
+    COURSE DETAILS
+  </b></h5>
 <br>
 {{#if succeed}}
-    <p class="alert alert-success">{{succeed}}</p>
+  <p class="alert alert-success">{{succeed}}</p>
 {{/if}}
 {{#if war}}
-    <p class="alert alert-danger">{{war}}</p>
+  <p class="alert alert-danger">{{war}}</p>
 {{/if}}
 <br>
-<ul class="nav nav-tabs nav-justified">
-    <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#coursedetails">DETAILS</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#lecturer">LECTURER/S</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#courseoutline">COURSEOUTLINE</a>
-    </li>
-</ul>
-<div class="tab-content">
-    <div id="coursedetails" class="container-fluid tab-pane active" style="background-color:white">
-        <br><br>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-lg-7">
-                    <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
-                    <br>
-                    <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
-                    <br>
-                    <p><b>LEVEL: </b> {{kind.level}}</p>
-                    <br>
-                    <p><b>SEMESTER:</b> {{kind.semester}}</p>
-                    <br>
-                    <p><b>UNITS: </b>{{kind.units}}</p>
-                    <br>
-                    <p><b>BORROWED_COURSE: </b>{{kind.borrowed}}</p>
-                    <br>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="lecturer" class="container-fluid tab-pane fade" style="background-color:white">
-        <br><br>
-        <ul>
-            {{#each lecky}}
-                <li class="container-fluid">
-                    <div class="row">
-                        {{#if this.photo}}
-                            <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                                <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
-                            </div>
-                        {{else}}
-                            <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                                <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
-                            </div>
-                        {{/if}}
-                        <div class="col-7 col-sm-8 col-md-9 col-lg-10">
-                            <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
-                            <p>
-                                <b>Gender: </b>{{this.gender}}<br>
-                                <b>Status: </b>{{this.bio}}
-                            </p>
-                        </div>
-                    </div>
-                </li>
-                <br><br>
-            {{else}}
-                <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
-            {{/each}}
-        </ul>
-    </div>
-    <div id="courseoutline" class="container-fluid tab-pane fade" style="background-color:white">
-        <br><br>
-        <h5><b>
-                COURSE OUTLINE
-            </b>
-        </h5>
-        <br>
-        {{#if kind.courseoutline}}
-            <p>{{kind.courseoutline}}</p>
-        {{else}}
-            <p>COURSE_OUTLINE NOT AVAILABLE</p>
-        {{/if}}
-        <br>
-    </div>
-</div>
-<br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
-            <form action="/studentregistercourse/{{kind.id}}" method="POST" style="display:inline">
-                <input type="hidden" />
-                <button type="submit" title="register" class="btn btn-danger btn-block">REG</button>
-            </form>
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-7">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#coursedetails">INFO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#lecturer">LECT<span class="seek">URER/S</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#courseoutline">OUTLINE</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="coursedetails" class="container-fluid tab-pane active" style="background-color:white">
+          <br><br>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-lg-7">
+                <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
+                <br>
+                <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
+                <br>
+                <p><b>LEVEL: </b> {{kind.level}}</p>
+                <br>
+                <p><b>SEMESTER:</b> {{kind.semester}}</p>
+                <br>
+                <p><b>UNITS: </b>{{kind.units}}</p>
+                <br>
+                <p><b>BORROWED_COURSE: </b>{{kind.borrowed}}</p>
+                <br>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-4">
-            <a href="/studentviewcourselect/{{kind.id}}" type="button" class="btn btn-primary btn-block"
-                title="registered students"><span class="fa fa-users" style="font-size:20px"></span></a>
+        <div id="lecturer" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <ul>
+            {{#each lecky}}
+              <li class="container-fluid">
+                <div class="row">
+                  {{#if this.photo}}
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                      <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
+                    </div>
+                  {{else}}
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                      <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                    </div>
+                  {{/if}}
+                  <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+                    <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
+                    <p>
+                      <b>Gender: </b>{{this.gender}}<br>
+                      <b>Status: </b>{{this.bio}}
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <br><br>
+            {{else}}
+              <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
+            {{/each}}
+          </ul>
         </div>
-        <div class="col-4">
-            <a href="#" type="button" class="btn btn-success btn-block disabled" title="textbooks"><span
-                    class="fa fa-book" style="font-size:20px"></span></a>
+        <div id="courseoutline" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <h5><b>
+              COURSE OUTLINE
+            </b>
+          </h5>
+          <br>
+          {{#if kind.courseoutline}}
+            <p>{{kind.courseoutline}}</p>
+          {{else}}
+            <p>COURSE_OUTLINE NOT AVAILABLE</p>
+          {{/if}}
+          <br>
         </div>
+      </div>
     </div>
+    <div class="col-12 col-sm-10 col-md-5 col-lg-4">
+      <br><br><br>
+      <ul class="card">
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold">REGISTER
+            <span class="fa fa-briefcase" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click the button below to register for this course.</p>
+          <form action="/studentregistercourse/{{kind.id}}" method="POST" style="display:inline">
+            <input type="hidden" />
+            <button type="submit" title="register" class="btn btn-success">REGISTER</button>
+          </form>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/studentviewcourselect/{{kind.id}}"
+              title="Edit profile">STUDENTS<span class="seek"> OFFERING</span></a> <span class="fa fa-users"
+              style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to see list of students offering this course.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="#" title="Coursemates">TEST BOOK</a>
+            <span class="fa fa-book" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to see the approved textbook for this course.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <br><br>

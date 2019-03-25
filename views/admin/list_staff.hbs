@@ -1,44 +1,45 @@
 <br>
 <h5><b>
-        PSYCHOLOGY STAFFS
-    </b>
-</h5>
+    PSYCHOLOGY LECTURERS
+  </b></h5>
 <br><br>
-{{#if message}}
-    <p class="alert alert-success">{{message}}</p>
-{{/if}}
-<ul>
-    {{#each slow}}
-        <li class="container-fluid">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-9">
+      <ul class="list-group list-group-flush">
+        {{#each slow}}
+          <li class="container-fluid list-group-item">
             <div class="row">
-                {{#if this.photo}}
-                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <img src="/{{this.photo}}" alt="image" class="rounded-circle profile" />
-                    </div>
-                {{else}}
-                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <img src="../images/psylogo4.jpg" alt="image" class="rounded-circle profile" />
-                    </div>
-                {{/if}}
-                <div class="col-5 col-sm-6 col-md-7 col-lg-8">
-                    <p><a href="/admin/staffprofile/{{this.id}}">{{this.name}}</a></p>
-                    <br>
-                    <p>
-                        <b>GENDER: </b>{{this.gender}}<br>
-                        <b>STATUS: </b>{{this.bio}}
-                    </p>
+              {{#if this.photo}}
+                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                  <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
                 </div>
-                <div class="col-2 col-sm-2 col-md-2 col-lg-2" style="display:none">
-                    <form action="/admin/deletestaff/{{this.id}}" method="POST">
-                        <input type="hidden" />
-                        <button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-trash" style="font-size:20px"></span></button>
-                    </form>
+              {{else}}
+                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                  <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
                 </div>
+              {{/if}}
+              <div class="col-5 col-sm-6 col-md-7 col-lg-8">
+                <p><a href="/admin/staffprofile/{{this.id}}">{{this.name}}</a></p>
+                <p>
+                  <b><span class="fa fa-user"></span> </b>{{this.gender}}<br>
+                </p>
+              </div>
+              <div class="col-2 col-sm-2 col-md-2 col-lg-2">
+                <form action="/admin/deletestaff/{{this.id}}" method="POST">
+                  <input type="hidden" />
+                  <button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-trash"
+                      style="font-size:20px"></span></button>
+                </form>
+              </div>
             </div>
-        </li>
-        <br><br>
+          </li>
+          <br><br>
         {{else}}
-            <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
-    {{/each}}
-</ul>
+          <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>
 <br><br>

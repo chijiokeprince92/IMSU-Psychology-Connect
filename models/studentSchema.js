@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var schema = mongoose.Schema
 
 // create a schema
 var studentSchema = new schema({
@@ -45,18 +45,29 @@ var studentSchema = new schema({
         ref: 'Messages'
     }],
 
+    priviledges: [{
+            dir_of_sports: { type: Boolean, default: false }
+        },
+        {
+            dir_of_finance: { type: Boolean, default: false }
+        },
+        {
+            course_rep: { type: Boolean, default: false }
+        },
+        {
+            graduate: { type: Boolean, default: false }
+        }
+    ],
+
     photo: {
         type: String,
         required: true
     },
     is_courserep: {
         type: String,
-        default: "No"
+        default: 'No'
     },
-    is_graduate: {
-        type: String,
-        default: "No"
-    },
+
     bio: {
         type: String,
         required: true
@@ -69,21 +80,21 @@ var studentSchema = new schema({
         type: Date,
         default: Date()
     }
-});
+})
 
-//Virtual for Student's URL
+// Virtual for Student's URL
 studentSchema
     .virtual('url')
     .get(function() {
-        return '/studentss/' + this._id;
-    });
+        return '/studentss/' + this._id
+    })
 
-//Virtual for Student's URL
+// Virtual for Student's URL
 studentSchema
     .virtual('name')
     .get(function() {
-        return this.firstname;
-    });
+        return this.firstname
+    })
 
 // creating a student model and exporting the module
-module.exports = mongoose.model('StudentSigns', studentSchema);
+module.exports = mongoose.model('StudentSigns', studentSchema)

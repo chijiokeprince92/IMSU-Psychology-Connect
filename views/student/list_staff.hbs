@@ -1,33 +1,39 @@
 <br>
 <h5><b>
-        PSYCHOLOGY STAFFS
-    </b></h5>
+    PSYCHOLOGY STAFFS
+  </b></h5>
 <br><br>
-<ul>
-    {{#each slow}}
-        <li class="container-fluid">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-9">
+      <ul class="list-group list-group-flush">
+        {{#each slow}}
+          <li class="container-fluid list-group-item">
             <div class="row">
-                {{#if this.photo}}
-                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
-                    </div>
-                {{else}}
-                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
-                    </div>
-                {{/if}}
-                <div class="col-7 col-sm-8 col-md-9 col-lg-10">
-                    <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
-                    <p>
-                        <b>Gender: </b>{{this.gender}}<br>
-                        <b>Status: </b>{{this.bio}}
-                    </p>
+              {{#if this.photo}}
+                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                  <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
                 </div>
+              {{else}}
+                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                  <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                </div>
+              {{/if}}
+              <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+                <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
+                <p>
+                  <b><span class="fa fa-user"></span> </b>{{this.gender}}<br>
+                  <b><span class="fa fa-comment-o"></span> </b>{{this.bio}}
+                </p>
+              </div>
             </div>
-        </li>
-        <br><br>
-    {{else}}
-        <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
-    {{/each}}
-</ul>
+          </li>
+          <br><br>
+        {{else}}
+          <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>
 <br><br>

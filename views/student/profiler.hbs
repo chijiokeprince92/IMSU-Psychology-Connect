@@ -1,130 +1,145 @@
-<br>
-<h5>
-    <b>
-        YOUR PROFILE.
-    </b>
-</h5>
-<br>
 {{#if message}}
-    <p class="alert alert-success">{{message}}</p>
-    <br>
+  <p class="alert alert-success">{{message}}</p>
+  <br>
 {{/if}}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-sm-10 col-md-6 col-lg-5">
-            <img src="/{{user.photo}}" alt="profile image" class="rounded" width="100%" />
-            <br>
-            <form id="drake" style="display:none" action="/studentupdatepics/{{user.id}}" method="POST"
-                enctype="multipart/form-data" style="display:inline">
-                <input type="file" class="form-control" name="image" placeholder="upload photo" required>
-                <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
-            </form>
-            <button id="cousin" class="btn btn-primary"><span class="fa fa-edit"></span></button>
-            <button id="close" class="btn btn-danger" style="display:none">Close</button>
-            <br><br>
+<div class="container-fluid choose">
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+      <div class="row">
+        <div class="col-12 cash">
+          <img src="/{{user.photo}}" alt="profile image" class="rounded" width="100%" />
+          <br>
+          <form id="drake" style="display:none" action="/studentupdatepics/{{user.id}}" method="POST"
+            enctype="multipart/form-data" style="display:inline">
+            <input type="file" class="form-control" name="image" placeholder="upload photo" required>
+            <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
+          </form>
+          <button id="cousin" class="btn btn-success" style="margin-top:-40px"><span
+              class="fa fa-camera"></span></button>
+          <button id="close" class="btn btn-danger" style="display:none">Close</button>
+          <br><br>
         </div>
+      </div>
     </div>
+    <div class="col-12 col-lg-6">
+      <div class="row">
+        <div class="col-10">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('#cousin').click(function () {
-            $('#drake').toggle("slow");
-            $('#cousin').toggle("slow");
-            $('#close').toggle("slow");
-        });
-        $('#close').click(function () {
-            $('#drake').toggle("slow");
-            $('#cousin').toggle("slow");
-            $('#close').toggle("slow");
-        });
+  $(document).ready(function () {
+    $('#cousin').click(function () {
+      $('#drake').toggle("slow");
+      $('#cousin').toggle("slow");
+      $('#close').toggle("slow");
     });
+    $('#close').click(function () {
+      $('#drake').toggle("slow");
+      $('#cousin').toggle("slow");
+      $('#close').toggle("slow");
+    });
+  });
 </script>
-<br><br>
-<ul class="nav nav-tabs nav-justified">
-    <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#home">INFO</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#info">COURSES</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#result">FRIENDS</a>
-    </li>
-</ul>
-<div class="tab-content">
-    <div id="home" class="container-fluid tab-pane active" style="background-color:white">
-        <br><br>
-        <p><b>SURNAME: </b> {{user.surname}}</p>
-        <br>
-        <p><b>FIRSTNAME: </b> {{user.firstname}}</p>
-        <br>
-        <p><b>MAT. NUMBER :</b> {{user.matnumber}}</p>
-        <br>
-        <p><b>LEVEL: </b>{{user.level}}</p>
-        <br>
-        <p><b>GENDER: </b>{{user.gender}}</p>
-        <br>
-        <p><b>E-MAIL:</b> {{user.email}}</p>
-        <br>
-        <p><b>IS_ COURSEREP:</b> {{user.is_courserep}}</p>
-        <br>
-        <p><b>PHONE NUMBER: </b>{{user.phone}}</p>
-        <br>
-        <p><b>STATUS: </b>{{user.bio}}</p>
-        <br>
-        <p><b>DATE REGISTERED: </b>{{user.date}}</p>
-        <br>
-    </div>
-    <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
-        <br>
-        <h5><b>
-                COURSES OFFERED THIS SEMESTER <span
-                    class="badge badge-danger badge-pill spany">{{length registered_courses}}</span>
-            </b>
-        </h5>
-        <br><br>
-        <div class="container-fluid">
-            <div class="row">
-                {{#each registered_courses}}
-                    <div class="col-9 col-md-8 col-lg-11">
-                        <p>{{this.coursecode}}: <a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a>
-                        </p>
-                    </div>
-                    <div class="col-3 col-md-2 col-lg-1">
-                        <form action="/deleteregisteredcourse/{{this.id}}" method="POST" style="display:inline">
-                            <input type="hidden" />
-                            <button type="submit" class="btn btn-danger btn-block"><span
-                                    class="fa fa-trash"></span></button>
-                        </form><br><br>
-                    </div>
-                {{else}}
-                    <p>NO REGISTERED COURSE</p>
-                {{/each}}
-            </div>
-        </div>
-    </div>
-    <div id="result" class="container-fluid tab-pane fade" style="background-color:white">
-        <br>
-        <h3>RESULT</h3>
-        <p>This is the result tabs</p>
-    </div>
-</div>
-<br>
-<br>
+<br><br><br><br><br><br><br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
-            <a href="/myfullresults/{{user.id}}" type="button" title="results" class="btn btn-primary btn-block"><span
-                    class="fa fa-briefcase" style="font-size:25px"></span></a>
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-7">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#home">INFO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#info">COURSES</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#result">FRIENDS</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="home" class="container-fluid tab-pane active" style="background-color:white">
+          <br><br>
+          <p><b>SURNAME: </b> {{user.surname}}</p>
+          <br>
+          <p><b>FIRSTNAME: </b> {{user.firstname}}</p>
+          <br>
+          <p><b><span class="fa fa-graduation-cap"> </span> </b> {{user.matnumber}}</p>
+          <br>
+          <p><b><span class="fa fa-user"> </span> </b>{{user.level}}</p>
+          <br>
+          <p><b><span class="fa fa-user"> </span> </b>{{user.gender}}</p>
+          <br>
+          <p><b><span class="fa fa-envelope"> </span></b> {{user.email}}</p>
+          <br>
+          <p><b>IS_ COURSEREP:</b> {{user.is_courserep}}</p>
+          <br>
+          <p><b><span class="fa fa-phone"> </span> </b>0{{user.phone}}</p>
+          <br>
+          <p><b><span class="fa fa-comment-o"> </span> </b>{{user.bio}}</p>
+          <br>
+          <p><b><span class="fa fa-bell-o"> </span> JOINED </b>{{user.date}}</p>
+          <br>
         </div>
-        <div class="col-4">
-            <a href="/studentupdateprofile/{{user.id}}" type="button" title="Edit profile"
-                class="btn btn-success btn-block"><span class="fa fa-edit" style="font-size:25px"></span></a>
+        <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
+          <br>
+          <h5><b>
+              COURSES OFFERED THIS SEMESTER <span
+                class="badge badge-danger badge-pill spany">{{length registered_courses}}</span>
+            </b>
+          </h5>
+          <br><br>
+          <div class="container-fluid">
+            <div class="row">
+              {{#each registered_courses}}
+                <div class="col-10 col-md-8 col-lg-11">
+                  <p><b>{{this.coursecode}}: </b> <a href="/studentviewcourse/{{this.id}}">{{this.coursetitle}}</a>
+                  </p>
+                </div>
+                <div class="col-2 col-md-2 col-lg-1">
+                  <form action="/deleteregisteredcourse/{{this.id}}" method="POST" style="display:inline">
+                    <input type="hidden" />
+                    <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span></button>
+                  </form><br><br>
+                </div>
+              {{else}}
+                <p>NO REGISTERED COURSE</p>
+              {{/each}}
+            </div>
+          </div>
         </div>
-        <div class="col-4">
-            <a href="/studentstudentlist" type="button" title="Coursemates" class="btn btn-primary btn-block"><span
-                    class="fa fa-users" style="font-size:25px"></span></a>
+        <div id="result" class="container-fluid tab-pane fade" style="background-color:white">
+          <br>
+          <h5>FRIENDS</h5>
+          <p>NOT AVAILABLE...</p>
         </div>
+      </div>
     </div>
+    <div class="col-12 col-sm-10 col-md-5 col-lg-4">
+      <br><br><br>
+      <ul class="card">
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/myfullresults/{{user.id}}" title="results">RESULT</a>
+            <span class="fa fa-briefcase" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click to check your accumulated results.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/studentupdateprofile/{{user.id}}"
+              title="Edit profile">UPDATE</a> <span class="fa fa-edit" style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to update your profile details.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/studentstudentlist" title="Coursemates">COURSEMATES</a>
+            <span class="fa fa-users" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to see your coursemates and their activities.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <br><br>

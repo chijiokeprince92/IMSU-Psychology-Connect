@@ -1,50 +1,94 @@
 <br>
 <h5><b>
-        STAFF PROFILE
-    </b></h5>
-<br>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-            <img src="/{{photo}}" alt="image" class="rounded" width="100%" />
-            <br><br>
-        </div>
-        <div class="col-12 col-lg-6">
-            <p><b>EMAIL: </b> {{email}}</p>
-            <br>
-            <p><b>SURNAME: </b> {{surname}}</p>
-            <br>
-            <p><b>FIRSTNAME: </b> {{firstname}}</p>
-            <br>
-            <p><b>GENDER: </b>{{gender}}</p>
-            <br>
-            <p><b>PHONE NUMBER: </b>{{phone}}</p>
-            <br>
-            <p><b>STATUS: </b>{{quote}}</p>
-        </div>
-    </div>
-</div>
-<br>
-<h5>
-    <b>COURSES ASSIGNED <span class="badge badge-danger badge-pill spany">{{length coursess}}</b>
+    LECTURER PROFILE
+  </b>
 </h5>
 <br>
-{{#each coursess}}
-    <p><b>COURSE TITLE: </b><a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
-{{else}}
-    <p>NO COURSE ASSIGNED</p>
-{{/each}}
-<br><br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-6 col-lg-5">
-            <a href="/staff/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
-                    style="font-size:25px"></span></a>
-        </div>
-        <div class="col-6 col-lg-5">
-            <button class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp"
-                    style="font-size:25px"></span></button>
-        </div>
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+      <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
     </div>
+  </div>
+</div>
+<br><br><br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-7">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#info">INFO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#courses">COURSES</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#colleague">ACTIVITIES</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="info" class="container-fluid tab-pane active" style="background-color:white">
+          <br><br>
+          <p><b>SURNAME: </b> {{staff.surname}}</p>
+          <br>
+          <p><b>FIRSTNAME: </b> {{staff.firstname}}</p>
+          <br>
+          <p><b><span class="fa fa-envelope"></span> </b> {{staff.email}}</p>
+          <br>
+          <p><b><span class="fa fa-user"></span> </b>{{staff.gender}}</p>
+          <br>
+          <p><b><span class="fa fa-phone"></span> </b>0{{staff.phone}}</p>
+          <br>
+          <p><b><span class="fa fa-comment-o"></span> </b>{{staff.bio}}</p>
+          <br>
+        </div>
+        <div id="courses" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <h5>
+            <b>COURSES HANDLED <span class="badge badge-danger badge-pill spany">{{length coursess}}</b>
+          </h5>
+          <br>
+          <ul>
+            {{#each coursess}}
+              <li>
+                <p><b>{{this.coursecode}}: </b><a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+              </li>
+              <br>
+            {{else}}
+              <p>NO COURSE ASSIGNED</p>
+            {{/each}}
+          </ul>
+        </div>
+        <div id="colleague" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <p>ACTIVITIES NOT AVAILABLE</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-10 col-md-5 col-lg-4">
+      <br><br><br>
+      <ul class="card">
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="#" title="books">BOOKS</a>
+            <span class="fa fa-book" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click to see books written by this lecturer.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="#" title="message">MESSAGE</a> <span class="fa fa-whatsapp"
+              style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to send this lecturer a message.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/staff/stafflist" title="Colleagues">COLLEAGUES</a>
+            <span class="fa fa-users" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to see other psychology lecturers.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <br><br>

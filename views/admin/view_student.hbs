@@ -1,107 +1,126 @@
 <br>
 <h5><b>
-        STUDENT'S PROFILE
-    </b></h5>
-<br><br>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-            <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-        </div>
-    </div>
-</div>
+    STUDENT PROFILE
+  </b>
+</h5>
 <br>
+{{#if message}}
+  <p class="alert alert-danger">{{message}}</p>
+  <br>
+{{/if}}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+      <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
+    </div>
+  </div>
+</div>
 <br><br><br>
-<ul class="nav nav-tabs nav-justified">
-    <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#home">INFO</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#info">COURSES</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#result">FRIENDS</a>
-    </li>
-</ul>
-<div class="tab-content">
-    <div id="home" class="container-fluid tab-pane active" style="background-color:white">
-        <br><br>
-        <p><b>SURNAME: </b> {{student.surname}}</p>
-        <br>
-        <p><b>FIRSTNAME: </b> {{student.firstname}}</p>
-        <br>
-        <p><b>MAT. NUMBER :</b> {{student.matnumber}}</p>
-        <br>
-        <p><b>LEVEL: </b>{{student.level}}</p>
-        <br>
-        <p><b>GENDER: </b>{{student.gender}}</p>
-        <br>
-        <p><b>E-MAIL:</b> {{student.email}}</p>
-        <br>
-        <p><b>IS_COURSEREP:</b> {{student.is_courserep}}
-            {{#if courserepno}}
-                <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
-                    <input type="text" style="display:none" class="form-control" name="courserep" value="Yes" />
-                    <button type="submit" class="btn btn-success"><span class="fa fa-thumbs-o-up">
-                    </button>
-                </form>
-            {{else}}
-                <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
-                    <input type="text" style="display:none" class="form-control" name="courserep" value="No" />
-                    <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down">
-                    </button>
-                </form>
-            {{/if}}
-        </p>
-        <br>
-        <p><b>PHONE NUMBER: </b>{{student.phone}}</p>
-        <br>
-        <p><b>STATUS: </b>{{student.bio}}</p>
-        <br>
-    </div>
-    <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
-        <br>
-        <h5><b>
-                COURSES OFFERED THIS SEMESTER <span
-                    class="badge badge-danger badge-pill spany">{{length registered_courses}}
-            </b>
-        </h5>
-        <br><br>
-        <div class="container-fluid">
-            <div class="row">
-                {{#each registered_courses}}
-                    <div class="col-12">
-                        <p>{{this.coursecode}}: <a href="/admin/viewcourse/{{this.id}}">{{this.coursetitle}}</a>
-                        </p>
-                        <br>
-                    </div>
-                {{else}}
-                    <p>NO REGISTERED COURSE</p>
-                {{/each}}
-            </div>
-        </div>
-    </div>
-    <div id="result" class="container-fluid tab-pane fade" style="background-color:white">
-        <br>
-        <h3>RESULT</h3>
-        <p>This is the result tabs</p>
-    </div>
-</div>
-<br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
-            <a href="/admin/studentfullresults/{{student.id}}" type="button" class="btn btn-primary btn-block"><span
-                    class="fa fa-book" style="font-size:25px"></span></a>
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-7">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#home">INFO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#info">COURSES</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#result">FRIENDS</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="home" class="container-fluid tab-pane active" style="background-color:white">
+          <br><br>
+          <p><b>SURNAME: </b> {{student.surname}}</p>
+          <br>
+          <p><b>FIRSTNAME: </b> {{student.firstname}}</p>
+          <br>
+          <p><b><span class="fa fa-graduation-cap"></span></b> {{student.matnumber}}</p>
+          <br>
+          <p><b>LEVEL: </b>{{student.level}}</p>
+          <br>
+          <p><b><span class="fa fa-user"></span> </b>{{student.gender}}</p>
+          <br>
+          <p><b><span class="fa fa-envelope"></span></b> {{student.email}}</p>
+          <br>
+          <p><b>IS_COURSEREP:</b> {{student.is_courserep}}
+            {{#if courserepno}}
+              <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
+                <input type="text" style="display:none" class="form-control" name="courserep" value="Yes" />
+                <button type="submit" class="btn btn-success"><span class="fa fa-thumbs-o-up">
+                </button>
+              </form>
+            {{else}}
+              <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
+                <input type="text" style="display:none" class="form-control" name="courserep" value="No" />
+                <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down">
+                </button>
+              </form>
+            {{/if}}
+          </p>
+          <br>
+          <p><b><span class="fa fa-phone"></span> </b>0{{student.phone}}</p>
+          <br>
+          <p><b><span class="fa fa-comment-o"></span> </b>{{student.bio}}</p>
+          <br>
         </div>
-        <div class="col-4">
-            <a href="#" type="button" class="btn btn-success disabled btn-block"><span class="fa fa-whatsapp"
-                    style="font-size:25px"></span></a>
+        <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
+          <br>
+          <h5><b>
+              COURSES OFFERED THIS SEMESTER <span
+                class="badge badge-danger badge-pill spany">{{length registered_courses}}
+            </b>
+          </h5>
+          <br><br>
+          <div class="container-fluid">
+            <div class="row">
+              {{#each registered_courses}}
+                <div class="col-12">
+                  <p>{{this.coursecode}}: <a href="/admin/viewcourse/{{this.id}}">{{this.coursetitle}}</a>
+                  </p>
+                  <br>
+                </div>
+              {{else}}
+                <p>NO REGISTERED COURSE...</p>
+              {{/each}}
+            </div>
+          </div>
         </div>
-        <div class="col-4">
-            <a href="/admin/list{{student.level}}students" type="button" class="btn btn-primary btn-block"><span
-                    class="fa fa-users" style="font-size:25px"></span></a>
+        <div id="result" class="container-fluid tab-pane fade" style="background-color:white">
+          <br>
+          <h3>RESULT</h3>
+          <p>NOT AVAILABLE...</p>
         </div>
+      </div>
     </div>
+    <div class="col-12 col-sm-10 col-md-5 col-lg-4">
+      <br><br><br>
+      <ul class="card">
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/admin/list{{student.level}}students"
+              title="results">COURSEMATES</a>
+            <span class="fa fa-users" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click to view {{student.surname}}'s coursemates.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="#" title="message">UPDATE</a> <span class="fa fa-whatsapp"
+              style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to chat with {{student.surname}}.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/admin/studentfullresults/{{student.id}}"
+              title="Coursemates">RESULT</a>
+            <span class="fa fa-briefcase" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to see {{student.surname}}'s results...</p>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <br><br>

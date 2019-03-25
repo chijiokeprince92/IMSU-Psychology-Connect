@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 // create a schema
-var newsSchema = new schema({
+var newsSchema = new Schema({
     picture: {
         type: String,
         required: true
@@ -23,7 +23,8 @@ var newsSchema = new schema({
         type: String
     },
     comments: [{
-        user: String,
+        userid: String,
+        username: String,
         comment: String,
         like: {
             type: Number,
@@ -35,20 +36,22 @@ var newsSchema = new schema({
         },
         reply: []
     }],
-    likey: [{
-        user: String
-    }],
-    dislikey: [{
-        user: String
-    }]
-});
+    likey: [],
+    dislikey: []
+})
 
-//Virtual for Student's URL
+// Virtual for Student's URL
 newsSchema
     .virtual('url')
     .get(function() {
-        return '/getfullnews/' + this._id;
-    });
+        return '/getfullnews/' + this._id
+    })
+
+newsSchema
+    .virtual('adminurl')
+    .get(function() {
+        return '/admin/getfullnews/' + this._id
+    })
 
 // creating a student model and exporting the module
-module.exports = mongoose.model('News', newsSchema);
+module.exports = mongoose.model('News', newsSchema)

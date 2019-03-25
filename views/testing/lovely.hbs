@@ -1,16 +1,50 @@
 <h5>TESTING CLOUDINARY IMAGE</h5>
-<br><br>
+<br>
+<p>{{prince}}</p>
+{{#is_equal (prince) 'JESUS'}}
+  <p>I LOVE JESUS</p>
+  {{else}}
+    <p>JESUS IS WORKING</p>
+{{/is_equal}}
+<br>
+<br>
+<!-- Edit the <nav> below: -->
+<nav class="navbar-light bg-light">
+  <!-- Add the <a> below: -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <!-- Make the follow elements into a nav component: -->
+    <ul>
+      <li>
+        <a href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li>
+        <a href="#">Weekly Specials</a>
+      </li>
+      <li>
+        <a href="#">About</a>
+      </li>
+    </ul>
+  </div>
+</nav>
 <form action="" method="POST" enctype="multipart/form-data">
-    <input type="file" class="form-control" name="image" placeholder="upload photo" required />
-    <br>
-    <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
-    <br>
+  <input type="file" class="form-control" name="image" placeholder="upload photo" required />
+  <br>
+  <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
+  <br>
 </form>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-10">
-            <img src="https://res.cloudinary.com/elijah/image/upload/v1548711719/samples/imagecon-group.jpg"
-                weight="20%" height="300px" />
-        </div>
+  <div class="row">
+    <div class="col-10">
+      <img src="https://res.cloudinary.com/elijah/image/upload/v1548711719/samples/imagecon-group.jpg" weight="20%"
+        height="300px" />
     </div>
+    <div class="col-10">
+      <img src="https://res.cloudinary.com/elijah/image/upload/v1552056227/c062l3iqmrqlgh3bpza5.jpg" weight="20%"
+        height="300px" />
+    </div>
+  </div>
 </div>

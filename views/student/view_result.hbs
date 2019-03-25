@@ -1,270 +1,302 @@
 <br>
 <h5><b>
-        STUDENT'S RESULTS
-    </b>
+    STUDENT RESULTS
+  </b>
 </h5>
 <br>
-<h5><b>
+<ul class="nav nav-tabs nav-justified">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#result100">100</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#result200">200</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#result300">300</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#result400">400</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#cgpa">CGPA</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div id="result100" class="container-fluid tab-pane active" style="background-color:white">
+    <br><br>
+    <h5><b>
         100 LEVEL, FIRST SEMESTER
-    </b></h5>
-<div class="container-fluid">
-    <div class="row">
+      </b></h5>
+    <div class="container-fluid">
+      <div class="row">
         <div class="col-12">
-            <div class="table-responsive-sm">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>COURSE CODE</th>
-                            <th class="seek">COURSE TITLE</th>
-                            <th>SCORES</th>
-                            <th>GRADE</th>
-                        </tr>
-                    </thead>
-                    {{#each oneresult}}
-                        <tr>
-                            <td>{{this.coursecode}}</td>
-                            <td class="seek">{{this.coursetitle}}</td>
-                            <td>{{this.score}}</td>
-                            <td>{{this.grade}}</td>
-                        </tr>
-                        {{else}}
-                            <p>RESULTS NOT AVAILABLE</p>
-                    {{/each}}
-                </table>
-                <br>
-            </div>
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>COURSE CODE</th>
+                  <th class="seek">COURSE TITLE</th>
+                  <th>SCORES</th>
+                  <th>GRADE</th>
+                </tr>
+              </thead>
+              {{#each oneresult}}
+                <tr>
+                  <td>{{this.coursecode}}</td>
+                  <td class="seek">{{this.coursetitle}}</td>
+                  <td>{{this.score}}</td>
+                  <td>{{this.grade}}</td>
+                </tr>
+              {{else}}
+                <p>RESULTS NOT AVAILABLE</p>
+              {{/each}}
+            </table>
+            <br>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<br>
-<h5><b>
+    <br>
+    <h5><b>
         100 LEVEL, SECOND SEMESTER
-    </b></h5>
-<div class="container-fluid">
-    <div class="row">
+      </b></h5>
+    <div class="container-fluid">
+      <div class="row">
         <div class="col-12">
-            <div class="table-responsive-sm">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>COURSE CODE</th>
-                            <th class="seek">COURSE TITLE</th>
-                            <th>SCORES</th>
-                            <th>GRADE</th>
-                        </tr>
-                    </thead>
-                    {{#each oneresult2}}
-                        <tr>
-                            <td>{{this.coursecode}}</td>
-                            <td class="seek">{{this.coursetitle}}</td>
-                            <td>{{this.score}}</td>
-                            <td>{{this.grade}}</td>
-                        </tr>
-                        {{else}}
-                            <p>RESULTS NOT AVAILABLE</p>
-                    {{/each}}
-                </table>
-                <br>
-            </div>
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>COURSE CODE</th>
+                  <th class="seek">COURSE TITLE</th>
+                  <th>SCORES</th>
+                  <th>GRADE</th>
+                </tr>
+              </thead>
+              {{#each oneresult2}}
+                <tr>
+                  <td>{{this.coursecode}}</td>
+                  <td class="seek">{{this.coursetitle}}</td>
+                  <td>{{this.score}}</td>
+                  <td>{{this.grade}}</td>
+                </tr>
+              {{else}}
+                <p>RESULTS NOT AVAILABLE</p>
+              {{/each}}
+            </table>
+            <br>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<br>
-<h5><b>
+  </div>
+  <div id="result200" class="container-fluid tab-pane fade" style="background-color:white">
+    <br><br>
+    <h5><b>
         200 LEVEL, FIRST SEMESTER
-    </b></h5>
-<div class="container-fluid">
-    <div class="row">
+      </b></h5>
+    <div class="container-fluid">
+      <div class="row">
         <div class="col-12">
-            <div class="table-responsive-sm">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>COURSE CODE</th>
-                            <th class="seek">COURSE TITLE</th>
-                            <th>SCORES</th>
-                            <th>GRADE</th>
-                        </tr>
-                    </thead>
-                    {{#each tworesult}}
-                        <tr>
-                            <td>{{this.coursecode}}</td>
-                            <td class="seek">{{this.coursetitle}}</td>
-                            <td>{{this.score}}</td>
-                            <td>{{this.grade}}</td>
-                        </tr>
-                        {{else}}
-                            <p>RESULTS NOT AVAILABLE</p>
-                    {{/each}}
-                </table>
-                <br>
-            </div>
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>COURSE CODE</th>
+                  <th class="seek">COURSE TITLE</th>
+                  <th>SCORES</th>
+                  <th>GRADE</th>
+                </tr>
+              </thead>
+              {{#each tworesult}}
+                <tr>
+                  <td>{{this.coursecode}}</td>
+                  <td class="seek">{{this.coursetitle}}</td>
+                  <td>{{this.score}}</td>
+                  <td>{{this.grade}}</td>
+                </tr>
+              {{else}}
+                <p>RESULTS NOT AVAILABLE</p>
+              {{/each}}
+            </table>
+            <br>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<br>
-<h5><b>
+    <br>
+    <h5><b>
         200 LEVEL, SECOND SEMESTER
-    </b></h5>
-<div class="container-fluid">
-    <div class="row">
+      </b></h5>
+    <div class="container-fluid">
+      <div class="row">
         <div class="col-12">
-            <div class="table-responsive-sm">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>COURSE CODE</th>
-                            <th class="seek">COURSE TITLE</th>
-                            <th>SCORES</th>
-                            <th>GRADE</th>
-                        </tr>
-                    </thead>
-                    {{#each twotworesult}}
-                        <tr>
-                            <td>{{this.coursecode}}</td>
-                            <td class="seek">{{this.coursetitle}}</td>
-                            <td>{{this.score}}</td>
-                            <td>{{this.grade}}</td>
-                        </tr>
-                        {{else}}
-                            <p>RESULTS NOT AVAILABLE</p>
-                    {{/each}}
-                </table>
-                <br>
-            </div>
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>COURSE CODE</th>
+                  <th class="seek">COURSE TITLE</th>
+                  <th>SCORES</th>
+                  <th>GRADE</th>
+                </tr>
+              </thead>
+              {{#each twotworesult}}
+                <tr>
+                  <td>{{this.coursecode}}</td>
+                  <td class="seek">{{this.coursetitle}}</td>
+                  <td>{{this.score}}</td>
+                  <td>{{this.grade}}</td>
+                </tr>
+              {{else}}
+                <p>RESULTS NOT AVAILABLE</p>
+              {{/each}}
+            </table>
+            <br>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<br>
-<h5><b>
+  </div>
+  <div id="result300" class="container-fluid tab-pane fade" style="background-color:white">
+    <br><br>
+    <h5><b>
         300 LEVEL, FIRST SEMESTER
-    </b></h5>
-<div class="container-fluid">
-    <div class="row">
+      </b></h5>
+    <div class="container-fluid">
+      <div class="row">
         <div class="col-12">
-            <div class="table-responsive-sm">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>COURSE CODE</th>
-                            <th class="seek">COURSE TITLE</th>
-                            <th>SCORES</th>
-                            <th>GRADE</th>
-                        </tr>
-                    </thead>
-                    {{#each threeresult}}
-                        <tr>
-                            <td>{{this.coursecode}}</td>
-                            <td class="seek">{{this.coursetitle}}</td>
-                            <td>{{this.score}}</td>
-                            <td>{{this.grade}}</td>
-                        </tr>
-                        {{else}}
-                            <p>RESULTS NOT AVAILABLE</p>
-                    {{/each}}
-                </table>
-                <br>
-            </div>
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>COURSE CODE</th>
+                  <th class="seek">COURSE TITLE</th>
+                  <th>SCORES</th>
+                  <th>GRADE</th>
+                </tr>
+              </thead>
+              {{#each threeresult}}
+                <tr>
+                  <td>{{this.coursecode}}</td>
+                  <td class="seek">{{this.coursetitle}}</td>
+                  <td>{{this.score}}</td>
+                  <td>{{this.grade}}</td>
+                </tr>
+              {{else}}
+                <p>RESULTS NOT AVAILABLE</p>
+              {{/each}}
+            </table>
+            <br>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<br>
-<h5><b>
+    <br>
+    <h5><b>
         300 LEVEL, SECOND SEMESTER
-    </b></h5>
-<div class="container-fluid">
-    <div class="row">
+      </b></h5>
+    <div class="container-fluid">
+      <div class="row">
         <div class="col-12">
-            <div class="table-responsive-sm">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>COURSE CODE</th>
-                            <th class="seek">COURSE TITLE</th>
-                            <th>SCORES</th>
-                            <th>GRADE</th>
-                        </tr>
-                    </thead>
-                    {{#each threetworesult}}
-                        <tr>
-                            <td>{{this.coursecode}}</td>
-                            <td class="seek">{{this.coursetitle}}</td>
-                            <td>{{this.score}}</td>
-                            <td>{{this.grade}}</td>
-                        </tr>
-                        {{else}}
-                            <p>RESULTS NOT AVAILABLE</p>
-                    {{/each}}
-                </table>
-                <br>
-            </div>
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>COURSE CODE</th>
+                  <th class="seek">COURSE TITLE</th>
+                  <th>SCORES</th>
+                  <th>GRADE</th>
+                </tr>
+              </thead>
+              {{#each threetworesult}}
+                <tr>
+                  <td>{{this.coursecode}}</td>
+                  <td class="seek">{{this.coursetitle}}</td>
+                  <td>{{this.score}}</td>
+                  <td>{{this.grade}}</td>
+                </tr>
+              {{else}}
+                <p>RESULTS NOT AVAILABLE</p>
+              {{/each}}
+            </table>
+            <br>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<br>
-<h5><b>
+  </div>
+  <div id="result400" class="container-fluid tab-pane fade" style="background-color:white">
+    <br><br>
+    <h5><b>
         400 LEVEL, FIRST SEMESTER
-    </b></h5>
-<div class="container-fluid">
-    <div class="row">
+      </b></h5>
+    <div class="container-fluid">
+      <div class="row">
         <div class="col-12">
-            <div class="table-responsive-sm">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>COURSE CODE</th>
-                            <th class="seek">COURSE TITLE</th>
-                            <th>SCORES</th>
-                            <th>GRADE</th>
-                        </tr>
-                    </thead>
-                    {{#each fourresult}}
-                        <tr>
-                            <td>{{this.coursecode}}</td>
-                            <td class="seek">{{this.coursetitle}}</td>
-                            <td>{{this.score}}</td>
-                            <td>{{this.grade}}</td>
-                        </tr>
-                        {{else}}
-                            <p>RESULTS NOT AVAILABLE</p>
-                    {{/each}}
-                </table>
-                <br>
-            </div>
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>COURSE CODE</th>
+                  <th class="seek">COURSE TITLE</th>
+                  <th>SCORES</th>
+                  <th>GRADE</th>
+                </tr>
+              </thead>
+              {{#each fourresult}}
+                <tr>
+                  <td>{{this.coursecode}}</td>
+                  <td class="seek">{{this.coursetitle}}</td>
+                  <td>{{this.score}}</td>
+                  <td>{{this.grade}}</td>
+                </tr>
+              {{else}}
+                <p>RESULTS NOT AVAILABLE</p>
+              {{/each}}
+            </table>
+            <br>
+          </div>
         </div>
+      </div>
     </div>
+    <br>
+    <h5><b>
+        400 LEVEL, SECOND SEMESTER
+      </b></h5>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="table-responsive-sm">
+            <table class="table table-hover table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th>COURSE CODE</th>
+                  <th class="seek">COURSE TITLE</th>
+                  <th>SCORES</th>
+                  <th>GRADE</th>
+                </tr>
+              </thead>
+              {{#each fourtworesult}}
+                <tr>
+                  <td>{{this.coursecode}}</td>
+                  <td class="seek">{{this.coursetitle}}</td>
+                  <td>{{this.score}}</td>
+                  <td>{{this.grade}}</td>
+                </tr>
+              {{else}}
+                <p>RESULTS NOT AVAILABLE</p>
+              {{/each}}
+            </table>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="cgpa" class="container-fluid tab-pane fade" style="background-color:white">
+    <br><br>
+    <p>CALCULATING...</p>
+  </div>
 </div>
 <br>
-<h5><b>
-        400 LEVEL, SECOND SEMESTER
-    </b></h5>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="table-responsive-sm">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>COURSE CODE</th>
-                            <th class="seek">COURSE TITLE</th>
-                            <th>SCORES</th>
-                            <th>GRADE</th>
-                        </tr>
-                    </thead>
-                    {{#each fourtworesult}}
-                        <tr>
-                            <td>{{this.coursecode}}</td>
-                            <td class="seek">{{this.coursetitle}}</td>
-                            <td>{{this.score}}</td>
-                            <td>{{this.grade}}</td>
-                        </tr>
-                        {{else}}
-                            <p>RESULTS NOT AVAILABLE</p>
-                    {{/each}}
-                </table>
-                <br>
-            </div>
-        </div>
-    </div>
-</div>
-<br><br>

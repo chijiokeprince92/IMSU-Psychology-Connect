@@ -1,110 +1,126 @@
 <br>
 <h5><b>
-        LATEST NEWS!!
-    </b>
+    LATEST NEWS!!
+  </b>
 </h5>
-{{#if message}}
-    <p class="alert alert-success">{{message}}</p>
-{{/if}}
 <br>
 <ul>
-    <div class="container-fluid">
-        <div class="row">
-            {{#each newspaper}}
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <li class="card">
-                        <div class="col-12 card-header">
-                            <h5>
-                                <b>
-                                    <a href="/studentgetfullnews/{{this.id}}">{{this.heading}}</a>
-                                </b>
-                            </h5>
-                        </div>
-                        <div class="card-body col-12">
-                            <img src="/{{this.picture}}" alt="news image" class="rounded news" />
-                            <br><br>
-                            <p>{{this.passage}}</p>
-                        </div>
-                        <div class="col-12 card-footer">
-                            <button class="btn btn-danger"><span class="fa fa-commenting-o"></span>
-                                {{length this.comments}}</button>
-                            <form id="newslike{{this.id}}" action="/newslike/{{this.id}}" method="POST"
-                                style="display:inline">
-                                <input type="text" style="display:none" id="newsId{{this.id}}" value="{{this.id}}" />
-                                <input type="text" style="display:none" id="userId" value="{{../allowed.id}}" />
-                                <button type="submit" class="btn btn-primary"><span class="fa fa-thumbs-o-up"></span>
-                                    {{length this.likey}}</button>
-                            </form>
-                            <form id="newsdislike{{this.id}}" action="/newsdislike/{{this.id}}" method="POST"
-                                style="display:inline">
-                                <input type="text" style="display:none" id="newsId{{this.id}}" value="{{this.id}}" />
-                                <input type="text" style="display:none" id="userId" value="{{../allowed.id}}" />
-                                <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span>
-                                    {{length this.dislikey}}</button>
-                            </form>
-                        </div>
-                    </li>
-                    <br><br>
-                </div>
-                <script>
-                    $('document').ready(function () {
-                        $(function () {
-                            var socket = io();
-                            $('#newslike{{this.id}}').submit(function (event) {
-                                event.preventDefault();
-
-                                var newsId = $('#newsId{{this.id}}').val();
-                                var user = $('#userId').val();
-
-                                $.post(
-                                    '/newslike/' + newsId,
-                                    {
-                                        newsId: newsId,
-                                        user: user,
-                                    },
-                                    function (response, err) {
-                                        if (response) {
-                                            console.log('success')
-                                        } else {
-                                            console.log(err, 'err')
-                                        }
-                                    });
-                            });
-                        });
-                    });
-                </script>
-                <script>
-                    $('document').ready(function () {
-                        $(function () {
-                            var socket = io();
-                            $('#newsdislike{{this.id}}').submit(function (event) {
-                                event.preventDefault();
-
-                                var newsId = $('#newsId{{this.id}}').val();
-                                var user = $('#userId').val();
-
-                                $.post(
-                                    '/newsdislike/' + newsId,
-                                    {
-                                        newsId: newsId,
-                                        user: user,
-                                    },
-                                    function (response, err) {
-                                        if (response) {
-                                            console.log('success')
-                                        } else {
-                                            console.log(err, 'err')
-                                        }
-                                    });
-                            });
-                        });
-                    });
-                </script>
-            {{else}}
-                <p><b>THERE ARE NO UPLOADED NEWS</b></p>
-            {{/each}}
-            <br><br>
+  <div class="container-fluid">
+    <div class="row">
+      {{#each newspaper}}
+        <div class="col-12 col-sm-6 col-lg-4">
+          <li class="card">
+            <div class="col-12 card-header">
+              <h5>
+                <b>
+                  <a href="/studentgetfullnews/{{this.id}}">{{this.heading}}</a>
+                </b>
+              </h5>
+            </div>
+            <div class="card-body col-12">
+              <img src="/{{this.picture}}" alt="news image" class="rounded news" />
+              <br><br>
+              <p>{{truncate this.passage 130}}</p>
+            </div>
+            <div class="col-12 card-footer">
+              <button class="btn btn-light"><span class="fa fa-commenting-o" style="color:lightgreen"> </span>
+                {{length this.comments}}</button>
+              {{#inArray this.likey ../allowed.id}}
+                <button class="btn btn-light fa fa-thumbs-o-up" style="color:blue"></button>
+                <span id="spn{{this.id}}">{{length this.likey}}</span>
+      {{else}}
+        <form id="newslike{{this.id}}" action="/newslike/{{this.id}}" method="POST" style="display:inline">
+          <input type="text" style="display:none" id="newsId{{this.id}}" value="{{this.id}}" />
+          <input type="text" style="display:none" id="numb{{this.id}}" value="{{length this.likey}}" />
+          <input type="text" style="display:none" id="userId" value="{{../allowed.id}}" />
+          <button type="submit" class="btn btn-light fa fa-thumbs-o-up"></button>
+        </form>
+        <span id="spn{{this.id}}">{{length this.likey}}</span>
+              {{/inArray}}
+              {{#inArray this.dislikey ../allowed.id}}
+                <button class="btn btn-light fa fa-thumbs-o-down" style="color:red"></button>
+                <span id="dis{{this.id}}">{{length this.dislikey}}</span>
+      {{else}}
+        <form id="newsdislike{{this.id}}" action="/newsdislike/{{this.id}}" method="POST" style="display:inline">
+          <input type="text" style="display:none" id="newsI{{this.id}}" value="{{this.id}}" />
+          <input type="text" style="display:none" id="nod{{this.id}}" value="{{length this.dislikey}}" />
+          <input type="text" style="display:none" id="userI" value="{{../allowed.id}}" />
+          <button type="submit" class="btn btn-light fa fa-thumbs-o-down"></button>
+          <span id="dis{{this.id}}">{{length this.dislikey}}</span>
+        </form>
+              {{/inArray}}
+            </div>
+          </li>
+          <br><br>
         </div>
+        <script>
+          // function for live update when news is liked without page reload
+          $('document').ready(function () {
+
+            var socket = io();
+            var numb = $('#numb{{this.id}}').val();
+            $('#newslike{{this.id}}').submit(function (event) {
+              event.preventDefault();
+              var newsId = $('#newsId{{this.id}}').val();
+              var user = $('#userId').val();
+
+              $.post(
+                '/newslike/' + newsId,
+                {
+                  newsId: newsId,
+                  user: user
+                },
+                function (response, err) {
+                  if (response) {
+                    console.log('success');
+                  } else {
+                    console.log(err, 'err');
+                  }
+                });
+            });
+            socket.on('likey', function (msg) {
+              var spin = Number(msg) + 1;
+              $('#spn{{this.id}}').text(spin);
+            });
+          });
+        </script>
+        <script>
+          // function for live update when news is disliked without page reload
+          $('document').ready(function () {
+
+            var socket = io();
+            var nod = $('#nod{{this.id}}').val();
+            $('#newsdislike{{this.id}}').submit(function (event) {
+              event.preventDefault();
+
+              var newsId = $('#newsI{{this.id}}').val();
+              var user = $('#userI').val();
+
+              $.post(
+                '/newsdislike/' + newsId,
+                {
+                  newsId: newsId,
+                  user: user,
+                },
+                function (response, err) {
+                  if (response) {
+                    console.log('success')
+                  } else {
+                    console.log(err, 'err')
+                  }
+                });
+            });
+            socket.on('dislikey', function (msg) {
+              var spin = Number(msg) + 1;
+              $('#dis{{this.id}}').text(spin);
+            });
+          });
+        </script>
+      {{else}}
+        <p><b>THERE ARE NO UPLOADED NEWS</b></p>
+      {{/each}}
+      <br><br>
     </div>
+  </div>
 </ul>
 <br><br>

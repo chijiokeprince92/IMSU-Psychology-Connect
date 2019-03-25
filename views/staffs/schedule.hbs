@@ -1,59 +1,131 @@
 <br>
-<h4><b>
-        <center>SCHEDULE</center>
-    </b>
-</h4>
-<br><br>
-<div class="container-fluid">
-    <div class="row">
+<h5><b>
+    SCHEDULE
+  </b>
+</h5>
+<br>
+<ul class="nav nav-tabs nav-justified">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#monday"><b>MON<span class="seek">DAY</span></b></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#tuesday"><b>TUE<span class="seek">SDAY</span></b></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#wednesday"><b>WED<span class="seek">NESDAY</span></b></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#thursday"><b>THU<span class="seek">RSDAY</span></b></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#friday"><b>FRI<span class="seek">DAY</span></b></a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div id="monday" class="container-fluid tab-pane active" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
         <nav class="col-12">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>TIME</th>
-                            <th>MONDAY</th>
-                            <th>TUESDAY</th>
-                            <th>WEDNESDAY</th>
-                            <th>THURSDAY</th>
-                            <th>FRIDAY</th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td>8AM-10AM</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>10AM-12PM</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>12PM-2PM</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>2PM-4PM</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
+          <ul>
+            {{#each monday}}
+              <li class="card">
+                <p><b>COURSECODE:</b> {{this.course}}</p>
+                <p><b>LEVEL:</b> {{this.level}}</p>
+                <p><b>TIME:</b> {{this.time}}</p>
+              </li>
+              <br>
+            {{else}}
+              <p>NOT AVAILABLE</p>
+            {{/each}}
+          </ul>
         </nav>
+      </div>
     </div>
+  </div>
+  <div id="tuesday" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-12">
+          <ul>
+            {{#each tuesday}}
+              <li class="card">
+                <p><b>COURSECODE:</b> {{this.course}}</p>
+                <p><b>LEVEL:</b> {{this.level}}</p>
+                <p><b>TIME:</b> {{this.time}}</p>
+              </li>
+              <br>
+            {{else}}
+              <p>NOT AVAILABLE</p>
+            {{/each}}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div id="wednesday" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-12">
+          <ul>
+            {{#each wednesday}}
+              <li class="card">
+                <p><b>COURSECODE:</b> {{this.course}}</p>
+                <p><b>LEVEL:</b> {{this.level}}</p>
+                <p><b>TIME:</b> {{this.time}}</p>
+              </li>
+              <br>
+            {{else}}
+              <p>NOT AVAILABLE</p>
+            {{/each}}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div id="thursday" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-12">
+          <ul>
+            {{#each thursday}}
+              <li class="card">
+                <p><b>COURSECODE:</b> {{this.course}}</p>
+                <p><b>LEVEL:</b> {{this.level}}</p>
+                <p><b>TIME:</b> {{this.time}}</p>
+              </li>
+              <br>
+            {{else}}
+              <p>NOT AVAILABLE</p>
+            {{/each}}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div id="friday" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-12">
+          <ul>
+            {{#each friday}}
+              <li class="card">
+                <p><b>COURSECODE:</b> {{this.course}}</p>
+                <p><b>LEVEL:</b> {{this.level}}</p>
+                <p><b>TIME:</b> {{this.time}}</p>
+              </li>
+              <br>
+            {{else}}
+              <p>NOT AVAILABLE</p>
+            {{/each}}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
 </div>
 <br><br>

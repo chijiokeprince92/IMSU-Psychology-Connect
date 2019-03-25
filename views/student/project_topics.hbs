@@ -1,26 +1,26 @@
 <br>
 <h5><b>
-        PROJECT TOPICS
-    </b></h5>
+    PROJECT TOPICS <span class="badge badge-danger badge-pill spany">{{length projectss}}</span>
+  </b></h5>
 <br><br>
 <ol>
-    <div class="container-fluid">
-        <div class="row">
-            {{#each projectss}}
-                <li>
-                    <div class="col-12">
-                        <p><a href="/{{this.project}}">{{this.topic}}</a></p>
-                        <br>
-                    </div>
-                    <div class="col-12">
-                        <p>{{this.description}}</p>
-                    </div>
-                    <br><br>
-                </li>
-                {{else}}
-                    <p>THERE ARE NO UPLOADED PROJECT TOPIC ON THIS WEBSITE</p>
-            {{/each}}
-        </div>
+  <div class="container-fluid">
+    <div class="row">
+      {{#each projectss}}
+        <li>
+          <div class="col-12">
+            <p><a href="/{{this.project}}">{{this.topic}}</a></p>
+            <br>
+          </div>
+          <div class="col-12">
+            <p>{{this.description}}</p>
+          </div>
+          <br><br>
+        </li>
+      {{else}}
+        <p>THERE ARE NO UPLOADED PROJECT TOPIC ON THIS WEBSITE</p>
+      {{/each}}
     </div>
+  </div>
 </ol>
 <br><br>

@@ -1,79 +1,133 @@
 <br>
-<h5>
-    <b>
-        YOUR PROFILE.
-    </b>
-</h5>
-<br>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-sm-10 col-md-6 col-lg-4">
-            {{#if photo}}
-                <img src="/{{staff.photo}}" alt="profile image" class="rounded" width="100%" />
-            {{else}}
-                <img src="../images/psylogo4.jpg" alt="psy image" class="rounded" width="100%" />
-            {{/if}}
-            <form id="drake" style="display:none" action="/staff/updatepics/{{staff.id}}" method="POST"
-                enctype="multipart/form-data" style="display:inline">
-                <input type="file" class="form-control" name="image" placeholder="upload photo" required>
-                <button type="submit" class="btn btn-danger">EDIT</button>
-            </form>
-            <button id="cousin" class="btn btn-danger"><span class="fa fa-edit"></span> PICS</button>
-            <br><br>
-        </div>
-        <div class="col-12 col-md-6 col-lg-8">
-            <p><b>EMAIL:</b> {{staff.email}}</p>
-            <br>
-            <p><b>SURNAME: </b> {{staff.surname}}</p>
-            <br>
-            <p><b>FIRSTNAME: </b> {{staff.firstname}}</p>
-            <br>
-            <p><b>STAFF_ID :</b> {{staff.staff_id}}</p>
-            <br>
-            <p><b>GENDER: </b>{{staff.gender}}</p>
-            <br>
-            <p><b>PHONE NUMBER: </b>{{staff.phone}}</p>
-            <br>
-            <p><b>STATUS: </b>{{staff.bio}}</p>
-            <br>
-        </div>
-    </div>
-</div>
 <h5><b>
-        COURSES HANDLED <span class="badge badge-danger badge-pill spany">{{length coursess}}
-    </b>
+    YOUR PROFILE
+  </b>
 </h5>
 <br>
-<ol>
-    {{#each coursess}}
-        <li>
-            <p><b>{{this.coursecode}}: </b><a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
-        </li>
-        <br>
-    {{else}}
-        <p>NO COURSE ASSIGNED</p>
-    {{/each}}
-</ol>
-<br>
-<script>
-    $(document).ready(function () {
-        $('#cousin').click(function () {
-            $('#drake').toggle();
-            $('#cousin').toggle();
-        });
-    });
-</script>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
-            <a href="/staff/updateprofile/{{staff.id}}" type="button" class="btn btn-info btn-lg btn-block"
-                title="edit profile"><span class="fa fa-edit" style="font-size:25px"></span>
-            </a>
-        </div>
-        <div class="col-4">
-            <a href="/staff/stafflist" type="button" class="btn btn-primary btn-lg btn-block" title="colleagues"><span
-                    class="fa fa-users" style="font-size:25px"></span></a>
-        </div>
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+      {{#if photo}}
+        <img src="/{{staff.photo}}" alt="profile image" class="rounded" width="100%" />
+      {{else}}
+        <img src="../images/psylogo4.jpg" alt="psy image" class="rounded" width="100%" />
+      {{/if}}
+      <form id="drake" style="display:none" action="/staff/updatepics/{{staff.id}}" method="POST"
+        enctype="multipart/form-data" style="display:inline">
+        <input type="file" class="form-control" name="image" placeholder="upload photo" required>
+        <button type="submit" class="btn btn-danger">EDIT</button>
+      </form>
+      <button id="cousin" class="btn btn-success" style="margin-top:-40px"><span class="fa fa-camera"></span></button>
+      <br><br>
     </div>
+  </div>
+</div>
+<br><br><br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-7">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#info">INFO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#courses">COURSES</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#activities">ACTIVITIES</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="info" class="container-fluid tab-pane active" style="background-color:white">
+          <br><br>
+          <p><b><span class="fa fa-envelope"> </span><span class="seek"> </span> </b> {{staff.email}}
+          </p>
+          <br>
+          <p><b>SURNAME: </b> {{staff.surname}}</p>
+          <br>
+          <p><b>FIRSTNAME: </b> {{staff.firstname}}</p>
+          <br>
+          <p><b><span class="fa fa-lock"> </span> </b> {{staff.staff_id}}</p>
+          <br>
+          <p><b><span class="fa fa-user"> </span> </b>{{staff.gender}}</p>
+          <br>
+          <p><b><span class="fa fa-phone"> </span> </b> 0{{staff.phone}}</p>
+          <br>
+          <p><b>STATUS: </b>{{staff.bio}}</p>
+          <br>
+        </div>
+        <div id="courses" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <h5>
+            <b>COURSES HANDLED <span class="badge badge-danger badge-pill spany">{{length coursess}}</b>
+          </h5>
+          <br>
+          <ul>
+            {{#each coursess}}
+              <li>
+                <p><b>{{this.coursecode}}: </b><a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+              </li>
+              <br>
+            {{else}}
+              <p>NO COURSE ASSIGNED</p>
+            {{/each}}
+          </ul>
+        </div>
+        <div id="activities" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <p><span class="fa fa-expeditedssl"> </span></p>
+          <br>
+          <p><b><span class="fa fa-globe"> </span>:</b></p>
+          <br>
+          <p><span class="fa fa-handshake-o"> </span></p>
+          <br>
+          <p><span class="fa fa-id-card-o"> </span></p>
+          <br>
+          <p><b><span class="fa fa-facebook"> </span>:</b></p>
+          <br>
+          <p><b><span class="fa fa-instagram"> </span>:</b></p>
+          <br>
+          <p><span class="fa fa-facebook-square"> </span></p>
+          <br>
+          <p><span class="fa fa-expeditedssl"> </span></p>
+          <br>
+          <p><b><span class="fa fa-gavel"> </span>:</b></p>
+          <br>
+          <p><b><span class="fa fa-pencil-alt"> </span></b></p>
+          <br>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-10 col-md-5 col-lg-4">
+      <br><br><br>
+      <ul class="card">
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="#" title="books">BOOKS</a>
+            <span class="fa fa-book" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click to see books written by you.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/staff/updateprofile/{{staff.id}}" title="books">EDIT</a>
+            <span class="fa fa-edit" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click to edit your profile.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="#" title="message">MESSAGE</a> <span class="fa fa-whatsapp"
+              style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to send this lecturer a message.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/staff/stafflist" title="Colleagues">COLLEAGUES</a>
+            <span class="fa fa-users" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to see other psychology lecturers.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <br><br>

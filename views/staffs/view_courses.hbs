@@ -1,76 +1,135 @@
 <br>
 <h5><b>
-        COURSE DETAILS
-    </b>
+    COURSE DETAILS
+  </b>
 </h5>
 <br>
+<br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-md-8">
-            <p><b>COURSE_CODE:</b> {{course.coursecode}}</p>
-            <br>
-            <p><b>COURSE_TITLE: </b> {{course.coursetitle}}</p>
-            <br>
-            <p><b>LEVEL: </b> {{course.level}}</p>
-            <br>
-            <p><b>SEMESTER:</b> {{course.semester}}</p>
-            <br>
-            <p><b>UNITS: </b>{{course.units}}</p>
-            <br>
-            <p><b>BORROWED_COURSE: </b>{{course.borrowed}}</p>
-            <br>
-            <p><b>LECTURER / S: </b></p>
-            <br>
-            {{#each lecky}}
-                <p> <a href="/staff/colleague/{{this.id}}">{{this.surname}} {{this.firstname}}</a></p>
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-7">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#coursedetails">INFO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#lecturer">LECT<span class="seek">URER/S</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#courseoutline">OUTLINE</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="coursedetails" class="container-fluid tab-pane active" style="background-color:white">
+          <br><br>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12 col-lg-7">
+                <p><b>COURSE_CODE:</b> {{course.coursecode}}</p>
                 <br>
-            {{/each}}
+                <p><b>COURSE_TITLE: </b> {{course.coursetitle}}</p>
+                <br>
+                <p><b>LEVEL: </b> {{course.level}}</p>
+                <br>
+                <p><b>SEMESTER:</b> {{course.semester}}</p>
+                <br>
+                <p><b>UNITS: </b>{{course.units}}</p>
+                <br>
+                <p><b>BORROWED_COURSE: </b>{{course.borrowed}}</p>
+                <br>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
-<br>
-<h5>
-    <b>COURSE OUTLINE</b>
-</h5>
-<br>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            {{#if course.courseoutline}}
-                <p>{{course.courseoutline}}</p>
+        <div id="lecturer" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <ul>
+            {{#each lecky}}
+              <li class="container-fluid">
+                <div class="row">
+                  {{#if this.photo}}
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                      <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
+                    </div>
+                  {{else}}
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                      <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                    </div>
+                  {{/if}}
+                  <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+                    <p><a href="/staff/colleague/{{this.id}}">{{this.name}}</a></p>
+                    <p>
+                      <b>Gender: </b>{{this.gender}}<br>
+                      <b>Status: </b>{{this.bio}}
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <br><br>
             {{else}}
-                <p>COURSE_OUTLINE NOT AVAILABLE</p>
-            {{/if}}
-            <br>
+              <p>THERE ARE NO REGISTERED PSYCHOLOGY STAFF</p>
+            {{/each}}
+          </ul>
         </div>
+        <div id="courseoutline" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <h5><b>
+              COURSE OUTLINE
+            </b>
+          </h5>
+          <br>
+          {{#if course.courseoutline}}
+            <p>{{course.courseoutline}}</p>
+          {{else}}
+            <p>COURSE_OUTLINE NOT AVAILABLE</p>
+          {{/if}}
+          <br>
+        </div>
+      </div>
     </div>
-</div>
-<form id="drake" style="display:none" action="/staff/editcourseoutline/{{course.id}}" method="POST">
-    <div class="form-group input-group-lg">
-        <label for="courseoutline"><b>TYPE COURSEOUTLINE</b></label>
-        <textarea type="text" class="form-control" name="courseoutline" placeholder="Type a message...">{{course.courseoutline}}</textarea>
+    <div class="col-12 col-sm-10 col-md-5 col-lg-4">
+      <br><br><br>
+      <ul class="card">
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold">EDIT
+            <span class="fa fa-edit" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click the button below to edit course outline for this course.</p>
+          <form id="outlineform" style="display:none" action="/staff/editcourseoutline/{{course.id}}" method="POST">
+            <div class="form-group input-group-lg">
+              <label for="courseoutline"><b>TYPE COURSEOUTLINE</b></label>
+              <textarea type="text" class="form-control" name="courseoutline"
+                placeholder="Type a message...">{{course.courseoutline}}</textarea>
+            </div>
+            <button type="submit" class="btn btn-danger">Update</button>
+          </form>
+          <script>
+            $(document).ready(function () {
+              $('#outlinebtn').click(function () {
+                $('#outlineform').toggle("slow");
+                $('#outlinebtn').toggle("slow");
+
+              });
+            });
+          </script>
+          <button id="outlinebtn" title="register" class="btn btn-success">EDIT</button>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/staff/viewcourselect/{{course.id}}"
+              title="Edit profile">STUDENTS<span class="seek"> OFFERING</span></a> <span class="fa fa-users"
+              style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to see list of students offering this course.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="#" title="Coursemates">TEST BOOK</a>
+            <span class="fa fa-book" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to see the approved textbook for this course.</p>
+        </li>
+      </ul>
     </div>
-    <button type="submit" class="btn btn-danger">Update</button>
-</form>
-<script>
-    $(document).ready(function () {
-        $('#cousin').click(function () {
-            $('#drake').toggle("slow");
-        });
-    });
-</script>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
-            <button id="cousin" class="btn btn-primary btn-block"><span class="fa fa-edit" style="font-size:25px"></span></button>
-        </div>
-        <div class="col-4">
-            <a href="#" type="button" class="btn btn-primary btn-block disabled"><span class="fa fa-book" style="font-size:25px"></span></a>
-        </div>
-        <div class="col-4">
-            <a href="/staff/viewcourselect/{{course.id}}" type="button" class="btn btn-primary btn-block"><span class="fa fa-users"
-                    style="font-size:25px"></span></a>
-        </div>
-    </div>
+  </div>
 </div>
 <br><br>
