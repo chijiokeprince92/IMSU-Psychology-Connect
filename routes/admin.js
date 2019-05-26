@@ -87,13 +87,24 @@ router.get('/viewallresults', admin_controllers.admin_session_force, admin_contr
 // Delete a particular Results
 router.post('/deleteresult/:id', admin_controllers.admin_session_force, admin_controllers.delete_result)
 
-// GET and POST routes for handling PROJECT Topics
+// GET form to upload project topic
 router.get('/getprojectform', admin_controllers.admin_session_force, admin_controllers.get_upload_project)
 
+// POST form to upload project topic
 router.post('/getprojectform', admin_controllers.admin_session_force, projectmulter, admin_controllers.post_upload_project)
 
+// GET all project topics
 router.get('/getprojecttopicss', admin_controllers.admin_session_force, admin_controllers.get_project_topics)
 
+// GET project by category
+router.get('/getprojectcategory', admin_controllers.admin_session_force, admin_controllers.get_project_category)
+
+// Edit project topic
+router.get('/editproject/:id', admin_controllers.admin_session_force, admin_controllers.edit_project_get)
+
+router.post('/editproject/:id', admin_controllers.admin_session_force, admin_controllers.edit_project_post)
+
+// Delete Project topic
 router.post('/deleteproject/:id', admin_controllers.admin_session_force, admin_controllers.delete_project)
 
 // Router for course rep to add time table

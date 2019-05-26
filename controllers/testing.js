@@ -57,39 +57,6 @@ exports.post_upload_files = function (req, res, next) {
                   original_filename: 'recycle' }
                    */
 
-exports.angula = function (req, res) {
-  res.render('testing/angular', {
-    title: 'Angular Testing',
-    treasure: 'God of Chosen',
-    reals: ['Tina', 'Victor', 'Elijah', 'Queen', 'Kristi'],
-    agree: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  })
-}
-
-exports.angular = function (req, res) {
-  var reals = ['Tina', 'Victor', 'Elijah', 'Queen', 'Kristi']
-  var treasure = 'God of Chosen'
-  var agree = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  res.render('testing/angular', {
-    title: 'Angular Testing',
-    treasure: treasure,
-    reals: reals,
-    agree: agree
-  })
-}
-
-// GET Student latest NEWS
-exports.get_count_news = function (req, res, next) {
-  News.find({})
-    .exec(function (err, release) {
-      if (err) {
-        return next(err)
-      }
-
-      res.json(release)
-    })
-}
-
 // GET Student latest NEWS
 exports.get_last_news = function (req, res, next) {
   News.find({}).sort([

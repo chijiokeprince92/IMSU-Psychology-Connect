@@ -1,9 +1,54 @@
 <br>
 <h5>
+  <img src="../images/psylogo4.jpg" alt="profile image" style="border-radius: 50%;height:60px" />
   <b>
-    YOUR MESSAGES
+    {{replyer}}
   </b>
 </h5>
 <br><br>
-<p>YOU DON'T HAVE ANY MESSAGES FOR NOW!!...</p>
+<ul>
+  {{#if chats}}
+    {{#each chats}}
+      <div class="container-fluid">
+        <div class="row">
+          {{#is_equal this.sender}}
+            <div class="col-8 col-sm-7 col-md-6 col-lg-4">
+              <li class="card" style="background-color:rgb(143, 143, 182)" id="chatbox">
+                <p class="card-header" style="color:purple"><b>{{../replyer}}</b></p>
+                <p class="card-body">{{this.body}}</p>
+              </li>
+              <br>
+            </div>
+            <div class="col-4 col-sm-5 col-md-6 col-lg-8"></div>
+    {{else}}
+      <div class="col-4 col-sm-5 col-md-6 col-lg-8"></div>
+      <div class="col-8 col-sm-7 col-md-6 col-lg-4">
+        <li class="card" style="background-color:lightgreen" id="chatbox">
+          <p class="card-header" style="color:red"><b>You</b></p>
+          <p class="card-body">{{this.body}}</p>
+        </li>
+        <br>
+      </div>
+          {{/is_equal}}
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <h6>THERE ARE NO CHAT MESSAGES</h6>
+  {{/if}}
+</ul>
 <br><br>
+<form action="/newconversation/{{receiver}}" method="POST"
+  style="display:inline-block;width:100%;position:fixed;bottom:0">
+  <div class="container-fluid">
+    <div class="row no-gutters">
+      <div class="col-9">
+        <textarea type="text" rows="1" cols="20" class="form-control" id="comment" name="message"
+          placeholder="Type a message..." required></textarea>
+      </div>
+      <div class="col-3">
+        <button type="submit" class="btn btn-success" id="stylus"><span class="fa fa-play"></span></button>
+      </div>
+    </div>
+  </div>
+</form>

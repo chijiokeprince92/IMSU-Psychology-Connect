@@ -1,40 +1,39 @@
 <div class="container-fluid">
-        <header>
-            <div class="row flex-nowrap justify-content-between align-items-center bg-dark">
-                <div class="col-4 d-flex justify-content-start">
-                    <h1 class="text-white" href="#">PSYNET</h1>
-                </div>
-                <div class="col-4 d-flex justify-content-end align-items-center">
-                    <a class="btn btn-sm btn-outline-light" href="/logout">Logout</a>
-                </div>
-            </div>
-        </header>
+  <header>
+    <div class="row flex-nowrap justify-content-between align-items-center bg-dark">
+      <div class="col-4 d-flex justify-content-start">
+        <h1 class="text-white" href="#">PSYNET</h1>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center">
+        <a class="btn btn-sm btn-outline-light" href="/logout">Logout</a>
+      </div>
+    </div>
+  </header>
 </div>
 <div class="stay">
-    <ul class="nav nav-pills nav-justified manu">
-        <li class="nav-item" title="Homepage">
-            <a href="/studenthome" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home"
-                    id="mum2"></span></a></li>
-        <li class="nav-item" title="News">
-            <a href="/studentgetlastnews" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-bell"
-                    id="mum2">
-                </span><span class="badge badge-danger badge-pill spany">{{news}}</span></a></li>
-        <li class="nav-item" title="Your Profile">
-            <a href="/studentss/{{allowed}}" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-user-o"
-                    id="mum2"></span></a>
-        </li>
-        <li class="nav-item" title="Messages">
-            <a href="/studentmessages" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-whatsapp"
-                    id="mum2"></span></a>
-        </li>
-        <li class="nav-item dropdown">
-            <button class="btn btn-primary btn-lg btn-block mum dropdown" data-toggle="dropdown"><span
-                    class="fa fa-bars" id="mum2"></span></button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="/studentstudentlist">Coursemates</a>
-                <a class="dropdown-item" href="#">Medals</a>
-                <a class="dropdown-item" href="/logout">Logout</a>
-            </div>
-        </li>
-    </ul>
+  <ul class="nav nav-pills nav-justified manu">
+    <li class="nav-item" title="Homepage">
+      <a href="/studenthome" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home" id="mum2"></span></a>
+    </li>
+    <li class="nav-item" title="News">
+      <a href="/studentgetlastnews" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-bell" id="mum2">
+        </span><span class="badge badge-danger badge-pill spany">{{news}}</span></a></li>
+    <li class="nav-item" title="Your Profile">
+      <a href="/studentss/{{allowed}}" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-user-o"
+          id="mum2"></span></a>
+    </li>
+    <li class="nav-item" title="Messages">
+      <a href="/getconversations/{{allowed.id}}" class="btn btn-primary btn-lg btn-block mum"><span
+          class="fa fa-whatsapp" id="mum2"></span></a>
+    </li>
+    <li class="nav-item dropdown">
+      <button class="btn btn-primary btn-lg btn-block mum dropdown" data-toggle="dropdown"><span class="fa fa-bars"
+          id="mum2"></span></button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="/studentstudentlist">Coursemates</a>
+        <a class="dropdown-item" href="#">Medals</a>
+        <a class="dropdown-item" href="/logout">Logout</a>
+      </div>
+    </li>
+  </ul>
 </div>

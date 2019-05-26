@@ -3,7 +3,6 @@ const router = express.Router()
 
 // middlewares
 const authMiddleware = require('../controllers/middleware/auth.middleware')
-const testing_controllers = require('../controllers/testing')
 const controllers = require('../controllers/view_controller')
 const student_controllers = require('../controllers/student_controllers')
 
@@ -12,29 +11,13 @@ const cloudinary = require('cloudinary')
 const uploaded = require('../upload')
 
 cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.API_KEY,
-    api_secret: process.env.API_SECRET
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
 
 })
 
-// FOR HOMEPAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-router.get('/testpicture', testing_controllers.upload_files)
-
-router.post('/testpicture', uploaded, testing_controllers.post_upload_files)
-
-router.get('/testinggetlastnews', testing_controllers.get_last_news)
-
-router.get('/testinggetfullnews/:id', testing_controllers.get_full_news)
-
-router.get('/angularhome', testing_controllers.angular)
-
-router.get('/newscount', testing_controllers.get_count_news)
-
-router.get('/angularjs', controllers.angular)
-
-router.get('/ajaxjs', controllers.ajax)
-    // ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 
 /* GET home page. */
 router.get('/', controllers.home)
@@ -196,11 +179,15 @@ router.get('/studentedittimetable/:id', student_controllers.loginRequired, stude
 // Router for POST course rep to post edited time table
 router.post('/studentedittimetable/:id', student_controllers.loginRequired, student_controllers.edit_post_timetable)
 
+// Routes for handling everything messages---------------------------------------------------------------------
 // Router for student to read messages
-router.get('/studentmessages', student_controllers.loginRequired, student_controllers.get_messages)
+router.get('/getconversations/:id', student_controllers.loginRequired, student_controllers.get_conversations)
+
+// Router for student to read messages
+router.get('/getmessages/:recipient', student_controllers.loginRequired, student_controllers.get_messages)
 
 // Router for student to logout
-router.get('/studentchats', student_controllers.loginRequired, student_controllers.view_chat)
+router.post('/newconversation/:recipient', student_controllers.loginRequired, student_controllers.new_conversation)
 
 // Router for student to logout
 router.get('/logout', student_controllers.loginRequired, student_controllers.logout)

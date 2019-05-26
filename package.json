@@ -22,6 +22,7 @@
         "express-handlebars": "^3.0.0",
         "express-session": "^1.15.6",
         "express-validator": "^4.3.0",
+        "formidable": "^1.2.1",
         "handlebars-helpers": "^0.10.0",
         "helmet": "^3.10.0",
         "http-errors": "~1.6.2",

@@ -179,15 +179,15 @@
   <div id="likes" class="container-fluid tab-pane fade" style="background-color:white">
     <br>
     <h6>PEOPLE WHO LIKE THIS</h6>
-    {{#each newspaper.likey}}
-      <p>{{this}}</p>
+    {{#each decipher}}
+      <p><b>{{@index}}. </b> {{this.firstname}}</p>
     {{/each}}
   </div>
   <div id="dislikes" class="container-fluid tab-pane fade" style="background-color:white">
     <br>
     <h6>PEOPLE WHO DISLIKE THIS</h6>
-    {{#each newspaper.dislikey}}
-      <p>{{this}}</p>
+    {{#each desliker}}
+      <p><b>{{@index}}. </b> {{this.firstname}}</p>
     {{/each}}
   </div>
 </div>
@@ -208,6 +208,16 @@
     </div>
   </div>
 </form>
+<button class="btn btn-success" id="seer" style="float:right;position:fixed;bottom:0"><span
+    class="fa fa-play"></span></button>
+<script>
+  $(document).ready(function () {
+    $('#seer').click(function () {
+      $('#formy').toggle("slow");
+      $('#seer').toggle("slow");
+    });
+  });
+</script>
 <script>
   $('document').ready(function () {
     var viral = $('#comment-id').val();

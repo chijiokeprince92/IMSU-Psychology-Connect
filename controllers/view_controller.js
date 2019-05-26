@@ -1,4 +1,6 @@
 const News = require('../models/newsSchema')
+var StudentSigns = require('../models/studentSchema')
+const Test = require('../models/testSchema')
 const async = require('async')
 
 exports.home = (req, res, next) => {
@@ -19,21 +21,27 @@ exports.home = (req, res, next) => {
   })
 }
 
-exports.ajax = function (req, res) {
-  res.render('homefile/ajax', {
-    title: 'AJAX Testing Page'
-  })
+exports.test_post = (req, res, next) => {
+  var qualified = {
+    name: req.body.email,
+    description: req.body.surname
+  }
+  Test.findByIdAndUpdate(
+    req.params.id,
+    qualified, {},
+
+    (err, result) => {
+      if (err) {
+        return next(err)
+      }
+      res.send(result)
+    }
+  )
 }
 
 exports.aboutus = (req, res, next) => {
   res.render('homefile/aboutus', {
     title: 'About IMSU Psychology'
-  })
-}
-
-exports.angular = (req, res) => {
-  res.render('homefile/angulartesting', {
-    title: 'Angular Testing Page'
   })
 }
 
@@ -64,14 +72,53 @@ exports.default_news = (req, res, next) => {
 exports.get_full_news = (req, res, next) => {
   News.findOne({
     '_id': req.params.id
-  }, function (err, release) {
+  }, function (err, news) {
     if (err) {
       return next(err)
     }
-    res.render('homefile/fullnews', {
-      title: 'Psychology Full News',
-      newspaper: release,
-      comments: release.comments
+    StudentSigns.find({}, function (err, students) {
+      if (err) {
+        return next(err)
+      }
+      res.render('homefile/fullnews', {
+        title: 'Psychology Full News',
+        newspaper: news,
+        comments: news.comments,
+        decipher: function () {
+          var liked = []
+          var answer = []
+          var stud = students
+          var lik = news.likey
+          lik.forEach(element => {
+            liked.push(element)
+          })
+          stud.filter(hero => {
+            for (var i = 0; i < liked.length; i++) {
+              if (liked[i] == hero.id) {
+                answer.push(hero)
+              }
+            }
+          })
+          return answer
+        },
+        desliker: function () {
+          var liked = []
+          var answer = []
+          var stud = students
+          var lik = news.dislikey
+          lik.forEach(element => {
+            liked.push(element)
+          })
+          stud.filter(hero => {
+            for (var i = 0; i < liked.length; i++) {
+              if (liked[i] == hero.id) {
+                answer.push(hero)
+              }
+            }
+          })
+          return answer
+        }
+      })
     })
   })
 }

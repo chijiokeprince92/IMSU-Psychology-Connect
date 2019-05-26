@@ -545,11 +545,11 @@ exports.post_upload_project = function (req, res, next) {
   var project = new Project({
     project: fullPath,
     topic: req.body.topic,
-    description: req.body.description
+    description: req.body.description,
+    category: req.body.category
   })
   project.save(function (err) {
     if (err) {
-      console.log(err)
       return next(err)
     }
     res.redirect('/admin/getprojecttopicss')
@@ -558,19 +558,61 @@ exports.post_upload_project = function (req, res, next) {
 
 // GET Admin PROJECT Topics
 exports.get_project_topics = function (req, res, next) {
-  Project.find({}, function (err, release) {
+  Project.find({}, function (err, project) {
     if (err) {
       return next(err)
-    }
-    if (release == null) {
-      res.send('There is no PROJECT Content')
     }
     res.render('admin/project_topics', {
       admin: req.session.admin,
       layout: 'less_layout',
       title: 'Psychology Project Topics',
-      projectss: release
+      projectss: project,
+      message: req.flash('message')
     })
+  })
+}
+
+// GET project category
+exports.get_project_category = function (req, res, next) {
+  Project.find({ 'category': 'anxiety' }, function (err, project) {
+    if (err) {
+      return next(err)
+    }
+    res.render('admin/project_topics', {
+      admin: req.session.admin,
+      layout: 'less_layout',
+      title: 'Psychology Project Topics',
+      projectss: project
+    })
+  })
+}
+
+exports.edit_project_get = function (req, res, next) {
+  Project.findById(req.params.id, function (err, project) {
+    if (err) {
+      return next(err)
+    }
+    res.render('admin/edit_project', {
+      admin: req.session.admin,
+      layout: 'less_layout',
+      title: 'Edit Project Topic',
+      projectss: project
+    })
+  })
+}
+
+exports.edit_project_post = function (req, res, next) {
+  var project = {
+    topic: req.body.topic,
+    description: req.body.description,
+    category: req.body.category
+  }
+  Project.findByIdAndUpdate(req.params.id, project, {}, function (err) {
+    if (err) {
+      return next(err)
+    }
+    req.flash('message', 'Project was successfully edited')
+    res.redirect('/admin/getprojecttopicss')
   })
 }
 
@@ -1080,15 +1122,15 @@ exports.view_course = function (req, res, next) {
             teacher: staff,
             message: req.flash('delete'),
             lecky: () => {
-              var sorted_lecturer = []
-              var course_lecturer = course.lecturer
+              var sortedLecturer = []
+              var courseLecturer = course.lecturer
               var staffy = staff
-              course_lecturer.forEach(element => {
-                sorted_lecturer.push(element)
+              courseLecturer.forEach(element => {
+                sortedLecturer.push(element)
               })
               var marvel = staffy.filter(function (lecturer) {
-                for (var i = 0; i < sorted_lecturer.length; i++) {
-                  if (sorted_lecturer[i] == lecturer.id) {
+                for (var i = 0; i < sortedLecturer.length; i++) {
+                  if (sortedLecturer[i] == lecturer.id) {
                     return lecturer
                   }
                 }

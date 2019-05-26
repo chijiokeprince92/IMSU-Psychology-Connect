@@ -1,26 +1,30 @@
-var mongoose = require('mongoose');
-var schema = mongoose.Schema;
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 // create a schema
-var projectSchema = new schema({
-    project: {
-        type: String,
-        required: true
-    },
-    topic: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true
+var projectSchema = new Schema({
+  project: {
+    type: String,
+    required: true
+  },
+  topic: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
 
-    },
-    created: {
-        type: Date,
-        default: Date()
-    }
-});
+  },
+  category: {
+    type: String,
+    required: true
+  },
+  created: {
+    type: Date,
+    default: Date()
+  }
+})
 
 // creating a student model and exporting the module
-module.exports = mongoose.model('Project', projectSchema);
+module.exports = mongoose.model('Project', projectSchema)

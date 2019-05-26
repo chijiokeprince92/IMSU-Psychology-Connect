@@ -15,13 +15,28 @@
       <form id="drake" style="display:none" action="/staff/updatepics/{{staff.id}}" method="POST"
         enctype="multipart/form-data" style="display:inline">
         <input type="file" class="form-control" name="image" placeholder="upload photo" required>
-        <button type="submit" class="btn btn-danger">EDIT</button>
+        <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
+        <button id="close" class="btn btn-danger" style="display:none"><span class="fa fa-times"></span></button>
       </form>
       <button id="cousin" class="btn btn-success" style="margin-top:-40px"><span class="fa fa-camera"></span></button>
       <br><br>
     </div>
   </div>
 </div>
+<script>
+  $(document).ready(function () {
+    $('#cousin').click(function () {
+      $('#drake').toggle("slow");
+      $('#cousin').toggle("slow");
+      $('#close').toggle("slow");
+    });
+    $('#close').click(function () {
+      $('#drake').toggle("slow");
+      $('#cousin').toggle("slow");
+      $('#close').toggle("slow");
+    });
+  });
+</script>
 <br><br><br>
 <div class="container-fluid">
   <div class="row">
