@@ -3,7 +3,6 @@ const router = express.Router()
 
 // middlewares
 const authMiddleware = require('../controllers/middleware/auth.middleware')
-const testing_controllers = require('../controllers/testing')
 
 const multer = require('multer')
 const cloudinary = require('cloudinary')
@@ -17,10 +16,3 @@ cloudinary.config({
 })
 
 // FOR HOMEPAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-router.get('/testpicture', testing_controllers.upload_files)
-
-router.post('/testpicture', uploaded, testing_controllers.post_upload_files)
-
-router.get('/testinggetlastnews', testing_controllers.get_last_news)
-
-router.get('/testinggetfullnews/:id', testing_controllers.get_full_news)

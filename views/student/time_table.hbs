@@ -1,190 +1,190 @@
 <br>
 <h5><b>
-        TIME-TABLE
-    </b>
+    TIME-TABLE
+  </b>
 </h5>
 <br>
 {{#if update}}
-    <p class="alert alert-success">{{update}}</p>
-    <br>
+  <p class="alert alert-success">{{update}}</p>
+  <br>
 {{/if}}
 <ul class="nav nav-tabs nav-justified">
-    <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#monday"><b>MON<span class="seek">DAY</span></b></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#tuesday"><b>TUE<span class="seek">SDAY</span></b></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#wednesday"><b>WED<span class="seek">NESDAY</span></b></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#thursday"><b>THU<span class="seek">RSDAY</span></b></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#friday"><b>FRI<span class="seek">DAY</span></b></a>
-    </li>
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#monday"><b>MON<span class="seek">DAY</span></b></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#tuesday"><b>TUE<span class="seek">SDAY</span></b></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#wednesday"><b>WED<span class="seek">NESDAY</span></b></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#thursday"><b>THU<span class="seek">RSDAY</span></b></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#friday"><b>FRI<span class="seek">DAY</span></b></a>
+  </li>
 </ul>
 <div class="tab-content">
-    <div id="monday" class="container-fluid tab-pane active" style="background-color:white">
-        <br>
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-12">
-                    <div class="table-responsive-sm">
-                        <table class="table table-bordered table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>8AM-10AM</th>
-                                    <th>10AM-12PM</th>
-                                    <th>12PM-2PM</th>
-                                    <th>2PM-4PM</th>
-                                </tr>
-                            </thead>
-                            <tr>
-                                {{#if studenty}}
-                                    {{#each monday}}
-                                        <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
-                                    {{/each}}
-                                {{else}}
-                                    {{#each monday}}
-                                        <td>{{this.course}}</td>
-                                    {{/each}}
-                                {{/if}}
-                            </tr>
-                        </table>
-                    </div>
-                </nav>
-            </div>
-        </div>
+  <div id="monday" class="container-fluid tab-pane active" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-12">
+          <div class="table-responsive-sm">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>8<span class="seek">AM</span>-10AM</th>
+                  <th>10<span class="seek">AM</span>-12PM</th>
+                  <th>12<span class="seek">PM</span>-2PM</th>
+                  <th>2<span class="seek">PM</span>-4PM</th>
+                </tr>
+              </thead>
+              <tr>
+                {{#if studenty}}
+                  {{#each monday}}
+                    <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
+                  {{/each}}
+                {{else}}
+                  {{#each monday}}
+                    <td>{{this.course}}</td>
+                  {{/each}}
+                {{/if}}
+              </tr>
+            </table>
+          </div>
+        </nav>
+      </div>
     </div>
-    <div id="tuesday" class="container-fluid tab-pane fade" style="background-color:white">
-        <br>
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-12">
-                    <div class="table-responsive-sm">
-                        <table class="table table-bordered table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>8AM-10AM</th>
-                                    <th>10AM-12PM</th>
-                                    <th>12PM-2PM</th>
-                                    <th>2PM-4PM</th>
-                                </tr>
-                            </thead>
-                            <tr>
-                                {{#if studenty}}
-                                    {{#each tuesday}}
-                                        <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
-                                    {{/each}}
-                                {{else}}
-                                    {{#each tuesday}}
-                                        <td>{{this.course}}</td>
-                                    {{/each}}
-                                {{/if}}
-                            </tr>
-                        </table>
-                    </div>
-                </nav>
-            </div>
-        </div>
+  </div>
+  <div id="tuesday" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-12">
+          <div class="table-responsive-sm">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>8<span class="seek">AM</span>-10AM</th>
+                  <th>10<span class="seek">AM</span>-12PM</th>
+                  <th>12<span class="seek">PM</span>-2PM</th>
+                  <th>2<span class="seek">PM</span>-4PM</th>
+                </tr>
+              </thead>
+              <tr>
+                {{#if studenty}}
+                  {{#each tuesday}}
+                    <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
+                  {{/each}}
+                {{else}}
+                  {{#each tuesday}}
+                    <td>{{this.course}}</td>
+                  {{/each}}
+                {{/if}}
+              </tr>
+            </table>
+          </div>
+        </nav>
+      </div>
     </div>
-    <div id="wednesday" class="container-fluid tab-pane fade" style="background-color:white">
-        <br>
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-12">
-                    <div class="table-responsive-sm">
-                        <table class="table table-bordered table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>8AM-10AM</th>
-                                    <th>10AM-12PM</th>
-                                    <th>12PM-2PM</th>
-                                    <th>2PM-4PM</th>
-                                </tr>
-                            </thead>
-                            <tr>
-                                {{#if studenty}}
-                                    {{#each wednesday}}
-                                        <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
-                                    {{/each}}
-                                {{else}}
-                                    {{#each wednesday}}
-                                        <td>{{this.course}}</td>
-                                    {{/each}}
-                                {{/if}}
-                            </tr>
-                        </table>
-                    </div>
-                </nav>
-            </div>
-        </div>
+  </div>
+  <div id="wednesday" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-12">
+          <div class="table-responsive-sm">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>8<span class="seek">AM</span>-10AM</th>
+                  <th>10<span class="seek">AM</span>-12PM</th>
+                  <th>12<span class="seek">PM</span>-2PM</th>
+                  <th>2<span class="seek">PM</span>-4PM</th>
+                </tr>
+              </thead>
+              <tr>
+                {{#if studenty}}
+                  {{#each wednesday}}
+                    <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
+                  {{/each}}
+                {{else}}
+                  {{#each wednesday}}
+                    <td>{{this.course}}</td>
+                  {{/each}}
+                {{/if}}
+              </tr>
+            </table>
+          </div>
+        </nav>
+      </div>
     </div>
-    <div id="thursday" class="container-fluid tab-pane fade" style="background-color:white">
-        <br>
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-12">
-                    <div class="table-responsive-sm">
-                        <table class="table table-bordered table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>8AM-10AM</th>
-                                    <th>10AM-12PM</th>
-                                    <th>12PM-2PM</th>
-                                    <th>2PM-4PM</th>
-                                </tr>
-                            </thead>
-                            <tr>
-                                {{#if studenty}}
-                                    {{#each thursday}}
-                                        <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
-                                    {{/each}}
-                                {{else}}
-                                    {{#each thursday}}
-                                        <td>{{this.course}}</td>
-                                    {{/each}}
-                                {{/if}}
-                            </tr>
-                        </table>
-                    </div>
-                </nav>
-            </div>
-        </div>
+  </div>
+  <div id="thursday" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-12">
+          <div class="table-responsive-sm">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>8<span class="seek">AM</span>-10AM</th>
+                  <th>10<span class="seek">AM</span>-12PM</th>
+                  <th>12<span class="seek">PM</span>-2PM</th>
+                  <th>2<span class="seek">PM</span>-4PM</th>
+                </tr>
+              </thead>
+              <tr>
+                {{#if studenty}}
+                  {{#each thursday}}
+                    <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
+                  {{/each}}
+                {{else}}
+                  {{#each thursday}}
+                    <td>{{this.course}}</td>
+                  {{/each}}
+                {{/if}}
+              </tr>
+            </table>
+          </div>
+        </nav>
+      </div>
     </div>
-    <div id="friday" class="container-fluid tab-pane fade" style="background-color:white">
-        <br>
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-12">
-                    <div class="table-responsive-sm">
-                        <table class="table table-bordered table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>8AM-10AM</th>
-                                    <th>10AM-12PM</th>
-                                    <th>12PM-2PM</th>
-                                    <th>2PM-4PM</th>
-                                </tr>
-                            </thead>
-                            <tr>
-                                {{#if studenty}}
-                                    {{#each friday}}
-                                        <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
-                                    {{/each}}
-                                {{else}}
-                                    {{#each friday}}
-                                        <td>{{this.course}}</td>
-                                    {{/each}}
-                                {{/if}}
-                            </tr>
-                        </table>
-                    </div>
-                </nav>
-            </div>
-        </div>
+  </div>
+  <div id="friday" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-12">
+          <div class="table-responsive-sm">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th>8<span class="seek">AM</span>-10AM</th>
+                  <th>10<span class="seek">AM</span>-12PM</th>
+                  <th>12<span class="seek">PM</span>-2PM</th>
+                  <th>2<span class="seek">PM</span>-4PM</th>
+                </tr>
+              </thead>
+              <tr>
+                {{#if studenty}}
+                  {{#each friday}}
+                    <td><a href="/studentedittimetable/{{this.id}}">{{this.course}}</a></td>
+                  {{/each}}
+                {{else}}
+                  {{#each friday}}
+                    <td>{{this.course}}</td>
+                  {{/each}}
+                {{/if}}
+              </tr>
+            </table>
+          </div>
+        </nav>
+      </div>
     </div>
+  </div>
 </div>
 <br><br>

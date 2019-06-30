@@ -1,6 +1,7 @@
 <br>
 <h5><b>
-    STUDENT PROFILE
+    {{students.surname}} {{students.firstname}}{{#if students.is_courserep}} <span class="fa fa-star-o"
+        style="font-size:20px;color:red"></span>{{/if}}
   </b>
 </h5>
 <br>
@@ -10,9 +11,15 @@
 {{/if}}
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-      <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-    </div>
+    {{#if students.photo.url}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="{{students.photo.url}}" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{else}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="/images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{/if}}
   </div>
 </div>
 <br><br><br>
@@ -33,19 +40,13 @@
       <div class="tab-content">
         <div id="home" class="container-fluid tab-pane active" style="background-color:white">
           <br><br>
-          <p><b>SURNAME: </b> {{students.surname}}</p>
-          <br>
-          <p><b>FIRSTNAME: </b> {{students.firstname}}</p>
-          <br>
           <p><b><span class="fa fa-graduation-cap"></span></b> {{students.matnumber}}</p>
           <br>
-          <p><b>LEVEL: </b>{{students.level}}</p>
+          <p><b><span class="fa fa-bars"> </span> </b>{{students.level}} Level</p>
           <br>
           <p><b><span class="fa fa-user"></span> </b>{{students.gender}}</p>
           <br>
           <p><b><span class="fa fa-envelope"></span></b> {{students.email}}</p>
-          <br>
-          <p><b>IS_COURSEREP:</b> {{students.is_courserep}}</p>
           <br>
           <p><b><span class="fa fa-phone"></span> </b>0{{students.phone}}</p>
           <br>
@@ -55,8 +56,7 @@
         <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
           <br>
           <h5><b>
-              COURSES OFFERED THIS SEMESTER <span
-                class="badge badge-danger badge-pill spany">{{length registered_courses}}
+              REGISTERED COURSES <span class="badge badge-danger badge-pill spany">{{length registered_courses}}
             </b>
           </h5>
           <br><br>
@@ -64,9 +64,7 @@
             <div class="row">
               {{#each registered_courses}}
                 <div class="col-12">
-                  <p>{{this.coursecode}}: <a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a>
-                  </p>
-                  <br>
+                  <p>{{this.coursecode}}: <a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
                 </div>
               {{else}}
                 <p>NO REGISTERED COURSE</p>
@@ -85,25 +83,26 @@
       <br><br><br>
       <ul class="card">
         <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="/staff/list{{students.level}}students"
-              title="results">COURSEMATES</a>
-            <span class="fa fa-users" style="font-size:25px"></span></h6>
-          <br>
-          <p class="crad-text">Click to view {{students.surname}}'s coursemates.</p>
-        </li>
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="#" title="message">UPDATE</a> <span class="fa fa-whatsapp"
-              style="font-size:25px"></span></h6>
-          <br>
-          <p class="card-text">Click to chat with {{students.surname}}.</p>
-        </li>
-        <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="/staff/studentfullresults/{{students.id}}"
               title="Coursemates">RESULT</a>
             <span class="fa fa-briefcase" style="font-size:25px"></span>
           </h6>
           <br>
           <p class="card-text">Click to see {{students.surname}} results...</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/staff/getmessages/{{students.id}}"
+              title="message">MESSAGE</a>
+            <span class="fa fa-whatsapp" style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to chat with {{students.surname}}.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/staff/liststudents/{{students.level}}"
+              title="results">COURSEMATES</a>
+            <span class="fa fa-users" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click to view {{students.surname}}'s coursemates.</p>
         </li>
       </ul>
     </div>

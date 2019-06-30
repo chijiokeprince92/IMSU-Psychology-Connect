@@ -2,44 +2,33 @@
   <p class="alert alert-success">{{message}}</p>
   <br>
 {{/if}}
-<div class="container-fluid choose">
+<h5><b>{{user.surname}} {{user.firstname}}{{#if user.is_courserep}} <span class="fa fa-star-o"
+        style="font-size:20px;color:red"></span>{{/if}}</b>
+</h5>
+<div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
-      <div class="row">
-        <div class="col-12 cash">
-          <img src="/{{user.photo}}" alt="profile image" class="rounded" width="100%" />
-          <br>
-          <form id="drake" style="display:none" action="/studentupdatepics/{{user.id}}" method="POST"
-            enctype="multipart/form-data" style="display:inline">
-            <input type="file" class="form-control" name="image" placeholder="upload photo" required>
-            <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
-            <button id="close" class="btn btn-danger" style="display:none"><span class="fa fa-times"></span></button>
-          </form>
-          <button id="cousin" class="btn btn-success" style="margin-top:-40px"><span
-              class="fa fa-camera"></span></button>
-          <br><br>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-lg-6">
-      <div class="row">
-        <div class="col-10">
-        </div>
-      </div>
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+      {{#if user.photo.url}}
+        <img src="{{user.photo.url}}" alt="profile image" class="rounded" width="100%" />
+      {{else}}
+        <img src="/images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" />
+      {{/if}}
+      <form action="/studentupdatepics/{{user.id}}" method="POST" enctype="multipart/form-data">
+        <input type="file" id="filer" name="image" style="display:none" required>
+        <button type="submit" id="submiter" class="btn btn-danger" style="display:none"><span
+            class="fa fa-edit"></span></button>
+      </form>
+      <button id="cousin" class="btn btn-success" style="margin-top:-40px"><span class="fa fa-camera"></span></button>
+      <br><br>
     </div>
   </div>
 </div>
 <script>
   $(document).ready(function () {
     $('#cousin').click(function () {
-      $('#drake').toggle("slow");
-      $('#cousin').toggle("slow");
-      $('#close').toggle("slow");
-    });
-    $('#close').click(function () {
-      $('#drake').toggle("slow");
-      $('#cousin').toggle("slow");
-      $('#close').toggle("slow");
+      $('#filer').click();
+      $('#submiter').toggle('slow');
+      $('#cousin').toggle('slow');
     });
   });
 </script>
@@ -61,25 +50,19 @@
       <div class="tab-content">
         <div id="home" class="container-fluid tab-pane active" style="background-color:white">
           <br><br>
-          <p><b>SURNAME: </b> {{user.surname}}</p>
-          <br>
-          <p><b>FIRSTNAME: </b> {{user.firstname}}</p>
-          <br>
           <p><b><span class="fa fa-graduation-cap"> </span> </b> {{user.matnumber}}</p>
           <br>
-          <p><b><span class="fa fa-user"> </span> </b>{{user.level}}</p>
+          <p><b><span class="fa fa-bars"> </span> </b>{{user.level}} Level</p>
           <br>
           <p><b><span class="fa fa-user"> </span> </b>{{user.gender}}</p>
           <br>
           <p><b><span class="fa fa-envelope"> </span></b> {{user.email}}</p>
           <br>
-          <p><b>IS_ COURSEREP:</b> {{user.is_courserep}}</p>
-          <br>
-          <p><b><span class="fa fa-phone"> </span> </b>0{{user.phone}}</p>
+          <p><b><span class="fa fa-phone"> </span> </b>0{{user.phone}}.</p>
           <br>
           <p><b><span class="fa fa-comment-o"> </span> </b>{{user.bio}}</p>
           <br>
-          <p><b><span class="fa fa-bell-o"> </span> JOINED </b>{{user.date}}</p>
+          <p><b><span class="fa fa-calendar"> </span> </b>{{datey}}.</p>
           <br>
         </div>
         <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
@@ -132,7 +115,8 @@
           <p class="card-text">Click to update your profile details.</p>
         </li>
         <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="/studentstudentlist" title="Coursemates">COURSEMATES</a>
+          <h6 class="card-header font-weight-bold"> <a href="/studentmates/{{allowed.level}}"
+              title="Coursemates">COURSEMATES</a>
             <span class="fa fa-users" style="font-size:25px"></span>
           </h6>
           <br>

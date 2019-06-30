@@ -3,11 +3,19 @@
   <p class="alert alert-danger">{{message}}</p>
   <br>
 {{/if}}
+<h5><b>{{coursemate.surname}} {{coursemate.firstname}} {{#if coursemate.is_courserep}} <span class="fa fa-star-o"
+        style="font-size:20px;color:red"></span>{{/if}}</b></h5>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-      <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-    </div>
+    {{#if coursemate.photo.url}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="{{coursemate.photo.url}}" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{else}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="/images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{/if}}
   </div>
 </div>
 <br><br><br>
@@ -28,19 +36,13 @@
       <div class="tab-content">
         <div id="home" class="container-fluid tab-pane active" style="background-color:white">
           <br><br>
-          <p><b>SURNAME: </b> {{coursemate.surname}}</p>
-          <br>
-          <p><b>FIRSTNAME: </b> {{coursemate.firstname}}</p>
-          <br>
           <p><b><span class="fa fa-graduation-cap"> </span> </b> {{coursemate.matnumber}}</p>
           <br>
-          <p><b>LEVEL: </b>{{coursemate.level}}</p>
+          <p><b><span class="fa fa-bars"> </span> </b>{{coursemate.level}} Level</p>
           <br>
           <p><b><span class="fa fa-user"> </span> </b>{{coursemate.gender}}</p>
           <br>
           <p><b><span class="fa fa-envelope"> </span> </b> {{coursemate.email}}</p>
-          <br>
-          <p><b>IS_COURSEREP:</b> {{coursemate.is_courserep}}</p>
           <br>
           <p><b><span class="fa fa-phone"> </span> </b>0{{coursemate.phone}}</p>
           <br>
@@ -49,11 +51,10 @@
         </div>
         <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
           <br>
-          <h5><b>
-              COURSES OFFERED THIS SEMESTER <span
-                class="badge badge-danger badge-pill spany">{{length registered_courses}}
+          <h6><b>
+              REGISTERED COURSES <span class="badge badge-danger badge-pill spany">{{length registered_courses}}
             </b>
-          </h5>
+          </h6>
           <br><br>
           <div class="container-fluid">
             <div class="row">

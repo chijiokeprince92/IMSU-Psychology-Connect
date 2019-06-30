@@ -30,12 +30,18 @@
     </ul>
   </div>
 </nav>
-<form action="" method="POST" enctype="multipart/form-data">
-  <input type="file" class="form-control" name="image" placeholder="upload photo" required />
+<button id="btn-test" class="btn btn-primary">Upload</button>
+<form style="display:none" action="" method="POST" enctype="multipart/form-data">
+  <input type="file" id="test" class="form-control" name="imagine" placeholder="upload photo" required />
   <br>
   <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
   <br>
 </form>
+<script>
+  $('#btn-test').on('click', function () {
+    $('#test').click();
+  })
+</script>
 <div class="container-fluid">
   <div class="row">
     <div class="col-10">
@@ -45,6 +51,9 @@
     <div class="col-10">
       <img src="https://res.cloudinary.com/elijah/image/upload/v1552056227/c062l3iqmrqlgh3bpza5.jpg" weight="20%"
         height="300px" />
+    </div>
+    <div class="col-10">
+      <img src="https://res.cloudinary.com/elijah/image/upload/v1561113604/pkupmspiysvy0nx7fska.png" />
     </div>
   </div>
 </div>

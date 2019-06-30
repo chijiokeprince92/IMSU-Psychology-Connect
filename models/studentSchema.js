@@ -1,8 +1,8 @@
 var mongoose = require('mongoose')
-var schema = mongoose.Schema
+var Schema = mongoose.Schema
 
 // create a schema
-var studentSchema = new schema({
+var studentSchema = new Schema({
   email: {
     type: String,
     unique: true,
@@ -37,15 +37,14 @@ var studentSchema = new schema({
   friends: [],
 
   courses_offered: [{
-    type: schema.ObjectId,
+    type: Schema.ObjectId,
     ref: 'Courses'
   }],
 
   messages: [{
-    type: schema.ObjectId,
+    type: Schema.ObjectId,
     ref: 'Messages'
   }],
-
   priviledges: [{
     dir_of_sports: { type: Boolean, default: false }
   },
@@ -59,16 +58,21 @@ var studentSchema = new schema({
     graduate: { type: Boolean, default: false }
   }
   ],
-
   photo: {
-    type: String,
-    required: true
+    url: String,
+    public_id: String
   },
+  other_photos: [{
+    type: String
+  }],
   is_courserep: {
-    type: String,
-    default: 'No'
+    type: Boolean,
+    default: false
   },
-
+  disabled: {
+    type: Boolean,
+    default: false
+  },
   bio: {
     type: String,
     required: true

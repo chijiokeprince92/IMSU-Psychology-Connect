@@ -7,7 +7,6 @@ const Courses = require('../models/coursesSchema')
 const Timetable = require('../models/timetableSchema')
 const Result = require('../models/resultSchema')
 const async = require('async')
-const path = require('path')
 
 const {
   body,
@@ -27,6 +26,29 @@ exports.admin_session_force = function (req, res, next) {
   } else {
     next()
   }
+}
+
+// function for formatting date
+var calender = function (user) {
+  let day = ''
+  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  let month = ''
+  if (user.getDay() == 1) {
+    day = user.getDay() + 'st'
+  }
+  if (user.getDay() == 2) {
+    day = user.getDay() + 'nd'
+  }
+  if (user.getDay() == 3) {
+    day = user.getDay() + 'rd'
+  }
+  if (user.getDay() > 3) {
+    day = user.getDay() + 'th'
+  }
+  for (let i = 0; i < months.length; i++) {
+    month = months[user.getMonth() - 1]
+  }
+  return day + ' - ' + month + ' - ' + user.getFullYear()
 }
 // --------------------------------------------------------------------------
 
@@ -143,13 +165,8 @@ exports.admin_update_get = function (req, res, next) {
       if (err) {
         return next(err)
       }
-      if (admin == null) { // No results.
-        var err = new Error('Admin not found')
-        err.status = 404
-        return next(err)
-      }
       // Success.
-      res.render('admin/admin_update', {
+      res.render('admin/update', {
         title: 'Update Profile',
         admin: req.session.admin,
         admin_info: admin
@@ -164,13 +181,11 @@ exports.admin_update_post = function (req, res, next) {
     firstname: req.body.firstname,
     password: req.body.password
   }
-  Admins.findByIdAndUpdate(req.params.id, judge, {
-    new: true
-  }, function (err, adminupdate) {
+  Admins.findByIdAndUpdate(req.params.id, judge, {}, function (err) {
     if (err) {
       return next(err)
     }
-    res.redirect(adminupdate.url)
+    res.redirect(301, '/admin/hercules')
   })
 }
 
@@ -207,12 +222,6 @@ exports.profiler = function (req, res, next) {
     .exec(function (err, info) {
       if (err) {
         return next(err)
-      } // Error in API usage.
-      if (info == null) { // No results.
-        console.log('There are no admin')
-        var err = new Error('You are not an Admin')
-        err.status = 404
-        return next(err)
       }
       // Successful, so render.
       res.render('admin/admin_profile', {
@@ -224,33 +233,12 @@ exports.profiler = function (req, res, next) {
     })
 }
 // ----------------------------------------------------------------------------------------------
-// GET the names of every student in Tabular form
-exports.list_students = function (req, res, next) {
-  StudentSigns.find()
-    .sort([
-      ['level', 'ascending']
-    ])
-    .exec(
-      function (err, swag) {
-        if (err) {
-          return next(err)
-        }
-        res.render('admin/list_student', {
-          admin: req.session.admin,
-          title: 'Complete List of Student',
-          slow: swag,
-          levy: 'ALL PSYCHOLOGY STUDENTS',
-          message: req.flash('message')
-        })
-      }
-    )
-}
 
 // GET Profile  of a student
 exports.view_student_profile = function (req, res, next) {
   StudentSigns.findById(req.params.id)
     .exec(
-      function (err, swag) {
+      function (err, student) {
         if (err) {
           return next(err)
         }
@@ -265,27 +253,12 @@ exports.view_student_profile = function (req, res, next) {
               admin: req.session.admin,
               title: 'Student Profile',
               layout: 'less_layout',
-              student: swag,
-              registered_courses: mycourses,
-              courserepno: function () {
-                if (swag.is_courserep == 'No') {
-                  return swag.is_courserep
-                } else {
-
-                }
-              },
-              photo: function () {
-                if (!swag.photo) {
-                  swag.photo = '../images/psylogo4.jpg'
-                  return swag.photo
-                } else {
-                  return swag.photo
-                }
-              }
+              student: student,
+              datey: calender(student.date),
+              registered_courses: mycourses
             })
           })
-      }
-    )
+      })
 }
 
 // Make Course Rep.
@@ -301,93 +274,81 @@ exports.student_make_courserep = function (req, res, next) {
   })
 }
 
+// enable a student from having access
+exports.enable_student = function (req, res, next) {
+  let able = {
+    disabled: false
+  }
+  StudentSigns.findByIdAndUpdate(req.params.id, able, {}, function (err, student) {
+    if (err) {
+      return next(err)
+    }
+    req.flash('message', 'The student was successfully Enabled')
+    res.redirect('/admin/liststudents/' + req.body.level)
+  })
+}
+
+// disable a student from having access
+exports.disable_student = function (req, res, next) {
+  let able = {
+    disabled: true
+  }
+  StudentSigns.findByIdAndUpdate(req.params.id, able, {}, function (err, student) {
+    if (err) {
+      return next(err)
+    }
+    req.flash('message', 'The student was successfully Disabled')
+    res.redirect('/admin/liststudents/' + req.body.level)
+  })
+}
+
+// delete student
 exports.delete_student = function (req, res, next) {
   StudentSigns.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
       return next(err)
     }
-    req.flash('message', 'The student was successfully deleted')
+    req.flash('message', 'The student was successfully Deleted')
     res.redirect('/admin/studentlist')
   })
 }
 
+// GET the names of every student in Tabular form
+exports.list_students = function (req, res, next) {
+  StudentSigns.find({})
+    .sort([
+      ['level', 'ascending']
+    ])
+    .exec(
+      function (err, student) {
+        if (err) {
+          return next(err)
+        }
+        res.render('admin/list_student', {
+          admin: req.session.admin,
+          title: 'Complete List of Student',
+          slow: student,
+          levy: 'ALL PSYCHOLOGY STUDENTS',
+          message: req.flash('message')
+        })
+      }
+    )
+}
+
 // Functions for displaying students by their levels
-exports.list_100_student = function (req, res, next) {
-  StudentSigns.find({
-    'level': 100
-  }, function (err, student) {
+exports.list_students_level = function (req, res, next) {
+  StudentSigns.find({ 'level': req.params.level }).sort([
+    ['level', 'ascending']
+  ]).exec(function (err, student) {
     if (err) {
       return next(err)
     }
-    if (student == null) {
-      res.redirect('/hercules/gladiators/spartans/admin')
-    }
     res.render('admin/list_student', {
       admin: req.session.admin,
-      title: 'Complete List of 100 Student',
-      message: 'These are the List of All 100 Level NAPS Students',
+      title: `Complete List of ${req.params.level} Student`,
       slow: student,
-      levy: '100 LEVEL STUDENTS'
-    })
-  })
-}
-
-exports.list_200_student = function (req, res, next) {
-  StudentSigns.find({
-    'level': 200
-  }, function (err, student) {
-    if (err) {
-      return next(err)
-    }
-    if (student == null) {
-      res.redirect('/hercules/gladiators/spartans/admin')
-    }
-    res.render('admin/list_student', {
-      admin: req.session.admin,
-      title: 'Complete List of 200 Student',
-      message: 'These are the List of All 200 Level NAPS Students',
-      slow: student,
-      levy: '200 LEVEL STUDENTS'
-    })
-  })
-}
-
-exports.list_300_student = function (req, res, next) {
-  StudentSigns.find({
-    'level': 300
-  }, function (err, student) {
-    if (err) {
-      return next(err)
-    }
-    if (student == null) {
-      res.redirect('/hercules/gladiators/spartans/admin')
-    }
-    res.render('admin/list_student', {
-      admin: req.session.admin,
-      title: 'Complete List of 300 Student',
-      message: 'These are the List of All 300 Level NAPS Students',
-      slow: student,
-      levy: '300 LEVEL STUDENTS'
-    })
-  })
-}
-
-exports.list_400_student = function (req, res, next) {
-  StudentSigns.find({
-    'level': 400
-  }, function (err, student) {
-    if (err) {
-      return next(err)
-    }
-    if (student == null) {
-      res.redirect('/hercules/gladiators/spartans/admin')
-    }
-    res.render('admin/list_student', {
-      admin: req.session.admin,
-      title: 'Complete List of 400 Student',
-      message: 'These are the List of All 400 level NAPS Students',
-      slow: student,
-      levy: '400 LEVEL STUDENTS'
+      levy: `${req.params.level} LEVEL STUDENTS`,
+      message: req.flash('message')
     })
   })
 }
@@ -465,6 +426,49 @@ exports.edit_400level_info = function (req, res, next) {
     })
 }
 
+exports.register_timetable = (req, res) => {
+  res.render('admin/reg_timetable', {
+    title: 'SELECT THE LEVEL',
+    admin: req.session.admin,
+    message: req.flash('message')
+  })
+}
+
+exports.register_timetable_post = (req, res, next) => {
+  Courses.find({
+    'level': req.body.level
+  })
+    .exec((err, course) => {
+      if (err) {
+        return next(err)
+      }
+      res.render('admin/add_timetable', {
+        title: 'Add Time Table',
+        layout: 'less_layout',
+        admin: req.session.admin,
+        course: course,
+        level: req.body.level
+      })
+    })
+}
+
+// POST student time table for a particular level
+exports.post_time_table = (req, res, next) => {
+  var timetable = new Timetable({
+    level: req.body.level,
+    day: req.body.day,
+    time: req.body.time,
+    course: req.body.course
+  })
+  timetable.save((err) => {
+    if (err) {
+      return next(err)
+    }
+    req.flash('message', `The Course was successfully uploaded`)
+    res.redirect('/admin/regtimetable')
+  })
+}
+
 // ..........................................................................................................
 // function for getting the names of every staff
 exports.list_staffs = function (req, res, next) {
@@ -505,16 +509,36 @@ exports.view_staff_profile = function (req, res, next) {
       title: 'Staff Profile',
       layout: 'less_layout',
       staff: staff.staffy,
-      coursess: staff.coursey,
-      photo: function () {
-        if (!staff.staffy.photo) {
-          staff.staffy.photo = '../images/psylogo4.jpg'
-          return staff.staffy.photo
-        } else {
-          return staff.staffy.photo
-        }
-      }
+      coursess: staff.coursey
     })
+  })
+}
+
+// enable a staff from having access
+exports.enable_staff = function (req, res, next) {
+  let able = {
+    disabled: false
+  }
+  Staff.findByIdAndUpdate(req.params.id, able, {}, function (err, staff) {
+    if (err) {
+      return next(err)
+    }
+    req.flash('message', 'The staff was successfully Enabled')
+    res.redirect('/admin/stafflist')
+  })
+}
+
+// disable a staff from having access
+exports.disable_staff = function (req, res, next) {
+  let able = {
+    disabled: true
+  }
+  Staff.findByIdAndUpdate(req.params.id, able, {}, function (err, staff) {
+    if (err) {
+      return next(err)
+    }
+    req.flash('message', 'The staff was successfully Disabled')
+    res.redirect('/admin/stafflist')
   })
 }
 
@@ -574,7 +598,7 @@ exports.get_project_topics = function (req, res, next) {
 
 // GET project category
 exports.get_project_category = function (req, res, next) {
-  Project.find({ 'category': 'anxiety' }, function (err, project) {
+  Project.find({ 'category': req.params.topic }, function (err, project) {
     if (err) {
       return next(err)
     }
@@ -626,48 +650,6 @@ exports.delete_project = function (req, res, next) {
 }
 
 // --------------------------------------------------------------------------------------------------
-exports.register_timetable = (req, res) => {
-  res.render('admin/reg_timetable', {
-    title: 'SELECT THE LEVEL',
-    admin: req.session.admin,
-    message: req.flash('message')
-  })
-}
-
-exports.register_timetable_post = (req, res, next) => {
-  Courses.find({
-    'level': req.body.level
-  })
-    .exec((err, course) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('admin/add_timetable', {
-        title: 'Add Time Table',
-        layout: 'less_layout',
-        admin: req.session.admin,
-        course: course,
-        level: req.body.level
-      })
-    })
-}
-
-// POST student time table for a particular level
-exports.post_time_table = (req, res, next) => {
-  var timetable = new Timetable({
-    level: req.body.level,
-    day: req.body.day,
-    time: req.body.time,
-    course: req.body.course
-  })
-  timetable.save((err) => {
-    if (err) {
-      return next(err)
-    }
-    req.flash('message', `The Course was successfully uploaded`)
-    res.redirect('/admin/regtimetable')
-  })
-}
 
 // ----------------------------------------------------------------------------
 // GET Admin form for Posting NEWS
@@ -736,9 +718,6 @@ exports.get_last_news = function (req, res, next) {
   ]).exec(function (err, news) {
     if (err) {
       return next(err)
-    }
-    if (news == null) {
-      res.send('There is no NEWS Content')
     }
     res.render('admin/admin_news', {
       admin: req.session.admin,
@@ -830,11 +809,11 @@ exports.post_course = function (req, res, next) {
     borrowed: req.body.borrowed,
     courseoutline: req.body.courseoutline
   })
-  course.save(function (err) {
+  course.save(function (err, coursed) {
     if (err) {
       return next(err)
     }
-    res.redirect(course.url)
+    res.redirect(302, '/admin/viewcourse/' + coursed.id)
   })
 }
 
@@ -869,14 +848,13 @@ exports.course_update_post = function (req, res, next) {
     semester: req.body.semester,
     units: req.body.units,
     borrowed: req.body.borrowed,
-    courseoutline: req.body.courseoutline,
-    _id: req.params.id
+    courseoutline: req.body.courseoutline
   }
   Courses.findByIdAndUpdate(req.params.id, course, {}, function (err, courseupdate) {
     if (err) {
       return next(err)
     }
-    res.redirect(courseupdate.url)
+    res.redirect(301, '/admin/getcourses/' + courseupdate.level)
   })
 }
 
@@ -885,38 +863,38 @@ exports.delete_course = function (req, res, next) {
     if (err) {
       return next(err)
     }
-    res.redirect('/admin/getallcourses')
+    res.redirect(301, '/admin/getcourses/100')
   })
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------
-// GET List of 100Level Courses...
-exports.get_100_courses = function (req, res, next) {
+// GET List of Various Courses...
+exports.get_courses_level = function (req, res, next) {
   async.parallel({
     first_semester: function (callback) {
       Courses.find({
-        'level': 100,
+        'level': req.params.level,
         'semester': 1,
         'borrowed': 'no'
       }).exec(callback)
     },
     first_semester_borrowed: function (callback) {
       Courses.find({
-        'level': 100,
+        'level': req.params.level,
         'semester': 1,
         'borrowed': 'yes'
       }).exec(callback)
     },
     second_semester: function (callback) {
       Courses.find({
-        'level': 100,
+        'level': req.params.level,
         'semester': 2,
         'borrowed': 'no'
       }).exec(callback)
     },
     second_semester_borrowed: function (callback) {
       Courses.find({
-        'level': 100,
+        'level': req.params.level,
         'semester': 2,
         'borrowed': 'yes'
       }).exec(callback)
@@ -932,171 +910,27 @@ exports.get_100_courses = function (req, res, next) {
       title: '100 Level Courses',
       layout: 'less_layout',
       admin: req.session.admin,
-      levy: 100,
+      levy: req.params.level,
       first: hundred.first_semester,
       first_borrowed: hundred.first_semester_borrowed,
       second: hundred.second_semester,
       second_borrowed: hundred.second_semester_borrowed,
-      elective1: 'ANY TWO',
-      elective2: 'ANY TWO'
-    })
-  })
-}
-
-// GET List of 200Level Courses...
-exports.get_200_courses = function (req, res, next) {
-  async.parallel({
-    first_semester: function (callback) {
-      Courses.find({
-        'level': 200,
-        'semester': 1,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    first_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 200,
-        'semester': 1,
-        'borrowed': 'yes'
-      }).exec(callback)
-    },
-    second_semester: function (callback) {
-      Courses.find({
-        'level': 200,
-        'semester': 2,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    second_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 200,
-        'semester': 2,
-        'borrowed': 'yes'
-      }).exec(callback)
-    }
-  }, function (err, hundred) {
-    if (err) {
-      return next(err)
-    }
-    if (hundred.first_semester == null) {
-      res.redirect('/getallcourses')
-    }
-    res.render('admin/list_courses', {
-      title: '200 Level Courses',
-      layout: 'less_layout',
-      admin: req.session.admin,
-      levy: 200,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective1: 'ANY TWO',
-      elective2: 'ANY TWO'
-    })
-  })
-}
-
-// GET List of 300Level Courses...
-exports.get_300_courses = function (req, res, next) {
-  async.parallel({
-    first_semester: function (callback) {
-      Courses.find({
-        'level': 300,
-        'semester': 1,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    first_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 300,
-        'semester': 1,
-        'borrowed': 'yes'
-      }).exec(callback)
-    },
-    second_semester: function (callback) {
-      Courses.find({
-        'level': 300,
-        'semester': 2,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    second_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 300,
-        'semester': 2,
-        'borrowed': 'yes'
-      }).exec(callback)
-    }
-  }, function (err, hundred) {
-    if (err) {
-      return next(err)
-    }
-    if (hundred.first_semester == null) {
-      res.redirect('/')
-    }
-    res.render('admin/list_courses', {
-      title: '300 Level Courses',
-      layout: 'less_layout',
-      admin: req.session.admin,
-      levy: 300,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective1: 'ONE',
-      elective2: 'ANY ONE'
-    })
-  })
-}
-
-// GET List of 400Level Courses...
-exports.get_400_courses = function (req, res, next) {
-  async.parallel({
-    first_semester: function (callback) {
-      Courses.find({
-        'level': 400,
-        'semester': 1,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    first_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 400,
-        'semester': 1,
-        'borrowed': 'yes'
-      }).exec(callback)
-    },
-    second_semester: function (callback) {
-      Courses.find({
-        'level': 400,
-        'semester': 2,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    second_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 400,
-        'semester': 2,
-        'borrowed': 'yes'
-      }).exec(callback)
-    }
-  }, function (err, hundred) {
-    if (err) {
-      return next(err)
-    }
-    if (hundred.first_semester == null) {
-      res.redirect('/')
-    }
-    res.render('admin/list_courses', {
-      title: '400 Level Courses',
-      layout: 'less_layout',
-      admin: req.session.admin,
-      levy: 400,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective2: 'ANY ONE'
+      elective1: function () {
+        if (req.params.level == 300) {
+          return 'ONE'
+        } else if (req.params.level == 400) {
+          return ''
+        } else {
+          return 'ANY TWO'
+        }
+      },
+      elective2: function () {
+        if (req.params.level == 300 || req.params.level == 400) {
+          return 'ANY ONE'
+        } else {
+          return 'ANY TWO'
+        }
+      }
     })
   })
 }
@@ -1113,30 +947,43 @@ exports.view_course = function (req, res, next) {
           if (err) {
             return next(err)
           }
-
-          res.render('admin/view_course', {
-            title: 'Psychology Course',
-            layout: 'less_layout',
-            admin: req.session.admin,
-            course: course,
-            teacher: staff,
-            message: req.flash('delete'),
-            lecky: () => {
-              var sortedLecturer = []
-              var courseLecturer = course.lecturer
-              var staffy = staff
-              courseLecturer.forEach(element => {
-                sortedLecturer.push(element)
-              })
-              var marvel = staffy.filter(function (lecturer) {
-                for (var i = 0; i < sortedLecturer.length; i++) {
-                  if (sortedLecturer[i] == lecturer.id) {
-                    return lecturer
-                  }
-                }
-              })
-              return marvel
+          StudentSigns.find({}).sort([
+            ['level', 'ascending']
+          ]).exec((err, students) => {
+            if (err) {
+              return next(err)
             }
+            res.render('admin/view_course', {
+              title: 'Psychology Course',
+              layout: 'less_layout',
+              admin: req.session.admin,
+              course: course,
+              teacher: staff,
+              message: req.flash('delete'),
+              staffed: () => {
+                let courseLecturer = course.lecturer
+                var marvel = staff.filter(function (lecturer) {
+                  for (var i = 0; i < courseLecturer.length; i++) {
+                    if (courseLecturer[i] == lecturer.id) {
+                      return lecturer
+                    }
+                  }
+                })
+                return marvel
+              },
+              studunt: function () {
+                var chosen = []
+                var registered = course.student_offering
+                students.filter(hero => {
+                  for (var i = 0; i < registered.length; i++) {
+                    if (registered[i] == hero.id) {
+                      chosen.push(hero)
+                    }
+                  }
+                })
+                return chosen
+              }
+            })
           })
         })
     })
@@ -1174,45 +1021,6 @@ exports.delete_course_lecturer = function (req, res, next) {
   })
 }
 
-// GET List of students offering a course...
-exports.student_coursesoffered = function (req, res, next) {
-  Courses.findOne({
-    '_id': req.params.id
-  }).exec((err, course) => {
-    if (err) {
-      return next(err)
-    }
-    StudentSigns.find({})
-      .exec((err, students) => {
-        if (err) {
-          return next(err)
-        }
-        res.render('admin/view_select', {
-          title: 'Student_Registered',
-          admin: req.session.admin,
-          courses: course,
-          upload: function () {
-            var sorted_registered = []
-            var chosen = []
-            var registered = course.student_offering
-            var deal = students
-            registered.forEach(element => {
-              sorted_registered.push(element)
-            })
-            deal.filter((hero) => {
-              for (var i = 0; i < sorted_registered.length; i++) {
-                if (sorted_registered[i] == hero.id) {
-                  chosen.push(hero)
-                }
-              }
-            })
-            return chosen
-          }
-        })
-      })
-  })
-}
-
 // GET Student Result Filler form
 exports.student_addresult_get = function (req, res, next) {
   Courses.findOne({
@@ -1221,12 +1029,14 @@ exports.student_addresult_get = function (req, res, next) {
     if (err) {
       return next(err)
     }
+    // find students who registered for this course
     StudentSigns.find({
       '_id': course.student_offering
     }).exec(function (err, students) {
       if (err) {
         return next(err)
       }
+      // find all students whose results have been uploaded that registered for this course
       Result.find({
         'course': course.id,
         'student': course.student_offering
@@ -1239,17 +1049,14 @@ exports.student_addresult_get = function (req, res, next) {
           layout: 'less_layout',
           admin: req.session.admin,
           courses: course,
-          upload: students,
+          students: students,
           results: results,
           message: req.flash('message'),
           accept: function () {
             var filled = []
-            var result = results
-            var student = students
-            student.forEach(element => {
-              result.filter(function (resul) {
+            students.forEach(element => {
+              results.filter(function (resul) {
                 if (element.id == resul.student) {
-                  console.log(resul.id)
                   var jesus = {
                     name: `${element.surname} ${element.firstname}`,
                     matnumber: element.matnumber,
@@ -1260,7 +1067,6 @@ exports.student_addresult_get = function (req, res, next) {
                 }
               })
             })
-
             return filled
           }
         })
@@ -1270,16 +1076,46 @@ exports.student_addresult_get = function (req, res, next) {
 }
 
 exports.student_addresults_post = function (req, res, next) {
+  // function for calculating the grade
+  var grader = function (a) {
+    let grade = ''
+    if (a >= 70 && a <= 100) {
+      grade = 'A'
+    } else if (a >= 60 && a <= 69) {
+      grade = 'B'
+    } else if (a >= 50 && a <= 59) {
+      grade = 'C'
+    } else if (a >= 45 && a <= 49) {
+      grade = 'D'
+    } else if (a >= 40 && a <= 44) {
+      grade = 'E'
+    } else if (a >= 0 && a <= 39) {
+      grade = 'F'
+    }
+    return grade
+  }
+
   var resulty = new Result({
     course: req.body.course,
     student: req.body.student,
     score: req.body.score,
-    grade: req.body.grade
+    grade: grader(req.body.score)
   })
   resulty.save(function (err) {
     if (err) {
       return next(err)
     }
+    Courses.findOneAndUpdate({
+      _id: req.params.id
+    }, {
+      $pull: {
+        student_offering: req.body.student
+      }
+    }, function (err) {
+      if (err) {
+        return next(err)
+      }
+    })
     req.flash('message', 'The result was successfully saved')
     res.redirect('/admin/studentaddresult/' + req.params.id)
   })
@@ -1301,119 +1137,126 @@ exports.view_all_results = function (req, res, next) {
 
 // function for deleting a single student result from the list of students offering a course
 exports.delete_result = function (req, res, next) {
-  Result.findByIdAndRemove({
-    '_id': req.params.id
-  })
-    .exec(function (err) {
+  StudentSigns.findOne({ 'id': req.params.stud }).exec(function (err, student) {
+    if (err) {
+      return next(err)
+    }
+    Result.findByIdAndRemove({
+      '_id': req.params.id
+    }).exec(function (err) {
       if (err) {
         return next(err)
       }
-      req.flash('message', "A student's result was deleted from this list")
-      res.redirect('/admin/studentaddresult/' + req.body.code)
+      res.redirect('/admin/studentfullresults/' + req.params.stud)
     })
+  })
 }
 
-// View Student Result
-exports.student_result = function (req, res, next) {
-  StudentSigns.findById(req.params.id)
-    .exec(function (err, myresults) {
-      if (err) {
-        return next(err)
+// function for checking students results
+exports.my_result = (req, res, next) => {
+  // function for calculating CGPA
+  let calculateCgpa = function (resul) {
+    let sortedResult = []
+    let average = []
+    resul.forEach(read => {
+      if (read.grade == 'A') {
+        sortedResult.push(5 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'B') {
+        sortedResult.push(4 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'C') {
+        sortedResult.push(3 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'D') {
+        sortedResult.push(2 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'E') {
+        sortedResult.push(1 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'F') {
+        sortedResult.push(0 * Number(read.unit))
+        average.push(Number(read.unit))
       }
-      res.render('admin/view_result', {
-        title: 'Student Result',
-        layout: 'less_layout',
-        admin: req.session.admin,
-        allresult: myresults.results,
-        oneresult: function () {
-          if (myresults.results) {
-            var heroes = myresults.results
-            var marvel = heroes.filter(function (hero) {
-              return hero.level == 100 && hero.semester == 1
-            })
-            return marvel
-          }
-        },
-        onetworesult: function () {
-          if (myresults.results) {
-            var heroes = myresults.results
-            var marvel = heroes.filter(function (hero) {
-              return hero.level == 100 && hero.semester == 2
-            })
-            return marvel
-          }
-        },
-        tworesult: function () {
-          if (myresults.results) {
-            var heroes = myresults.results
-            var marvel = heroes.filter(function (hero) {
-              return hero.level == 200 && hero.semester == 1
-            })
-            return marvel
-          }
-        },
-        twotworesult: function () {
-          if (myresults.results) {
-            var heroes = myresults.results
-            var marvel = heroes.filter(function (hero) {
-              return hero.level == 200 && hero.semester == 2
-            })
-            return marvel
-          }
-        },
-        threeresult: function () {
-          if (myresults.results) {
-            var heroes = myresults.results
-            var marvel = heroes.filter(function (hero) {
-              return hero.level == 300 && hero.semester == 1
-            })
-            return marvel
-          }
-        },
-        threetworesult: function () {
-          if (myresults.results) {
-            var heroes = myresults.results
-            var marvel = heroes.filter(function (hero) {
-              return hero.level == 300 && hero.semester == 2
-            })
-            return marvel
-          }
-        },
-        fourresult: function () {
-          if (myresults.results) {
-            var heroes = myresults.results
-            var marvel = heroes.filter(function (hero) {
-              return hero.level == 400 && hero.semester == 1
-            })
-            return marvel
-          }
-        },
-        fourtworesult: function () {
-          if (myresults.results) {
-            var heroes = myresults.results
-            var marvel = heroes.filter(function (hero) {
-              return hero.level == 400 && hero.semester == 2
-            })
-            return marvel
+    })
+    let final = sortedResult.reduce(function (a, b) {
+      return a + b
+    }, 0)
+    let ave = average.reduce(function (a, b) {
+      return a + b
+    }, 0)
+    // round up the GP to the nearest number to two decimal place
+    return Math.round(final / ave * 100) / 100
+  }
+
+  // funcion for producing the result for a semester
+  let calculateResult = function (resul, cour, leve, semest) {
+    let embrace = {
+      rest: [],
+      cgpa: ''
+    }
+    resul.forEach(read => {
+      cour.filter(singleCourse => {
+        if (singleCourse.id == read.course) {
+          if (
+            singleCourse.level == leve &&
+            singleCourse.semester == semest
+          ) {
+            var convert = {
+              id: read.id,
+              coursecode: singleCourse.coursecode,
+              coursetitle: singleCourse.coursetitle,
+              score: read.score,
+              grade: read.grade,
+              unit: singleCourse.units
+            }
+            embrace.rest.push(convert)
           }
         }
-
       })
     })
-}
+    if (embrace.rest.length > 0) {
+      embrace.cgpa = calculateCgpa(embrace.rest)
+    } else {
+      embrace.cgpa = 0
+    }
+    return embrace
+  }
 
-exports.student_delete_result = function (req, res, next) {
-  StudentSigns.findByIdAndUpdate(req.params.id, {
-    $pull: {
-      results: {
-        '_id': req.params.id
+  // function for finding a particular student and calculating their result
+  StudentSigns.findOne({
+    _id: req.params.id
+  }).exec((err, stud) => {
+    if (err) {
+      return next(err)
+    }
+
+    Result.find({
+      student: req.params.id
+    }).exec((err, myresults) => {
+      if (err) {
+        return next(err)
       }
-    }
-  }, function (error, success) {
-    if (error) {
-      return next(error)
-    }
-    res.redirect('/admin/studentfullresults/' + success.id)
+      Courses.find({}).exec((err, coursess) => {
+        if (err) {
+          return next(err)
+        }
+        res.render('admin/view_result', {
+          title: 'Personal Result',
+          layout: 'less_layout',
+          admin: req.session.admin,
+          stud: stud,
+          oneresult: calculateResult(myresults, coursess, 100, 1),
+          oneresult2: calculateResult(myresults, coursess, 100, 2),
+          tworesult: calculateResult(myresults, coursess, 200, 1),
+          tworesult2: calculateResult(myresults, coursess, 200, 2),
+          threeresult: calculateResult(myresults, coursess, 300, 1),
+          threeresult2: calculateResult(myresults, coursess, 300, 2),
+          fourresult: calculateResult(myresults, coursess, 400, 1),
+          fourresult2: calculateResult(myresults, coursess, 400, 2)
+        })
+      })
+    })
   })
 }
 
@@ -1466,7 +1309,7 @@ exports.staff_signup_post = [
 
     if (!errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/errors messages.
-      res.render('sadmin/staff_signup', {
+      res.render('/admin/staff_signup', {
         title: 'Create Staff',
         staff: req.body,
         errors: errors.array()
@@ -1474,7 +1317,7 @@ exports.staff_signup_post = [
     } else {
       // Data from form is valid.
       // Create a Staff object with escaped and trimmed data.
-      var staff_register = new Staff({
+      var staffRegister = new Staff({
         email: req.body.email,
         surname: req.body.surname,
         firstname: req.body.firstname,
@@ -1484,12 +1327,12 @@ exports.staff_signup_post = [
         bio: req.body.bio,
         password: req.body.password
       })
-      staff_register.save(function (err) {
+      staffRegister.save(function (err) {
         if (err) {
           return next(err)
         }
         // Successful - redirect to Staff login page.
-        res.redirect(staff_register.urly)
+        res.redirect(staffRegister.urly)
       })
     }
   }

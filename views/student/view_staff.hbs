@@ -1,14 +1,16 @@
 <br>
-<h5><b>
-    LECTURER PROFILE
-  </b>
-</h5>
-<br>
+<h5><b>{{staffs.surname}} {{staffs.firstname}}(LECTURER)</b></h5>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-      <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-    </div>
+    {{#if staffs.photo.url}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="{{staffs.photo.url}}" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{else}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="/images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{/if}}
   </div>
 </div>
 <br><br><br>
@@ -23,21 +25,17 @@
           <a class="nav-link" data-toggle="tab" href="#courses">COURSES</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#colleague">FRIENDS</a>
+          <a class="nav-link" data-toggle="tab" href="#books">BOOKS</a>
         </li>
       </ul>
       <div class="tab-content">
         <div id="info" class="container-fluid tab-pane active" style="background-color:white">
           <br><br>
-          <p><b>SURNAME: </b> {{staffs.surname}}</p>
-          <br>
-          <p><b>FIRSTNAME: </b> {{staffs.firstname}}</p>
-          <br>
           <p><b><span class="fa fa-envelope"></span> </b> {{staffs.email}}</p>
           <br>
           <p><b><span class="fa fa-user"></span> </b>{{staffs.gender}}</p>
           <br>
-          <p><b><span class="fa fa-phone"></span> </b>{{staffs.phone}}</p>
+          <p><b><span class="fa fa-phone"></span> </b>0{{staffs.phone}}</p>
           <br>
           <p><b><span class="fa fa-comment-o"></span> </b>{{staffs.bio}}</p>
           <br>
@@ -59,9 +57,9 @@
             {{/each}}
           </ul>
         </div>
-        <div id="colleague" class="container-fluid tab-pane fade" style="background-color:white">
+        <div id="books" class="container-fluid tab-pane fade" style="background-color:white">
           <br><br>
-          <p>I DON'T HAVE FRIENDS NOW</p>
+          <p>** Books written by this lecturer is not available at the moment.Please check back later</p>
         </div>
       </div>
     </div>
@@ -69,19 +67,19 @@
       <br><br><br>
       <ul class="card">
         <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/getmessages/{{staffs.id}}" title="Edit profile">CHAT</a>
+            <span class="fa fa-whatsapp" style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to send {{staffs.surname}} a message.</p>
+        </li>
+        <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="#" title="results">BOOKS</a>
             <span class="fa fa-book" style="font-size:25px"></span></h6>
           <br>
-          <p class="crad-text">Click to see books written by this lecturer.</p>
+          <p class="crad-text">Click to see books written by {{staffs.surname}}.</p>
         </li>
         <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="#" title="Edit profile">MESSAGE</a> <span
-              class="fa fa-whatsapp" style="font-size:25px"></span></h6>
-          <br>
-          <p class="card-text">Click to send this lecturer a message.</p>
-        </li>
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="/studentsstafflist" title="Coursemates">COURSEMATES</a>
+          <h6 class="card-header font-weight-bold"> <a href="/studentsstafflist" title="Coursemates">LECTURERS</a>
             <span class="fa fa-users" style="font-size:25px"></span>
           </h6>
           <br>

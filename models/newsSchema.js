@@ -24,7 +24,6 @@ var newsSchema = new Schema({
   },
   comments: [{
     userid: String,
-    username: String,
     comment: String,
     like: {
       type: Number,

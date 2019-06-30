@@ -11,10 +11,11 @@
       <button class="btn btn-secondary btn-sm dropdown" data-toggle="dropdown"><span class="fa fa-search"></span>
         search</button>
       <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="/student100mates">100 LEVEL</a>
-        <a class="dropdown-item" href="/student200mates">200 LEVEL</a>
-        <a class="dropdown-item" href="/student300mates">300 LEVEL</a>
-        <a class="dropdown-item" href="/student400mates">400 LEVEL</a>
+        <a class="dropdown-item" href="/studentlevelmates">ALL</a>
+        <a class="dropdown-item" href="/studentmates/100">100 LEVEL</a>
+        <a class="dropdown-item" href="/studentmates/200">200 LEVEL</a>
+        <a class="dropdown-item" href="/studentmates/300">300 LEVEL</a>
+        <a class="dropdown-item" href="/studentmates/400">400 LEVEL</a>
       </div>
     </div>
   </div>
@@ -25,19 +26,22 @@
     <div class="col-12 col-md-9">
       <ul class="list-group list-group-flush">
         {{#each slow}}
-          <li class="container-fluid list-group-item">
+          <li class="list-group-item">
             <div class="row">
-              {{#if this.photo}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="../{{this.photo}}" alt="profile pics" class="rounded-circle profile" />
+              {{#if this.photo.url}}
+                <div class="col-4 col-sm-2">
+                  <img src="{{this.photo.url}}" alt="profile pics" class="profile" />
                 </div>
               {{else}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="../images/psylogo4.jpg" alt="profile pics" class="rounded-circle profile" />
+                <div class="col-4 col-sm-2">
+                  <img src="/images/psylogo4.jpg" alt="profile pics" class="profile" />
                 </div>
               {{/if}}
-              <div class="col-7 col-sm-8 col-md-9 col-lg-10">
-                <p><a href="/studentstudentprofile/{{this.id}}">{{this.surname}} {{this.firstname}}</a></p>
+              <div class="col-8 col-sm-10">
+                <p><a href="/studentstudentprofile/{{this.id}}">{{this.surname}}
+                    {{this.firstname}} </a>{{#if this.is_courserep}} <span class="fa fa-star-o"
+                      style="font-size:20px;color:red"></span>{{/if}}
+                </p>
                 <p>
                   <b><span class="fa fa-user"></span> </b>{{this.gender}}<br>
                   <b><span class="fa fa-comment-o"></span> </b>{{this.bio}}

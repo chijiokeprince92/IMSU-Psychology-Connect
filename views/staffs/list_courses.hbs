@@ -3,23 +3,27 @@
     {{levy}} LEVEL COURSES
   </b>
 </h5>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 dropdown dropright">
+      <button class="btn btn-secondary dropdown" data-toggle="dropdown"><span
+          class="fa fa-search"></span>search</button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="/staff/getcourses/100">100 LEVEL</a>
+        <a class="dropdown-item" href="/staff/getcourses/200">200 LEVEL</a>
+        <a class="dropdown-item" href="/staff/getcourses/300">300 LEVEL</a>
+        <a class="dropdown-item" href="/staff/getcourses/400">400 LEVEL</a>
+      </div>
+    </div>
+  </div>
+</div>
 <h6><b>
     FIRST SEMESTER COURSES
   </b>
 </h6>
 <div class="container-fluid">
   <div class="row">
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown" data-toggle="dropdown">search</button>
-      <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="/staff/get100courses">100 LEVEL</a>
-        <a class="dropdown-item" href="/staff/get200courses">200 LEVEL</a>
-        <a class="dropdown-item" href="/staff/get300courses">300 LEVEL</a>
-        <a class="dropdown-item" href="/staff/get400courses">400 LEVEL</a>
-      </div>
-    </div>
     <nav class="col-12">
-      <br>
       <div class="table-responsive-sm">
         <table class="table table-hover table-bordered">
           <thead class="thead-dark">
@@ -46,9 +50,9 @@
           {{/each}}
         </table>
         <br>
-        <h5>
+        <h6>
           ELECTIVE COURSES: {{elective1}}
-        </h5>
+        </h6>
         <table class="table table-hover table-bordered">
           {{#each first_borrowed}}
             <tr>
@@ -67,11 +71,10 @@
     </nav>
   </div>
 </div>
-<br>
-<br>
-<h5><b>
+<br><br>
+<h6><b>
     SECOND SEMESTER COURSES
-  </b></h5>
+  </b></h6>
 <div class="container-fluid">
   <div class="row">
     <nav class="col-sm-12">
@@ -101,9 +104,9 @@
           {{/each}}
         </table>
         <br>
-        <h5>
+        <h6>
           ELECTIVE COURSES: {{elective2}}
-        </h5>
+        </h6>
         <table class="table table-hover table-bordered">
           {{#each second_borrowed}}
             <tr>

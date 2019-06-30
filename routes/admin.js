@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const path = require('path')
 const uploaded = require('../upload')
 const newsproject = require('../news_project')
 const projectmulter = require('../project_multer')
@@ -37,19 +36,17 @@ router.post('/updateprofile/:id', admin_controllers.admin_session_force, admin_c
 // GET the List of All the Students in Psychology
 router.get('/studentlist', admin_controllers.admin_session_force, admin_controllers.list_students)
 
+router.get('/liststudents/:level', admin_controllers.admin_session_force, admin_controllers.list_students_level)
+
 router.get('/studentprofile/:id', admin_controllers.view_student_profile)
 
 router.post('/makecourserep/:id', admin_controllers.admin_session_force, admin_controllers.student_make_courserep)
 
+router.post('/enablestudent/:id', admin_controllers.admin_session_force, admin_controllers.enable_student)
+
+router.post('/disablestudent/:id', admin_controllers.admin_session_force, admin_controllers.disable_student)
+
 router.post('/deletestudent/:id', admin_controllers.admin_session_force, admin_controllers.delete_student)
-
-router.get('/list100students', admin_controllers.admin_session_force, admin_controllers.list_100_student)
-
-router.get('/list200students', admin_controllers.admin_session_force, admin_controllers.list_200_student)
-
-router.get('/list300students', admin_controllers.admin_session_force, admin_controllers.list_300_student)
-
-router.get('/list400students', admin_controllers.admin_session_force, admin_controllers.list_400_student)
 
 // GET routes for editing the general details of all levels
 router.get('/editlevelinfo', admin_controllers.admin_session_force, admin_controllers.edit_level_info)
@@ -67,11 +64,18 @@ router.get('/edit300levelinfo', admin_controllers.admin_session_force, admin_con
 router.get('/edit400levelinfo', admin_controllers.admin_session_force, admin_controllers.edit_400level_info)
 
 // GET the number of registered staffs
-
 router.get('/stafflist', admin_controllers.admin_session_force, admin_controllers.list_staffs)
 
+// view staff profile
 router.get('/staffprofile/:id', admin_controllers.admin_session_force, admin_controllers.view_staff_profile)
 
+// enable staff
+router.post('/enablestaff/:id', admin_controllers.admin_session_force, admin_controllers.enable_staff)
+
+// disable staff
+router.post('/disablestaff/:id', admin_controllers.admin_session_force, admin_controllers.disable_staff)
+
+// delete staff profile and all details
 router.post('/deletestaff/:id', admin_controllers.admin_session_force, admin_controllers.delete_staff)
 
 router.get('/studentaddresult/:id', admin_controllers.admin_session_force, admin_controllers.student_addresult_get)
@@ -79,13 +83,13 @@ router.get('/studentaddresult/:id', admin_controllers.admin_session_force, admin
 router.post('/studentaddresult/:id', admin_controllers.admin_session_force, admin_controllers.student_addresults_post)
 
 // Get a single Student Result
-router.get('/studentfullresults/:id', admin_controllers.admin_session_force, admin_controllers.student_result)
+router.get('/studentfullresults/:id', admin_controllers.admin_session_force, admin_controllers.my_result)
 
 // Get all the Results
 router.get('/viewallresults', admin_controllers.admin_session_force, admin_controllers.view_all_results)
 
 // Delete a particular Results
-router.post('/deleteresult/:id', admin_controllers.admin_session_force, admin_controllers.delete_result)
+router.post('/deleteresult/:stud/:id', admin_controllers.admin_session_force, admin_controllers.delete_result)
 
 // GET form to upload project topic
 router.get('/getprojectform', admin_controllers.admin_session_force, admin_controllers.get_upload_project)
@@ -97,7 +101,7 @@ router.post('/getprojectform', admin_controllers.admin_session_force, projectmul
 router.get('/getprojecttopicss', admin_controllers.admin_session_force, admin_controllers.get_project_topics)
 
 // GET project by category
-router.get('/getprojectcategory', admin_controllers.admin_session_force, admin_controllers.get_project_category)
+router.get('/getprojecttopics/:topic', admin_controllers.admin_session_force, admin_controllers.get_project_category)
 
 // Edit project topic
 router.get('/editproject/:id', admin_controllers.admin_session_force, admin_controllers.edit_project_get)
@@ -138,23 +142,11 @@ router.get('/getcourseform', admin_controllers.admin_session_force, admin_contro
 
 router.post('/getcourseform', admin_controllers.admin_session_force, admin_controllers.post_course)
 
-// GET all Courses
-router.get('/getallcourses', admin_controllers.admin_session_force, admin_controllers.get_100_courses)
-
-// GET 200 Level courses
-router.get('/get200courses', admin_controllers.admin_session_force, admin_controllers.get_200_courses)
-
-// GET 300 Level courses
-router.get('/get300courses', admin_controllers.admin_session_force, admin_controllers.get_300_courses)
-
-// GET 400 Level courses
-router.get('/get400courses', admin_controllers.admin_session_force, admin_controllers.get_400_courses)
+// GET 100 Level courses
+router.get('/getcourses/:level', admin_controllers.admin_session_force, admin_controllers.get_courses_level)
 
 // GET a particular course details
 router.get('/viewcourse/:id', admin_controllers.admin_session_force, admin_controllers.view_course)
-
-// GET a particular course details
-router.get('/viewcourselect/:id', admin_controllers.admin_session_force, admin_controllers.student_coursesoffered)
 
 // GET a particular course details
 router.get('/addcourseoutline/:id', admin_controllers.admin_session_force, admin_controllers.course_update_get)
@@ -165,6 +157,8 @@ router.post('/addcourseoutline/:id', admin_controllers.admin_session_force, admi
 router.post('/editcourselecturer/:id', admin_controllers.admin_session_force, admin_controllers.edit_course_lecturer)
 
 router.post('/deletecourselecturer/:id', admin_controllers.admin_session_force, admin_controllers.delete_course_lecturer)
+
+router.post('/editcourse/:id', admin_controllers.admin_session_force, admin_controllers.delete_course)
 
 router.post('/deletecourse/:id', admin_controllers.admin_session_force, admin_controllers.delete_course)
 

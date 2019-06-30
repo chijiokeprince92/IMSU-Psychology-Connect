@@ -8,18 +8,18 @@
     <div class="col-12 col-md-9">
       <ul class="list-group list-group-flush">
         {{#each slow}}
-          <li class="container-fluid list-group-item">
+          <li class="list-group-item">
             <div class="row">
-              {{#if this.photo}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
+              {{#if this.photo.url}}
+                <div class="col-4 col-sm-2">
+                  <img src="/{{this.photo.url}}" alt="staff pics" class="rounded-circle profile" />
                 </div>
               {{else}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                <div class="col-4 col-sm-2">
+                  <img src="/images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
                 </div>
               {{/if}}
-              <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+              <div class="col-8 col-sm-10">
                 <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
                 <p>
                   <b><span class="fa fa-user"></span> </b>{{this.gender}}<br>

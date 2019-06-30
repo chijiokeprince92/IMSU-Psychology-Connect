@@ -10,6 +10,10 @@ var conversationSchema = new Schema({
   participant2: {
     type: String,
     required: true
+  },
+  date: {
+    type: Date,
+    default: Date()
   }
 })
 

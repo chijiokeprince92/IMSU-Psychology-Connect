@@ -1,75 +1,76 @@
 <br>
 <h5>
-    <b>
-        " {{courses.coursetitle}} RESULT UPLOAD "
-    </b>
+  <b>
+    " {{courses.coursetitle}} RESULT UPLOAD "
+  </b>
 </h5>
 <br>
 {{#if message}}
-    <p class="alert alert-success">{{message}}</p>
+  <p class="alert alert-success">{{message}}</p>
 {{/if}}
 <br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-lg-6">
-            <form class="form group" action="" method="POST">
-                <select style="display:none" name="course" class="form-control">
-                    <option value="{{courses.id}}">{{courses.coursetitle}}</option>
-                </select>
-                <br>
-                <label for="student"><b>SELECT STUDENT :</b></label>
-                <select name="student" class="form-control">
-                    {{#each upload}}
-                        <option value="{{this.id}}">{{this.matnumber}} - {{this.surname}} {{this.firstname}}</option>
-                    {{/each}}
-                </select>
-                <br>
-                <label for="score"><b>SCORES :</b></label>
-                <input type="number" name="score" class="form-control" placeholder="0 - 100" required>
-                <br>
-                <label for="grade"><b>GRADE :</b></label>
-                <input type="text" name="grade" class="form-control" placeholder="A - F" required>
-                <br><br>
-                <button type="submit" class="btn btn-success"><b>SAVE RESULT</b></button>
-            </form>
-        </div>
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <form class="form group" action="" method="POST">
+        <select style="display:none" name="course" class="form-control">
+          <option value="{{courses.id}}">{{courses.coursetitle}}</option>
+        </select>
+        <br>
+        <label for="student"><b>SELECT STUDENT :</b></label>
+        <select name="student" class="form-control">
+          <option>Select a student...</option>
+          {{#each students}}
+            <option value="{{this.id}}">{{this.matnumber}} - {{this.surname}} {{this.firstname}}</option>
+          {{/each}}
+        </select>
+        <br>
+        <label for="score"><b>SCORES :</b></label>
+        <input type="number" name="score" class="form-control" placeholder="0 - 100" required>
+        <br><br>
+        <button type="submit" class="btn btn-success"><b>SAVE RESULT</b></button>
+      </form>
     </div>
+  </div>
 </div>
 <h5><b>
-        UPLOADED RESULTS
-    </b>
+    UPLOADED RESULTS
+  </b>
 </h5>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-lg-6">
-            <ul>
-                <br><br>
-                {{#each accept}}
-                    <li class="container-fluid">
-                        <div class="row">
-                            <div class="col-6">
-                                <p>
-                                    <b>NAME: </b>{{this.name}}<br>
-                                    <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
-                                </p>
-                            </div>
-                            <div class="col-4">
-                                <button id="add{{this.id}}" class="btn btn-primary">{{this.grade}}</button>
-                            </div>
-                            <div class="col-2">
-                                <form action="/admin/deleteresult/{{result_id}}" method="POST">
-                                    <input type="hidden" name="code" value="{{../courses.id}}" required>
-                                    <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:15px"></span>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-                    <br><br>
-                    {{else}}
-                        <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
-                {{/each}}
-            </ul>
-        </div>
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <ul>
+        <br><br>
+        {{#each accept}}
+          <li class="container-fluid">
+            <div class="row">
+              <div class="col-6">
+                <p>
+                  <b>NAME: </b>{{this.name}}<br>
+                  <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
+                </p>
+              </div>
+              <div class="col-4">
+                <button id="add{{this.id}}" class="btn btn-primary">{{this.grade}}</button>
+              </div>
+              <div class="col-2">
+                <form action="/admin/deleteresult/{{result_id}}" method="POST">
+                  <input type="hidden" name="code" value="{{../courses.id}}" required>
+                  <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:15px"></span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </li>
+          <br><br>
+        {{else}}
+          <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+        {{/each}}
+      </ul>
     </div>
+  </div>
 </div>
+{{#each results}}
+  <p>{{this}}</p>
+{{/each}}

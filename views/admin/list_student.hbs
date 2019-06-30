@@ -4,16 +4,20 @@
     {{levy}}
   </b>
 </h5>
+{{#if message}}
+  <p class="alert alert-success">{{message}}</p>
+{{/if}}
 <div class="container-fluid">
   <div class="row">
     <div class="col-12 dropdown dropright">
       <button class="btn btn-secondary btn-sm dropdown" data-toggle="dropdown"><span class="fa fa-search"></span>
         search</button>
       <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="/admin/list100students">100 LEVEL</a>
-        <a class="dropdown-item" href="/admin/list100students">200 LEVEL</a>
-        <a class="dropdown-item" href="/admin/list100students">300 LEVEL</a>
-        <a class="dropdown-item" href="/admin/list100students">400 LEVEL</a>
+        <a class="dropdown-item" href="/admin//studentlist">ALL STUDENTS</a>
+        <a class="dropdown-item" href="/admin/liststudents/100">100 LEVEL</a>
+        <a class="dropdown-item" href="/admin/liststudents/200">200 LEVEL</a>
+        <a class="dropdown-item" href="/admin/liststudents/300">300 LEVEL</a>
+        <a class="dropdown-item" href="/admin/liststudents/400">400 LEVEL</a>
       </div>
     </div>
   </div>
@@ -26,13 +30,13 @@
         {{#each slow}}
           <li class="container-fluid list-group-item">
             <div class="row">
-              {{#if this.photo}}
+              {{#if this.photo.url}}
                 <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="../{{this.photo}}" alt="profile pics" class="rounded-circle profile" />
+                  <img src="{{this.photo.url}}" alt="profile pics" class="rounded-circle profile" />
                 </div>
               {{else}}
                 <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="../images/psylogo4.jpg" alt="profile pics" class="rounded-circle profile" />
+                  <img src="/images/psylogo4.jpg" alt="profile pics" class="rounded-circle profile" />
                 </div>
               {{/if}}
               <div class="col-5 col-sm-6 col-md-7 col-lg-8">
@@ -42,13 +46,21 @@
                   <b><span class="fa fa-graduation-cap"></span> </b>{{this.matnumber}}
                 </p>
               </div>
-              <div class="col-2" style="">
-                <form action="/admin/deletestudent/{{this.id}}" method="POST">
-                  <input type="hidden" />
-                  <button type="submit" class="btn btn-danger"><span class="fa fa-trash"
-                      style="font-size:20px"></span></button>
-                </form>
-              </div>
+              {{#if this.disabled}}
+                <div class="col-2" style="">
+                  <form action="/admin/enablestudent/{{this.id}}" method="POST">
+                    <input type="text" style="display:none" name="level" value="{{this.level}}" />
+                    <button type="submit" class="btn btn-warning">Enable</button>
+                  </form>
+                </div>
+              {{else}}
+                <div class="col-2" style="">
+                  <form action="/admin/disablestudent/{{this.id}}" method="POST">
+                    <input type="text" style="display:none" name="level" value="{{this.level}}" />
+                    <button type="submit" class="btn btn-primary">Disable</button>
+                  </form>
+                </div>
+              {{/if}}
             </div>
           </li>
           <br><br>

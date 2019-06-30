@@ -7,6 +7,7 @@ require('dotenv').config()
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const formidable = require('formidable')
 const flash = require('connect-flash')
 
 const cloudinary = require('cloudinary')
@@ -30,7 +31,7 @@ const io = require('socket.io')(server)
 const mongoose = require('mongoose')
 const MongoStore = require('connect-mongo')(session)
 
-mongoose.connect(process.env.mongoDB)
+mongoose.connect(process.env.mongoDBO)
 mongoose.Promise = global.Promise
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'Prince,the MongoDB connection error'))

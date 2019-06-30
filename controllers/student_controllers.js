@@ -1,15 +1,18 @@
 // this is the controller for handling anything student
 
-var StudentSigns = require('../models/studentSchema')
-var Staff = require('../models/staffSchema')
-var Messages = require('../models/messageSchema')
-var Conversation = require('../models/conversationSchema')
-var News = require('../models/newsSchema')
-var Project = require('../models/projectSchema')
-var Courses = require('../models/coursesSchema')
-var Result = require('../models/resultSchema')
-var Timetable = require('../models/timetableSchema')
-var async = require('async')
+const StudentSigns = require('../models/studentSchema')
+const Staff = require('../models/staffSchema')
+const Messages = require('../models/messageSchema')
+const Conversation = require('../models/conversationSchema')
+const News = require('../models/newsSchema')
+const Project = require('../models/projectSchema')
+const Courses = require('../models/coursesSchema')
+const Result = require('../models/resultSchema')
+const Timetable = require('../models/timetableSchema')
+const formidable = require('formidable')
+const cloudinary = require('cloudinary')
+
+const async = require('async')
 
 var { body, validationResult } = require('express-validator/check')
 var { sanitizeBody } = require('express-validator/filter')
@@ -30,6 +33,29 @@ exports.ensureCorrectuser = (req, res, next) => {
   } else {
     next()
   }
+}
+
+// function for formatting date
+var calender = function (user) {
+  let day = ''
+  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  let month = ''
+  if (user.getDay() === 1) {
+    day = user.getDay() + 'st'
+  }
+  if (user.getDay() === 2) {
+    day = user.getDay() + 'nd'
+  }
+  if (user.getDay() === 3) {
+    day = user.getDay() + 'rd'
+  }
+  if (user.getDay() > 3) {
+    day = user.getDay() + 'th'
+  }
+  for (let i = 0; i < months.length; i++) {
+    month = months[user.getMonth() - 1]
+  }
+  return day + ' - ' + month + ' - ' + user.getFullYear()
 }
 
 // ----------------------------------------------------------------------------
@@ -126,14 +152,13 @@ exports.student_signup_post = [
 
     if (!errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/errors messages.
-      res.render('student/student_signup', {
+      res.render('homefile/student_signup', {
         title: 'Create Student',
         student: req.body,
         errors: errors.array()
       })
     } else {
       // Data from form is valid.
-      var fullPath = 'files/' + req.file.filename
       // Create an Student object with escaped and trimmed data.
       var qualified = new StudentSigns({
         email: req.body.email,
@@ -143,7 +168,6 @@ exports.student_signup_post = [
         level: req.body.level,
         gender: req.body.gender,
         phone: req.body.phone,
-        photo: fullPath,
         bio: req.body.bio,
         password: req.body.password
       })
@@ -190,7 +214,8 @@ exports.test_login = (req, res, next) => {
         level: user.level,
         matnumber: user.matnumber,
         firstname: user.firstname,
-        surname: user.surname
+        surname: user.surname,
+        photo: user.photo.url || '/images/psylogo4.jpg'
       }
       req.flash('message', `Welcome ${user.surname}`)
       res.redirect('/studenthome')
@@ -219,12 +244,6 @@ exports.get_student_home = (req, res, next) => {
     res.render('student/student_home', {
       title: 'Student HomePage',
       allowed: req.session.student,
-      person: info.user,
-      courserep: () => {
-        if (info.user.is_courserep === 'Yes') {
-          return info.user.is_courserep
-        }
-      },
       news: info.newy,
       message: req.flash('message')
     })
@@ -250,6 +269,7 @@ exports.profiler = (req, res, next) => {
         title: 'Student Profile',
         layout: 'less_layout',
         user: user,
+        datey: calender(user.date),
         registered_courses: mycourses,
         message: req.flash('message')
       })
@@ -294,22 +314,37 @@ exports.student_update_post = (req, res, next) => {
   )
 }
 
+// Upload your profile pics
 exports.student_update_pics = (req, res, next) => {
-  var fullPath = 'files/' + req.file.filename
-  var qualified = {
-    photo: fullPath,
-    _id: req.params.id
-  }
-  StudentSigns.findByIdAndUpdate(
-    req.session.student.id,
-    qualified, {},
-    (err, studentupdate) => {
+  var form = new formidable.IncomingForm()
+  form.parse(req)
+  form.on('fileBegin', function (name, file) {
+    // eslint-disable-next-line no-path-concat
+    file.path = __dirname + '/formidable/' + file.name
+    console.log('The name of the selected file is:', file.path)
+  })
+  form.on('file', function (name, file) {
+    cloudinary.v2.uploader.upload(file.path, function (err, result) {
       if (err) {
         return next(err)
       }
-      res.redirect(studentupdate.url)
-    }
-  )
+      console.log(result)
+      // add cloudinary url for the image to the topic object under image property
+      var qualified = {
+        photo: {
+          url: result.secure_url,
+          public_id: result.public_id
+        }
+      }
+      StudentSigns.findByIdAndUpdate(req.session.student.id, qualified, {},
+        (err, studentupdate) => {
+          if (err) {
+            return next(err)
+          }
+          res.redirect(studentupdate.url)
+        })
+    })
+  })
 }
 
 // GET Profile  of a student
@@ -330,14 +365,6 @@ exports.view_coursemate_profile = (req, res, next) => {
         layout: 'less_layout',
         coursemate: coursemate,
         registered_courses: students,
-        photo: () => {
-          if (!coursemate.photo) {
-            coursemate.photo = '../images/psylogo4.jpg'
-            return coursemate.photo
-          } else {
-            return coursemate.photo
-          }
-        },
         message: req.flash('message')
       })
     })
@@ -345,25 +372,10 @@ exports.view_coursemate_profile = (req, res, next) => {
 }
 
 // Functions for displaying just your coursemates
-exports.list_coursemates = (req, res, next) => {
-  StudentSigns.find({
-    level: req.session.student.level
-  }).exec((err, coursemates) => {
-    if (err) {
-      return next(err)
-    }
-    res.render('student/lists_students', {
-      allowed: req.session.student,
-      title: 'Course Mates',
-      slow: coursemates,
-      head: 'COURSEMATES'
-    })
-  })
-}
-
-// Functions for displaying just your coursemates
 exports.list_psychology_students = (req, res, next) => {
-  StudentSigns.find({}).exec((err, students) => {
+  StudentSigns.find({}).sort([
+    ['level', 'ascending']
+  ]).exec((err, students) => {
     if (err) {
       return next(err)
     }
@@ -377,128 +389,207 @@ exports.list_psychology_students = (req, res, next) => {
 }
 
 // Functions for displaying just your coursemates
-exports.list_100mates = (req, res, next) => {
-  StudentSigns.find({
-    level: 100
-  },
-  (err, students) => {
-    if (err) {
-      return next(err)
+exports.list_coursemates = (req, res, next) => {
+  StudentSigns.find({ level: req.params.level },
+    (err, students) => {
+      if (err) {
+        return next(err)
+      }
+      res.render('student/lists_students', {
+        allowed: req.session.student,
+        title: `${req.params.level} LEVEL STUDENTS`,
+        slow: students,
+        head: `${req.params.level} LEVEL PSYCHOLOGY STUDENTS`
+      })
     }
-    res.render('student/lists_students', {
-      allowed: req.session.student,
-      title: '100 LEVEL STUDENTS',
-      slow: students,
-      head: '100 LEVEL PSYCHOLOGY STUDENTS'
-    })
-  }
   )
 }
 
-// Functions for displaying just your coursemates
-exports.list_200mates = (req, res, next) => {
-  StudentSigns.find({
-    level: 200
-  },
-  (err, students) => {
-    if (err) {
-      return next(err)
-    }
-    res.render('student/lists_students', {
-      allowed: req.session.student,
-      title: '200 LEVEL STUDENTS',
-      slow: students,
-      head: '200 LEVEL PSYCHOLOGY STUDENTS'
+// GET already set time table for all student in a level
+exports.get_time_table = (req, res, next) => {
+  var student = req.session.student
+  let datey = function (time, day) {
+    var mon = time.filter(hero => {
+      return hero.day == `${day}`
     })
+    return mon
   }
-  )
-}
-
-// Functions for displaying just your coursemates
-exports.list_300mates = (req, res, next) => {
-  StudentSigns.find({
-    level: 300
-  },
-  (err, students) => {
+  Timetable.find({
+    level: student.level
+  }).exec((err, times) => {
     if (err) {
       return next(err)
     }
-    res.render('student/lists_students', {
-      allowed: req.session.student,
-      title: '300 LEVEL STUDENTS',
-      slow: students,
-      head: '300 LEVEL PSYCHOLOGY STUDENTS'
-    })
-  }
-  )
-}
-
-// Functions for displaying just your coursemates
-exports.list_400mates = (req, res, next) => {
-  StudentSigns.find({
-    level: 400
-  },
-  (err, students) => {
-    if (err) {
-      return next(err)
-    }
-    res.render('student/lists_students', {
-      allowed: req.session.student,
-      title: '400 LEVEL STUDENTS',
-      slow: students,
-      head: '400 LEVEL PSYCHOLOGY STUDENTS'
-    })
-  }
-  )
-}
-
-// function for getting the names of every staff
-exports.list_staffs = (req, res, next) => {
-  Staff.find({}).exec((err, staffs) => {
-    if (err) {
-      return next(err)
-    }
-    res.render('student/list_staff', {
-      allowed: req.session.student,
-      title: 'Psychology Lecturers',
-      slow: staffs
+    StudentSigns.findOne({
+      _id: student.id
+    }).exec(function (err, courserep) {
+      if (err) {
+        return next(err)
+      }
+      res.render('student/time_table', {
+        title: "Student's TimeTable",
+        allowed: req.session.student,
+        update: req.flash('update'),
+        studenty: courserep.is_courserep,
+        monday: datey(times, 'monday'),
+        tuesday: datey(times, 'tuesday'),
+        wednesday: datey(times, 'wednesday'),
+        thursday: datey(times, 'thursday'),
+        friday: datey(times, 'friday')
+      })
     })
   })
 }
 
-// GET Profile of a Particular Staff
-exports.view_staff_profile = (req, res, next) => {
-  async.parallel({
-    coursey: callback => {
-      Courses.find({
-        lecturer: req.params.id
-      }).exec(callback)
-    },
-    staffy: callback => {
-      Staff.findById(req.params.id).exec(callback)
-    }
-  },
-  (err, staffs) => {
+// Edit the time table by the course rep only
+exports.edit_timetable = (req, res, next) => {
+  Timetable.findOne({
+    _id: req.params.id
+  }).exec((err, timey) => {
     if (err) {
       return next(err)
     }
-    res.render('student/view_staff', {
-      allowed: req.session.student,
-      title: 'Staff Profile',
-      layout: 'less_layout',
-      staffs: staffs.staffy,
-      coursess: staffs.coursey,
-      photo: () => {
-        if (!staffs.staffy.photo) {
-          staffs.staffy.photo = '../images/psylogo4.jpg'
-          return staffs.staffy.photo
-        } else {
-          return staffs.staffy.photo
-        }
+    Courses.find({
+      level: req.session.student.level
+    }).exec((err, course) => {
+      if (err) {
+        return next(err)
+      }
+      res.render('student/edit_timetable', {
+        title: 'Edit Time Table',
+        layout: 'less_layout',
+        allowed: req.session.student,
+        timey: timey,
+        course: course
+      })
+    })
+  })
+}
+
+// Post Edit the time table
+exports.edit_post_timetable = (req, res, next) => {
+  var timetable = {
+    course: req.body.course
+  }
+  Timetable.findByIdAndUpdate(req.params.id, timetable, {}, function (err) {
+    if (err) {
+      return next(err)
+    }
+    req.flash('update', 'You have just updated a course in the Time table')
+    res.redirect(302, '/gettimetable')
+  })
+}
+
+// function for checking students results
+exports.my_result = (req, res, next) => {
+  // function for calculating CGPA
+  let calculateCgpa = function (resul) {
+    let sortedResult = []
+    let average = []
+    resul.forEach(read => {
+      if (read.grade == 'A') {
+        sortedResult.push(5 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'B') {
+        sortedResult.push(4 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'C') {
+        sortedResult.push(3 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'D') {
+        sortedResult.push(2 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'E') {
+        sortedResult.push(1 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'F') {
+        sortedResult.push(0 * Number(read.unit))
+        average.push(Number(read.unit))
       }
     })
+    let final = sortedResult.reduce(function (a, b) {
+      return a + b
+    }, 0)
+    let ave = average.reduce(function (a, b) {
+      return a + b
+    }, 0)
+    // round up the GP to the nearest number to two decimal place
+    return Math.round(final / ave * 100) / 100
   }
-  )
+
+  // funcion for producing the result for a semester
+  let calculateResult = function (resul, cour, leve, semest) {
+    let embrace = {
+      rest: [],
+      cgpa: ''
+    }
+    resul.forEach(read => {
+      cour.filter(singleCourse => {
+        if (singleCourse.id == read.course) {
+          if (
+            singleCourse.level == leve &&
+            singleCourse.semester == semest
+          ) {
+            var convert = {
+              coursecode: singleCourse.coursecode,
+              coursetitle: singleCourse.coursetitle,
+              score: read.score,
+              grade: read.grade,
+              unit: singleCourse.units
+            }
+            embrace.rest.push(convert)
+          }
+        }
+      })
+    })
+    if (embrace.rest.length > 0) {
+      embrace.cgpa = calculateCgpa(embrace.rest)
+    } else {
+      embrace.cgpa = 0
+    }
+    return embrace
+  }
+
+  StudentSigns.findOne({
+    _id: req.params.id
+  }).exec((err, pupil) => {
+    if (err) {
+      return next(err)
+    }
+    if (req.session.student.level < pupil.level) {
+      req.flash(
+        'message',
+        "This student is your senior colleague, so you can't view their result"
+      )
+      res.redirect('/studentstudentprofile/' + pupil.id)
+    } else {
+      Result.find({
+        student: req.params.id
+      }).exec((err, myresults) => {
+        if (err) {
+          return next(err)
+        }
+        Courses.find({}).exec((err, coursess) => {
+          if (err) {
+            return next(err)
+          }
+          res.render('student/student_result', {
+            title: 'Personal Result',
+            layout: 'less_layout',
+            allowed: req.session.student,
+            oneresult: calculateResult(myresults, coursess, 100, 1),
+            oneresult2: calculateResult(myresults, coursess, 100, 2),
+            tworesult: calculateResult(myresults, coursess, 200, 1),
+            tworesult2: calculateResult(myresults, coursess, 200, 2),
+            threeresult: calculateResult(myresults, coursess, 300, 1),
+            threeresult2: calculateResult(myresults, coursess, 300, 2),
+            fourresult: calculateResult(myresults, coursess, 400, 1),
+            fourresult2: calculateResult(myresults, coursess, 400, 2)
+          })
+        })
+      })
+    }
+  })
 }
 
 // GET Student latest NEWS
@@ -557,17 +648,30 @@ exports.get_full_news = (req, res, next) => {
         layout: 'less_layout',
         newspaper: news,
         comments: news.comments,
-        decipher: function () {
-          var liked = []
+        commune: function () {
           var answer = []
-          var stud = students
-          var lik = news.likey
-          lik.forEach(element => {
-            liked.push(element)
+
+          students.filter(hero => {
+            for (var i = 0; i < news.comments.length; i++) {
+              if (news.comments[i].userid == hero.id) {
+                let commenter = {
+                  user: `${hero.surname} ${hero.firstname}`,
+                  photo: hero.photo,
+                  comment: news.comments[i]
+
+                }
+                answer.push(commenter)
+              }
+            }
           })
-          stud.filter(hero => {
-            for (var i = 0; i < liked.length; i++) {
-              if (liked[i] == hero.id) {
+          return answer
+        },
+        decipher: function () {
+          var answer = []
+
+          students.filter(hero => {
+            for (var i = 0; i < news.likey.length; i++) {
+              if (news.likey[i] == hero.id) {
                 answer.push(hero)
               }
             }
@@ -575,16 +679,11 @@ exports.get_full_news = (req, res, next) => {
           return answer
         },
         desliker: function () {
-          var liked = []
           var answer = []
-          var stud = students
-          var lik = news.dislikey
-          lik.forEach(element => {
-            liked.push(element)
-          })
-          stud.filter(hero => {
-            for (var i = 0; i < liked.length; i++) {
-              if (liked[i] == hero.id) {
+
+          students.filter(hero => {
+            for (var i = 0; i < news.dislikey.length; i++) {
+              if (news.dislikey[i] == hero.id) {
                 answer.push(hero)
               }
             }
@@ -645,12 +744,11 @@ exports.news_dislike = async (req, res, next) => {
   )
 }
 
-// Student Post comments in a particular news
+// Student Post a comment in a particular news
 exports.post_comment_news = (req, res, next) => {
   let user = req.session.student
   let commentor = {
     userid: user.id,
-    username: user.firstname,
     comment: req.body.comment
   }
   News.findByIdAndUpdate(
@@ -755,33 +853,32 @@ exports.post_dislike_comment = (req, res, next) => {
   })
 }
 
-// GET List of 100Level Courses...
-exports.get_100_courses = (req, res, next) => {
+exports.get_courses = (req, res, next) => {
   async.parallel({
     first_semester: callback => {
       Courses.find({
-        level: 100,
+        level: req.params.level,
         semester: 1,
         borrowed: 'no'
       }).exec(callback)
     },
     first_semester_borrowed: callback => {
       Courses.find({
-        level: 100,
+        level: req.params.level,
         semester: 1,
         borrowed: 'yes'
       }).exec(callback)
     },
     second_semester: callback => {
       Courses.find({
-        level: 100,
+        level: req.params.level,
         semester: 2,
         borrowed: 'no'
       }).exec(callback)
     },
     second_semester_borrowed: callback => {
       Courses.find({
-        level: 100,
+        level: req.params.level,
         semester: 2,
         borrowed: 'yes'
       }).exec(callback)
@@ -792,171 +889,30 @@ exports.get_100_courses = (req, res, next) => {
       return next(err)
     }
     res.render('student/list_courses', {
-      title: '100 Level Courses',
+      title: `${req.params.level} Level Courses`,
       layout: 'less_layout',
       allowed: req.session.student,
-      levy: 100,
+      levy: req.params.level,
       first: hundred.first_semester,
       first_borrowed: hundred.first_semester_borrowed,
       second: hundred.second_semester,
       second_borrowed: hundred.second_semester_borrowed,
-      elective1: 'ANY TWO',
-      elective2: 'ANY TWO'
-    })
-  }
-  )
-}
-
-// GET List of 200Level Courses...
-exports.get_200_courses = (req, res, next) => {
-  async.parallel({
-    first_semester: callback => {
-      Courses.find({
-        level: 200,
-        semester: 1,
-        borrowed: 'no'
-      }).exec(callback)
-    },
-    first_semester_borrowed: callback => {
-      Courses.find({
-        level: 200,
-        semester: 1,
-        borrowed: 'yes'
-      }).exec(callback)
-    },
-    second_semester: callback => {
-      Courses.find({
-        level: 200,
-        semester: 2,
-        borrowed: 'no'
-      }).exec(callback)
-    },
-    second_semester_borrowed: callback => {
-      Courses.find({
-        level: 200,
-        semester: 2,
-        borrowed: 'yes'
-      }).exec(callback)
-    }
-  },
-  (err, hundred) => {
-    if (err) {
-      return next(err)
-    }
-    res.render('student/list_courses', {
-      title: '200 Level Courses',
-      layout: 'less_layout',
-      allowed: req.session.student,
-      levy: 200,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective1: 'ANY TWO',
-      elective2: 'ANY TWO'
-    })
-  }
-  )
-}
-
-// GET List of 300Level Courses...
-exports.get_300_courses = (req, res, next) => {
-  async.parallel({
-    first_semester: callback => {
-      Courses.find({
-        level: 300,
-        semester: 1,
-        borrowed: 'no'
-      }).exec(callback)
-    },
-    first_semester_borrowed: callback => {
-      Courses.find({
-        level: 300,
-        semester: 1,
-        borrowed: 'yes'
-      }).exec(callback)
-    },
-    second_semester: callback => {
-      Courses.find({
-        level: 300,
-        semester: 2,
-        borrowed: 'no'
-      }).exec(callback)
-    },
-    second_semester_borrowed: callback => {
-      Courses.find({
-        level: 300,
-        semester: 2,
-        borrowed: 'yes'
-      }).exec(callback)
-    }
-  },
-  (err, hundred) => {
-    if (err) {
-      return next(err)
-    }
-    res.render('student/list_courses', {
-      title: '300 Level Courses',
-      layout: 'less_layout',
-      allowed: req.session.student,
-      levy: 300,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective1: 'ONE',
-      elective2: 'ANY ONE'
-    })
-  }
-  )
-}
-
-// GET List of 400Level Courses...
-exports.get_400_courses = (req, res, next) => {
-  async.parallel({
-    first_semester: callback => {
-      Courses.find({
-        level: 400,
-        semester: 1,
-        borrowed: 'no'
-      }).exec(callback)
-    },
-    first_semester_borrowed: callback => {
-      Courses.find({
-        level: 400,
-        semester: 1,
-        borrowed: 'yes'
-      }).exec(callback)
-    },
-    second_semester: callback => {
-      Courses.find({
-        level: 400,
-        semester: 2,
-        borrowed: 'no'
-      }).exec(callback)
-    },
-    second_semester_borrowed: callback => {
-      Courses.find({
-        level: 400,
-        semester: 2,
-        borrowed: 'yes'
-      }).exec(callback)
-    }
-  },
-  (err, hundred) => {
-    if (err) {
-      return next(err)
-    }
-    res.render('student/list_courses', {
-      title: '400 Level Courses',
-      layout: 'less_layout',
-      allowed: req.session.student,
-      levy: 400,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective2: 'ANY ONE'
+      elective1: function () {
+        if (req.params.level == 300) {
+          return 'ONE'
+        } else if (req.params.level == 400) {
+          return ''
+        } else {
+          return 'ANY TWO'
+        }
+      },
+      elective2: function () {
+        if (req.params.level == 300 || req.params.level == 400) {
+          return 'ANY ONE'
+        } else {
+          return 'ANY TWO'
+        }
+      }
     })
   }
   )
@@ -972,63 +928,47 @@ exports.view_courses = (req, res, next) => {
       if (err) {
         return next(err)
       }
-      res.render('student/view_courses', {
-        title: 'Psychology Course',
-        layout: 'less_layout',
-        allowed: req.session.student,
-        kind: course,
-        teacher: staff,
-        succeed: req.flash('succeed'),
-        war: req.flash('war'),
-        lecky: () => {
-          let sortedLecturer = []
-          let courseLecturer = course.lecturer
-          let staffy = staff
-          courseLecturer.forEach(element => {
-            sortedLecturer.push(element)
-          })
-          var marvel = staffy.filter(function (lecturer) {
-            for (var i = 0; i < sortedLecturer.length; i++) {
-              if (sortedLecturer[i] == lecturer.id) {
-                return lecturer
+      StudentSigns.find({}).sort([
+        ['level', 'ascending']
+      ]).exec((err, students) => {
+        if (err) {
+          return next(err)
+        }
+        res.render('student/view_courses', {
+          title: 'Psychology Course',
+          layout: 'less_layout',
+          allowed: req.session.student,
+          course: course,
+          teacher: staff,
+          succeed: req.flash('succeed'),
+          war: req.flash('war'),
+          registered: function () {
+            let isRegistered = false
+            for (let i = 0; i < course.student_offering.length; i++) {
+              if (course.student_offering[i] == req.session.student.id) {
+                isRegistered = true
+              } else {
               }
             }
-          })
-          return marvel
-        }
-      })
-    })
-  })
-}
-
-// GET List of students offering a course...
-exports.student_course_registered = (req, res, next) => {
-  Courses.findOne({
-    _id: req.params.id
-  }).exec((err, course) => {
-    if (err) {
-      return next(err)
-    }
-    StudentSigns.find({}).exec((err, students) => {
-      if (err) {
-        return next(err)
-      }
-      if (req.session.student.level >= course.level) {
-        res.render('student/view_select', {
-          title: 'Student_Registered',
-          allowed: req.session.student,
-          courses: course,
-          upload: function () {
-            var sorted_registered = []
+            return isRegistered
+          },
+          staffed: () => {
+            let courseLecturer = course.lecturer
+            var marvel = staff.filter(function (lecturer) {
+              for (var i = 0; i < courseLecturer.length; i++) {
+                if (courseLecturer[i] == lecturer.id) {
+                  return lecturer
+                }
+              }
+            })
+            return marvel
+          },
+          studunt: function () {
             var chosen = []
             var registered = course.student_offering
-            var deal = students
-            registered.forEach(element => {
-              sorted_registered.push(element)
-            })
-            deal.filter(hero => {
-              for (var i = 0; i < sorted_registered.length; i++) {
-                if (sorted_registered[i] == hero.id) {
+            students.filter(hero => {
+              for (var i = 0; i < registered.length; i++) {
+                if (registered[i] == hero.id) {
                   chosen.push(hero)
                 }
               }
@@ -1036,10 +976,7 @@ exports.student_course_registered = (req, res, next) => {
             return chosen
           }
         })
-      } else {
-        req.flash('succ', 'You can not view this course')
-        res.redirect('/studentviewcourse/' + req.params.id)
-      }
+      })
     })
   })
 }
@@ -1052,16 +989,12 @@ exports.register_course = (req, res, next) => {
       return next(err)
     }
     if (student.level >= course.level) {
-      var de = {
+      var reg = {
         $addToSet: {
           student_offering: student.id
         }
       }
-      Courses.findOneAndUpdate({
-        _id: req.params.id
-      },
-      de, {},
-      function (err) {
+      Courses.findOneAndUpdate({ _id: req.params.id }, reg, {}, function (err) {
         if (err) {
           return next(err)
         }
@@ -1075,26 +1008,22 @@ exports.register_course = (req, res, next) => {
         'Your level is not eligible to register for this course'
       )
       res.redirect('/studentviewcourse/' + req.params.id)
-    } else { }
+    }
   })
 }
 
 exports.delete_registered_course = function (req, res, next) {
-  Courses.findOne({
-    _id: req.params.id
-  }).exec(function (err, course) {
+  Courses.findOne({ _id: req.params.id }).exec(function (err, course) {
     if (err) {
       return next(err)
     }
-
     course.student_offering.filter(student => {
       if (req.session.student.id == student) {
-        console.log('You can delete this course')
         Courses.findOneAndUpdate({
           _id: req.params.id
         }, {
           $pull: {
-            student_offering: req.session.student.id
+            student_offering: student
           }
         },
         function (err) {
@@ -1113,472 +1042,137 @@ exports.delete_registered_course = function (req, res, next) {
   })
 }
 
-// GET Student PROJECT Topics
+// GET Student Project Topics
 exports.get_project_topics = (req, res, next) => {
-  Project.find({}).exec((err, release) => {
+  Project.find({}).exec((err, topics) => {
     if (err) {
       return next(err)
     }
     res.render('student/project_topics', {
       allowed: req.session.student,
       title: 'Psychology Project Topics',
-      projectss: release
+      projectss: topics
     })
   })
 }
 
-// GET already set time table for all student in a level
-exports.get_time_table = (req, res, next) => {
-  var student = req.session.student
-  Timetable.find({
-    level: student.level
-  }).exec((err, times) => {
+// GET project category
+exports.get_project_category = function (req, res, next) {
+  Project.find({ 'category': req.params.topic }, function (err, topics) {
     if (err) {
       return next(err)
     }
-    StudentSigns.findOne({
-      _id: student.id
-    }).exec(function (err, courserep) {
-      if (err) {
-        return next(err)
-      }
-      res.render('student/time_table', {
-        title: "Student's TimeTable",
-        allowed: req.session.student,
-        update: req.flash('update'),
-        studenty: () => {
-          if (courserep.is_courserep == 'Yes') {
-            return courserep.is_courserep
-          } else { }
-        },
-        monday: () => {
-          if (times) {
-            var mon = times.filter(hero => {
-              return hero.day == 'monday'
-            })
-            return mon
-          }
-        },
-        tuesday: () => {
-          if (times) {
-            var tue = times.filter(hero => {
-              return hero.day == 'tuesday'
-            })
-            return tue
-          }
-        },
-        wednesday: () => {
-          if (times) {
-            var wed = times.filter(hero => {
-              return hero.day == 'wednesday'
-            })
-            return wed
-          }
-        },
-        thursday: () => {
-          if (times) {
-            var thur = times.filter(hero => {
-              return hero.day == 'thursday'
-            })
-            return thur
-          }
-        },
-        friday: () => {
-          if (times) {
-            var fri = times.filter(hero => {
-              return hero.day == 'friday'
-            })
-            return fri
-          }
-        }
-      })
+    res.render('student/project_topics', {
+      allowed: req.session.student,
+      title: 'Psychology Project Topics',
+      projectss: topics
     })
-  })
-}
-
-// Edit the time table by the course rep only
-exports.edit_timetable = (req, res, next) => {
-  Timetable.findOne({
-    _id: req.params.id
-  }).exec((err, timey) => {
-    if (err) {
-      return next(err)
-    }
-    Courses.find({
-      level: req.session.student.level
-    }).exec((err, course) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('student/edit_timetable', {
-        title: 'Edit Time Table',
-        layout: 'less_layout',
-        allowed: req.session.student,
-        timey: timey,
-        course: course
-      })
-    })
-  })
-}
-
-// Post Edit the time table
-exports.edit_post_timetable = (req, res, next) => {
-  var timetable = {
-    course: req.body.course
-  }
-  Timetable.findByIdAndUpdate(req.params.id, timetable, {}, function (err) {
-    if (err) {
-      return next(err)
-    }
-    req.flash('update', 'You have just updated a course in the Time table')
-    res.redirect(302, '/gettimetable')
-  })
-}
-
-// function for checking students results
-exports.my_result = (req, res, next) => {
-  StudentSigns.findOne({
-    _id: req.params.id
-  }).exec((err, pupil) => {
-    if (err) {
-      return next(err)
-    }
-    if (req.session.student.level < pupil.level) {
-      req.flash(
-        'message',
-        "This student is your senior colleague, so you can't view their result"
-      )
-      res.redirect('/studentstudentprofile/' + pupil.id)
-    } else {
-      Result.find({
-        student: req.params.id
-      }).exec((err, myresults) => {
-        if (err) {
-          return next(err)
-        }
-        Courses.find({}).exec((err, coursess) => {
-          if (err) {
-            return next(err)
-          }
-          res.render('student/student_result', {
-            title: 'Personal Result',
-            layout: 'less_layout',
-            allowed: req.session.student,
-            oneresult: () => {
-              var sortedResult = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter(single_course => {
-                  if (single_course.id == read.course) {
-                    if (
-                      single_course.level == 100 &&
-                      single_course.semester == 1
-                    ) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sortedResult.push(convert)
-                    }
-                  }
-                })
-              })
-              return sortedResult
-            },
-            oneresult2: function () {
-              var real = []
-              var resulty = myresults
-              var coursey = coursess
-              resulty.forEach(read => {
-                coursey.filter(function (single_course) {
-                  if (single_course.id == read.course) {
-                    if (
-                      single_course.level == 100 &&
-                      single_course.semester == 2
-                    ) {
-                      var follow = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      real.push(follow)
-                    }
-                  }
-                })
-              })
-              return real
-            },
-            tworesult: () => {
-              var sortedResult = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter(single_course => {
-                  if (single_course.id == read.course) {
-                    if (
-                      single_course.level == 200 &&
-                      single_course.semester == 1
-                    ) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sortedResult.push(convert)
-                    }
-                  }
-                })
-              })
-              return sortedResult
-            },
-            tworesult2: () => {
-              var sortedResult = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter(single_course => {
-                  if (single_course.id == read.course) {
-                    if (
-                      single_course.level == 100 &&
-                      single_course.semester == 2
-                    ) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sortedResult.push(convert)
-                    }
-                  }
-                })
-              })
-              return sortedResult
-            },
-            threeresult: () => {
-              var sortedResult = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter(single_course => {
-                  if (single_course.id == read.course) {
-                    if (
-                      single_course.level == 300 &&
-                      single_course.semester == 1
-                    ) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sortedResult.push(convert)
-                    }
-                  }
-                })
-              })
-              return sortedResult
-            },
-            threeresult2: () => {
-              var sortedResult = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter(single_course => {
-                  if (single_course.id == read.course) {
-                    if (
-                      single_course.level == 300 &&
-                      single_course.semester == 2
-                    ) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sortedResult.push(convert)
-                    }
-                  }
-                })
-              })
-              return sortedResult
-            },
-            fourresult: () => {
-              var sortedResult = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter(single_course => {
-                  if (single_course.id == read.course) {
-                    if (
-                      single_course.level == 400 &&
-                      single_course.semester == 1
-                    ) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sortedResult.push(convert)
-                    }
-                  }
-                })
-              })
-              return sortedResult
-            },
-            fourresult2: () => {
-              var sortedResult = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter(single_course => {
-                  if (single_course.id == read.course) {
-                    if (
-                      single_course.level == 400 &&
-                      single_course.semester == 2
-                    ) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sortedResult.push(convert)
-                    }
-                  }
-                })
-              })
-              return sortedResult
-            }
-          })
-        })
-      })
-    }
   })
 }
 
 // -------------------------------------------------------------------------------------------------
 // functions for handling everything messages
-exports.get_conversation = function (req, res, next) {
-  Conversation.find({
-    $or: [
-      { 'participant1': req.session.student.id },
-      { 'participant2': req.session.student.id }
-    ]
-  }).exec((err, conversations) => {
-    if (err) {
-      return next(err)
-    }
-    let result = []
-    console.log(conversations)
-    conversations.forEach(function (conversation) {
-      Messages.find({ 'conversationId': conversation.id })
-        .exec(function (err, message) {
-          if (err) {
-            return next(err)
-          }
-          for (let i = 0; i < message.length; i++) {
-            if (conversation.id == message.id) {
-              result.push({
-                message: message.body,
-                sender1: conversation.participant1,
-                sender2: conversation.participant2
-              })
-            }
-          }
-        })
-    })
-    res.render('student/conversations', {
-      title: 'Messages',
-      layout: 'less_layout',
-      allowed: req.session.student
-    })
-  })
-}
 
-// correct
 exports.get_conversations = function (req, res, next) {
-  let fullConversation = []
   let messages = []
-  let stash = []
-
-  Conversation.find({
-    $or: [
-      { 'participant1': req.session.student.id },
-      { 'participant2': req.session.student.id }
-    ]
-  }).exec((err, conversations) => {
-    if (err) {
-      return next(err)
-    }
-    conversations.forEach(function (convo) {
-      if (convo.participant1 !== req.session.student.id) {
-        fullConversation.push({ user1: convo.participant1 })
-      } else if (convo.participant2 !== req.session.student.id) {
-        fullConversation.push({ user1: convo.participant2 })
+  let naming = function (norm) {
+    let result = []
+    StudentSigns.findOne({ '_id': norm }).exec(function (err, stud) {
+      if (err) {
+        return next(err)
       }
-    })
-
-    conversations.forEach(function (conversation) {
-      Messages.find({ 'conversationId': conversation.id })
-        .limit(1)
-        .exec(function (err, message) {
-          if (err) {
-            return next(err)
-          }
-          for (let i = 0; i < message.length; i++) {
-            messages.push(message[i])
-          }
-        })
-    })
-    fullConversation.forEach(function (user) {
-      StudentSigns.findOne({
-        '_id': user.user1
-      }).exec(function (err, stud) {
+      if (stud) {
+        result.push({ name: stud.surname + ' ' + stud.firstname, id: stud.id, photo: stud.photo })
+      }
+      Staff.findOne({ '_id': norm }).exec(function (err, staff) {
         if (err) {
           return next(err)
         }
-        if (stud) {
-          stash.push({ name: stud.surname + ' ' + stud.firstname, id: stud.id, photo: stud.photo })
-        }
-        if (!stud) {
-          Staff.findOne({
-            '_id': user.user1
-          }).exec(function (err, staff) {
-            if (err) {
-              return next(err)
-            }
-            if (staff) {
-              stash.push(staff.surname + ' ' + staff.firstname)
-            }
-          })
+        if (staff) {
+          result.push({ name: staff.surname + ' ' + staff.firstname, id: staff.id, photo: staff.photo })
         }
       })
+    })
+    return result
+  }
+
+  let hole = function (mass) {
+    for (let i = 0; i < mass.length; i++) {
+      return mass[i]
+    }
+  }
+
+  let massage = function (iden, chater) {
+    Messages.find({ 'conversationId': iden }).sort([['date', 'descending']]).limit(1).exec(function (err, message) {
+      if (err) {
+        return next(err)
+      }
+      messages.push({ identity: iden, message: hole(message), details: naming(chater) })
+    })
+  }
+
+  Conversation.find({ $or: [{ 'participant1': req.session.student.id }, { 'participant2': req.session.student.id }] }).sort([['date', 'descending']]).exec((err, conversations) => {
+    if (err) {
+      return next(err)
+    }
+    conversations.forEach(function (converse) {
+      if (converse.participant1 !== req.session.student.id) {
+        let chatty = converse.participant1
+        massage(converse.id, chatty)
+      } else if (converse.participant2 !== req.session.student.id) {
+        let chatty = converse.participant2
+        massage(converse.id, chatty)
+      }
     })
     res.render('student/conversations', {
       title: 'Messages',
       layout: 'less_layout',
       allowed: req.session.student,
-      chat: stash,
-      conver: fullConversation,
-      messages: messages
+      messagess: function () {
+        return messages.sort(function (a, b) {
+          return a.message < b.message
+        })
+      },
+      helpers: {
+        truncate: function (a, b) {
+          const value = a.toString()
+          const limit = b
+          var text = ''
+          if (value.length > 0) {
+            text = text + value.substring(0, limit) + '...'
+          }
+          return text
+        }
+      }
     })
   })
 }
 
 exports.get_messages = function (req, res, next) {
-  Conversation.findOne({
-    $or: [
-      { 'participant1': req.session.student.id, 'participant2': req.params.recipient },
-      { 'participant1': req.params.recipient, 'participant2': req.session.student.id }
-    ]
-  }).select('_id').exec(function (err, conversation) {
+  let naming = function () {
+    var stash = { name: '', photo: '' }
+    StudentSigns.findOne({ '_id': req.params.recipient }).exec(function (err, stud) {
+      if (err) {
+        return next(err)
+      }
+      if (stud) {
+        stash.name = stud.surname + ' ' + stud.firstname
+        stash.photo = stud.photo.url
+      }
+    })
+    Staff.findOne({ '_id': req.params.recipient }).exec(function (err, staff) {
+      if (err) {
+        return next(err)
+      }
+      if (staff) {
+        stash.name = staff.surname + ' ' + staff.firstname
+        stash.photo = staff.photo.url
+      }
+    })
+    return stash
+  }
+  // Get conversation id of the messages
+  Conversation.findOne({ $or: [{ 'participant1': req.session.student.id, 'participant2': req.params.recipient }, { 'participant1': req.params.recipient, 'participant2': req.session.student.id }] }).select('_id').exec(function (err, conversation) {
     if (err) {
       return next(err)
     } else if (!conversation) {
@@ -1589,32 +1183,8 @@ exports.get_messages = function (req, res, next) {
         receiver: req.params.recipient
       })
     } else {
-      var stash
-      StudentSigns.findOne({
-        '_id': req.params.recipient
-      }).exec(function (err, stud) {
-        if (err) {
-          return next(err)
-        }
-        if (stud) {
-          stash = stud.surname + ' ' + stud.firstname
-        }
-        if (!stud) {
-          Staff.findOne({
-            '_id': req.params.recipient
-          }).exec(function (err, staff) {
-            if (err) {
-              return next(err)
-            }
-            if (staff) {
-              stash = staff.surname + ' ' + staff.firstname
-            }
-          })
-        }
-      })
-      Messages.find({
-        'conversationId': conversation._id
-      }).exec((err, message) => {
+      // Get messages linked to a particular id
+      Messages.find({ 'conversationId': conversation._id }).exec((err, message) => {
         if (err) {
           return next(err)
         }
@@ -1624,7 +1194,7 @@ exports.get_messages = function (req, res, next) {
           allowed: req.session.student,
           chats: message,
           receiver: req.params.recipient,
-          replyer: stash,
+          replyer: naming(),
           helpers: {
             is_equal: function (a, opts) {
               if (a === req.params.recipient) {
@@ -1640,7 +1210,7 @@ exports.get_messages = function (req, res, next) {
   })
 }
 
-// correct
+// create a new conversation or add message to an already existing one
 exports.new_conversation = function (req, res, next) {
   Conversation.findOne({
     $or: [
@@ -1656,9 +1226,10 @@ exports.new_conversation = function (req, res, next) {
         var reply = new Messages({
           conversationId: conversation._id,
           sender: req.session.student.id,
-          body: req.body.message
+          body: req.body.message,
+          date: Date()
         })
-        reply.save(function (err, chat) {
+        reply.save(function (err) {
           if (err) {
             return next(err)
           }
@@ -1676,7 +1247,8 @@ exports.new_conversation = function (req, res, next) {
           const message = new Messages({
             conversationId: newConversation._id,
             sender: req.session.student.id,
-            body: req.body.message
+            body: req.body.message,
+            date: Date()
           })
           message.save(function (err, newchit) {
             if (err) {
@@ -1688,6 +1260,55 @@ exports.new_conversation = function (req, res, next) {
         })
       }
     })
+}
+
+// function for getting the names of every staff
+exports.list_staffs = (req, res, next) => {
+  Staff.find({}).exec((err, staffs) => {
+    if (err) {
+      return next(err)
+    }
+    res.render('student/list_staff', {
+      allowed: req.session.student,
+      title: 'Psychology Lecturers',
+      slow: staffs
+    })
+  })
+}
+
+// GET Profile of a Particular Staff
+exports.view_staff_profile = (req, res, next) => {
+  async.parallel({
+    coursey: callback => {
+      Courses.find({
+        lecturer: req.params.id
+      }).exec(callback)
+    },
+    staffy: callback => {
+      Staff.findById(req.params.id).exec(callback)
+    }
+  },
+  (err, staffs) => {
+    if (err) {
+      return next(err)
+    }
+    res.render('student/view_staff', {
+      allowed: req.session.student,
+      title: 'Staff Profile',
+      layout: 'less_layout',
+      staffs: staffs.staffy,
+      coursess: staffs.coursey,
+      photo: () => {
+        if (!staffs.staffy.photo) {
+          staffs.staffy.photo = '../images/psylogo4.jpg'
+          return staffs.staffy.photo
+        } else {
+          return staffs.staffy.photo
+        }
+      }
+    })
+  }
+  )
 }
 
 // to Log-Out Students from the site

@@ -1,6 +1,14 @@
 <br>
 <h5><b>
-    COURSE DETAILS
+    COURSE DETAILS {{#if registered}}<button class="btn btn-success" style="border-radius:50%">R</button>
+      <br><small>You are registered</small>
+    {{else}}
+      <form action="/studentregistercourse/{{course.id}}" method="POST" style="display:inline">
+        <input type="hidden" />
+        <button type="submit" title="register" style="border-radius:50%" class="btn btn-danger">R</button>
+        <br><small>Click to register</small>
+      </form>
+    {{/if}}
   </b></h5>
 <br>
 {{#if succeed}}
@@ -21,6 +29,9 @@
           <a class="nav-link" data-toggle="tab" href="#lecturer">LECT<span class="seek">URER/S</span></a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#students">STUD<span class="seek">ENT/S</span></a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#courseoutline">OUTLINE</a>
         </li>
       </ul>
@@ -30,17 +41,17 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-12 col-lg-7">
-                <p><b>COURSE_CODE:</b> {{kind.coursecode}}</p>
+                <p><b><span class="seek">COURSE_</span>CODE:</b> {{course.coursecode}}</p>
                 <br>
-                <p><b>COURSE_TITLE: </b> {{kind.coursetitle}}</p>
+                <p><b><span class="seek">COURSE_</span>TITLE: </b> {{course.coursetitle}}</p>
                 <br>
-                <p><b>LEVEL: </b> {{kind.level}}</p>
+                <p><b>LEVEL: </b> {{course.level}}</p>
                 <br>
-                <p><b>SEMESTER:</b> {{kind.semester}}</p>
+                <p><b>SEMESTER:</b> {{course.semester}}</p>
                 <br>
-                <p><b>UNITS: </b>{{kind.units}}</p>
+                <p><b>UNITS: </b>{{course.units}}</p>
                 <br>
-                <p><b>BORROWED_COURSE: </b>{{kind.borrowed}}</p>
+                <p><b>BORROWED_COURSE: </b>{{course.borrowed}}</p>
                 <br>
               </div>
             </div>
@@ -49,24 +60,21 @@
         <div id="lecturer" class="container-fluid tab-pane fade" style="background-color:white">
           <br><br>
           <ul>
-            {{#each lecky}}
+            {{#each staffed}}
               <li class="container-fluid">
                 <div class="row">
-                  {{#if this.photo}}
-                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                      <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
+                  {{#if this.photo.url}}
+                    <div class="col-4 col-sm-3">
+                      <img src="{{this.photo.url}}" alt="staff pics" class="rounded-circle profile" />
                     </div>
                   {{else}}
-                    <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                      <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                    <div class="col-4 col-sm-3">
+                      <img src="/images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
                     </div>
                   {{/if}}
-                  <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+                  <div class="col-8 col-sm-9">
+                    <br>
                     <p><a href="/studentstaffprofile/{{this.id}}">{{this.name}}</a></p>
-                    <p>
-                      <b>Gender: </b>{{this.gender}}<br>
-                      <b>Status: </b>{{this.bio}}
-                    </p>
                   </div>
                 </div>
               </li>
@@ -76,6 +84,24 @@
             {{/each}}
           </ul>
         </div>
+        <div id="students" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <ol>
+            {{#each studunt}}
+              <li class="container-fluid">
+                <div class="row">
+                  <div class="col-12">
+                    <p><b><span class="fa fa-user"> </span> </b> {{this.name}} {{this.surname}} : {{this.level}} Level
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <br><br>
+            {{else}}
+              <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+            {{/each}}
+          </ol>
+        </div>
         <div id="courseoutline" class="container-fluid tab-pane fade" style="background-color:white">
           <br><br>
           <h5><b>
@@ -83,8 +109,8 @@
             </b>
           </h5>
           <br>
-          {{#if kind.courseoutline}}
-            <p>{{kind.courseoutline}}</p>
+          {{#if course.courseoutline}}
+            <p>{{course.courseoutline}}</p>
           {{else}}
             <p>COURSE_OUTLINE NOT AVAILABLE</p>
           {{/if}}
@@ -95,23 +121,6 @@
     <div class="col-12 col-sm-10 col-md-5 col-lg-4">
       <br><br><br>
       <ul class="card">
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold">REGISTER
-            <span class="fa fa-briefcase" style="font-size:25px"></span></h6>
-          <br>
-          <p class="crad-text">Click the button below to register for this course.</p>
-          <form action="/studentregistercourse/{{kind.id}}" method="POST" style="display:inline">
-            <input type="hidden" />
-            <button type="submit" title="register" class="btn btn-success">REGISTER</button>
-          </form>
-        </li>
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="/studentviewcourselect/{{kind.id}}"
-              title="Edit profile">STUDENTS<span class="seek"> OFFERING</span></a> <span class="fa fa-users"
-              style="font-size:25px"></span></h6>
-          <br>
-          <p class="card-text">Click to see list of students offering this course.</p>
-        </li>
         <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="#" title="Coursemates">TEST BOOK</a>
             <span class="fa fa-book" style="font-size:25px"></span>

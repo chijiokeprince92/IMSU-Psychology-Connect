@@ -1,9 +1,65 @@
 <br>
 <h5>
+  {{#if replyer.photo}}
+    <img src="{{replyer.photo}}" alt="profile image" style="border-radius: 50%;width:40px;height:40px" />
+  {{else}}
+    <img src="/images/psylogo4.jpg" alt="profile image" style="border-radius: 50%;width:40px;height:40px" />
+  {{/if}}
   <b>
-    YOUR MESSAGES
+    {{replyer.name}}
   </b>
 </h5>
+<h6 class="alert alert-success">Your chat is secured with end to end encryption <span class="fa fa-lock"> </span></h6>
+<br>
+<ul>
+  {{#if chats}}
+    {{#each chats}}
+      <div class="container-fluid">
+        <div class="row">
+          {{#is_equal this.sender}}
+            <div class="col-1 col-sm-1">
+              <img src="{{../replyer.photo}}" alt="user" style="border-radius: 50%;width:30px;height:30px" />
+            </div>
+            <div class="col-9 col-sm-9 col-md-6 col-lg-4">
+              <li class="card" style=" background-color:rgb(245, 219, 223)">
+                <p style="color:purple"><b>{{../replyer.name}}</b></p>
+                <p>{{this.body}}</p>
+                <small><i class="float-right">{{this.date}}</i></small>
+              </li>
+              <br>
+            </div>
+            <div class="col-2 col-sm-2 col-md-5 col-lg-7"></div>
+            <br><br>
+    {{else}}
+      <div class="col-2 col-sm-3 col-md-6 col-lg-8"></div>
+      <div class="col-10 col-sm-9 col-md-6 col-lg-4">
+        <li class="card" style="background-color:rgb(213, 248, 213)">
+          <p style="color:red"><b>You</b></p>
+          <p>{{this.body}}</p>
+          <small><i class="float-right">{{this.date}}</i></small>
+        </li>
+        <br>
+      </div>
+          {{/is_equal}}
+        </div>
+      </div>
+    {{/each}}
+  {{else}}
+    <h6>THERE ARE NO CHAT MESSAGES</h6>
+  {{/if}}
+</ul>
 <br><br>
-<p>YOU DON'T HAVE ANY MESSAGES FOR NOW!!...</p>
-<br><br>
+<form action="/newconversation/{{receiver}}" method="POST"
+  style="display:inline-block;width:100%;position:fixed;bottom:0">
+  <div class="container-fluid">
+    <div class="row no-gutters">
+      <div class="col-9">
+        <textarea type="text" rows="1" cols="20" class="form-control" id="comment" name="message"
+          placeholder="Type a message..." required></textarea>
+      </div>
+      <div class="col-3">
+        <button type="submit" class="btn btn-success" id="stylus"><span class="fa fa-play"></span></button>
+      </div>
+    </div>
+  </div>
+</form>

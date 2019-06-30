@@ -1,40 +1,130 @@
 <br>
-<h5>
-    <b>
-        {{admin_info.surname}}'s ADMIN PROFILE
-    </b>
+<h5><b>Super Admin <button class="btn btn-success" style="border-radius:50%">C</button></b>
 </h5>
-<br><br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <p><b>EMAIL:</b> {{admin_info.email}}</p>
-            <br>
-            <p><b>SURNAME: </b> {{admin_info.surname}}</p>
-            <br>
-            <p><b>FIRSTNAME: </b> {{admin_info.firstname}}</p>
-            <br>
-            <p><b>GENDER: </b>{{admin_info.gender}}</p>
-            <br>
-            <p><b>VERIFICATION_ID: </b>{{admin_info.verify}}</p>
-        </div>
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+      <img src="/images/psylogo4.jpg" alt="psy image" class="rounded" width="100%" />
+      <form id="drake" style="display:none" action="/staff/updatepics/{{staff.id}}" method="POST"
+        enctype="multipart/form-data" style="display:inline">
+        <input type="file" class="form-control" name="image" placeholder="upload photo" required>
+        <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
+        <button id="close" class="btn btn-danger" style="display:none"><span class="fa fa-times"></span></button>
+      </form>
+      <button id="cousin" class="btn btn-success" style="margin-top:-40px"><span class="fa fa-camera"></span></button>
+      <br><br>
     </div>
+  </div>
 </div>
-<br><br>
+<script>
+  $(document).ready(function () {
+    $('#cousin').click(function () {
+      $('#drake').toggle("slow");
+      $('#cousin').toggle("slow");
+      $('#close').toggle("slow");
+    });
+    $('#close').click(function () {
+      $('#drake').toggle("slow");
+      $('#cousin').toggle("slow");
+      $('#close').toggle("slow");
+    });
+  });
+</script>
+<br><br><br>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
-            <a href="/admin/updateprofile/{{admin_info.id}}" type="button" class="btn btn-primary btn-block"><span
-                    class="fa fa-edit" style="font-size:25px"></span></a>
+  <div class="row">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-7">
+      <ul class="nav nav-tabs nav-justified">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#info">INFO</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#courses">COURSES</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#books">BOOKS</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="info" class="container-fluid tab-pane active" style="background-color:white">
+          <br><br>
+          <p><b><span class="fa fa-user"> </span> </b> {{admin_info.surname}} {{admin_info.firstname}}</p>
+          <br>
+          <p><b><span class="fa fa-envelope"> </span></b> {{admin_info.email}}</p>
+          <br>
+          <p><b><span class="fa fa-user"> </span> </b>{{admin_info.gender}}</p>
+          <br>
+          <p><b><span class="fa fa-lock"> </span> </b> {{admin_info.verify}}</p>
+          <br>
         </div>
-        <div class="col-4">
-            <a href="/admin/studentlist" type="button" class="btn btn-success btn-block"><span class="fa fa-users"
-                    style="font-size:25px"></span></a>
+        <div id="courses" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <h5>
+            <b>COURSES HANDLED <span class="badge badge-danger badge-pill spany">{{length coursess}}</b>
+          </h5>
+          <br>
+          <ul>
+            {{#each coursess}}
+              <li>
+                <p><b>{{this.coursecode}}: </b><a href="/staff/viewcourse/{{this.id}}">{{this.coursetitle}}</a></p>
+              </li>
+              <br>
+            {{else}}
+              <p>NO COURSE ASSIGNED</p>
+            {{/each}}
+          </ul>
         </div>
-        <div class="col-4">
-            <a href="/admin/stafflist" type="button" class="btn btn-primary btn-block"><span class="fa fa-graduation-cap"
-                    style="font-size:25px"></span></a>
+        <div id="books" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <p><span class="fa fa-expeditedssl"> </span></p>
+          <br>
+          <p><b><span class="fa fa-globe"> </span>:</b></p>
+          <br>
+          <p><span class="fa fa-handshake-o"> </span></p>
+          <br>
+          <p><span class="fa fa-id-card-o"> </span></p>
+          <br>
+          <p><b><span class="fa fa-facebook"> </span>:</b></p>
+          <br>
+          <p><b><span class="fa fa-instagram"> </span>:</b></p>
+          <br>
+          <p><span class="fa fa-facebook-square"> </span></p>
+          <br>
+          <p><span class="fa fa-expeditedssl"> </span></p>
+          <br>
+          <p><b><span class="fa fa-gavel"> </span>:</b></p>
+          <br>
+          <p><b><span class="fa fa-pencil-alt"> </span></b></p>
+          <br>
         </div>
+      </div>
     </div>
+    <div class="col-12 col-sm-10 col-md-5 col-lg-4">
+      <br><br><br>
+      <ul class="card">
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/admin/studentlist" title="All students">STUDENTS</a>
+            <span class="fa fa-users" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to see other psychology lecturers.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/admin/updateprofile/{{admin_info.id}}"
+              title="books">EDIT</a>
+            <span class="fa fa-edit" style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to edit your profile.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/admin/stafflist" title="Colleagues">COLLEAGUES</a>
+            <span class="fa fa-users" style="font-size:25px"></span>
+          </h6>
+          <br>
+          <p class="card-text">Click to see other psychology lecturers.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <br><br>

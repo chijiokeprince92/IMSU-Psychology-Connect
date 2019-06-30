@@ -5,10 +5,9 @@ const router = express.Router()
 const authMiddleware = require('../controllers/middleware/auth.middleware')
 const controllers = require('../controllers/view_controller')
 const student_controllers = require('../controllers/student_controllers')
+const testing_controllers = require('../controllers/testing')
 
-const multer = require('multer')
 const cloudinary = require('cloudinary')
-const uploaded = require('../upload')
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -18,7 +17,14 @@ cloudinary.config({
 })
 
 // ----------------------------------------------------------------------------------
+router.get('/testpicture', testing_controllers.upload_files)
 
+router.post('/testpicture', testing_controllers.post_upload_files)
+
+router.get('/testinggetlastnews', testing_controllers.get_last_news)
+
+router.get('/testinggetfullnews/:id', testing_controllers.get_full_news)
+// 0-------------------------------------------------------------------------------------------------
 /* GET home page. */
 router.get('/', controllers.home)
 
@@ -89,23 +95,11 @@ router.post('/studentupdateprofile/:id', student_controllers.student_update_post
 // POST for student update profile pics
 router.post('/studentupdatepics/:id', student_controllers.student_update_pics)
 
-// GET the list of course mates and their profiles
-router.get('/studentstudentlist', student_controllers.loginRequired, student_controllers.list_coursemates)
-
 // GET the list of students and their profiles
 router.get('/studentlevelmates', student_controllers.loginRequired, student_controllers.list_psychology_students)
 
-// GET the list of 100 students and their profiles
-router.get('/student100mates', student_controllers.loginRequired, student_controllers.list_100mates)
-
-// GET the list of 200 students and their profiles
-router.get('/student200mates', student_controllers.loginRequired, student_controllers.list_200mates)
-
-// GET the list of 300 students and their profiles
-router.get('/student300mates', student_controllers.loginRequired, student_controllers.list_300mates)
-
-// GET the list of 400 students and their profiles
-router.get('/student400mates', student_controllers.loginRequired, student_controllers.list_400mates)
+// GET the list of students and their profiles
+router.get('/studentmates/:level', student_controllers.loginRequired, student_controllers.list_coursemates)
 
 // Router GET for viewing a particular student profile
 router.get('/studentstudentprofile/:id', student_controllers.loginRequired, student_controllers.view_coursemate_profile)
@@ -141,22 +135,10 @@ router.post('/studentlikecomment/:id', student_controllers.loginRequired, studen
 router.post('/studentdislikecomment/:id', student_controllers.loginRequired, student_controllers.post_dislike_comment)
 
 // GET all Courses-----------------------------------------------------------------------------------------
-router.get('/studentgetallcourses', student_controllers.loginRequired, student_controllers.get_100_courses)
-
-// GET 200 Level courses
-router.get('/studentget200courses', student_controllers.loginRequired, student_controllers.get_200_courses)
-
-// GET 300 Level courses
-router.get('/studentget300courses', student_controllers.loginRequired, student_controllers.get_300_courses)
-
-// GET 400 Level courses
-router.get('/studentget400courses', student_controllers.loginRequired, student_controllers.get_400_courses)
+router.get('/studentgetcourse/:level', student_controllers.loginRequired, student_controllers.get_courses)
 
 // Router to GET a particular course details
 router.get('/studentviewcourse/:id', student_controllers.loginRequired, student_controllers.view_courses)
-
-// GET a particular course details
-router.get('/studentviewcourselect/:id', student_controllers.loginRequired, student_controllers.student_course_registered)
 
 // Router to register for a particular course
 router.post('/studentregistercourse/:id', student_controllers.loginRequired, student_controllers.register_course)
@@ -166,6 +148,9 @@ router.post('/deleteregisteredcourse/:id', student_controllers.loginRequired, st
 
 // Router to GET project topics
 router.get('/studentgetprojecttopics', student_controllers.loginRequired, student_controllers.get_project_topics)
+
+// Router to GET project topics
+router.get('/studentgetproject/:topic', student_controllers.loginRequired, student_controllers.get_project_category)
 
 // Router to Get a your Result
 router.get('/myfullresults/:id', student_controllers.loginRequired, student_controllers.my_result)

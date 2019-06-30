@@ -1,0 +1,52 @@
+<br>
+<h5><b>PROJECT TOPICS <span class="badge badge-danger badge-pill spany">{{length projectss}}</span>
+  </b>
+</h5>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 dropdown dropright">
+      <button class="btn btn-secondary btn-sm dropdown" data-toggle="dropdown"><span class="fa fa-search"></span>
+        search</button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="/staff/getprojecttopics">ALL</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/amnesia">AMNESIA</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/anxiety">ANXIETY</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/depression">DEPRESSION</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/dementia">DEMENTIA</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/developmental_psychology">DEVELOPMENTAL PSYCHOLOGY</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/educational_performance">EDUCATIONAL PERFORMANCE</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/environment">ENVIRONMENT</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/locus_of_control">LOCUS OF CONTROL</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/personality">PERSONALITY</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/physical_performance">PHYSICAL PERFORMANCE</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/psychoactive_drugs">PSYCHOACTIVE DRUGS</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/psychopathology">PSYCHOPATHOLOGY</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/psychotherapy">PSYCHO THERAPY</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/psychosis">PSYCHOSIS</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/schizophrenia">SCHIZOPHRENIA</a>
+        <a class="dropdown-item" href="/staff/getprojecttopics/school_of_thought">SCHOOL OF THOUGHT</a>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br>
+<ol>
+  {{#each projectss}}
+    <li class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <p><a href="/{{this.project}}">{{this.topic}}</a></p>
+          <br>
+        </div>
+        <br>
+        <div class="col-12">
+          <p>{{this.description}}</p>
+        </div>
+      </div>
+    </li>
+    <br><br>
+  {{else}}
+    <p>THERE ARE NO UPLOADED PROJECT TOPIC.</p>
+  {{/each}}
+</ol>
+<br><br>

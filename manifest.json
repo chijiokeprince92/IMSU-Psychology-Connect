@@ -1,0 +1,22 @@
+{
+  "name": "IMSU Psychology",
+  "short_name": "Psynet",
+  "start_url": "/",
+  "display": "standalone",
+  "scope": "/",
+  "background_color": "#EC8787",
+  "theme_color": "#EC8787",
+  "description": "Schooling at your finger tips",
+  "icons": [
+    {
+      "src": "/public/images/psylogo4.jpg",
+      "sizes": "192x192",
+      "type": "image/jpg"
+    },
+    {
+      "src": "/public/images/psylogo4.jpg",
+      "sizes": "512x512",
+      "type": "image/jpg"
+    }
+  ]
+}

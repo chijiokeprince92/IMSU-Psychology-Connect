@@ -16,6 +16,9 @@
           <a class="nav-link" data-toggle="tab" href="#lecturer">LECT<span class="seek">URER/S</span></a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#students">STUD<span class="seek">ENT/S</span></a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#courseoutline">OUTLINE</a>
         </li>
       </ul>
@@ -25,9 +28,9 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-12 col-lg-7">
-                <p><b>COURSE_CODE:</b> {{course.coursecode}}</p>
+                <p><b><span class="seek">COURSE_</span>CODE:</b> {{course.coursecode}}</p>
                 <br>
-                <p><b>COURSE_TITLE: </b> {{course.coursetitle}}</p>
+                <p><b><span class="seek">COURSE_</span>TITLE: </b> {{course.coursetitle}}</p>
                 <br>
                 <p><b>LEVEL: </b> {{course.level}}</p>
                 <br>
@@ -44,24 +47,21 @@
         <div id="lecturer" class="container-fluid tab-pane fade" style="background-color:white">
           <br><br>
           <ul>
-            {{#each lecky}}
+            {{#each staffed}}
               <li class="container-fluid">
                 <div class="row">
-                  {{#if this.photo}}
+                  {{#if this.photo.url}}
                     <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                      <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
+                      <img src="{{this.photo.url}}" alt="staff pics" class="rounded-circle profile" />
                     </div>
                   {{else}}
                     <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                      <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                      <img src="/images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
                     </div>
                   {{/if}}
                   <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+                    <br>
                     <p><a href="/staff/colleague/{{this.id}}">{{this.name}}</a></p>
-                    <p>
-                      <b>Gender: </b>{{this.gender}}<br>
-                      <b>Status: </b>{{this.bio}}
-                    </p>
                   </div>
                 </div>
               </li>
@@ -71,18 +71,65 @@
             {{/each}}
           </ul>
         </div>
+        <div id="students" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <ol>
+            {{#each studunt}}
+              <li class="container-fluid">
+                <div class="row">
+                  <div class="col-12">
+                    <p><b><span class="fa fa-user"> </span></b> <a href="/staff/studentprofile/{{this.id}}">
+                        {{this.name}}
+                        {{this.surname}}</a> : {{this.level}} Level</p>
+                  </div>
+                </div>
+              </li>
+              <br><br>
+            {{else}}
+              <p>** THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+            {{/each}}
+          </ol>
+        </div>
         <div id="courseoutline" class="container-fluid tab-pane fade" style="background-color:white">
           <br><br>
-          <h5><b>
+          <h6><b>
               COURSE OUTLINE
             </b>
-          </h5>
+          </h6>
           <br>
           {{#if course.courseoutline}}
             <p>{{course.courseoutline}}</p>
           {{else}}
             <p>COURSE_OUTLINE NOT AVAILABLE</p>
           {{/if}}
+          <form id="outlineform" style="display:none" action="/staff/editcourseoutline/{{course.id}}" method="POST">
+            <div class="form-group">
+              <textarea type="text" class="form-control" name="courseoutline"
+                placeholder="Type a message...">{{course.courseoutline}}</textarea>
+            </div>
+            <button type="submit" title="submit" class="btn btn-success" style="border-radius: 50%"><span
+                class="fa fa-upload"></span></button>
+          </form>
+          <span class="float-right"><button id="outlinecancel" title="cancel" class="btn btn-danger"
+              style="display:none;border-radius: 50%"><span class="fa fa-times"></span></button></span>
+          <button id="outlinebtn" title="register" class="btn btn-success" style="border-radius: 50%"><span
+              class="fa fa-edit"></span></button>
+          <script>
+            $(document).ready(function () {
+              $('#outlinebtn').click(function () {
+                $('#outlineform').toggle("slow");
+                $('#outlinebtn').toggle("slow");
+                $('#outlinecancel').toggle("slow");
+
+              });
+              $('#outlinecancel').click(function () {
+                $('#outlineform').toggle("slow");
+                $('#outlinebtn').toggle("slow");
+                $('#outlinecancel').toggle("slow");
+
+              });
+            });
+          </script>
           <br>
         </div>
       </div>
@@ -90,37 +137,6 @@
     <div class="col-12 col-sm-10 col-md-5 col-lg-4">
       <br><br><br>
       <ul class="card">
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold">EDIT
-            <span class="fa fa-edit" style="font-size:25px"></span></h6>
-          <br>
-          <p class="crad-text">Click the button below to edit course outline for this course.</p>
-          <form id="outlineform" style="display:none" action="/staff/editcourseoutline/{{course.id}}" method="POST">
-            <div class="form-group input-group-lg">
-              <label for="courseoutline"><b>TYPE COURSEOUTLINE</b></label>
-              <textarea type="text" class="form-control" name="courseoutline"
-                placeholder="Type a message...">{{course.courseoutline}}</textarea>
-            </div>
-            <button type="submit" class="btn btn-danger">Update</button>
-          </form>
-          <script>
-            $(document).ready(function () {
-              $('#outlinebtn').click(function () {
-                $('#outlineform').toggle("slow");
-                $('#outlinebtn').toggle("slow");
-
-              });
-            });
-          </script>
-          <button id="outlinebtn" title="register" class="btn btn-success">EDIT</button>
-        </li>
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="/staff/viewcourselect/{{course.id}}"
-              title="Edit profile">STUDENTS<span class="seek"> OFFERING</span></a> <span class="fa fa-users"
-              style="font-size:25px"></span></h6>
-          <br>
-          <p class="card-text">Click to see list of students offering this course.</p>
-        </li>
         <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="#" title="Coursemates">TEST BOOK</a>
             <span class="fa fa-book" style="font-size:25px"></span>

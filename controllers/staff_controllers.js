@@ -2,11 +2,15 @@
 
 const Staff = require('../models/staffSchema')
 const StudentSigns = require('../models/studentSchema')
+const Messages = require('../models/messageSchema')
+const Conversation = require('../models/conversationSchema')
 const News = require('../models/newsSchema')
 const Project = require('../models/projectSchema')
 const Result = require('../models/resultSchema')
 const Courses = require('../models/coursesSchema')
 const Timetable = require('../models/timetableSchema')
+const formidable = require('formidable')
+const cloudinary = require('cloudinary')
 var async = require('async')
 
 // --------------------------------------------------------------------------------------------
@@ -35,19 +39,22 @@ exports.staff_login_get = (req, res) => {
 exports.staff_login_post = (req, res, next) => {
   Staff.findOne({
     'staff_id': req.body.staff_id
-  }, (err, blade) => {
+  }, (err, staffy) => {
     if (err) {
       return next(err)
-    } else if (!blade) {
+    } else if (!staffy) {
       req.flash('ohno', 'Your staff_Id is incorrect')
       res.redirect(302, '/staff/login')
-    } else if (blade.password !== req.body.password) {
+    } else if (staffy.password !== req.body.password) {
       // password is incorrect
       req.flash('ohno', 'Your Password is incorrect')
       res.redirect(302, '/staff/login')
     } else {
-      req.session.staff = blade.id
-      req.flash('message', `Welcome ${blade.surname}, You are logged in`)
+      req.session.staff = {
+        id: staffy.id,
+        photo: staffy.photo.url || '/images/psylogo4.jpg'
+      }
+      req.flash('message', `Welcome ${staffy.surname}, You are logged in`)
       res.redirect(302, '/staff/staffhome')
     }
   })
@@ -57,7 +64,7 @@ exports.staff_home = (req, res, next) => {
   async.parallel({
     didi: (callback) => {
       Staff.findOne({
-        '_id': req.session.staff
+        '_id': req.session.staff.id
       }).exec(callback)
     },
     newy: (callback) => {
@@ -77,9 +84,36 @@ exports.staff_home = (req, res, next) => {
   })
 }
 
+// Display profile for a specific Staff.
+exports.staff_profiler = function (req, res, next) {
+  async.parallel({
+    course: function (callback) {
+      Courses.find({
+        'lecturer': req.session.staff.id
+      }).exec(callback)
+    },
+    staff: function (callback) {
+      Staff.findById(req.session.staff.id)
+        .exec(callback)
+    }
+  }, (err, profile) => {
+    if (err) {
+      return next(err)
+    } // Error in API usage.
+    // Successful, so render.
+    res.render('staffs/staff_profiler', {
+      title: 'Staff Profile',
+      layout: 'less_layout',
+      staff_session: req.session.staff,
+      staff: profile.staff,
+      coursess: profile.course
+    })
+  })
+}
+
 // Display Author update form on GET.
 exports.staff_update_get = (req, res, next) => {
-  Staff.findById(req.session.staff, function (err, staff) {
+  Staff.findById(req.session.staff.id, function (err, staff) {
     if (err) {
       return next(err)
     }
@@ -99,11 +133,10 @@ exports.staff_update_post = (req, res, next) => {
     surname: req.body.surname,
     firstname: req.body.firstname,
     phone: req.body.phone,
-    courses_lectured: req.body.courses_lectured,
     bio: req.body.bio,
     password: req.body.password
   }
-  Staff.findByIdAndUpdate(req.session.staff, updatedStaff, {}, function (err, staffupdate) {
+  Staff.findByIdAndUpdate(req.session.staff.id, updatedStaff, {}, function (err, staffupdate) {
     if (err) {
       return next(err)
     }
@@ -112,394 +145,52 @@ exports.staff_update_post = (req, res, next) => {
 }
 
 exports.staff_update_pics = (req, res, next) => {
-  var fullPath = 'files/' + req.file.filename
-  var qualified = {
-    photo: fullPath,
-    _id: req.params.id
-  }
-  Staff.findByIdAndUpdate(req.session.staff, qualified, {}, function (err, staffupdate) {
-    if (err) {
-      return next(err)
-    }
-    res.redirect(staffupdate.url)
+  var form = new formidable.IncomingForm()
+  form.parse(req)
+  form.on('fileBegin', function (name, file) {
+    // eslint-disable-next-line no-path-concat
+    file.path = __dirname + '/formidable/' + file.name
+    console.log('The name of the selected file is:', file.path)
+  })
+  form.on('file', function (name, file) {
+    cloudinary.v2.uploader.upload(file.path, function (err, result) {
+      if (err) {
+        return next(err)
+      }
+      console.log(result)
+      // add cloudinary url for the image to the topic object under image property
+      var qualified = {
+        photo: {
+          url: result.secure_url,
+          public_id: result.public_id
+        }
+      }
+      Staff.findByIdAndUpdate(req.session.staff.id, qualified, {},
+        (err, staffupdate) => {
+          if (err) {
+            return next(err)
+          }
+          res.redirect(staffupdate.url)
+        })
+    })
   })
 }
 
 // ---------------------------------------------------------------------------------------------
-// Display detail page for a specific Staff.
-exports.staff_profiler = function (req, res, next) {
-  async.parallel({
-    coursey: function (callback) {
-      Courses.find({
-        'lecturer': req.session.staff
-      }).exec(callback)
-    },
-    staffy: function (callback) {
-      Staff.findById(req.session.staff)
-        .exec(callback)
-    }
-  }, (err, results) => {
-    if (err) {
-      return next(err)
-    } // Error in API usage.
-    // Successful, so render.
-    res.render('staffs/staff_profiler', {
-      title: 'Staff Profile',
-      layout: 'less_layout',
-      staff_session: req.session.staff,
-      staff: results.staffy,
-      coursess: results.coursey,
-      photo: function () {
-        if (!results.staffy.photo) {
-          results.staffy.photo = '../images/psylogo4.jpg'
-          return results.staffy.photo
-        } else {
-          return results.staffy.photo
-        }
-      }
-
-    })
-  })
-}
-
-// GET the names of every student in Tabular form
-exports.list_students = function (req, res, next) {
-  StudentSigns.find()
-    .sort([
-      ['level', 'ascending']
-    ])
-    .exec(
-      function (err, swag) {
-        if (err) {
-          return next(err)
-        }
-        res.render('staffs/list_student', {
-          staff_session: req.session.staff,
-          title: 'Complete List of Student',
-          slow: swag,
-          heading: 'ALL PSYCHOLOGY STUDENTS'
-        })
-      }
-    )
-}
-
-// GET Profile  of a student
-exports.view_student_profile = function (req, res, next) {
-  StudentSigns.findById(req.params.id)
-    .exec(
-      function (err, students) {
-        if (err) {
-          return next(err)
-        }
-        Courses.find({
-          'student_offering': req.params.id
-        })
-          .exec(function (err, mycourses) {
-            if (err) {
-              return next(err)
-            }
-            res.render('staffs/view_students', {
-              staff_session: req.session.staff,
-              title: 'Student Profile',
-              layout: 'less_layout',
-              students: students,
-              registered_courses: mycourses,
-              photo: function () {
-                if (!students.photo) {
-                  students.photo = '../images/psylogo4.jpg'
-                  return students.photo
-                } else {
-                  return students.photo
-                }
-              }
-            })
-          })
-      }
-    )
-}
-
-// function for checking students results
-exports.student_result = function (req, res, next) {
-  Result.find({
-    'student': req.params.id
-  })
-    .exec(function (err, myresults) {
-      if (err) {
-        return next(err)
-      }
-      Courses.find({})
-        .exec((err, coursess) => {
-          if (err) {
-            return next(err)
-          }
-          res.render('staffs/view_result', {
-            title: 'Personal Result',
-            layout: 'less_layout',
-            staff_session: req.session.staff,
-            oneresult: () => {
-              var sortedResult = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter((singleCourse) => {
-                  if (singleCourse.id == read.course) {
-                    if (singleCourse.level == 100 && singleCourse.semester == 1) {
-                      var convert = {
-                        coursecode: singleCourse.coursecode,
-                        coursetitle: singleCourse.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sortedResult.push(convert)
-                    }
-                  }
-                })
-              })
-              return sortedResult
-            },
-            oneresult2: function () {
-              var real = []
-              var resulty = myresults
-              var coursey = coursess
-              resulty.forEach(read => {
-                coursey.filter(function (single_course) {
-                  if (single_course.id == read.course) {
-                    if (single_course.level == 100 && single_course.semester == 2) {
-                      var follow = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      real.push(follow)
-                    }
-                  }
-                })
-              })
-              return real
-            },
-            tworesult: () => {
-              var sorted_result = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter((single_course) => {
-                  if (single_course.id == read.course) {
-                    if (single_course.level == 200 && single_course.semester == 1) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sorted_result.push(convert)
-                    }
-                  }
-                })
-              })
-              return sorted_result
-            },
-            tworesult2: () => {
-              var sorted_result = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter((single_course) => {
-                  if (single_course.id == read.course) {
-                    if (single_course.level == 100 && single_course.semester == 2) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sorted_result.push(convert)
-                    }
-                  }
-                })
-              })
-              return sorted_result
-            },
-            threeresult: () => {
-              var sorted_result = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter((single_course) => {
-                  if (single_course.id == read.course) {
-                    if (single_course.level == 300 && single_course.semester == 1) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sorted_result.push(convert)
-                    }
-                  }
-                })
-              })
-              return sorted_result
-            },
-            threeresult2: () => {
-              var sorted_result = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter((single_course) => {
-                  if (single_course.id == read.course) {
-                    if (single_course.level == 300 && single_course.semester == 2) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sorted_result.push(convert)
-                    }
-                  }
-                })
-              })
-              return sorted_result
-            },
-            fourresult: () => {
-              var sorted_result = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter((single_course) => {
-                  if (single_course.id == read.course) {
-                    if (single_course.level == 400 && single_course.semester == 1) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sorted_result.push(convert)
-                    }
-                  }
-                })
-              })
-              return sorted_result
-            },
-            fourresult2: () => {
-              var sorted_result = []
-              var result = myresults
-              var course = coursess
-              result.forEach(read => {
-                course.filter((single_course) => {
-                  if (single_course.id == read.course) {
-                    if (single_course.level == 400 && single_course.semester == 2) {
-                      var convert = {
-                        coursecode: single_course.coursecode,
-                        coursetitle: single_course.coursetitle,
-                        score: read.score,
-                        grade: read.grade
-                      }
-                      sorted_result.push(convert)
-                    }
-                  }
-                })
-              })
-              return sorted_result
-            }
-          })
-        })
-    })
-}
-
-// Functions for displaying students by their levels
-exports.list_100_student = function (req, res, next) {
-  StudentSigns.find({
-    'level': 100
-  }, function (err, swag) {
-    if (err) {
-      return next(err)
-    }
-    if (swag == null) {
-      res.redirect('/staffhome')
-    }
-    res.render('staffs/list_student', {
-      staff_session: req.session.staff,
-      title: 'Complete List of 100 Student',
-      slow: swag,
-      heading: '100 LEVEL STUDENTS'
-    })
-  })
-}
-
-exports.list_200_student = function (req, res, next) {
-  StudentSigns.find({
-    'level': 200
-  }, function (err, swag) {
-    if (err) {
-      return next(err)
-    }
-    if (swag == null) {
-      res.redirect('/staffhome')
-    }
-    res.render('staffs/list_student', {
-      staff_session: req.session.staff,
-      title: 'Complete List of 200 Student',
-      slow: swag,
-      heading: '200 LEVEL STUDENTS'
-    })
-  })
-}
-
-exports.list_300_student = function (req, res, next) {
-  StudentSigns.find({
-    'level': 300
-  }, function (err, swag) {
-    if (err) {
-      return next(err)
-    }
-    if (swag == null) {
-      res.redirect('/staffhome')
-    }
-    res.render('staffs/list_student', {
-      staff_session: req.session.staff,
-      title: 'Complete List of 300 Student',
-      slow: swag,
-      heading: '300 LEVEL STUDENTS'
-    })
-  })
-}
-
-exports.list_400_student = function (req, res, next) {
-  StudentSigns.find({
-    'level': 400
-  }, function (err, swag) {
-    if (err) {
-      return next(err)
-    }
-    if (swag == null) {
-      res.redirect('/staffhome')
-    }
-    res.render('staffs/list_student', {
-      staff_session: req.session.staff,
-      title: 'Complete List of 400 Student',
-      slow: swag,
-      heading: '400 LEVEL STUDENTS'
-    })
-  })
-}
-
 // function for getting the names of every staff
 exports.list_staffs = function (req, res, next) {
-  Staff.find()
-    .exec(function (err, swag) {
+  Staff.find({})
+    .exec(function (err, staff) {
       if (err) {
         return next(err)
       }
-      if (swag == null) {
+      if (staff == null) {
         res.redirect('/staffhome')
       }
       res.render('staffs/list_staffs', {
         staff_session: req.session.staff,
-        title: 'Complete List of Staffs',
-        slow: swag
+        title: 'Psychology Staffs',
+        slow: staff
       })
     })
 }
@@ -524,228 +215,296 @@ exports.view_staff_profile = function (req, res, next) {
       title: 'Staff Profile',
       layout: 'less_layout',
       staff: staff.staffy,
-      coursess: staff.coursey,
-      photo: function () {
-        if (!staff.staffy.photo) {
-          staff.staffy.photo = '../images/psylogo4.jpg'
-          return staff.staffy.photo
-        } else {
-          return staff.staffy.photo
+      coursess: staff.coursey
+    })
+  })
+}
+
+exports.get_schedule = function (req, res, next) {
+  var timer = function (coursey, time, day) {
+    var identity = []
+    var chosen = []
+    coursey.forEach(elem => {
+      identity.push(elem.coursecode)
+    })
+    time.filter((tick) => {
+      for (var i = 0; i < identity.length; i++) {
+        if (identity[i] == tick.course) {
+          if (tick.day == `${day}`) {
+            chosen.push({
+              course: tick.course,
+              day: tick.day,
+              time: tick.time,
+              level: tick.level
+            })
+          }
         }
       }
     })
-  })
-}
-
-// GET List of 100Level Courses...
-exports.get_100_courses = function (req, res, next) {
-  async.parallel({
-    first_semester: function (callback) {
-      Courses.find({
-        'level': 100,
-        'semester': 1,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    first_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 100,
-        'semester': 1,
-        'borrowed': 'yes'
-      }).exec(callback)
-    },
-    second_semester: function (callback) {
-      Courses.find({
-        'level': 100,
-        'semester': 2,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    second_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 100,
-        'semester': 2,
-        'borrowed': 'yes'
-      }).exec(callback)
-    }
-  }, function (err, hundred) {
+    return chosen
+  }
+  // find and render the timetables for a lecturer
+  Courses.find({ 'lecturer': req.session.staff }, function (err, success) {
     if (err) {
       return next(err)
     }
-    if (hundred.first_semester == null) {
-      res.redirect('/')
-    }
-    res.render('staffs/list_courses', {
-      title: '100 Level Courses',
-      layout: 'less_layout',
-      staff_session: req.session.staff,
-      levy: 100,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective1: 'ANY TWO',
-      elective2: 'ANY TWO'
+    Timetable.find({}, function (err, time) {
+      if (err) {
+        return next(err)
+      }
+      res.render('staffs/schedule', {
+        title: 'Staff Schedule',
+        staff_session: req.session.staff,
+        courses: success,
+        monday: timer(success, time, 'monday'),
+        tuesday: timer(success, time, 'tuesday'),
+        wednesday: timer(success, time, 'wednesday'),
+        thursday: timer(success, time, 'thursday'),
+        friday: timer(success, time, 'friday'),
+        helpers: {
+          isEqual: function (a, b, opts) {
+            if (a == b) {
+              return opts.fn(this)
+            } else {
+              return opts.inverse(this)
+            }
+          },
+          datey: function (a) {
+            if (a == 8 || a == 10) {
+              return `${a}:00AM`
+            } else {
+              return `${a}:00PM`
+            }
+          }
+        }
+      })
     })
   })
 }
 
-// GET List of 200Level Courses...
-exports.get_200_courses = function (req, res, next) {
-  async.parallel({
-    first_semester: function (callback) {
-      Courses.find({
-        'level': 200,
-        'semester': 1,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    first_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 200,
-        'semester': 1,
-        'borrowed': 'yes'
-      }).exec(callback)
-    },
-    second_semester: function (callback) {
-      Courses.find({
-        'level': 200,
-        'semester': 2,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    second_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 200,
-        'semester': 2,
-        'borrowed': 'yes'
-      }).exec(callback)
+// GET Profile  of a student
+exports.view_student_profile = function (req, res, next) {
+  StudentSigns.findById(req.params.id)
+    .exec(function (err, student) {
+      if (err) {
+        return next(err)
+      }
+      Courses.find({ 'student_offering': req.params.id })
+        .exec(function (err, mycourses) {
+          if (err) {
+            return next(err)
+          }
+          res.render('staffs/view_students', {
+            staff_session: req.session.staff,
+            title: 'Student Profile',
+            layout: 'less_layout',
+            students: student,
+            registered_courses: mycourses
+          })
+        })
     }
-  }, function (err, hundred) {
+    )
+}
+
+// GET the names of every student in Tabular form
+exports.list_students = function (req, res, next) {
+  StudentSigns.find({})
+    .sort([
+      ['level', 'ascending']
+    ])
+    .exec(
+      function (err, student) {
+        if (err) {
+          return next(err)
+        }
+        res.render('staffs/list_student', {
+          staff_session: req.session.staff,
+          title: 'Complete List of Student',
+          slow: student,
+          heading: 'ALL PSYCHOLOGY STUDENTS'
+        })
+      }
+    )
+}
+
+// Functions for displaying students by their levels
+exports.list_students_level = function (req, res, next) {
+  StudentSigns.find({
+    'level': req.params.level
+  }, function (err, student) {
     if (err) {
       return next(err)
     }
-    if (hundred.first_semester == null) {
-      res.redirect('/getallcourses')
-    }
-    res.render('staffs/list_courses', {
-      title: '200 Level Courses',
-      layout: 'less_layout',
+    res.render('staffs/list_student', {
       staff_session: req.session.staff,
-      levy: 200,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective1: 'ANY TWO',
-      elective2: 'ANY TWO'
+      title: `Complete List of ${req.params.level} Student`,
+      slow: student,
+      heading: `${req.params.level} LEVEL STUDENTS`
     })
   })
 }
 
-// GET List of 300Level Courses...
-exports.get_300_courses = function (req, res, next) {
-  async.parallel({
-    first_semester: function (callback) {
-      Courses.find({
-        'level': 300,
-        'semester': 1,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    first_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 300,
-        'semester': 1,
-        'borrowed': 'yes'
-      }).exec(callback)
-    },
-    second_semester: function (callback) {
-      Courses.find({
-        'level': 300,
-        'semester': 2,
-        'borrowed': 'no'
-      }).exec(callback)
-    },
-    second_semester_borrowed: function (callback) {
-      Courses.find({
-        'level': 300,
-        'semester': 2,
-        'borrowed': 'yes'
-      }).exec(callback)
+// function for checking students results
+exports.student_result = (req, res, next) => {
+  // function for calculating CGPA
+  let calculateCgpa = function (resul) {
+    let sortedResult = []
+    let average = []
+    resul.forEach(read => {
+      if (read.grade == 'A') {
+        sortedResult.push(5 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'B') {
+        sortedResult.push(4 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'C') {
+        sortedResult.push(3 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'D') {
+        sortedResult.push(2 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'E') {
+        sortedResult.push(1 * Number(read.unit))
+        average.push(Number(read.unit))
+      } else if (read.grade == 'F') {
+        sortedResult.push(0 * Number(read.unit))
+        average.push(Number(read.unit))
+      }
+    })
+    let final = sortedResult.reduce(function (a, b) {
+      return a + b
+    }, 0)
+    let ave = average.reduce(function (a, b) {
+      return a + b
+    }, 0)
+    // round up the GP to the nearest number to two decimal place
+    return Math.round(final / ave * 100) / 100
+  }
+
+  // funcion for producing the result for a semester
+  let calculateResult = function (resul, cour, leve, semest) {
+    let embrace = {
+      rest: [],
+      cgpa: ''
     }
-  }, function (err, hundred) {
+    resul.forEach(read => {
+      cour.filter(singleCourse => {
+        if (singleCourse.id == read.course) {
+          if (
+            singleCourse.level == leve &&
+            singleCourse.semester == semest
+          ) {
+            var convert = {
+              coursecode: singleCourse.coursecode,
+              coursetitle: singleCourse.coursetitle,
+              score: read.score,
+              grade: read.grade,
+              unit: singleCourse.units
+            }
+            embrace.rest.push(convert)
+          }
+        }
+      })
+    })
+    if (embrace.rest.length > 0) {
+      embrace.cgpa = calculateCgpa(embrace.rest)
+    } else {
+      embrace.cgpa = 0
+    }
+    return embrace
+  }
+
+  // find result of a particular student
+  Result.find({
+    student: req.params.id
+  }).exec((err, myresults) => {
     if (err) {
       return next(err)
     }
-    if (hundred.first_semester == null) {
-      res.redirect('/')
-    }
-    res.render('staffs/list_courses', {
-      title: '300 Level Courses',
-      layout: 'less_layout',
-      staff_session: req.session.staff,
-      levy: 300,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective1: 'ONE',
-      elective2: 'ANY ONE'
+    Courses.find({}).exec((err, coursess) => {
+      if (err) {
+        return next(err)
+      }
+      res.render('staffs/view_result', {
+        title: 'Student Result',
+        layout: 'less_layout',
+        staff_session: req.session.staff,
+        oneresult: calculateResult(myresults, coursess, 100, 1),
+        oneresult2: calculateResult(myresults, coursess, 100, 2),
+        tworesult: calculateResult(myresults, coursess, 200, 1),
+        tworesult2: calculateResult(myresults, coursess, 200, 2),
+        threeresult: calculateResult(myresults, coursess, 300, 1),
+        threeresult2: calculateResult(myresults, coursess, 300, 2),
+        fourresult: calculateResult(myresults, coursess, 400, 1),
+        fourresult2: calculateResult(myresults, coursess, 400, 2)
+      })
     })
   })
 }
 
-// GET List of 400Level Courses...
-exports.get_400_courses = function (req, res, next) {
+exports.get_courses = (req, res, next) => {
   async.parallel({
-    first_semester: function (callback) {
+    first_semester: callback => {
       Courses.find({
-        'level': 400,
-        'semester': 1,
-        'borrowed': 'no'
+        level: req.params.level,
+        semester: 1,
+        borrowed: 'no'
       }).exec(callback)
     },
-    first_semester_borrowed: function (callback) {
+    first_semester_borrowed: callback => {
       Courses.find({
-        'level': 400,
-        'semester': 1,
-        'borrowed': 'yes'
+        level: req.params.level,
+        semester: 1,
+        borrowed: 'yes'
       }).exec(callback)
     },
-    second_semester: function (callback) {
+    second_semester: callback => {
       Courses.find({
-        'level': 400,
-        'semester': 2,
-        'borrowed': 'no'
+        level: req.params.level,
+        semester: 2,
+        borrowed: 'no'
       }).exec(callback)
     },
-    second_semester_borrowed: function (callback) {
+    second_semester_borrowed: callback => {
       Courses.find({
-        'level': 400,
-        'semester': 2,
-        'borrowed': 'yes'
+        level: req.params.level,
+        semester: 2,
+        borrowed: 'yes'
       }).exec(callback)
     }
-  }, function (err, hundred) {
+  },
+  (err, hundred) => {
     if (err) {
       return next(err)
     }
-    if (hundred.first_semester == null) {
-      res.redirect('/')
-    }
     res.render('staffs/list_courses', {
-      title: '400 Level Courses',
+      title: `${req.params.level} Level Courses`,
       layout: 'less_layout',
       staff_session: req.session.staff,
-      levy: 400,
+      levy: req.params.level,
       first: hundred.first_semester,
       first_borrowed: hundred.first_semester_borrowed,
       second: hundred.second_semester,
       second_borrowed: hundred.second_semester_borrowed,
-      elective2: 'ANY ONE'
+      elective1: function () {
+        if (req.params.level == 300) {
+          return 'ONE'
+        } else if (req.params.level == 400) {
+          return ''
+        } else {
+          return 'ANY TWO'
+        }
+      },
+      elective2: function () {
+        if (req.params.level == 300 || req.params.level == 400) {
+          return 'ANY ONE'
+        } else {
+          return 'ANY TWO'
+        }
+      }
     })
-  })
+  }
+  )
 }
 
 // GET detailed Page for a particular course
@@ -760,69 +519,42 @@ exports.view_courses = function (req, res, next) {
           if (err) {
             return next(err)
           }
-          res.render('staffs/view_courses', {
-            title: 'Psychology Course',
-            staff_session: req.session.staff,
-            course: course,
-            teacher: staff,
-            lecky: () => {
-              let sortedLecturer = []
-              let courseLecturer = course.lecturer
-              let staffy = staff
-              courseLecturer.forEach(element => {
-                sortedLecturer.push(element)
-              })
-              var marvel = staffy.filter(function (lecturer) {
-                for (var i = 0; i < sortedLecturer.length; i++) {
-                  if (sortedLecturer[i] == lecturer.id) {
-                    return lecturer
-                  }
-                }
-              })
-              return marvel
+          StudentSigns.find({}).exec((err, students) => {
+            if (err) {
+              return next(err)
             }
+            res.render('staffs/view_courses', {
+              title: 'Psychology Course',
+              staff_session: req.session.staff,
+              course: course,
+              teacher: staff,
+              staffed: () => {
+                let courseLecturer = course.lecturer
+                var marvel = staff.filter(function (lecturer) {
+                  for (var i = 0; i < courseLecturer.length; i++) {
+                    if (courseLecturer[i] == lecturer.id) {
+                      return lecturer
+                    }
+                  }
+                })
+                return marvel
+              },
+              studunt: function () {
+                var chosen = []
+                var registered = course.student_offering
+                students.filter(hero => {
+                  for (var i = 0; i < registered.length; i++) {
+                    if (registered[i] == hero.id) {
+                      chosen.push(hero)
+                    }
+                  }
+                })
+                return chosen
+              }
+            })
           })
         })
     })
-}
-
-// GET List of students offering a course...
-exports.student_course_registered = function (req, res, next) {
-  Courses.findOne({
-    '_id': req.params.id
-  }).exec((err, course) => {
-    if (err) {
-      return next(err)
-    }
-    StudentSigns.find({})
-      .exec((err, students) => {
-        if (err) {
-          return next(err)
-        }
-        res.render('staffs/view_select', {
-          title: 'Student_Registered',
-          staff_session: req.session.staff,
-          courses: course,
-          upload: function () {
-            var sortedRegistered = []
-            var chosen = []
-            var registered = course.student_offering
-            var deal = students
-            registered.forEach(element => {
-              sortedRegistered.push(element)
-            })
-            deal.filter((hero) => {
-              for (var i = 0; i < sortedRegistered.length; i++) {
-                if (sortedRegistered[i] == hero.id) {
-                  chosen.push(hero)
-                }
-              }
-            })
-            return chosen
-          }
-        })
-      })
-  })
 }
 
 exports.edit_courseoutline = function (req, res, next) {
@@ -951,7 +683,7 @@ exports.get_project_topics = function (req, res, next) {
     if (err) {
       return next(err)
     }
-    res.render('staffs/staff_projecttopic', {
+    res.render('staffs/project_topics', {
       staff_session: req.session.staff,
       title: 'Psychology Project Topics',
       projectss: release
@@ -959,149 +691,16 @@ exports.get_project_topics = function (req, res, next) {
   })
 }
 
-exports.get_schedule = function (req, res, next) {
-  Courses.find({ 'lecturer': req.session.staff }, function (err, success) {
+// GET project category
+exports.get_project_category = function (req, res, next) {
+  Project.find({ 'category': req.params.topic }, function (err, topics) {
     if (err) {
       return next(err)
     }
-    Timetable.find({}, function (err, time) {
-      if (err) {
-        return next(err)
-      }
-      res.render('staffs/schedule', {
-        title: 'Staff Schedule',
-        staff_session: req.session.staff,
-        courses: success,
-        monday: function () {
-          var free = []
-          var chosen = []
-          var courses = success
-          var timey = time
-          courses.forEach(elem => {
-            free.push(elem.coursecode)
-          })
-          timey.filter((thor) => {
-            for (var i = 0; i < free.length; i++) {
-              if (free[i] == thor.course) {
-                if (thor.day == 'monday') {
-                  chosen.push({
-                    course: thor.course,
-                    day: thor.day,
-                    time: thor.time,
-                    level: thor.level
-                  })
-                }
-              }
-            }
-          })
-          return chosen
-        },
-        tuesday: function () {
-          var free = []
-          var chosen = []
-          var courses = success
-          var timey = time
-          courses.forEach(elem => {
-            free.push(elem.coursecode)
-          })
-          timey.filter((thor) => {
-            for (var i = 0; i < free.length; i++) {
-              if (free[i] == thor.course) {
-                if (thor.day == 'tuesday') {
-                  chosen.push({
-                    course: thor.course,
-                    day: thor.day,
-                    time: thor.time,
-                    level: thor.level
-                  })
-                }
-              }
-            }
-          })
-          return chosen
-        },
-        wednesday: function () {
-          var free = []
-          var chosen = []
-          var courses = success
-          var timey = time
-          courses.forEach(elem => {
-            free.push(elem.coursecode)
-          })
-          timey.filter((thor) => {
-            for (var i = 0; i < free.length; i++) {
-              if (free[i] == thor.course) {
-                if (thor.day == 'wednesday') {
-                  chosen.push({
-                    course: thor.course,
-                    day: thor.day,
-                    time: thor.time,
-                    level: thor.level
-                  })
-                }
-              }
-            }
-          })
-          return chosen
-        },
-        thursday: function () {
-          var free = []
-          var chosen = []
-          var courses = success
-          var timey = time
-          courses.forEach(elem => {
-            free.push(elem.coursecode)
-          })
-          timey.filter((thor) => {
-            for (var i = 0; i < free.length; i++) {
-              if (free[i] == thor.course) {
-                if (thor.day == 'thursday') {
-                  chosen.push({
-                    course: thor.course,
-                    day: thor.day,
-                    time: thor.time,
-                    level: thor.level
-                  })
-                }
-              }
-            }
-          })
-          return chosen
-        },
-        friday: function () {
-          var free = []
-          var chosen = []
-          var courses = success
-          var timey = time
-          courses.forEach(elem => {
-            free.push(elem.coursecode)
-          })
-          timey.filter((thor) => {
-            for (var i = 0; i < free.length; i++) {
-              if (free[i] == thor.course) {
-                if (thor.day == 'friday') {
-                  chosen.push({
-                    course: thor.course,
-                    day: thor.day,
-                    time: thor.time,
-                    level: thor.level
-                  })
-                }
-              }
-            }
-          })
-          return chosen
-        },
-        helpers: {
-          isEqual: function (a, b, opts) {
-            if (a == b) {
-              return opts.fn(this)
-            } else {
-              return opts.inverse(this)
-            }
-          }
-        }
-      })
+    res.render('staffs/project_topics', {
+      staff_session: req.session.staff,
+      title: 'Psychology Project Topics',
+      projectss: topics
     })
   })
 }
@@ -1113,12 +712,188 @@ exports.upload_projects = function (req, res) {
   })
 }
 
-exports.get_messages = function (req, res) {
-  res.render('staffs/messages', {
-    title: 'Messages',
-    layout: 'less_layout',
-    staff_session: req.session.staff
+exports.get_conversations = function (req, res, next) {
+  let messages = []
+  let naming = function (norm) {
+    let result = []
+    StudentSigns.findOne({ '_id': norm }).exec(function (err, stud) {
+      if (err) {
+        return next(err)
+      }
+      if (stud) {
+        result.push({ name: stud.surname + ' ' + stud.firstname, id: stud.id, photo: stud.photo })
+      }
+      Staff.findOne({ '_id': norm }).exec(function (err, staff) {
+        if (err) {
+          return next(err)
+        }
+        if (staff) {
+          result.push({ name: staff.surname + ' ' + staff.firstname, id: staff.id, photo: staff.photo })
+        }
+      })
+    })
+    return result
+  }
+
+  let hole = function (mass) {
+    for (let i = 0; i < mass.length; i++) {
+      return mass[i]
+    }
+  }
+
+  let massage = function (iden, chater) {
+    Messages.find({ 'conversationId': iden }).sort([['date', 'descending']]).limit(1).exec(function (err, message) {
+      if (err) {
+        return next(err)
+      }
+      messages.push({ identity: iden, message: hole(message), details: naming(chater) })
+    })
+  }
+
+  Conversation.find({ $or: [{ 'participant1': req.session.staff }, { 'participant2': req.session.staff }] }).sort([['date', 'descending']]).exec((err, conversations) => {
+    if (err) {
+      return next(err)
+    }
+    conversations.forEach(function (converse) {
+      if (converse.participant1 !== req.session.staff) {
+        let chatty = converse.participant1
+        massage(converse.id, chatty)
+      } else if (converse.participant2 !== req.session.staff) {
+        let chatty = converse.participant2
+        massage(converse.id, chatty)
+      }
+    })
+    res.render('staffs/conversations', {
+      title: 'Messages',
+      layout: 'less_layout',
+      staff_session: req.session.staff,
+      messagess: function () {
+        return messages.sort(function (a, b) {
+          return a.message < b.message
+        })
+      }
+    })
   })
+}
+
+exports.get_messages = function (req, res, next) {
+  let naming = function () {
+    var stash = { name: '', photo: '' }
+    StudentSigns.findOne({ '_id': req.params.recipient }).exec(function (err, stud) {
+      if (err) {
+        return next(err)
+      }
+      if (stud) {
+        stash.name = stud.surname + ' ' + stud.firstname
+        stash.photo = stud.photo.url
+      }
+    })
+    Staff.findOne({ '_id': req.params.recipient }).exec(function (err, staff) {
+      if (err) {
+        return next(err)
+      }
+      if (staff) {
+        stash.name = staff.surname + ' ' + staff.firstname
+        stash.photo = staff.photo.url
+      }
+    })
+    return stash
+  }
+
+  Conversation.findOne({
+    $or: [
+      { 'participant1': req.session.staff, 'participant2': req.params.recipient },
+      { 'participant1': req.params.recipient, 'participant2': req.session.staff }
+    ]
+  }).select('_id').exec(function (err, conversation) {
+    if (err) {
+      return next(err)
+    } else if (!conversation) {
+      res.render('staffs/messages', {
+        title: 'Messages',
+        layout: 'less_layout',
+        staff_session: req.session.staff,
+        receiver: req.params.recipient
+      })
+    } else {
+      Messages.find({
+        'conversationId': conversation._id
+      }).exec((err, message) => {
+        if (err) {
+          return next(err)
+        }
+        res.render('staffs/messages', {
+          title: 'Messages',
+          layout: 'less_layout',
+          staff_session: req.session.staff,
+          chats: message,
+          receiver: req.params.recipient,
+          replyer: naming(),
+          helpers: {
+            is_equal: function (a, opts) {
+              if (a === req.params.recipient) {
+                return opts.fn(this)
+              } else {
+                return opts.inverse(this)
+              }
+            }
+          }
+        })
+      })
+    }
+  })
+}
+
+// correct
+exports.new_conversation = function (req, res, next) {
+  Conversation.findOne({
+    $or: [
+      { 'participant1': req.session.staff, 'participant2': req.params.recipient },
+      { 'participant1': req.params.recipient, 'participant2': req.session.staff }
+    ]
+  }).select('_id').exec(
+    function (err, conversation) {
+      if (err) {
+        return next(err)
+      }
+      if (conversation) {
+        var reply = new Messages({
+          conversationId: conversation._id,
+          sender: req.session.staff,
+          body: req.body.message,
+          date: Date()
+        })
+        reply.save(function (err) {
+          if (err) {
+            return next(err)
+          }
+          res.redirect(301, '/staff/getmessages/' + req.params.recipient)
+        })
+      } else {
+        var newchat = new Conversation({
+          participant1: req.session.staff,
+          participant2: req.params.recipient
+        })
+        newchat.save(function (err, newConversation) {
+          if (err) {
+            return next(err)
+          }
+          const message = new Messages({
+            conversationId: newConversation._id,
+            sender: req.session.staff,
+            body: req.body.message,
+            date: Date()
+          })
+          message.save(function (err) {
+            if (err) {
+              return next(err)
+            }
+
+            res.redirect(301, '/staff/getmessages/' + req.params.recipient)
+          })
+        })
+      }
+    })
 }
 
 // to Log-Out Staffs from the site

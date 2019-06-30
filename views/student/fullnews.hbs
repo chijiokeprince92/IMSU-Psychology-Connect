@@ -6,8 +6,8 @@
 <br><br>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
-      <img src="/{{newspaper.picture}}" alt="news image" class="rounded news" />
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+      <img src="/{{newspaper.picture}}" alt="news image" class="rounded" width="100%" />
       <br><br><br><br>
     </div>
     <div class="col-12">
@@ -42,17 +42,23 @@
     <ul id="messages">
       <div class="container-fluid">
         <div class="row">
-          {{#each comments}}
-            <div class="col-12 col-sm-9 col-md-6 col-lg-5">
+          {{#each commune}}
+            {{#if this.photo.url}}
+              <div class="col-2 col-sm-1">
+                <img src="{{this.photo.url}}" class="rounded-circle" width="30px" height="30px" />
+              </div>
+            {{else}}
+              <div class="col-2 col-sm-1">
+                <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />
+              </div>
+            {{/if}}
+            <div class="col-10 col-sm-11">
               <li class="card">
-                <div class="col-12">
-                  <p><b><a href="/studentstudentprofile/{{this.userid}}">{{this.username}}</a>
-                    </b>
-                  </p>
-                </div>
-                <div class="col-12">
-                  <p>{{this.comment}}</p>
-                </div>
+                <p><b> <a href="/studentstudentprofile/{{this.userid}}"> {{this.user}}</a>
+                  </b>
+                </p>
+                {{this.comment.id}}
+                <p>{{this.comment.comment}}</p>
               </li>
               <div class="col-12">
                 <div class="container-fluid">
@@ -62,7 +68,7 @@
                         style="display:inline">
                         <input type="text" style="display:none" class="form-control" name="like" />
                         <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-up">
-                            {{this.like}}</span>
+                            {{this.comment.like}}</span>
                         </button>
                       </form>
                     </div>
@@ -71,7 +77,7 @@
                         style="display:inline">
                         <input type="text" style="display:none" class="form-control" name="dislike" />
                         <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-down">
-                            {{this.dislike}}</span>
+                            {{this.comment.dislike}}</span>
                         </button>
                       </form>
                     </div>
@@ -170,7 +176,6 @@
               </ul>
               <br><br>
             </div>
-            <div class="col-md-6 col-lg-7"></div>
           {{/each}}
         </div>
       </div>
@@ -180,19 +185,31 @@
     <br>
     <h6>PEOPLE WHO LIKE THIS</h6>
     {{#each decipher}}
-      <p><b>{{@index}}. </b> {{this.firstname}}</p>
+      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle" width="30px"
+            height="30px" />
+        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />{{/if}}
+        {{this.surname}}
+        {{this.firstname}}
+      </p>
+      <br><br>
     {{/each}}
   </div>
   <div id="dislikes" class="container-fluid tab-pane fade" style="background-color:white">
     <br>
     <h6>PEOPLE WHO DISLIKE THIS</h6>
     {{#each desliker}}
-      <p><b>{{@index}}. </b> {{this.firstname}}</p>
+      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle" width="30px"
+            height="30px" />
+        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />{{/if}}
+        {{this.surname}}
+        {{this.firstname}}
+      </p>
+      <br><br>
     {{/each}}
   </div>
 </div>
 <br><br><br>
-<form id="formy" style="display:inline-block;width:100%;position:fixed;bottom:0">
+<form id="formy" style="display:none;width:100%;position:fixed;bottom:0">
   <div class="container-fluid">
     <div class="row no-gutters">
       <div class="col-9" style="display:none">
@@ -208,8 +225,8 @@
     </div>
   </div>
 </form>
-<button class="btn btn-success" id="seer" style="float:right;position:fixed;bottom:0"><span
-    class="fa fa-play"></span></button>
+<button class="btn btn-success" id="seer" style="border-radius:50%;position:fixed;bottom:20px;left:90%"><span
+    class="fa fa-comments"></span></button>
 <script>
   $(document).ready(function () {
     $('#seer').click(function () {

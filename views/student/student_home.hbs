@@ -4,7 +4,7 @@
 <br>
 <h5>
   <b>
-    {{person.surname}}'s Homepage
+    {{allowed.surname}}'s Homepage
   </b>
 </h5>
 <ul>
@@ -31,7 +31,7 @@
       </div>
       <div class="col-8 col-md-9 col-lg-10">
         <br>
-        <p><a href="/studentstudentlist"><b>COURSEMATES</b></a></p>
+        <p><a href="/studentmates/{{allowed.level}}"><b>COURSEMATES</b></a></p>
         <p>
           You can see all your Coursemates/Levelmates, and view their Profiles.<span class="seek">You can also send them
             a message and see their activities.</span>
@@ -62,7 +62,7 @@
       </div>
       <div class="col-8 col-md-9 col-lg-10">
         <br>
-        <p><a href="/studentgetallcourses"><b>BSC. COURSES</b></a></p>
+        <p><a href="/studentgetcourse/{{allowed.level}}"><b>BSC. COURSES</b></a></p>
         <p>Click to view courses offered by each level. You can also register your courses for the
           semester.<span class="seek"> Endeavor to register your prefered courses for proper results
             collations.</span> </p>
@@ -93,7 +93,7 @@
       </div>
       <div class="col-8 col-md-9 col-lg-10">
         <br>
-        <p><a href="/myfullresults/{{person.id}}"><b>CHECK RESULTS</b></a></p>
+        <p><a href="/myfullresults/{{allowed.id}}"><b>CHECK RESULTS</b></a></p>
         <p>
           Check all your accummulated Results for the semesters, and also see your CGPA.<span class="seek">Carryover
             courses will be updated when you re-write the course and the result is available to the department.</span>

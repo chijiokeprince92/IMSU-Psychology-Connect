@@ -1,14 +1,20 @@
 <br>
 <h5><b>
-    LECTURER PROFILE
+    {{staff.surname}} {{staff.firstname}}
   </b>
 </h5>
 <br>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-      <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-    </div>
+    {{#if staff.photo.url}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="{{students.photo.url}}" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{else}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="/images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{/if}}
   </div>
 </div>
 <br><br><br>
@@ -29,10 +35,6 @@
       <div class="tab-content">
         <div id="info" class="container-fluid tab-pane active" style="background-color:white">
           <br><br>
-          <p><b>SURNAME: </b> {{staff.surname}}</p>
-          <br>
-          <p><b>FIRSTNAME: </b> {{staff.firstname}}</p>
-          <br>
           <p><b><span class="fa fa-envelope"></span> </b> {{staff.email}}</p>
           <br>
           <p><b><span class="fa fa-user"></span> </b>{{staff.gender}}</p>
@@ -72,13 +74,13 @@
           <h6 class="card-header font-weight-bold"> <a href="#" title="books">BOOKS</a>
             <span class="fa fa-book" style="font-size:25px"></span></h6>
           <br>
-          <p class="crad-text">Click to see books written by this lecturer.</p>
+          <p class="crad-text">Click to see books written by {{staff.surname}}.</p>
         </li>
         <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="#" title="message">MESSAGE</a> <span class="fa fa-whatsapp"
-              style="font-size:25px"></span></h6>
+          <h6 class="card-header font-weight-bold"> <a href="/staff/getmessages/{{staff.id}}"
+              title="message">MESSAGE</a> <span class="fa fa-whatsapp" style="font-size:25px"></span></h6>
           <br>
-          <p class="card-text">Click to send this lecturer a message.</p>
+          <p class="card-text">Click to send {{staff.surname}} a message.</p>
         </li>
         <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="/staff/stafflist" title="Colleagues">COLLEAGUES</a>

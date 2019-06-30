@@ -1,7 +1,6 @@
 <br>
-<h5><b>
-    STUDENT PROFILE
-  </b>
+<h5><b>Student({{student.surname}} {{student.firstname}}) {{#if student.is_courserep}} <span class="fa fa-star-o"
+        style="font-size:20px;color:red"></span>{{/if}}</b>
 </h5>
 <br>
 {{#if message}}
@@ -10,8 +9,13 @@
 {{/if}}
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-      <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+      {{#if student.photo.url}}
+        <img src="{{student.photo.url}}" alt="profile image" class="rounded" width="100%" />
+      {{else}}
+        <img src="/images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" />
+      {{/if}}
+      <br><br>
     </div>
   </div>
 </div>
@@ -33,29 +37,26 @@
       <div class="tab-content">
         <div id="home" class="container-fluid tab-pane active" style="background-color:white">
           <br><br>
-          <p><b>SURNAME: </b> {{student.surname}}</p>
-          <br>
-          <p><b>FIRSTNAME: </b> {{student.firstname}}</p>
-          <br>
           <p><b><span class="fa fa-graduation-cap"></span></b> {{student.matnumber}}</p>
           <br>
-          <p><b>LEVEL: </b>{{student.level}}</p>
+          <p><b><span class="fa fa-bars"></span> </b>{{student.level}}</p>
           <br>
           <p><b><span class="fa fa-user"></span> </b>{{student.gender}}</p>
           <br>
           <p><b><span class="fa fa-envelope"></span></b> {{student.email}}</p>
           <br>
-          <p><b>IS_COURSEREP:</b> {{student.is_courserep}}
-            {{#if courserepno}}
+          <p style="display:inline">{{#if student.is_courserep}}
+              <b>remove Courserep:</b>
               <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
-                <input type="text" style="display:none" class="form-control" name="courserep" value="Yes" />
-                <button type="submit" class="btn btn-success"><span class="fa fa-thumbs-o-up">
+                <input type="text" style="display:none" class="form-control" name="courserep" value="false" />
+                <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down">
                 </button>
               </form>
             {{else}}
+              <b>Make Courserep:</b>
               <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
-                <input type="text" style="display:none" class="form-control" name="courserep" value="No" />
-                <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down">
+                <input type="text" style="display:none" class="form-control" name="courserep" value="true" />
+                <button type="submit" class="btn btn-success"><span class="fa fa-thumbs-o-up">
                 </button>
               </form>
             {{/if}}
@@ -64,6 +65,8 @@
           <p><b><span class="fa fa-phone"></span> </b>0{{student.phone}}</p>
           <br>
           <p><b><span class="fa fa-comment-o"></span> </b>{{student.bio}}</p>
+          <br>
+          <p><b><span class="fa fa-calendar"> </span> </b>{{datey}}.</p>
           <br>
         </div>
         <div id="info" class="container-fluid tab-pane fade" style="background-color:white">
@@ -99,25 +102,31 @@
       <br><br><br>
       <ul class="card">
         <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="/admin/list{{student.level}}students"
-              title="results">COURSEMATES</a>
-            <span class="fa fa-users" style="font-size:25px"></span></h6>
-          <br>
-          <p class="crad-text">Click to view {{student.surname}}'s coursemates.</p>
-        </li>
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="#" title="message">UPDATE</a> <span class="fa fa-whatsapp"
-              style="font-size:25px"></span></h6>
-          <br>
-          <p class="card-text">Click to chat with {{student.surname}}.</p>
-        </li>
-        <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="/admin/studentfullresults/{{student.id}}"
               title="Coursemates">RESULT</a>
             <span class="fa fa-briefcase" style="font-size:25px"></span>
           </h6>
           <br>
           <p class="card-text">Click to see {{student.surname}}'s results...</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="/admin/liststudents/{{student.level}}"
+              title="results">COURSEMATES</a>
+            <span class="fa fa-users" style="font-size:25px"></span></h6>
+          <br>
+          <p class="crad-text">Click to view {{student.surname}}'s coursemates.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold"> DELETE</h6>
+          <br>
+          <p class="card-text">Deleting a student will remove all their records from this website and cannot be
+            retrieved.
+            <form action="/admin/deletestudent/{{this.id}}" method="POST">
+              <input type="hidden" />
+              <button type="submit" class="btn btn-danger"><span class="fa fa-trash"
+                  style="font-size:20px"></span></button>
+            </form>
+          </p>
         </li>
       </ul>
     </div>

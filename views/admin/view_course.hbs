@@ -19,6 +19,9 @@
           <a class="nav-link" data-toggle="tab" href="#lecturer">LECT<span class="seek">URER/S</span></a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#students">STUD<span class="seek">ENT/S</span></a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#courseoutline">OUTLINE</a>
         </li>
       </ul>
@@ -47,16 +50,16 @@
         <div id="lecturer" class="container-fluid tab-pane fade" style="background-color:white">
           <br><br>
           <ul>
-            {{#each lecky}}
+            {{#each staffed}}
               <li class="container-fluid">
                 <div class="row">
-                  {{#if this.photo}}
+                  {{#if this.photo.url}}
                     <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                      <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
+                      <img src="{{this.photo.url}}" alt="staff pics" class="rounded-circle profile" />
                     </div>
                   {{else}}
                     <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                      <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                      <img src="/images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
                     </div>
                   {{/if}}
                   <div class="col-5 col-sm-6 col-md-7 col-lg-8">
@@ -116,6 +119,24 @@
 
           </script>
         </div>
+        <div id="students" class="container-fluid tab-pane fade" style="background-color:white">
+          <br><br>
+          <ol>
+            {{#each studunt}}
+              <li class="container-fluid">
+                <div class="row">
+                  <div class="col-12">
+                    <p><b><span class="fa fa-user"> </span> </b> {{this.name}} {{this.surname}} : {{this.level}} Level
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <br><br>
+            {{else}}
+              <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
+            {{/each}}
+          </ol>
+        </div>
         <div id="courseoutline" class="container-fluid tab-pane fade" style="background-color:white">
           <br><br>
           <h5><b>
@@ -136,49 +157,14 @@
       <br><br><br>
       <ul class="card">
         <li class="card-body">
-          <h6 class="card-header font-weight-bold">EDIT
+          <h6 class="card-header font-weight-bold"><a href="/admin/addcourseoutline/{{course.id}}">EDIT</a>
             <span class="fa fa-edit" style="font-size:25px"></span></h6>
           <br>
-          <p class="crad-text">Click the button below to edit course outline for this course.</p>
-          <form id="outlineform" style="display:none" action="/staff/editcourseoutline/{{course.id}}" method="POST">
-            <div class="form-group input-group-lg">
-              <label for="courseoutline"><b>COURSEOUTLINE</b></label>
-              <textarea type="text" class="form-control" name="courseoutline"
-                placeholder="Type a message...">{{course.courseoutline}}</textarea>
-            </div>
-            <button type="submit" class="btn btn-danger">Update</button>
-          </form>
-          <script>
-            $(document).ready(function () {
-              $('#outlinebtn').click(function () {
-                $('#outlineform').toggle("slow");
-                $('#outlinebtn').toggle("slow");
-
-              });
-            });
-          </script>
-          <button id="outlinebtn" title="register" class="btn btn-success">EDIT</button>
-        </li>
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="/admin/viewcourselect/{{course.id}}"
-              title="view students">STUDENTS<span class="seek"> OFFERING</span></a> <span class="fa fa-users"
-              style="font-size:25px"></span></h6>
-          <br>
-          <p class="card-text">Click to see list of students offering this course.</p>
-        </li>
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="/admin/addcourseoutline/{{course.id}}"
-              title="Add result">ADD COURSEOUTLINE</a>
-            <span class="fa fa-edit" style="font-size:25px"></span>
-          </h6>
-          <br>
-          <p class="card-text">Click to upload the results of the students registered to this course.</p>
+          <p class="crad-text">Click the button below to edit general informations about this course.</p>
         </li>
         <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="/admin/studentaddresult/{{course.id}}"
-              title="Add result">ADD
-              RESULT</a>
-            <span class="fa fa-book" style="font-size:25px"></span>
+              title="Add result">ADD RESULT</a><span class="fa fa-book" style="font-size:25px"></span>
           </h6>
           <br>
           <p class="card-text">Click to upload the results of the students registered to this course.</p>
@@ -192,7 +178,7 @@
         </li>
         <li class="card-body">
           <h6 class="card-header font-weight-bold" title="delete course"> DELETE<span class="seek"> COURSE</span></h6>
-          <form action="/admin/deletecourse/{{course.id}}" method="POST">
+          <form>
             <input type="hidden" />
             <button type="submit" class="btn btn-danger float-right"><span class="fa fa-trash"></span>
             </button>

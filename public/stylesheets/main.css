@@ -18,19 +18,14 @@
     h6 {
         text-align: center;
     }
-    .choose {
-        background-image: url("https://res.cloudinary.com/elijah/image/upload/v1548711719/samples/imagecon-group.jpg");
-        position: relative;
-    }
-    .cash {
-        position: absolute;
-        top: 60px;
-        left: 300px;
-    }
     .homeview {
         position: absolute;
         top: 60px;
         left: 250px;
+    }
+    .viewer {
+      margin-top: 0px;
+      margin-left: 400px;
     }
     .glory {
         width: 100%;
@@ -53,8 +48,8 @@
         height: 400px;
     }
     .news {
-        margin: 0px 25%;
-        width: 50%;
+        margin: 0px 10%;
+        width: 80%;
         height: 300px;
     }
     p {
@@ -112,15 +107,15 @@
         height: 150px;
     }
     li .profile {
-        width: 70%;
-        height: 90px;
+      vertical-align: middle;
+      border-radius:50%;
+      width: 70px;
+      height: 70px;
     }
     #stylus {
         border-radius: 15px;
     }
-    #chatbox {
-      border-radius: 5%;
-    }
+   
     #comment {
         border-radius: 25px;
         resize: none;
@@ -251,19 +246,14 @@
     h6 {
         text-align: center;
     }
-    .choose {
-        background-image: url("https://res.cloudinary.com/elijah/image/upload/v1548711719/samples/imagecon-group.jpg");
-        position: relative;
-    }
-    .cash {
-        position: absolute;
-        top: 100px;
-        left: 200px;
-    }
     .homeview {
         position: absolute;
         top: 60px;
         left: 160px;
+    }
+    .viewer {
+      margin-top: 0px;
+      margin-left: 200px;
     }
     .glory {
         width: 100%;
@@ -286,8 +276,8 @@
         height: 400px;
     }
     .news {
-        margin: 0px 25%;
-        width: 50%;
+        margin: 0px;
+        width: 100%;
         height: 300px;
     }
     p {
@@ -342,15 +332,15 @@
         height: 120px;
     }
     li .profile {
-        width: 70%;
-        height: 90px;
+      vertical-align: middle;
+      border-radius:50%;
+      width: 70px;
+      height: 70px;
     }
     #stylus {
         border-radius: 25px;
     }
-    #chatbox {
-      border-radius: 5%;
-    }
+   
     #comment {
         border-radius: 25px;
         resize: none;
@@ -481,19 +471,15 @@
     h6 {
         text-align: center;
     }
-    .choose {
-        background-image: url("https://res.cloudinary.com/elijah/image/upload/v1548711719/samples/imagecon-group.jpg");
-        position: relative;
-    }
-    .cash {
-        position: absolute;
-        top: 90px;
-        left: 0px;
-    }
     .homeview {
         position: absolute;
         top: 50px;
         left: 50px;
+    }
+    .viewer {
+    
+      margin-top: 0px;
+      margin-left: 100px;
     }
     .glory {
         width: 100%;
@@ -516,8 +502,8 @@
         height: 300px;
     }
     .news {
-        margin: 0px 15%;
-        width: 70%;
+        margin: 0px;
+        width: 100%;
         height: 300px;
     }
     p {
@@ -572,14 +558,13 @@
         height: 120px;
     }
     li .profile {
-        width: 65%;
-        height: 90px;
+        vertical-align: middle;
+        border-radius:50%;
+        width: 70px;
+        height: 70px;
     }
     #stylus {
         border-radius: 25px;
-    }
-    #chatbox {
-      border-radius: 10%;
     }
     #comment {
         border-radius: 25px;
@@ -691,7 +676,7 @@
     }
     .body {
         background-size: cover;
-        background-color: white;
+        background-color: lightpink;
         font-size: 0.5em;
         line-height: 1.2;
         border: 0px;
@@ -706,19 +691,14 @@
     h6 {
         text-align: center;
     }
-    .choose {
-        background-image: url("https://res.cloudinary.com/elijah/image/upload/v1548711719/samples/imagecon-group.jpg");
-        position: relative;
-    }
-    .cash {
-        position: absolute;
-        top: 70px;
-        left: 0px;
-    }
     .homeview {
         position: absolute;
         top: 40px;
         left: 0px;
+    }
+    .viewer {
+      margin-top: 0px;
+      margin-left: 0px;
     }
     .glory {
         width: 100%;
@@ -798,8 +778,10 @@
         color: red;
     }
     li .profile {
-        width: 100%;
-        height: 80px;
+      vertical-align: middle;
+      border-radius:50%;
+      width: 60px;
+      height: 60px;
     }
     li .aboutus {
         width: 100%;
@@ -811,9 +793,7 @@
     #stylus {
         border-radius: 25px;
     }
-    #chatbox {
-      border-radius: 15%;
-    }
+   
     #comment {
         border-radius: 25px;
     }

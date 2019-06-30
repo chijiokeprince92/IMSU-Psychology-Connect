@@ -1,22 +1,18 @@
 <br>
-<h5><b>
-    YOUR PROFILE
-  </b>
+<h5><b>{{staff.surname}} {{staff.firstname}} <button class="btn btn-success" style="border-radius:50%">R</button></b>
 </h5>
-<br>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-      {{#if photo}}
-        <img src="/{{staff.photo}}" alt="profile image" class="rounded" width="100%" />
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+      {{#if staff.photo.url}}
+        <img src="{{staff.photo.url}}" alt="profile image" class="rounded" width="100%" />
       {{else}}
-        <img src="../images/psylogo4.jpg" alt="psy image" class="rounded" width="100%" />
+        <img src="/images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" />
       {{/if}}
-      <form id="drake" style="display:none" action="/staff/updatepics/{{staff.id}}" method="POST"
-        enctype="multipart/form-data" style="display:inline">
-        <input type="file" class="form-control" name="image" placeholder="upload photo" required>
-        <button type="submit" class="btn btn-success"><span class="fa fa-edit"></span></button>
-        <button id="close" class="btn btn-danger" style="display:none"><span class="fa fa-times"></span></button>
+      <form action="/staff/updatepics/{{staff.id}}" method="POST" enctype="multipart/form-data">
+        <input type="file" id="filer" name="image" style="display:none" required>
+        <button type="submit" id="submiter" class="btn btn-danger" style="display:none"><span
+            class="fa fa-edit"></span></button>
       </form>
       <button id="cousin" class="btn btn-success" style="margin-top:-40px"><span class="fa fa-camera"></span></button>
       <br><br>
@@ -26,14 +22,9 @@
 <script>
   $(document).ready(function () {
     $('#cousin').click(function () {
-      $('#drake').toggle("slow");
-      $('#cousin').toggle("slow");
-      $('#close').toggle("slow");
-    });
-    $('#close').click(function () {
-      $('#drake').toggle("slow");
-      $('#cousin').toggle("slow");
-      $('#close').toggle("slow");
+      $('#filer').click();
+      $('#submiter').toggle('slow');
+      $('#cousin').toggle('slow');
     });
   });
 </script>
@@ -49,18 +40,13 @@
           <a class="nav-link" data-toggle="tab" href="#courses">COURSES</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#activities">ACTIVITIES</a>
+          <a class="nav-link" data-toggle="tab" href="#books">BOOKS</a>
         </li>
       </ul>
       <div class="tab-content">
         <div id="info" class="container-fluid tab-pane active" style="background-color:white">
           <br><br>
-          <p><b><span class="fa fa-envelope"> </span><span class="seek"> </span> </b> {{staff.email}}
-          </p>
-          <br>
-          <p><b>SURNAME: </b> {{staff.surname}}</p>
-          <br>
-          <p><b>FIRSTNAME: </b> {{staff.firstname}}</p>
+          <p><b><span class="fa fa-envelope"> </span></b> {{staff.email}}</p>
           <br>
           <p><b><span class="fa fa-lock"> </span> </b> {{staff.staff_id}}</p>
           <br>
@@ -68,7 +54,7 @@
           <br>
           <p><b><span class="fa fa-phone"> </span> </b> 0{{staff.phone}}</p>
           <br>
-          <p><b>STATUS: </b>{{staff.bio}}</p>
+          <p><b><span class="fa fa-comment-o"> </span> </b>{{staff.bio}}</p>
           <br>
         </div>
         <div id="courses" class="container-fluid tab-pane fade" style="background-color:white">
@@ -88,7 +74,7 @@
             {{/each}}
           </ul>
         </div>
-        <div id="activities" class="container-fluid tab-pane fade" style="background-color:white">
+        <div id="books" class="container-fluid tab-pane fade" style="background-color:white">
           <br><br>
           <p><span class="fa fa-expeditedssl"> </span></p>
           <br>
@@ -117,22 +103,10 @@
       <br><br><br>
       <ul class="card">
         <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="#" title="books">BOOKS</a>
-            <span class="fa fa-book" style="font-size:25px"></span></h6>
-          <br>
-          <p class="crad-text">Click to see books written by you.</p>
-        </li>
-        <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="/staff/updateprofile/{{staff.id}}" title="books">EDIT</a>
             <span class="fa fa-edit" style="font-size:25px"></span></h6>
           <br>
-          <p class="crad-text">Click to edit your profile.</p>
-        </li>
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="#" title="message">MESSAGE</a> <span class="fa fa-whatsapp"
-              style="font-size:25px"></span></h6>
-          <br>
-          <p class="card-text">Click to send this lecturer a message.</p>
+          <p class="card-text">Click to edit your profile.</p>
         </li>
         <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="/staff/stafflist" title="Colleagues">COLLEAGUES</a>

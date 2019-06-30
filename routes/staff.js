@@ -1,6 +1,5 @@
 var express = require('express')
 var router = express.Router()
-var path = require('path')
 var uploaded = require('../upload')
 
 // middlewares
@@ -28,23 +27,14 @@ router.post('/updateprofile/:id', staff_controllers.staffloginRequired, staff_co
 
 router.post('/updatepics/:id', uploaded, staff_controllers.staff_update_pics)
 
-// GET the list of students and their profiles
-router.get('/studentlist', staff_controllers.staffloginRequired, staff_controllers.list_students)
-
 // GET a single student profile
 router.get('/studentprofile/:id', staff_controllers.staffloginRequired, staff_controllers.view_student_profile)
 
+// GET the list of students and their profiles
+router.get('/studentlist', staff_controllers.staffloginRequired, staff_controllers.list_students)
+
 // GET all 100 level students
-router.get('/list100students', staff_controllers.staffloginRequired, staff_controllers.list_100_student)
-
-// GET all 200 level students
-router.get('/list200students', staff_controllers.staffloginRequired, staff_controllers.list_200_student)
-
-// GET all 300 level students
-router.get('/list300students', staff_controllers.staffloginRequired, staff_controllers.list_300_student)
-
-// GET all 400 level students
-router.get('/list400students', staff_controllers.staffloginRequired, staff_controllers.list_400_student)
+router.get('/liststudents/:level', staff_controllers.staffloginRequired, staff_controllers.list_students_level)
 
 // Get a single Student Result
 router.get('/studentfullresults/:id', staff_controllers.staffloginRequired, staff_controllers.student_result)
@@ -61,25 +51,13 @@ router.get('/colleague/:id', staff_controllers.staffloginRequired, staff_control
 router.get('/getschedule', staff_controllers.staffloginRequired, staff_controllers.get_schedule)
 
 // GET 100 Courses
-router.get('/get100courses', staff_controllers.staffloginRequired, staff_controllers.get_100_courses)
-
-// GET 200 Level courses
-router.get('/get200courses', staff_controllers.staffloginRequired, staff_controllers.get_200_courses)
-
-// GET 300 Level courses
-router.get('/get300courses', staff_controllers.staffloginRequired, staff_controllers.get_300_courses)
-
-// GET 400 Level courses
-router.get('/get400courses', staff_controllers.staffloginRequired, staff_controllers.get_400_courses)
+router.get('/getcourses/:level', staff_controllers.staffloginRequired, staff_controllers.get_courses)
 
 // UPDATE a course outline
 router.post('/editcourseoutline/:id', staff_controllers.staffloginRequired, staff_controllers.edit_courseoutline)
 
 // GET a particular course details
 router.get('/viewcourse/:id', staff_controllers.staffloginRequired, staff_controllers.view_courses)
-
-// GET a particular course details
-router.get('/viewcourselect/:id', staff_controllers.staffloginRequired, staff_controllers.student_course_registered)
 
 // GET the latest news
 router.get('/getlastnews', staff_controllers.staffloginRequired, staff_controllers.get_last_news)
@@ -93,11 +71,20 @@ router.post('/staffcomments/:id', staff_controllers.staffloginRequired, staff_co
 // GET project topics
 router.get('/getprojecttopics', staff_controllers.staffloginRequired, staff_controllers.get_project_topics)
 
+// GET project topics
+router.get('/getprojecttopics/:topic', staff_controllers.staffloginRequired, staff_controllers.get_project_category)
+
 // POST a project topic
 router.get('/saffuploadproject', staff_controllers.staffloginRequired, staff_controllers.upload_projects)
 
-// Router for staff to messages
-router.get('/staffmessages', staff_controllers.staffloginRequired, staff_controllers.get_messages)
+// Get a list of all the chats you are involved
+router.get('/getconversations/:id', staff_controllers.staffloginRequired, staff_controllers.get_conversations)
+
+// Router for student to read messages
+router.get('/getmessages/:recipient', staff_controllers.staffloginRequired, staff_controllers.get_messages)
+
+// Router for student to logout
+router.post('/newconversation/:recipient', staff_controllers.staffloginRequired, staff_controllers.new_conversation)
 
 // Staff Logout
 router.get('/logout', staff_controllers.staffloginRequired, staff_controllers.staff_logout)

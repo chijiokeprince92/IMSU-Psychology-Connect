@@ -10,10 +10,11 @@
       <button class="btn btn-secondary btn-sm dropdown" data-toggle="dropdown"><span class="fa fa-search"></span>
         search</button>
       <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="/staff/list100students">100 LEVEL</a>
-        <a class="dropdown-item" href="/staff/list200students">200 LEVEL</a>
-        <a class="dropdown-item" href="/staff/list300students">300 LEVEL</a>
-        <a class="dropdown-item" href="/staff/list400students">400 LEVEL</a>
+        <a class="dropdown-item" href="/staff/studentlist">ALL STUDENTS</a>
+        <a class="dropdown-item" href="/staff/liststudents/100">100 LEVEL</a>
+        <a class="dropdown-item" href="/staff/liststudents/200">200 LEVEL</a>
+        <a class="dropdown-item" href="/staff/liststudents/300">300 LEVEL</a>
+        <a class="dropdown-item" href="/staff/liststudents/400">400 LEVEL</a>
       </div>
     </div>
   </div>
@@ -26,17 +27,19 @@
         {{#each slow}}
           <li class="container-fluid list-group-item">
             <div class="row">
-              {{#if this.photo}}
+              {{#if this.photo.url}}
                 <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="/{{this.photo}}" alt="profile pics" class="rounded-circle profile" />
+                  <img src="{{this.photo.url}}" alt="profile pics" class="rounded-circle profile" />
                 </div>
               {{else}}
                 <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="../images/psylogo4.jpg" alt="profile pics" class="rounded-circle profile" />
+                  <img src="/images/psylogo4.jpg" alt="profile pics" class="rounded-circle profile" />
                 </div>
               {{/if}}
               <div class="col-7 col-sm-8 col-md-9 col-lg-10">
-                <p><a href="/staff/studentprofile/{{this.id}}">{{this.surname}} {{this.firstname}}</a></p>
+                <p><a href="/staff/studentprofile/{{this.id}}">{{this.surname}}
+                    {{this.firstname}}</a>{{#if this.is_courserep}} <span class="fa fa-star-o"
+                      style="font-size:20px;color:red"></span>{{/if}}</p>
                 <p>
                   <b>Level: </b>{{this.level}}<br>
                   <b><span class="fa fa-user"></span> </b>{{this.gender}}<br>

@@ -1,14 +1,16 @@
 <br>
-<h5><b>
-    LECTURER PROFILE
-  </b>
-</h5>
-<br>
+<h5><b>{{staff.surname}} {{staff.firstname}}(LECTURER)</b></h5>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-sm-8 col-md-6 col-lg-4">
-      <img src="/{{photo}}" alt="profile image" class="rounded" width="100%" />
-    </div>
+    {{#if staff.photo.url}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="{{staff.photo.url}}" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{else}}
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+        <img src="/images/psylogo4.jpg" alt="profile image" class="rounded" width="100%" />
+      </div>
+    {{/if}}
   </div>
 </div>
 <br><br><br>
@@ -30,10 +32,6 @@
         <div id="info" class="container-fluid tab-pane active" style="background-color:white">
           <br><br>
           <p><b>EMAIL: </b> {{staff.email}}</p>
-          <br>
-          <p><b>SURNAME: </b> {{staff.surname}}</p>
-          <br>
-          <p><b>FIRSTNAME: </b> {{staff.firstname}}</p>
           <br>
           <p><b>STAFF_ID: </b>{{staff.staff_id}}</p>
           <br>
@@ -71,16 +69,16 @@
       <br><br><br>
       <ul class="card">
         <li class="card-body">
+          <h6 class="card-header font-weight-bold"> <a href="#" title="message">CHAT</a> <span class="fa fa-whatsapp"
+              style="font-size:25px"></span></h6>
+          <br>
+          <p class="card-text">Click to send {{staff.surname}} a message.</p>
+        </li>
+        <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="#" title="books">BOOKS</a>
             <span class="fa fa-book" style="font-size:25px"></span></h6>
           <br>
-          <p class="crad-text">Click to see books written by this lecturer.</p>
-        </li>
-        <li class="card-body">
-          <h6 class="card-header font-weight-bold"> <a href="#" title="message">MESSAGE</a> <span class="fa fa-whatsapp"
-              style="font-size:25px"></span></h6>
-          <br>
-          <p class="card-text">Click to send this lecturer a message.</p>
+          <p class="crad-text">Click to see books written by {{staff.surname}}.</p>
         </li>
         <li class="card-body">
           <h6 class="card-header font-weight-bold"> <a href="/admin/stafflist" title="Colleagues">LECTURERS</a>
@@ -88,6 +86,18 @@
           </h6>
           <br>
           <p class="card-text">Click to see other psychology lecturers.</p>
+        </li>
+        <li class="card-body">
+          <h6 class="card-header font-weight-bold">DELETE LECTURER
+            <span class="fa fa-trash" style="font-size:25px"></span>
+          </h6>
+          <form action="/admin/deletestaff/{{staff.id}}" method="POST">
+            <input type="hidden" />
+            <button type="submit" class="btn btn-danger btn-sm"><span class="fa fa-trash"
+                style="font-size:20px"></span></button>
+          </form>
+          <p class="card-text">Deleting a lecturer will remove all his/her details and all fields associated with them
+            on this website and cannot be retrieved.</p>
         </li>
       </ul>
     </div>

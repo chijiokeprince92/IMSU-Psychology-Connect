@@ -40,16 +40,24 @@
                   <th>GRADE</th>
                 </tr>
               </thead>
-              {{#each oneresult}}
+              {{#if oneresult}}
+                {{#each oneresult.rest}}
+                  <tr>
+                    <td>{{this.coursecode}}</td>
+                    <td class="seek">{{this.coursetitle}}</td>
+                    <td>{{this.score}}</td>
+                    <td>{{this.grade}}</td>
+                  </tr>
+                {{else}}
+                  <p>RESULTS NOT AVAILABLE</p>
+                {{/each}}
                 <tr>
-                  <td>{{this.coursecode}}</td>
-                  <td class="seek">{{this.coursetitle}}</td>
-                  <td>{{this.score}}</td>
-                  <td>{{this.grade}}</td>
+                  <td><b>G.P</b></td>
+                  <td class="seek"></td>
+                  <td></td>
+                  <td>{{oneresult.cgpa}}</td>
                 </tr>
-              {{else}}
-                <p>RESULTS NOT AVAILABLE</p>
-              {{/each}}
+              {{/if}}
             </table>
             <br>
           </div>
@@ -73,16 +81,24 @@
                   <th>GRADE</th>
                 </tr>
               </thead>
-              {{#each oneresult2}}
+              {{#if oneresult2}}
+                {{#each oneresult2.rest}}
+                  <tr>
+                    <td>{{this.coursecode}}</td>
+                    <td class="seek">{{this.coursetitle}}</td>
+                    <td>{{this.score}}</td>
+                    <td>{{this.grade}}</td>
+                  </tr>
+                {{else}}
+                  <p>RESULTS NOT AVAILABLE</p>
+                {{/each}}
                 <tr>
-                  <td>{{this.coursecode}}</td>
-                  <td class="seek">{{this.coursetitle}}</td>
-                  <td>{{this.score}}</td>
-                  <td>{{this.grade}}</td>
+                  <td><b>G.P</b></td>
+                  <td class="seek"></td>
+                  <td></td>
+                  <td>{{oneresult2.cgpa}}</td>
                 </tr>
-              {{else}}
-                <p>RESULTS NOT AVAILABLE</p>
-              {{/each}}
+              {{/if}}
             </table>
             <br>
           </div>
@@ -108,16 +124,24 @@
                   <th>GRADE</th>
                 </tr>
               </thead>
-              {{#each tworesult}}
+              {{#if tworesult}}
+                {{#each tworesult.rest}}
+                  <tr>
+                    <td>{{this.coursecode}}</td>
+                    <td class="seek">{{this.coursetitle}}</td>
+                    <td>{{this.score}}</td>
+                    <td>{{this.grade}}</td>
+                  </tr>
+                {{else}}
+                  <p>RESULTS NOT AVAILABLE</p>
+                {{/each}}
                 <tr>
-                  <td>{{this.coursecode}}</td>
-                  <td class="seek">{{this.coursetitle}}</td>
-                  <td>{{this.score}}</td>
-                  <td>{{this.grade}}</td>
+                  <td><b>G.P</b></td>
+                  <td class="seek"></td>
+                  <td></td>
+                  <td>{{tworesult.cgpa}}</td>
                 </tr>
-              {{else}}
-                <p>RESULTS NOT AVAILABLE</p>
-              {{/each}}
+              {{/if}}
             </table>
             <br>
           </div>
@@ -141,16 +165,24 @@
                   <th>GRADE</th>
                 </tr>
               </thead>
-              {{#each twotworesult}}
+              {{#if tworesult2}}
+                {{#each tworesult2.rest}}
+                  <tr>
+                    <td>{{this.coursecode}}</td>
+                    <td class="seek">{{this.coursetitle}}</td>
+                    <td>{{this.score}}</td>
+                    <td>{{this.grade}}</td>
+                  </tr>
+                {{else}}
+                  <p>RESULTS NOT AVAILABLE</p>
+                {{/each}}
                 <tr>
-                  <td>{{this.coursecode}}</td>
-                  <td class="seek">{{this.coursetitle}}</td>
-                  <td>{{this.score}}</td>
-                  <td>{{this.grade}}</td>
+                  <td><b>G.P</b></td>
+                  <td class="seek"></td>
+                  <td></td>
+                  <td>{{tworesult2.cgpa}}</td>
                 </tr>
-              {{else}}
-                <p>RESULTS NOT AVAILABLE</p>
-              {{/each}}
+              {{/if}}
             </table>
             <br>
           </div>
@@ -176,16 +208,24 @@
                   <th>GRADE</th>
                 </tr>
               </thead>
-              {{#each threeresult}}
+              {{#if threeresult}}
+                {{#each threeresult.rest}}
+                  <tr>
+                    <td>{{this.coursecode}}</td>
+                    <td class="seek">{{this.coursetitle}}</td>
+                    <td>{{this.score}}</td>
+                    <td>{{this.grade}}</td>
+                  </tr>
+                {{else}}
+                  <p>RESULTS NOT AVAILABLE</p>
+                {{/each}}
                 <tr>
-                  <td>{{this.coursecode}}</td>
-                  <td class="seek">{{this.coursetitle}}</td>
-                  <td>{{this.score}}</td>
-                  <td>{{this.grade}}</td>
+                  <td><b>G.P</b></td>
+                  <td class="seek"></td>
+                  <td></td>
+                  <td>{{threeresult.cgpa}}</td>
                 </tr>
-              {{else}}
-                <p>RESULTS NOT AVAILABLE</p>
-              {{/each}}
+              {{/if}}
             </table>
             <br>
           </div>
@@ -209,16 +249,24 @@
                   <th>GRADE</th>
                 </tr>
               </thead>
-              {{#each threetworesult}}
+              {{#if threeresult2}}
+                {{#each threeresult2.rest}}
+                  <tr>
+                    <td>{{this.coursecode}}</td>
+                    <td class="seek">{{this.coursetitle}}</td>
+                    <td>{{this.score}}</td>
+                    <td>{{this.grade}}</td>
+                  </tr>
+                {{else}}
+                  <p>RESULTS NOT AVAILABLE</p>
+                {{/each}}
                 <tr>
-                  <td>{{this.coursecode}}</td>
-                  <td class="seek">{{this.coursetitle}}</td>
-                  <td>{{this.score}}</td>
-                  <td>{{this.grade}}</td>
+                  <td><b>G.P</b></td>
+                  <td class="seek"></td>
+                  <td></td>
+                  <td>{{threeresult2.cgpa}}</td>
                 </tr>
-              {{else}}
-                <p>RESULTS NOT AVAILABLE</p>
-              {{/each}}
+              {{/if}}
             </table>
             <br>
           </div>
@@ -244,16 +292,24 @@
                   <th>GRADE</th>
                 </tr>
               </thead>
-              {{#each fourresult}}
+              {{#if fourresult}}
+                {{#each fourresult.rest}}
+                  <tr>
+                    <td>{{this.coursecode}}</td>
+                    <td class="seek">{{this.coursetitle}}</td>
+                    <td>{{this.score}}</td>
+                    <td>{{this.grade}}</td>
+                  </tr>
+                {{else}}
+                  <p>RESULTS NOT AVAILABLE</p>
+                {{/each}}
                 <tr>
-                  <td>{{this.coursecode}}</td>
-                  <td class="seek">{{this.coursetitle}}</td>
-                  <td>{{this.score}}</td>
-                  <td>{{this.grade}}</td>
+                  <td><b>G.P</b></td>
+                  <td class="seek"></td>
+                  <td></td>
+                  <td>{{fourresult.cgpa}}</td>
                 </tr>
-              {{else}}
-                <p>RESULTS NOT AVAILABLE</p>
-              {{/each}}
+              {{/if}}
             </table>
             <br>
           </div>
@@ -277,16 +333,24 @@
                   <th>GRADE</th>
                 </tr>
               </thead>
-              {{#each fourtworesult}}
+              {{#if fourresult2}}
+                {{#each fourresult2.rest}}
+                  <tr>
+                    <td>{{this.coursecode}}</td>
+                    <td class="seek">{{this.coursetitle}}</td>
+                    <td>{{this.score}}</td>
+                    <td>{{this.grade}}</td>
+                  </tr>
+                {{else}}
+                  <p>RESULTS NOT AVAILABLE</p>
+                {{/each}}
                 <tr>
-                  <td>{{this.coursecode}}</td>
-                  <td class="seek">{{this.coursetitle}}</td>
-                  <td>{{this.score}}</td>
-                  <td>{{this.grade}}</td>
+                  <td><b>G.P</b></td>
+                  <td class="seek"></td>
+                  <td></td>
+                  <td>{{fourresult2.cgpa}}</td>
                 </tr>
-              {{else}}
-                <p>RESULTS NOT AVAILABLE</p>
-              {{/each}}
+              {{/if}}
             </table>
             <br>
           </div>

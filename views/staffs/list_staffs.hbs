@@ -10,13 +10,13 @@
         {{#each slow}}
           <li class="container-fluid list-group-item">
             <div class="row">
-              {{#if this.photo}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="/{{this.photo}}" alt="staff pics" class="rounded-circle profile" />
+              {{#if this.photo.url}}
+                <div class="col-4 col-sm-2">
+                  <img src="{{this.photo.url}}" alt="profile pics" class="profile" />
                 </div>
               {{else}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="../images/psylogo4.jpg" alt="staff pics" class="rounded-circle profile" />
+                <div class="col-4 col-sm-2">
+                  <img src="/images/psylogo4.jpg" alt="profile pics" class="profile" />
                 </div>
               {{/if}}
               <div class="col-7 col-sm-8 col-md-9 col-lg-10">
