@@ -185,7 +185,7 @@ exports.admin_update_post = function (req, res, next) {
     if (err) {
       return next(err)
     }
-    res.redirect(301, '/admin/hercules')
+    res.redirect(301, '/admin//profile/' + req.params.id)
   })
 }
 

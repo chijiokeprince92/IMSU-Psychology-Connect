@@ -112,6 +112,13 @@
       width: 70px;
       height: 70px;
     }
+    #navheader{
+      vertical-align:middle;
+      width:35px;
+      height:35px;
+      border-radius:50%;
+      margin-top:0px;
+    }
     #stylus {
         border-radius: 15px;
     }
@@ -130,12 +137,8 @@
     }
     footer p {
         font-size: 150%;
-        font-family: italic, serif;
     }
-    .footer {
-        width: 30px;
-        height: 30px;
-    }
+  
     table,
     th,
     td {
@@ -157,7 +160,8 @@
         position: sticky;
         top: 0;
         z-index: 5;
-        background-color: rgb(0, 81, 255);
+        margin:0;
+        padding:0;
     }
     #kilo {
         border-radius: 5px;
@@ -337,6 +341,13 @@
       width: 70px;
       height: 70px;
     }
+    #navheader{
+      vertical-align:middle;
+      width:35px;
+      height:35px;
+      border-radius:50%;
+      margin-top:0px;
+    }
     #stylus {
         border-radius: 25px;
     }
@@ -349,18 +360,13 @@
         background-color: #C4D0DB;
         background-size: cover;
         color: black;
-        margin-bottom: -20px;
         text-align: left;
         border-radius: 0px;
     }
     footer p {
         font-size: 150%;
-        font-family: italic;
     }
-    .footer {
-        width: 30px;
-        height: 30px;
-    }
+    
     table,
     th,
     td {
@@ -382,7 +388,8 @@
         position: sticky;
         top: 0;
         z-index: 5;
-        background-color: rgb(0, 81, 255);
+        margin:0;
+        padding:0;
     }
     #kilo {
         border-radius: 5px;
@@ -563,6 +570,13 @@
         width: 70px;
         height: 70px;
     }
+    #navheader{
+      vertical-align:middle;
+      width:35px;
+      height:35px;
+      border-radius:50%;
+      margin-top:0px;
+    }
     #stylus {
         border-radius: 25px;
     }
@@ -574,14 +588,13 @@
         background-color: #C4D0DB;
         background-size: cover;
         color: black;
-        margin-bottom: -20px;
         text-align: left;
         border-radius: 0px;
     }
     footer p {
         font-size: 150%;
-        font-family: italic;
     }
+   
     table,
     th,
     td {
@@ -603,7 +616,8 @@
         position: sticky;
         top: 0;
         z-index: 5;
-        background-color: rgb(0, 81, 255);
+        margin:0;
+        padding:0;
     }
     #kilo {
         border-radius: 5px;
@@ -790,6 +804,13 @@
     .seek {
         display: none;
     }
+    #navheader{
+      vertical-align:middle;
+      width:35px;
+      height:35px;
+      border-radius:50%;
+      margin-top:-10px;
+    }
     #stylus {
         border-radius: 25px;
     }
@@ -799,7 +820,6 @@
     }
     footer {
         background-color: #C4D0DB;
-        margin-bottom: -20px;
         background-size: cover;
         color: black;
         text-align: left;
@@ -807,8 +827,8 @@
     }
     footer p {
         font-size: 140%;
-        font-family: italic;
     }
+   
     table,
     th,
     td {
@@ -830,7 +850,6 @@
         position: sticky;
         top: 0;
         z-index: 5;
-        background-color: rgb(0, 81, 255);
         padding: 0;
         margin: 0;
     }

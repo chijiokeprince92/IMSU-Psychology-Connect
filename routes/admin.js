@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const uploaded = require('../upload')
 const newsproject = require('../news_project')
 const projectmulter = require('../project_multer')
 

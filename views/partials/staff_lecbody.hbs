@@ -10,7 +10,7 @@
     </div>
   </header>
 </div>
-<div class="stay">
+<div class="stay bg-primary">
   <ul class="nav nav-pills nav-justified">
     <li class="nav-item" title="Staff Home">
       <a href="/staff/staffhome" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-home"
@@ -21,7 +21,7 @@
         </span> <span class="badge badge-danger badge-pill spany">{{news}}</span></a></li>
     <li class="nav-item" title="Your Profile">
       <a href="/staff/profile/{{staff_session.id}}" class="btn btn-primary btn-lg btn-block mum"> <img
-          src="{{staff_session.photo}}" style="vertical-align:middle;width:40px;height:40px;border-radius:50%" /></a>
+          src="{{staff_session.photo}}" id="navheader" /></a>
     </li>
     <li class="nav-item" title="Messages">
       <a href="/staff/getconversations/{{staff_session.id}}" class="btn btn-primary btn-lg btn-block mum"><span

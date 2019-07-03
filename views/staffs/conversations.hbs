@@ -13,16 +13,16 @@
         <li class="container-fluid list-group-item">
           <div class="row">
             {{#each this.details}}
-              {{#if this.photo}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="/{{this.photo}}" alt="profile pics" class="rounded-circle profile" />
+              {{#if this.photo.url}}
+                <div class="col-4 col-sm-2">
+                  <img src="{{this.photo.url}}" alt="profile pics" class="rounded-circle profile" />
                 </div>
               {{else}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <img src="../images/psylogo4.jpg" alt="profile pics" class="rounded-circle profile" />
+                <div class="col-4 col-sm-2">
+                  <img src="/images/psylogo4.jpg" alt="profile pics" class="rounded-circle profile" />
                 </div>
               {{/if}}
-              <div class="col-7 col-sm-8 col-md-9 col-lg-10">
+              <div class="col-8 col-sm-10">
                 <p><a href="/staff/getmessages/{{this.id}}">{{this.name}}</a>{{#if ../this.message.read}}<span
                       class="badge badge-danger badge-pill spany float-right">X</span>
                   {{else}}<span class="badge badge-success badge-pill spany float-right">new</span>{{/if}}</p>

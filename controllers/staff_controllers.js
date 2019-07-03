@@ -244,7 +244,7 @@ exports.get_schedule = function (req, res, next) {
     return chosen
   }
   // find and render the timetables for a lecturer
-  Courses.find({ 'lecturer': req.session.staff }, function (err, success) {
+  Courses.find({ 'lecturer': req.session.staff.id }, function (err, success) {
     if (err) {
       return next(err)
     }
@@ -750,15 +750,15 @@ exports.get_conversations = function (req, res, next) {
     })
   }
 
-  Conversation.find({ $or: [{ 'participant1': req.session.staff }, { 'participant2': req.session.staff }] }).sort([['date', 'descending']]).exec((err, conversations) => {
+  Conversation.find({ $or: [{ 'participant1': req.session.staff.id }, { 'participant2': req.session.staff.id }] }).sort([['date', 'descending']]).exec((err, conversations) => {
     if (err) {
       return next(err)
     }
     conversations.forEach(function (converse) {
-      if (converse.participant1 !== req.session.staff) {
+      if (converse.participant1 !== req.session.staff.id) {
         let chatty = converse.participant1
         massage(converse.id, chatty)
-      } else if (converse.participant2 !== req.session.staff) {
+      } else if (converse.participant2 !== req.session.staff.id) {
         let chatty = converse.participant2
         massage(converse.id, chatty)
       }
@@ -802,8 +802,8 @@ exports.get_messages = function (req, res, next) {
 
   Conversation.findOne({
     $or: [
-      { 'participant1': req.session.staff, 'participant2': req.params.recipient },
-      { 'participant1': req.params.recipient, 'participant2': req.session.staff }
+      { 'participant1': req.session.staff.id, 'participant2': req.params.recipient },
+      { 'participant1': req.params.recipient, 'participant2': req.session.staff.id }
     ]
   }).select('_id').exec(function (err, conversation) {
     if (err) {

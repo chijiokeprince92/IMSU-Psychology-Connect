@@ -1071,10 +1071,12 @@ exports.get_project_category = function (req, res, next) {
 }
 
 // -------------------------------------------------------------------------------------------------
-// functions for handling everything messages
 
+// functions for handling everything messages
 exports.get_conversations = function (req, res, next) {
+  // empty array that holds the final message
   let messages = []
+  // function for getting the names of the participants
   let naming = function (norm) {
     let result = []
     StudentSigns.findOne({ '_id': norm }).exec(function (err, stud) {

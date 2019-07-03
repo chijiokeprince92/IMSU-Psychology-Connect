@@ -7,10 +7,8 @@ require('dotenv').config()
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
-const formidable = require('formidable')
 const flash = require('connect-flash')
 
-const cloudinary = require('cloudinary')
 const expressHbs = require('express-handlebars')
 const helpers = require('handlebars-helpers')()
 const logger = require('morgan')
@@ -21,7 +19,6 @@ const adminRouter = require('./routes/admin')
 const studentRouter = require('./routes/student')
 
 const compression = require('compression')
-const helmet = require('helmet')
 
 const app = express()
 const server = require('http').createServer(app)

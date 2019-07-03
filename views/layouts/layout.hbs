@@ -2,26 +2,26 @@
 <html>
 
 <head>
-    {{>head}}
+  {{>head}}
 </head>
 
 <body class="body">
-    {{#if allowed}}
-        {{>student_lecbody}}
-    {{else if admin}}
-        {{>admin_lecbody}}
-    {{else if staff_session}}
-        {{>staff_lecbody}}
-    {{else}}
-        {{>view_body}}
-    {{/if}}
-    <br>
-    <div class="laptop">
-        {{{body}}}
-    </div>
+  {{#if allowed}}
+    {{>student_lecbody}}
+  {{else if admin}}
+    {{>admin_lecbody}}
+  {{else if staff_session}}
+    {{>staff_lecbody}}
+  {{else}}
+    {{>view_body}}
+  {{/if}}
+  <br>
+  <div class="laptop">
+    {{{body}}}
     <footer>
-        {{>footer}}
+      {{>footer}}
     </footer>
+  </div>
 </body>
 
 </html>
