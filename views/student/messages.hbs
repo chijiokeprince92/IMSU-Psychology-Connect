@@ -24,7 +24,7 @@
               <li class="card" style=" background-color:rgb(245, 219, 223)">
                 <p style="color:purple"><b>{{../replyer.name}}</b></p>
                 <p>{{this.body}}</p>
-                <small><i class="float-right">{{this.date}}</i></small>
+                <small><i class="float-right">{{year this.date}}</i></small>
               </li>
               <br>
             </div>
@@ -36,7 +36,7 @@
         <li class="card" style="background-color:rgb(213, 248, 213)">
           <p style="color:red"><b>You</b></p>
           <p>{{this.body}}</p>
-          <small><i class="float-right">{{this.date}}</i></small>
+          <small><i class="float-right">{{date this.date}}</i></small>
         </li>
         <br>
       </div>

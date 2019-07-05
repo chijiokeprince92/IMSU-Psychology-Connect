@@ -38,8 +38,9 @@
                 </div>
               {{/if}}
               <div class="col-8 col-sm-10">
-                <p><a href="/studentstudentprofile/{{this.id}}">{{this.surname}}
-                    {{this.firstname}} </a>{{#if this.is_courserep}} <span class="fa fa-star-o"
+                <p>{{#isEqual this.id}}{{this.surname}} {{this.firstname}}
+        {{else}}<a href="/studentstudentprofile/{{this.id}}">{{this.surname}}
+            {{this.firstname}} </a>{{/isEqual}}{{#if this.is_courserep}} <span class="fa fa-star-o"
                       style="font-size:20px;color:red"></span>{{/if}}
                 </p>
                 <p>

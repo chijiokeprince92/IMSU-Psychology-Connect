@@ -262,13 +262,6 @@ exports.get_schedule = function (req, res, next) {
         thursday: timer(success, time, 'thursday'),
         friday: timer(success, time, 'friday'),
         helpers: {
-          isEqual: function (a, b, opts) {
-            if (a == b) {
-              return opts.fn(this)
-            } else {
-              return opts.inverse(this)
-            }
-          },
           datey: function (a) {
             if (a == 8 || a == 10) {
               return `${a}:00AM`

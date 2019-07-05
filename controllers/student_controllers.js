@@ -383,7 +383,16 @@ exports.list_psychology_students = (req, res, next) => {
       allowed: req.session.student,
       title: 'ALL PSYCHOLOGY STUDENTS',
       slow: students,
-      head: 'ALL PSYCHOLOGY STUDENTS'
+      head: 'ALL PSYCHOLOGY STUDENTS',
+      helpers: {
+        isEqual: function (a, opts) {
+          if (a == req.session.student.id) {
+            return opts.fn(this)
+          } else {
+            return opts.inverse(this)
+          }
+        }
+      }
     })
   })
 }
@@ -399,7 +408,16 @@ exports.list_coursemates = (req, res, next) => {
         allowed: req.session.student,
         title: `${req.params.level} LEVEL STUDENTS`,
         slow: students,
-        head: `${req.params.level} LEVEL PSYCHOLOGY STUDENTS`
+        head: `${req.params.level} LEVEL PSYCHOLOGY STUDENTS`,
+        helpers: {
+          isEqual: function (a, opts) {
+            if (a == req.session.student.id) {
+              return opts.fn(this)
+            } else {
+              return opts.inverse(this)
+            }
+          }
+        }
       })
     }
   )
@@ -1073,7 +1091,7 @@ exports.get_project_category = function (req, res, next) {
 // -------------------------------------------------------------------------------------------------
 
 // functions for handling everything messages
-exports.get_conversations = function (req, res, next) {
+exports.get_conversation = function (req, res, next) {
   // empty array that holds the final message
   let messages = []
   // function for getting the names of the participants
@@ -1319,4 +1337,85 @@ exports.logout = (req, res) => {
     req.session.destroy()
   }
   res.redirect('/')
+}
+
+// working on get conversation
+exports.get_conversations = async function (req, res, next) {
+  // empty array that holds the final message
+  let messages = []
+
+  await Conversation.find({ $or: [{ 'participant1': req.session.student.id }, { 'participant2': req.session.student.id }] }).sort([['date', 'descending']]).exec((err, conversations) => {
+    if (err) {
+      return next(err)
+    }
+    conversations.forEach(function (converse) {
+      if (converse.participant1 !== req.session.student.id) {
+        let chatty = converse.participant1
+        massage(converse.id, chatty)
+      } else if (converse.participant2 !== req.session.student.id) {
+        let chatty = converse.participant2
+        massage(converse.id, chatty)
+      }
+    })
+    res.render('student/conversations', {
+      title: 'Messages',
+      layout: 'less_layout',
+      allowed: req.session.student,
+      messagess: function () {
+        return messages.sort(function (a, b) {
+          return a.message < b.message
+        })
+      },
+      helpers: {
+        truncate: function (a, b) {
+          const value = a.toString()
+          const limit = b
+          var text = ''
+          if (value.length > 0) {
+            text = text + value.substring(0, limit) + '...'
+          }
+          return text
+        }
+      }
+    })
+  })
+
+  // ----------------------------------------------------------------------------
+  let massage = function (iden, chater) {
+    Messages.find({ 'conversationId': iden }).sort([['date', 'descending']]).limit(1).exec(function (err, message) {
+      if (err) {
+        return next(err)
+      }
+      messages.push({ identity: iden, message: hole(message), details: naming(chater) })
+    })
+  }
+
+  // function for getting the names of the participants
+  let naming = function (norm) {
+    let result = []
+    StudentSigns.findOne({ '_id': norm }).exec(function (err, stud) {
+      if (err) {
+        return next(err)
+      }
+      if (stud) {
+        result.push({ name: stud.surname + ' ' + stud.firstname, id: stud.id, photo: stud.photo })
+      }
+      Staff.findOne({ '_id': norm }).exec(function (err, staff) {
+        if (err) {
+          return next(err)
+        }
+        if (staff) {
+          result.push({ name: staff.surname + ' ' + staff.firstname, id: staff.id, photo: staff.photo })
+        }
+      })
+    })
+    return result
+  }
+
+  // ------------------------------------------------------------------
+  let hole = function (mass) {
+    for (let i = 0; i < mass.length; i++) {
+      return mass[i]
+    }
+  }
 }
