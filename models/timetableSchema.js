@@ -19,6 +19,14 @@ var timetableSchema = new Schema({
     type: String,
     required: true
 
+  },
+  created: {
+    type: Date,
+    default: Date()
+  },
+  updated: {
+    type: Date,
+    default: Date()
   }
 })
 

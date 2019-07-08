@@ -6,8 +6,8 @@
 <br><br>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
-      <img src="/{{newspaper.picture}}" alt="news image" class="rounded news" />
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+      <img src="{{newspaper.picture.url}}" alt="news image" class="rounded" width="100%" />
       <br><br><br><br>
     </div>
     <div class="col-12">
@@ -42,45 +42,48 @@
     <ul id="messages">
       <div class="container-fluid">
         <div class="row">
-          {{#each comments}}
-            <div class="col-12 col-sm-9 col-md-6 col-lg-5">
+          {{#each commune}}
+            {{#if this.photo.url}}
+              <div class="col-2 col-sm-1">
+                <img src="{{this.photo.url}}" class="rounded-circle" width="30px" height="30px" />
+              </div>
+            {{else}}
+              <div class="col-2 col-sm-1">
+                <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />
+              </div>
+            {{/if}}
+            <div class="col-10 col-sm-11">
               <li class="card">
-                <div class="col-12">
-                  <p><b>{{this.username}}</b>
-                  </p>
-                </div>
-                <div class="col-12">
-                  <p>{{this.comment}}</p>
-                </div>
+                <p><b>{{this.user}}</b></p>
+                <p>{{this.comment.comment}}</p>
               </li>
               <div class="col-12">
                 <div class="container-fluid">
                   <div class="row no-gutters">
                     <div class="col-4">
-                      <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-up">
-                          {{this.like}}</span>
+                      <button class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-up">
+                          {{this.comment.like}}</span>
                       </button>
                     </div>
                     <div class="col-4">
-                      <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-down">
-                          {{this.dislike}}</span>
+                      <button class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-down">
+                          {{this.comment.dislike}}</span>
                       </button>
                     </div>
                     <div class="col-4">
-                      <button id="cousin{{this.id}}" class="btn btn-light btn-sm btn-block" style="display:inline"><span
-                          class="fa fa-reply"></span></button>
-                      <button id="close{{this.id}}" class="btn btn-danger btn-sm btn-block" style="display:none"><span
-                          class="fa fa-close"></span></button>
+                      <button class="btn btn-light btn-sm btn-block" style="display:inline"><span
+                          class="fa fa-reply"></span>
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-              <ul>
+              <ul id="replied{{this.id}}">
                 <div class="container-fluid">
                   <div class="row">
                     {{#each reply}}
-                      <div class="col-3"></div>
-                      <li class="col-9">
+                      <div class="col-2"></div>
+                      <li class="col-10">
                         <div class="card">
                           <p><b>{{this.user}}: @{{this.replyee}}
                             </b>
@@ -96,7 +99,6 @@
               </ul>
               <br><br>
             </div>
-            <div class="col-md-6 col-lg-7"></div>
           {{/each}}
         </div>
       </div>
@@ -106,14 +108,26 @@
     <br>
     <h6>PEOPLE WHO LIKE THIS</h6>
     {{#each decipher}}
-      <p><b>{{@index}}. </b> {{this.firstname}}</p>
+      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle" width="30px"
+            height="30px" />
+        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />{{/if}}
+        {{this.surname}}
+        {{this.firstname}}
+      </p>
+      <br><br>
     {{/each}}
   </div>
   <div id="dislikes" class="container-fluid tab-pane fade" style="background-color:white">
     <br>
     <h6>PEOPLE WHO DISLIKE THIS</h6>
     {{#each desliker}}
-      <p><b>{{@index}}. </b> {{this.firstname}}</p>
+      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle" width="30px"
+            height="30px" />
+        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />{{/if}}
+        {{this.surname}}
+        {{this.firstname}}
+      </p>
+      <br><br>
     {{/each}}
   </div>
 </div>

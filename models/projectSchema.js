@@ -4,8 +4,8 @@ var Schema = mongoose.Schema
 // create a schema
 var projectSchema = new Schema({
   project: {
-    type: String,
-    required: true
+    url: String,
+    public_id: String
   },
   topic: {
     type: String,
@@ -14,13 +14,16 @@ var projectSchema = new Schema({
   description: {
     type: String,
     required: true
-
   },
   category: {
     type: String,
     required: true
   },
   created: {
+    type: Date,
+    default: Date()
+  },
+  updated: {
     type: Date,
     default: Date()
   }

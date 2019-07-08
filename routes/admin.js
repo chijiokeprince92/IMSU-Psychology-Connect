@@ -1,12 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const newsproject = require('../news_project')
-const projectmulter = require('../project_multer')
-
 // middlewares
 const authMiddleware = require('../controllers/middleware/auth.middleware')
 
 const admin_controllers = require('../controllers/admin_controllers')
+
+const cloudinary = require('cloudinary')
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+})
 
 // -------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------
@@ -94,7 +99,7 @@ router.post('/deleteresult/:stud/:id', admin_controllers.admin_session_force, ad
 router.get('/getprojectform', admin_controllers.admin_session_force, admin_controllers.get_upload_project)
 
 // POST form to upload project topic
-router.post('/getprojectform', admin_controllers.admin_session_force, projectmulter, admin_controllers.post_upload_project)
+router.post('/getprojectform', admin_controllers.admin_session_force, admin_controllers.post_upload_project)
 
 // GET all project topics
 router.get('/getprojecttopicss', admin_controllers.admin_session_force, admin_controllers.get_project_topics)
@@ -122,13 +127,11 @@ router.post('/savetimetable', admin_controllers.admin_session_force, admin_contr
 // GET and POST routes for handling NEWS
 router.get('/getnewsform', admin_controllers.admin_session_force, admin_controllers.get_upload_news)
 
-router.post('/getnewsform', admin_controllers.admin_session_force, newsproject, admin_controllers.post_upload_news)
+router.post('/getnewsform', admin_controllers.admin_session_force, admin_controllers.post_upload_news)
 
 router.get('/getlastnews', admin_controllers.admin_session_force, admin_controllers.get_last_news)
 
 router.get('/getfullnews/:id', admin_controllers.admin_session_force, admin_controllers.get_full_news)
-
-router.post('/comments/:id', admin_controllers.admin_session_force, admin_controllers.post_comment_news)
 
 router.get('/editnews/:id', admin_controllers.admin_session_force, admin_controllers.news_edit_get)
 

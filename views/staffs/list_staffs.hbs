@@ -20,7 +20,11 @@
                 </div>
               {{/if}}
               <div class="col-7 col-sm-8 col-md-9 col-lg-10">
-                <p><a href="/staff/colleague/{{this.id}}">{{this.name}}</a></p>
+                {{#isEqual this.id}}
+                  <p>{{this.name}}</p>
+        {{else}}
+          <p><a href="/staff/colleague/{{this.id}}">{{this.name}}</a></p>
+                {{/isEqual}}
                 <p>
                   <b><span class="fa fa-user"></span> </b>{{this.gender}}<br>
                   <b><span class="fa fa-comment-o"></span> </b>{{this.bio}}

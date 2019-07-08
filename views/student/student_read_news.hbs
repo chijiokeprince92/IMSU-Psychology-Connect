@@ -18,16 +18,18 @@
               </h5>
             </div>
             <div class="card-body col-12">
-              <img src="/{{this.picture}}" alt="news image" class="rounded news" />
+              <img src="{{this.picture.url}}" alt="news image" class="rounded news" />
               <br><br>
               <p>{{truncate this.passage 130}}</p>
+              <small class="float-right"> {{datey this.created}}</small>
             </div>
             <div class="col-12 card-footer">
-              <button class="btn btn-light"><span class="fa fa-commenting-o" style="color:lightgreen"> </span>
+              <button class="btn btn-light"><span class="fa fa-comments-o" style="font-size:15px;color:lightgreen">
+                </span>
                 {{length this.comments}}</button>
               {{#inArray this.likey ../allowed.id}}
-                <button class="btn btn-light fa fa-thumbs-o-up" style="color:blue"></button>
-                <span id="spn{{this.id}}">{{length this.likey}}</span>
+                <button class="btn btn-light fa fa-thumbs-o-up" style="font-size:15px;color:rgb(18, 191, 248)"></button>
+                <span id=" spn{{this.id}}">{{length this.likey}}</span>
       {{else}}
         <form id="newslike{{this.id}}" action="/newslike/{{this.id}}" method="POST" style="display:inline">
           <input type="text" style="display:none" id="newsId{{this.id}}" value="{{this.id}}" />
@@ -38,7 +40,7 @@
         <span id="spn{{this.id}}">{{length this.likey}}</span>
               {{/inArray}}
               {{#inArray this.dislikey ../allowed.id}}
-                <button class="btn btn-light fa fa-thumbs-o-down" style="color:red"></button>
+                <button class="btn btn-light fa fa-thumbs-o-down" style="font-size:15px;color:red"></button>
                 <span id="dis{{this.id}}">{{length this.dislikey}}</span>
       {{else}}
         <form id="newsdislike{{this.id}}" action="/newsdislike/{{this.id}}" method="POST" style="display:inline">

@@ -25,6 +25,14 @@ var adminSchema = new Schema({
     enum: [process.env.admin_key, process.env.admin_key2],
     required: true
   },
+  created: {
+    type: Date,
+    default: Date()
+  },
+  updated: {
+    type: Date,
+    dafault: Date()
+  },
   password: {
     type: String,
     required: true

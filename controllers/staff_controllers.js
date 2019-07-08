@@ -23,7 +23,28 @@ exports.staffloginRequired = function (req, res, next) {
   }
 }
 // ----------------------------------------------------------------------------------
-
+// function for formatting date
+var calender = function (user) {
+  let day = ''
+  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  let month = ''
+  if (user.getDay() === 1) {
+    day = user.getDay() + 'st'
+  }
+  if (user.getDay() === 2) {
+    day = user.getDay() + 'nd'
+  }
+  if (user.getDay() === 3) {
+    day = user.getDay() + 'rd'
+  }
+  if (user.getDay() > 3) {
+    day = user.getDay() + 'th'
+  }
+  for (let i = 0; i < months.length; i++) {
+    month = months[user.getMonth() - 1]
+  }
+  return day + ' - ' + month + ' - ' + user.getFullYear()
+}
 // -------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------
 
@@ -106,7 +127,13 @@ exports.staff_profiler = function (req, res, next) {
       layout: 'less_layout',
       staff_session: req.session.staff,
       staff: profile.staff,
-      coursess: profile.course
+      coursess: profile.course,
+      message: req.flash('message'),
+      helpers: {
+        datey: function (data) {
+          return calender(data)
+        }
+      }
     })
   })
 }
@@ -147,32 +174,34 @@ exports.staff_update_post = (req, res, next) => {
 exports.staff_update_pics = (req, res, next) => {
   var form = new formidable.IncomingForm()
   form.parse(req)
-  form.on('fileBegin', function (name, file) {
-    // eslint-disable-next-line no-path-concat
-    file.path = __dirname + '/formidable/' + file.name
-    console.log('The name of the selected file is:', file.path)
-  })
+
   form.on('file', function (name, file) {
-    cloudinary.v2.uploader.upload(file.path, function (err, result) {
-      if (err) {
-        return next(err)
-      }
-      console.log(result)
-      // add cloudinary url for the image to the topic object under image property
-      var qualified = {
-        photo: {
-          url: result.secure_url,
-          public_id: result.public_id
+    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+      console.log('The file is  not a picture')
+      req.flash('message', 'The file you uploaded was not a picture')
+      res.redirect(301, '/staff/profile/' + req.session.staff.id)
+    } else {
+      console.log('The file is a picture')
+      cloudinary.v2.uploader.upload(file.path, function (err, result) {
+        if (err) {
+          return next(err)
         }
-      }
-      Staff.findByIdAndUpdate(req.session.staff.id, qualified, {},
-        (err, staffupdate) => {
-          if (err) {
-            return next(err)
+        // add cloudinary url for the image to the topic object under image property
+        var qualified = {
+          photo: {
+            url: result.secure_url,
+            public_id: result.public_id
           }
-          res.redirect(staffupdate.url)
-        })
-    })
+        }
+        Staff.findByIdAndUpdate(req.session.staff.id, qualified, {},
+          (err, staffupdate) => {
+            if (err) {
+              return next(err)
+            }
+            res.redirect(staffupdate.url)
+          })
+      })
+    }
   })
 }
 
@@ -190,7 +219,16 @@ exports.list_staffs = function (req, res, next) {
       res.render('staffs/list_staffs', {
         staff_session: req.session.staff,
         title: 'Psychology Staffs',
-        slow: staff
+        slow: staff,
+        helpers: {
+          isEqual: function (a, opts) {
+            if (a == req.session.staff.id) {
+              return opts.fn(this)
+            } else {
+              return opts.inverse(this)
+            }
+          }
+        }
       })
     })
 }
@@ -215,7 +253,12 @@ exports.view_staff_profile = function (req, res, next) {
       title: 'Staff Profile',
       layout: 'less_layout',
       staff: staff.staffy,
-      coursess: staff.coursey
+      coursess: staff.coursey,
+      helpers: {
+        datey: function (data) {
+          return calender(data)
+        }
+      }
     })
   })
 }
@@ -292,7 +335,12 @@ exports.view_student_profile = function (req, res, next) {
             title: 'Student Profile',
             layout: 'less_layout',
             students: student,
-            registered_courses: mycourses
+            registered_courses: mycourses,
+            helpers: {
+              datey: function (user) {
+                return calender(user)
+              }
+            }
           })
         })
     }
@@ -550,9 +598,27 @@ exports.view_courses = function (req, res, next) {
     })
 }
 
+exports.add_courseoutline = function (req, res, next) {
+  var course = {
+    $addToSet: {
+      courseoutliner: {
+        outline: req.body.courseoutline,
+        changed_by: req.session.staff.id
+      }
+    }
+  }
+  Courses.findByIdAndUpdate(req.params.id, course, {}, function (err, courseupdate) {
+    if (err) {
+      return next(err)
+    }
+    res.redirect(courseupdate.lect)
+  })
+}
+
 exports.edit_courseoutline = function (req, res, next) {
   var course = {
-    courseoutline: req.body.courseoutline
+    outline: req.body.courseoutline,
+    changed_by: req.session.staff.id
   }
   Courses.findByIdAndUpdate(req.params.id, course, {}, function (err, courseupdate) {
     if (err) {
@@ -607,35 +673,41 @@ exports.get_full_news = function (req, res, next) {
         title: 'Psychology Full News',
         newspaper: news,
         comments: news.comments,
-        decipher: function () {
-          var liked = []
+        commune: function () {
           var answer = []
-          var stud = students
-          var lik = news.likey
-          lik.forEach(element => {
-            liked.push(element)
+          students.filter(stud => {
+            for (var i = 0; i < news.comments.length; i++) {
+              if (news.comments[i].userid === stud.id) {
+                let commenter = {
+                  userid: stud.id,
+                  user: `${stud.surname} ${stud.firstname}`,
+                  photo: stud.photo,
+                  comment: news.comments[i]
+
+                }
+                answer.push(commenter)
+              }
+            }
           })
-          stud.filter(hero => {
-            for (var i = 0; i < liked.length; i++) {
-              if (liked[i] == hero.id) {
-                answer.push(hero)
+          return answer
+        },
+        decipher: function () {
+          var answer = []
+          students.filter(stud => {
+            for (var i = 0; i < news.likey.length; i++) {
+              if (news.likey[i] === stud.id) {
+                answer.push(stud)
               }
             }
           })
           return answer
         },
         desliker: function () {
-          var liked = []
           var answer = []
-          var stud = students
-          var lik = news.dislikey
-          lik.forEach(element => {
-            liked.push(element)
-          })
-          stud.filter(hero => {
-            for (var i = 0; i < liked.length; i++) {
-              if (liked[i] == hero.id) {
-                answer.push(hero)
+          students.filter(stud => {
+            for (var i = 0; i < news.dislikey.length; i++) {
+              if (news.dislikey[i] === stud.id) {
+                answer.push(stud)
               }
             }
           })
@@ -644,30 +716,6 @@ exports.get_full_news = function (req, res, next) {
       })
     })
   })
-}
-
-// Post comments
-exports.post_comment_news = function (req, res, next) {
-  Staff.findById(req.session.staff)
-    .exec(function (err, namey) {
-      var commerce = {
-        user: 'Staff: ' + namey.firstname,
-        comment: req.body.comment
-      }
-      if (err) {
-        return next(err)
-      }
-      News.findByIdAndUpdate(req.params.id, {
-        $push: {
-          comments: commerce
-        }
-      }, function (err, commet) {
-        if (err) {
-          return next(err)
-        }
-        res.redirect('/staffgetfullnews/' + commet.id)
-      })
-    })
 }
 
 // GET Staff PROJECT Topics

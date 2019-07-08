@@ -26,26 +26,29 @@ exports.upload_files = function (req, res) {
 exports.post_upload_files = function (req, res, next) {
   var form = new formidable.IncomingForm()
   form.parse(req)
-  form.on('fileBegin', function (name, file) {
-    // eslint-disable-next-line no-path-concat
-    file.path = __dirname + '/formidable/' + file.name
-    console.log('The name of the selected file is:', file.path)
-  })
   form.on('file', function (name, file) {
     console.log('Uploaded', name, file.path)
-    cloudinary.v2.uploader.upload(file.path, function (err, result) {
-      if (err) {
-        return next(err)
-      }
-      // add cloudinary url for the image to the topic object under image property
+    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+      console.log('This file is not a picture')
+      res.redirect(301, '/testpicture')
+    } else {
+      console.log('This is a picture')
+      cloudinary.v2.uploader.upload(file.path, function (err, result) {
+        if (err) {
+          return next(err)
+        }
+        // add cloudinary url for the image to the topic object under image property
 
-      // add image's public_id to topic object
-      console.log(result)
+        // add image's public_id to topic object
+        console.log(result)
 
-      res.redirect('/testpicture')
-    })
+        res.redirect('/testpicture')
+      })
+    }
   })
-  /**
+}
+
+/**
    * { public_id: 'pkupmspiysvy0nx7fska',
   version: 1561113604,
   signature: 'd89dcbad5869e68456af9f7e6cbb410d362b2842',
@@ -63,11 +66,9 @@ exports.post_upload_files = function (req, res, next) {
   secure_url: 'https://res.cloudinary.com/elijah/image/upload/v1561113604/pkupmspiysvy0nx7fska.png',
   original_filename: 'Screenshot_2018-01-09-07-34-52' }
    */
-}
 
 // correct
 exports.post_upload_file = function (req, res, next) {
-  var fullPath = './files/' + req.file.filename
   cloudinary.v2.uploader.upload('https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-4/recycle.jpg', function (err, result) {
     if (err) {
       console.log('image error')

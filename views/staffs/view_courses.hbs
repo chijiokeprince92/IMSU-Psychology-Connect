@@ -93,40 +93,58 @@
         <div id="courseoutline" class="container-fluid tab-pane fade" style="background-color:white">
           <br><br>
           <h6><b>
-              COURSE OUTLINE
+              COURSE OUTLINE<button id="outlinebtn" title="register" class="btn btn-primary">Add new</button>
             </b>
           </h6>
           <br>
-          {{#if course.courseoutline}}
-            <p>{{course.courseoutline}}</p>
+          {{#if course.courseoutliner}}
+            {{#each course.courseoutliner}}
+              <p>{{@index}} {{this.outline}}
+                <button id="outlinebtn{{this.id}}" class="btn btn-success" style="border-radius: 50%"><span
+                    class="fa fa-edit"></span></button>
+                <form id="outlineform{{this.id}}" style="display:none"
+                  action="/staff/editcourseoutline/{{../course.id}}" method="POST">
+                  <div class="form-group">
+                    <textarea type="text" class="form-control" name="courseoutline">{{this.outline}}</textarea>
+                  </div>
+                  <button type="submit" title="submit" class="btn btn-success" style="border-radius: 50%"><span
+                      class="fa fa-edit"></span></button>
+                </form>
+                <form style="display:none" action="/staff/deletecourseoutline/{{../course.id}}" method="POST">
+                  <input type="hidden" />
+                  <button type="submit" title="submit" class="btn btn-danger" style="border-radius: 50%">X</button>
+                </form>
+              </p>
+              <script>
+                $(document).ready(function () {
+                  $('#outlinebtn{{this.id}}').click(function () {
+                    $('#outlineform{{this.id}}').toggle("slow");
+                    $('#outlinebtn{{this.id}}').toggle("slow");
+                    $('#outlinecancel{{this.id}}').toggle("slow");
+                  });
+                  $('#outlinecancel{{this.id}}').click(function () {
+                    $('#outlineform{{this.id}}').toggle("slow");
+                    $('#outlinebtn{{this.id}}').toggle("slow");
+                    $('#outlinecancel{{this.id}}').toggle("slow");
+                  });
+                });
+              </script>
+            {{/each}}
           {{else}}
             <p>COURSE_OUTLINE NOT AVAILABLE</p>
           {{/if}}
-          <form id="outlineform" style="display:none" action="/staff/editcourseoutline/{{course.id}}" method="POST">
+          <form id="outlineform" style="display:none" action="/staff/addcourseoutline/{{course.id}}" method="POST">
             <div class="form-group">
               <textarea type="text" class="form-control" name="courseoutline"
-                placeholder="Type a message...">{{course.courseoutline}}</textarea>
+                placeholder="Type a message..."></textarea>
             </div>
-            <button type="submit" title="submit" class="btn btn-success" style="border-radius: 50%"><span
-                class="fa fa-upload"></span></button>
+            <button type="submit" title="submit" class="btn btn-primary">save</button>
           </form>
-          <span class="float-right"><button id="outlinecancel" title="cancel" class="btn btn-danger"
-              style="display:none;border-radius: 50%"><span class="fa fa-times"></span></button></span>
-          <button id="outlinebtn" title="register" class="btn btn-success" style="border-radius: 50%"><span
-              class="fa fa-edit"></span></button>
           <script>
             $(document).ready(function () {
               $('#outlinebtn').click(function () {
                 $('#outlineform').toggle("slow");
                 $('#outlinebtn').toggle("slow");
-                $('#outlinecancel').toggle("slow");
-
-              });
-              $('#outlinecancel').click(function () {
-                $('#outlineform').toggle("slow");
-                $('#outlinebtn').toggle("slow");
-                $('#outlinecancel').toggle("slow");
-
               });
             });
           </script>

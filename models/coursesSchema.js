@@ -37,8 +37,17 @@ var coursesSchema = new Schema({
     ref: 'StudentSigns'
   }],
 
-  courseoutline: {
-    type: String
+  courseoutliner: [{
+    outline: String,
+    changed_by: String
+  }],
+  created: {
+    type: Date,
+    default: Date()
+  },
+  updated: {
+    type: Date,
+    default: Date()
   }
 })
 

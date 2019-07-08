@@ -1,7 +1,29 @@
 const News = require('../models/newsSchema')
-var StudentSigns = require('../models/studentSchema')
-const Test = require('../models/testSchema')
+const StudentSigns = require('../models/studentSchema')
 const async = require('async')
+
+// function for formatting date
+var calender = function (user) {
+  let day = ''
+  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  let month = ''
+  if (user.getDay() === 1) {
+    day = user.getDay() + 'st'
+  }
+  if (user.getDay() === 2) {
+    day = user.getDay() + 'nd'
+  }
+  if (user.getDay() === 3) {
+    day = user.getDay() + 'rd'
+  }
+  if (user.getDay() > 3) {
+    day = user.getDay() + 'th'
+  }
+  for (let i = 0; i < months.length; i++) {
+    month = months[user.getMonth() - 1]
+  }
+  return day + ' - ' + month + ' - ' + user.getFullYear()
+}
 
 exports.home = (req, res, next) => {
   async.parallel({
@@ -21,24 +43,6 @@ exports.home = (req, res, next) => {
   })
 }
 
-exports.test_post = (req, res, next) => {
-  var qualified = {
-    name: req.body.email,
-    description: req.body.surname
-  }
-  Test.findByIdAndUpdate(
-    req.params.id,
-    qualified, {},
-
-    (err, result) => {
-      if (err) {
-        return next(err)
-      }
-      res.send(result)
-    }
-  )
-}
-
 exports.aboutus = (req, res, next) => {
   res.render('homefile/aboutus', {
     title: 'About IMSU Psychology'
@@ -46,7 +50,9 @@ exports.aboutus = (req, res, next) => {
 }
 
 exports.default_news = (req, res, next) => {
-  News.find({}, function (err, latest) {
+  News.find({}).sort([
+    ['created', 'descending']
+  ]).exec(function (err, latest) {
     if (err) {
       return next(err)
     }
@@ -62,6 +68,9 @@ exports.default_news = (req, res, next) => {
             text = text + value.substring(0, limit) + '...'
           }
           return text
+        },
+        datey: function (data) {
+          return calender(data)
         }
       }
     })
@@ -84,17 +93,30 @@ exports.get_full_news = (req, res, next) => {
         title: 'Psychology Full News',
         newspaper: news,
         comments: news.comments,
-        decipher: function () {
-          var liked = []
+        commune: function () {
           var answer = []
-          var stud = students
-          var lik = news.likey
-          lik.forEach(element => {
-            liked.push(element)
+
+          students.filter(hero => {
+            for (var i = 0; i < news.comments.length; i++) {
+              if (news.comments[i].userid == hero.id) {
+                let commenter = {
+                  user: `${hero.surname} ${hero.firstname}`,
+                  photo: hero.photo,
+                  comment: news.comments[i]
+
+                }
+                answer.push(commenter)
+              }
+            }
           })
-          stud.filter(hero => {
-            for (var i = 0; i < liked.length; i++) {
-              if (liked[i] == hero.id) {
+          return answer
+        },
+        decipher: function () {
+          var answer = []
+
+          students.filter(hero => {
+            for (var i = 0; i < news.likey.length; i++) {
+              if (news.likey[i] == hero.id) {
                 answer.push(hero)
               }
             }
@@ -102,16 +124,11 @@ exports.get_full_news = (req, res, next) => {
           return answer
         },
         desliker: function () {
-          var liked = []
           var answer = []
-          var stud = students
-          var lik = news.dislikey
-          lik.forEach(element => {
-            liked.push(element)
-          })
-          stud.filter(hero => {
-            for (var i = 0; i < liked.length; i++) {
-              if (liked[i] == hero.id) {
+
+          students.filter(hero => {
+            for (var i = 0; i < news.dislikey.length; i++) {
+              if (news.dislikey[i] == hero.id) {
                 answer.push(hero)
               }
             }

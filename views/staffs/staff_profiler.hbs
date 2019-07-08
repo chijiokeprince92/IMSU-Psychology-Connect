@@ -1,4 +1,7 @@
 <br>
+{{#if message}}
+  <p class="alert alert-success">{{message}}</p>
+{{/if}}
 <h5><b>{{staff.surname}} {{staff.firstname}} <button class="btn btn-success" style="border-radius:50%">R</button></b>
 </h5>
 <div class="container-fluid">
@@ -55,6 +58,10 @@
           <p><b><span class="fa fa-phone"> </span> </b> 0{{staff.phone}}</p>
           <br>
           <p><b><span class="fa fa-comment-o"> </span> </b>{{staff.bio}}</p>
+          <br>
+          <p><b><span class="fa fa-calendar"> </span> </b>Joined : {{datey staff.date}}.</p>
+          <br>
+          <p><b><span class="fa fa-calendar"> </span> </b>Last Updated : {{datey staff.updated}}.</p>
           <br>
         </div>
         <div id="courses" class="container-fluid tab-pane fade" style="background-color:white">

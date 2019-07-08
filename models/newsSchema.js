@@ -4,8 +4,8 @@ var Schema = mongoose.Schema
 // create a schema
 var newsSchema = new Schema({
   picture: {
-    type: String,
-    required: true
+    url: String,
+    public_id: String
   },
   heading: {
     type: String,
@@ -14,7 +14,6 @@ var newsSchema = new Schema({
   passage: {
     type: String,
     required: true
-
   },
   passage1: {
     type: String
@@ -36,7 +35,15 @@ var newsSchema = new Schema({
     reply: []
   }],
   likey: [],
-  dislikey: []
+  dislikey: [],
+  created: {
+    type: Date,
+    default: Date()
+  },
+  updated: {
+    type: Date,
+    default: Date()
+  }
 })
 
 // Virtual for Student's URL

@@ -6,6 +6,8 @@ const Project = require('../models/projectSchema')
 const Courses = require('../models/coursesSchema')
 const Timetable = require('../models/timetableSchema')
 const Result = require('../models/resultSchema')
+const formidable = require('formidable')
+const cloudinary = require('cloudinary')
 const async = require('async')
 
 const {
@@ -565,18 +567,38 @@ exports.get_upload_project = function (req, res, next) {
 
 // POST Admin form for Project Upload
 exports.post_upload_project = function (req, res, next) {
-  var fullPath = './project_topics/' + req.file.filename
-  var project = new Project({
-    project: fullPath,
-    topic: req.body.topic,
-    description: req.body.description,
-    category: req.body.category
-  })
-  project.save(function (err) {
-    if (err) {
-      return next(err)
+  var form = new formidable.IncomingForm()
+  form.parse(req)
+  form.on('file', function (name, file) {
+    if (!file.name.match(/\.(pdf)$/i)) {
+      console.log('This file is not PDF')
+      req.flash('message', 'The file is not a PDF file')
+      res.redirect(301, '/admin/getprojecttopicss')
+    } else {
+      console.log('This is a .PDF file')
+      cloudinary.v2.uploader.upload(file.path, function (err, result) {
+        if (err) {
+          return next(err)
+        }
+        // add cloudinary url for the image to the topic object under image property
+        var project = new Project({
+          project: {
+            url: result.secure_url,
+            public_id: result.public_id
+          },
+          topic: req.body.topic,
+          description: req.body.description,
+          category: req.body.category
+        })
+        project.save(function (err) {
+          if (err) {
+            return next(err)
+          }
+          req.flash('message', 'The news was successfully Added')
+          res.redirect(301, '/admin/getprojecttopicss')
+        })
+      })
     }
-    res.redirect('/admin/getprojecttopicss')
   })
 }
 
@@ -663,19 +685,39 @@ exports.get_upload_news = function (req, res, next) {
 
 // POST Admin form for NEWS
 exports.post_upload_news = function (req, res, next) {
-  var fullPath = './newsproject/' + req.file.filename
-  var latest = new News({
-    picture: fullPath,
-    heading: req.body.heading,
-    passage: req.body.passage,
-    passage1: req.body.passage1,
-    passage2: req.body.passage2
-  })
-  latest.save(function (err) {
-    if (err) {
-      return next(err)
+  var form = new formidable.IncomingForm()
+  form.parse(req)
+  form.on('file', function (name, file) {
+    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+      console.log('This file is not a picture')
+      req.flash('message', 'The file is not a picture')
+      res.redirect(301, '/admin/getlastnews')
+    } else {
+      console.log('This is a picture')
+      cloudinary.v2.uploader.upload(file.path, function (err, result) {
+        if (err) {
+          return next(err)
+        }
+        // add cloudinary url for the image to the topic object under image property
+        var latest = new News({
+          picture: {
+            url: result.secure_url,
+            public_id: result.public_id
+          },
+          heading: req.body.heading,
+          passage: req.body.passage,
+          passage1: req.body.passage1,
+          passage2: req.body.passage2
+        })
+        latest.save(function (err) {
+          if (err) {
+            return next(err)
+          }
+          req.flash('message', 'The news was successfully Added')
+          res.redirect(301, '/admin/getlastnews')
+        })
+      })
     }
-    res.redirect('/admin/getlastnews')
   })
 }
 
@@ -714,7 +756,7 @@ exports.news_edit_post = function (req, res, next) {
 // GET Admin latest NEWS
 exports.get_last_news = function (req, res, next) {
   News.find({}).sort([
-    ['created', 'ascending']
+    ['created', 'descending']
   ]).exec(function (err, news) {
     if (err) {
       return next(err)
@@ -723,7 +765,8 @@ exports.get_last_news = function (req, res, next) {
       admin: req.session.admin,
       title: 'Psychology News',
       layout: 'less_layout',
-      newspaper: news
+      newspaper: news,
+      message: req.flash('message')
     })
   })
 }
@@ -745,30 +788,6 @@ exports.get_full_news = function (req, res, next) {
       message: req.flash('message')
     })
   })
-}
-
-// Post comments
-exports.post_comment_news = function (req, res, next) {
-  Admins.findById(req.session.admin)
-    .exec(function (err, namey) {
-      var commerce = {
-        user: 'Admin: ' + namey.firstname,
-        comment: req.body.comment
-      }
-      if (err) {
-        return next(err)
-      }
-      News.findByIdAndUpdate(req.params.id, {
-        $push: {
-          comments: commerce
-        }
-      }, function (err, commet) {
-        if (err) {
-          return next(err)
-        }
-        res.redirect('/admin/getfullnews/' + commet.id)
-      })
-    })
 }
 
 exports.delete_news = function (req, res, next) {

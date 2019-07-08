@@ -1,11 +1,17 @@
-var express = require('express')
-var router = express.Router()
-var uploaded = require('../upload')
+const express = require('express')
+const router = express.Router()
 
 // middlewares
 const authMiddleware = require('../controllers/middleware/auth.middleware')
+const staff_controllers = require('../controllers/staff_controllers')
 
-var staff_controllers = require('../controllers/staff_controllers')
+const cloudinary = require('cloudinary')
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+})
 
 // FOR STAFFSSS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -25,7 +31,7 @@ router.get('/updateprofile/:id', staff_controllers.staffloginRequired, staff_con
 // GET staff profile for update
 router.post('/updateprofile/:id', staff_controllers.staffloginRequired, staff_controllers.staff_update_post)
 
-router.post('/updatepics/:id', uploaded, staff_controllers.staff_update_pics)
+router.post('/updatepics/:id', staff_controllers.staff_update_pics)
 
 // GET a single student profile
 router.get('/studentprofile/:id', staff_controllers.staffloginRequired, staff_controllers.view_student_profile)
@@ -53,6 +59,9 @@ router.get('/getschedule', staff_controllers.staffloginRequired, staff_controlle
 // GET 100 Courses
 router.get('/getcourses/:level', staff_controllers.staffloginRequired, staff_controllers.get_courses)
 
+// Add a new a course outline
+router.post('/addcourseoutline/:id', staff_controllers.staffloginRequired, staff_controllers.add_courseoutline)
+
 // UPDATE a course outline
 router.post('/editcourseoutline/:id', staff_controllers.staffloginRequired, staff_controllers.edit_courseoutline)
 
@@ -64,9 +73,6 @@ router.get('/getlastnews', staff_controllers.staffloginRequired, staff_controlle
 
 // GET a particular news
 router.get('/getfullnews/:id', staff_controllers.staffloginRequired, staff_controllers.get_full_news)
-
-// POST a comment on a news
-router.post('/staffcomments/:id', staff_controllers.staffloginRequired, staff_controllers.post_comment_news)
 
 // GET project topics
 router.get('/getprojecttopics', staff_controllers.staffloginRequired, staff_controllers.get_project_topics)

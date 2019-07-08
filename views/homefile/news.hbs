@@ -18,17 +18,20 @@
               </h5>
             </div>
             <div class="card-body col-12">
-              <img src="/{{this.picture}}" alt="news image" class="rounded news" />
+              <img src="{{this.picture.url}}" alt="news image" class="rounded news" />
               <br><br>
               <p>{{truncate this.passage 130}}</p>
+              <small class="float-right"> {{datey this.created}}</small>
             </div>
             <div class="col-12 card-footer">
-              <button class="btn btn-light"><span class="fa fa-commenting-o" style="color:lightgreen"> </span>
+              <button class="btn btn-light"><span class="fa fa-comments-o" style="font-size:15px;color:lightgreen">
+                </span>
                 {{length this.comments}}</button>
-              <button class="btn btn-light fa fa-thumbs-o-up" style="color:blue"></button>
-              <span id="spn{{this.id}}">{{length this.likey}}</span>
-              <button class="btn btn-light fa fa-thumbs-o-down" style="color:red"></button>
-              <span id="dis{{this.id}}">{{length this.dislikey}}</span>
+              <button class="btn btn-light"><span class="fa fa-thumbs-o-up"
+                  style="font-size:15px;color:rgb(18, 191, 248)"> </span>
+                {{length this.likey}}</button>
+              <button class="btn btn-light"><span class=" fa fa-thumbs-o-down" style="font-size:15px;color:red"> </span>
+                {{length this.dislikey}}</button>
             </div>
           </li>
           <br><br>

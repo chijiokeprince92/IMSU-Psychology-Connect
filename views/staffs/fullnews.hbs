@@ -6,8 +6,8 @@
 <br><br>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12">
-      <img src="/{{newspaper.picture}}" alt="news image" class="rounded news" />
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+      <img src="{{newspaper.picture.url}}" alt="news image" class="rounded" width="100%" />
       <br><br><br><br>
     </div>
     <div class="col-12">
@@ -39,20 +39,25 @@
       </b>
     </h5>
     <br>
-    <ul id="messages">
+    <ul>
       <div class="container-fluid">
         <div class="row">
-          {{#each comments}}
-            <div class="col-12 col-sm-9 col-md-6 col-lg-5">
+          {{#each commune}}
+            {{#if this.photo.url}}
+              <div class="col-2 col-sm-1">
+                <img src="{{this.photo.url}}" class="rounded-circle" width="30px" height="30px" />
+              </div>
+            {{else}}
+              <div class="col-2 col-sm-1">
+                <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />
+              </div>
+            {{/if}}
+            <div class="col-10 col-sm-11">
               <li class="card">
-                <div class="col-12">
-                  <p><b><a href="/staff/studentprofile/{{this.userid}}">{{this.username}}</a>
-                    </b>
-                  </p>
-                </div>
-                <div class="col-12">
-                  <p>{{this.comment}}</p>
-                </div>
+                <p><b> <a href="/staff/studentprofile/{{this.userid}}"> {{this.user}}</a>
+                  </b>
+                </p>
+                <p>{{this.comment.comment}}</p>
               </li>
               <div class="col-12">
                 <div class="container-fluid">
@@ -75,28 +80,8 @@
                   </div>
                 </div>
               </div>
-              <ul>
-                <div class="container-fluid">
-                  <div class="row">
-                    {{#each reply}}
-                      <div class="col-2"></div>
-                      <li class="col-10">
-                        <div class="card">
-                          <p><b>{{this.user}}: @{{this.replyee}}
-                            </b>
-                          </p>
-                          <p>{{this.reply}}</p>
-                          <br>
-                        </div>
-                        <br>
-                      </li>
-                    {{/each}}
-                  </div>
-                </div>
-              </ul>
               <br><br>
             </div>
-            <div class="col-md-6 col-lg-7"></div>
           {{/each}}
         </div>
       </div>
@@ -106,58 +91,27 @@
     <br>
     <h6>PEOPLE WHO LIKE THIS</h6>
     {{#each decipher}}
-      <p><b>{{@index}}. </b> {{this.firstname}}</p>
+      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle" width="30px"
+            height="30px" />
+        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />{{/if}}
+        {{this.surname}}
+        {{this.firstname}}
+      </p>
+      <br><br>
     {{/each}}
   </div>
   <div id="dislikes" class="container-fluid tab-pane fade" style="background-color:white">
     <br>
     <h6>PEOPLE WHO DISLIKE THIS</h6>
     {{#each desliker}}
-      <p><b>{{@index}}. </b> {{this.firstname}}</p>
+      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle" width="30px"
+            height="30px" />
+        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />{{/if}}
+        {{this.surname}}
+        {{this.firstname}}
+      </p>
+      <br><br>
     {{/each}}
   </div>
 </div>
-<br><br><br>
-<form id="formy" style="display:inline-block;width:100%;position:fixed;bottom:0">
-  <div class="container-fluid">
-    <div class="row no-gutters">
-      <div class="col-9" style="display:none">
-        <input id="comment-id" value="{{newspaper.id}}" />
-      </div>
-      <div class="col-9">
-        <textarea type="text" rows="1" cols="20" class="form-control" id="comment" name="comment"
-          placeholder="Type a comment..." required></textarea>
-      </div>
-      <div class="col-3">
-        <button type="submit" class="btn btn-success" id="stylus"><span class="fa fa-play"></span></button>
-      </div>
-    </div>
-  </div>
-</form>
-<script>
-  $('document').ready(function () {
-    var viral = $('#comment-id').val();
-    var socket = io('/studentcomments/' + viral);
-    $('#formy').submit(function (event) {
-      event.preventDefault();
-      var commentId = $('#comment-id').val();
-      var msg = $('#comment').val();
-      $.post(
-        '/studentcomments/' + commentId, {
-          comment: msg
-        },
-        function (response, err) {
-          if (response) {
-            console.log(response, 'success')
-          } else if (err) {
-            console.log(err, 'error')
-          }
-        });
-
-      $('#comment').val('');
-    });
-    socket.on('chat_message', function (msg) {
-      $('#messages').append($('<div class="col-12 col-sm-9 col-md-6 col-lg-5"></div>').html('<li class="card"><div class="col-12"><p><b>' + msg.username + '</b></p></div><div class="col-12"><p>' + msg.comment + '</p></div></li>' + '<br>'));
-    });
-  });
-</script>
+<br><br>

@@ -22,6 +22,10 @@ var messageSchema = new Schema({
   date: {
     type: Date,
     default: Date()
+  },
+  updated: {
+    type: Date,
+    default: Date()
   }
 })
 

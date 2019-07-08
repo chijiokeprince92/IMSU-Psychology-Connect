@@ -109,8 +109,10 @@
             </b>
           </h5>
           <br>
-          {{#if course.courseoutline}}
-            <p>{{course.courseoutline}}</p>
+          {{#if course.courseoutliner}}
+            {{#each course.courseoutliner}}
+              <p>{{@index}} {{this.outline}}</p>
+            {{/each}}
           {{else}}
             <p>COURSE_OUTLINE NOT AVAILABLE</p>
           {{/if}}
