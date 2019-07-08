@@ -213,9 +213,6 @@ exports.list_staffs = function (req, res, next) {
       if (err) {
         return next(err)
       }
-      if (staff == null) {
-        res.redirect('/staffhome')
-      }
       res.render('staffs/list_staffs', {
         staff_session: req.session.staff,
         title: 'Psychology Staffs',

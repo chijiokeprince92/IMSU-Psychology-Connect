@@ -305,7 +305,7 @@ exports.student_update_post = (req, res, next) => {
     firstname: req.body.firstname,
     phone: req.body.phone,
     bio: req.body.bio,
-    updated: Date(),
+    updated: new Date(),
     password: req.body.password
   }
   StudentSigns.findByIdAndUpdate(
@@ -1380,11 +1380,7 @@ exports.get_conversations = async function (req, res, next) {
     title: 'Messages',
     layout: 'less_layout',
     allowed: req.session.student,
-    messagess: function () {
-      return messages.sort(function (a, b) {
-        return a.message < b.message
-      })
-    },
+    messagess: messages,
     helpers: {
       truncate: function (a, b) {
         const value = a.toString()
