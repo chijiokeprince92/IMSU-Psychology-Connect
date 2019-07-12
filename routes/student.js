@@ -165,7 +165,7 @@ router.post('/studentedittimetable/:id', student_controllers.loginRequired, stud
 
 // Routes for handling everything messages---------------------------------------------------------------------
 // Router for student to read messages
-router.get('/getconversations/:id', student_controllers.loginRequired, student_controllers.get_conversations)
+router.get('/getconverse/:id', student_controllers.loginRequired, student_controllers.get_converse)
 
 // Router for student to read messages
 router.get('/getmessages/:recipient', student_controllers.loginRequired, student_controllers.get_messages)

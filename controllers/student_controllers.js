@@ -188,6 +188,7 @@ exports.student_signup_post = [
 exports.get_login_form = (req, res) => {
   res.render('homefile/login', {
     title: 'Student Login',
+    layout: 'less_layout',
     ohno: req.flash('ohno'),
     message: req.flash('message')
   })
@@ -253,7 +254,7 @@ exports.get_student_home = (req, res, next) => {
 
 // Profile page for a specific Student.
 exports.profiler = (req, res, next) => {
-  StudentSigns.findById(req.session.student.id).exec((err, user) => {
+  StudentSigns.findById(req.params.id).exec((err, user) => {
     if (err) {
       return next(err)
     } // Error in API usage.
@@ -269,7 +270,6 @@ exports.profiler = (req, res, next) => {
         title: 'Student Profile',
         layout: 'less_layout',
         user: user,
-
         registered_courses: mycourses,
         message: req.flash('message'),
         helpers: {
@@ -756,33 +756,79 @@ exports.view_courses = (req, res, next) => {
   })
 }
 
-// student course registrations
+// working on it
 exports.register_course = (req, res, next) => {
-  var student = req.session.student
-  Courses.findById(req.params.id).exec((err, course) => {
+  Result.findOne({
+    'course': req.params.id,
+    'student': req.session.student.id
+  }).exec(function (err, results) {
     if (err) {
       return next(err)
     }
-    if (student.level >= course.level) {
-      var reg = {
-        $addToSet: {
-          student_offering: student.id
-        }
-      }
-      Courses.findOneAndUpdate({ _id: req.params.id }, reg, {}, function (err) {
+    if (!results) {
+      var student = req.session.student
+      Courses.findById(req.params.id).exec((err, course) => {
         if (err) {
           return next(err)
         }
-        req.flash('succeed', 'Your Course registration was Successful')
-        res.redirect('/studentviewcourse/' + req.params.id)
-      }
-      )
-    } else if (student.level < course.level) {
-      req.flash(
-        'war',
-        'Your level is not eligible to register for this course'
-      )
-      res.redirect('/studentviewcourse/' + req.params.id)
+        if (student.level >= course.level) {
+          var reg = {
+            $addToSet: {
+              student_offering: student.id
+            }
+          }
+          Courses.findOneAndUpdate({ _id: req.params.id }, reg, {}, function (err) {
+            if (err) {
+              return next(err)
+            }
+            req.flash('succeed', 'Your Course registration was Successful')
+            res.redirect(301, '/studentviewcourse/' + req.params.id)
+          })
+        } else if (student.level < course.level) {
+          req.flash(
+            'war',
+            'Your level is not eligible to register for this course'
+          )
+          res.redirect('/studentviewcourse/' + req.params.id)
+        }
+      })
+    } else if (results.score <= 39) {
+      Result.findOneAndRemove({
+        'course': req.params.id,
+        'student': req.session.student.id
+      }).exec(function (err) {
+        if (err) {
+          return next(err)
+        }
+      })
+      Courses.findById(req.params.id).exec((err, course) => {
+        if (err) {
+          return next(err)
+        }
+        if (req.session.student.level >= course.level) {
+          var reg = {
+            $addToSet: {
+              student_offering: req.session.student.id
+            }
+          }
+          Courses.findOneAndUpdate({ _id: req.params.id }, reg, {}, function (err) {
+            if (err) {
+              return next(err)
+            }
+            req.flash('succeed', 'Your Course registration was Successful and the carryover has been deleted')
+            res.redirect(301, '/studentviewcourse/' + req.params.id)
+          })
+        } else if (student.level < course.level) {
+          req.flash(
+            'war',
+            'Your level is not eligible to register for this course'
+          )
+          res.redirect('/studentviewcourse/' + req.params.id)
+        }
+      })
+    } else if (results.score > 39) {
+      req.flash('succeed', 'You already have a result for this course')
+      res.redirect(301, '/studentviewcourse/' + req.params.id)
     }
   })
 }
@@ -1106,11 +1152,9 @@ exports.post_dislike_comment = (req, res, next) => {
     )
   })
 }
-
 // -------------------------------------------------------------------------------------------------
-
 // functions for handling everything messages
-exports.get_conversation = function (req, res, next) {
+exports.get_converse = function (req, res, next) {
   // empty array that holds the final message
   let messages = []
   // function for getting the names of the participants
@@ -1150,11 +1194,11 @@ exports.get_conversation = function (req, res, next) {
     })
   }
 
-  Conversation.find({ $or: [{ 'participant1': req.session.student.id }, { 'participant2': req.session.student.id }] }).sort([['date', 'descending']]).exec((err, conversations) => {
+  Conversation.find({ $or: [{ 'participant1': req.session.student.id }, { 'participant2': req.session.student.id }] }).sort([['date', 'descending']]).exec(async (err, conversations) => {
     if (err) {
       return next(err)
     }
-    conversations.forEach(function (converse) {
+    await conversations.forEach(function (converse) {
       if (converse.participant1 !== req.session.student.id) {
         let chatty = converse.participant1
         massage(converse.id, chatty)
@@ -1163,7 +1207,7 @@ exports.get_conversation = function (req, res, next) {
         massage(converse.id, chatty)
       }
     })
-    res.render('student/conversations', {
+    await res.render('student/conversations', {
       title: 'Messages',
       layout: 'less_layout',
       allowed: req.session.student,
@@ -1190,6 +1234,7 @@ exports.get_conversation = function (req, res, next) {
   })
 }
 
+// GET messages between two students-------------------------------------------------------
 exports.get_messages = function (req, res, next) {
   let naming = function () {
     var stash = { name: '', photo: '' }
@@ -1357,7 +1402,7 @@ exports.logout = (req, res) => {
 }
 
 // working on get conversation
-exports.get_conversations = async function (req, res, next) {
+exports.get_conversess = async function (req, res, next) {
   // empty array that holds the final message
   let messages = []
 
@@ -1380,7 +1425,12 @@ exports.get_conversations = async function (req, res, next) {
     title: 'Messages',
     layout: 'less_layout',
     allowed: req.session.student,
-    messagess: messages,
+    messagess: function () {
+      console.log('Messages Available: ', messages.length)
+      return messages.sort(function (a, b) {
+        return a.message < b.message
+      })
+    },
     helpers: {
       truncate: function (a, b) {
         const value = a.toString()

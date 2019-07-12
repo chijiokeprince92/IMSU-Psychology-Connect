@@ -1,3 +1,4 @@
+/* eslint-disable handle-callback-err */
 const Admins = require('../models/adminSchema')
 const StudentSigns = require('../models/studentSchema')
 const Staff = require('../models/staffSchema')
@@ -568,15 +569,16 @@ exports.get_upload_project = function (req, res, next) {
 // POST Admin form for Project Upload
 exports.post_upload_project = function (req, res, next) {
   var form = new formidable.IncomingForm()
-  form.parse(req)
-  form.on('file', function (name, file) {
-    if (!file.name.match(/\.(pdf)$/i)) {
-      console.log('This file is not PDF')
+  form.parse(req, function (err, fields, files) {
+    if (err) {
+      return err
+    }
+    if (!files.image.name.match(/\.(pdf)$/i)) {
+      console.log('This file is not a picture')
       req.flash('message', 'The file is not a PDF file')
       res.redirect(301, '/admin/getprojecttopicss')
     } else {
-      console.log('This is a .PDF file')
-      cloudinary.v2.uploader.upload(file.path, function (err, result) {
+      cloudinary.v2.uploader.upload(files.project.path, function (err, result) {
         if (err) {
           return next(err)
         }
@@ -586,9 +588,9 @@ exports.post_upload_project = function (req, res, next) {
             url: result.secure_url,
             public_id: result.public_id
           },
-          topic: req.body.topic,
-          description: req.body.description,
-          category: req.body.category
+          topic: fields.topic,
+          description: fields.description,
+          category: fields.category
         })
         project.save(function (err) {
           if (err) {
@@ -683,18 +685,20 @@ exports.get_upload_news = function (req, res, next) {
   })
 }
 
-// POST Admin form for NEWS
 exports.post_upload_news = function (req, res, next) {
   var form = new formidable.IncomingForm()
-  form.parse(req)
-  form.on('file', function (name, file) {
-    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+  form.parse(req, function (err, fields, files) {
+    console.log(fields.heading, files.image.name)
+    if (err) {
+      return err
+    }
+    if (!files.image.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
       console.log('This file is not a picture')
       req.flash('message', 'The file is not a picture')
       res.redirect(301, '/admin/getlastnews')
     } else {
-      console.log('This is a picture')
-      cloudinary.v2.uploader.upload(file.path, function (err, result) {
+      console.log(fields, 'this is an image', files.image.path)
+      cloudinary.v2.uploader.upload(files.image.path, function (err, result) {
         if (err) {
           return next(err)
         }
@@ -704,10 +708,10 @@ exports.post_upload_news = function (req, res, next) {
             url: result.secure_url,
             public_id: result.public_id
           },
-          heading: req.body.heading,
-          passage: req.body.passage,
-          passage1: req.body.passage1,
-          passage2: req.body.passage2
+          heading: fields.heading,
+          passage: fields.passage,
+          passage1: fields.passage1,
+          passage2: fields.passage2
         })
         latest.save(function (err) {
           if (err) {

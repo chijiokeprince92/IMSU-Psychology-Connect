@@ -17,14 +17,15 @@
     </li>
     <li class="nav-item" title="News">
       <a href="/studentgetlastnews" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-bell" id="mum2">
-        </span><span class="badge badge-danger badge-pill spany">{{news}}</span></a></li>
+        </span><span class="badge badge-danger badge-pill spany">{{news}}</span></a>
+    </li>
     <li class="nav-item" title="Your Profile">
-      <a href="/studentss/{{allowed}}" class="btn btn-primary btn-lg btn-block mum"> <img src="{{allowed.photo}}"
+      <a href="/studentss/{{allowed.id}}" class="btn btn-primary btn-lg btn-block mum"> <img src="{{allowed.photo}}"
           id="navheader" /></a>
     </li>
     <li class="nav-item" title="Messages">
-      <a href="/getconversations/{{allowed.id}}" class="btn btn-primary btn-lg btn-block mum"><span
-          class="fa fa-whatsapp" id="mum2"></span></a>
+      <a href="/getconverse/{{allowed.id}}" class="btn btn-primary btn-lg btn-block mum"><span class="fa fa-whatsapp"
+          id="mum2"></span></a>
     </li>
     <li class="nav-item dropdown">
       <button class="btn btn-primary btn-lg btn-block mum dropdown" data-toggle="dropdown"><span class="fa fa-bars"
