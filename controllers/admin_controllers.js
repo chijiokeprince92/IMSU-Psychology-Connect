@@ -573,7 +573,7 @@ exports.post_upload_project = function (req, res, next) {
     if (err) {
       return err
     }
-    if (!files.image.name.match(/\.(pdf)$/i)) {
+    if (!files.project.name.match(/\.(pdf)$/i)) {
       console.log('This file is not a picture')
       req.flash('message', 'The file is not a PDF file')
       res.redirect(301, '/admin/getprojecttopicss')
@@ -596,7 +596,7 @@ exports.post_upload_project = function (req, res, next) {
           if (err) {
             return next(err)
           }
-          req.flash('message', 'The news was successfully Added')
+          req.flash('message', 'The project was successfully added')
           res.redirect(301, '/admin/getprojecttopicss')
         })
       })
@@ -693,11 +693,9 @@ exports.post_upload_news = function (req, res, next) {
       return err
     }
     if (!files.image.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
-      console.log('This file is not a picture')
       req.flash('message', 'The file is not a picture')
       res.redirect(301, '/admin/getlastnews')
     } else {
-      console.log(fields, 'this is an image', files.image.path)
       cloudinary.v2.uploader.upload(files.image.path, function (err, result) {
         if (err) {
           return next(err)
@@ -728,7 +726,7 @@ exports.post_upload_news = function (req, res, next) {
 exports.news_edit_get = function (req, res, next) {
   News.findOne({
     '_id': req.params.id
-  }, function (err, newy) {
+  }, function (err, news) {
     if (err) {
       return next(err)
     }
@@ -736,7 +734,7 @@ exports.news_edit_get = function (req, res, next) {
       admin: req.session.admin,
       layout: 'less_layout',
       title: 'EDIT NEWS',
-      newy: newy
+      newy: news
     })
   })
 }

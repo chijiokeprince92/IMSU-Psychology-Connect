@@ -24,8 +24,7 @@ var projectSchema = new Schema({
     default: Date()
   },
   updated: {
-    type: Date,
-    default: Date()
+    type: Date
   }
 })
 

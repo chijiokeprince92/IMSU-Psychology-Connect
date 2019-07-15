@@ -1154,7 +1154,7 @@ exports.post_dislike_comment = (req, res, next) => {
 }
 // -------------------------------------------------------------------------------------------------
 // functions for handling everything messages
-exports.get_converse = function (req, res, next) {
+exports.get_converse = async function (req, res, next) {
   // empty array that holds the final message
   let messages = []
   // function for getting the names of the participants
@@ -1166,15 +1166,16 @@ exports.get_converse = function (req, res, next) {
       }
       if (stud) {
         result.push({ name: stud.surname + ' ' + stud.firstname, id: stud.id, photo: stud.photo })
+      } else if (!stud) {
+        Staff.findOne({ '_id': norm }).exec(function (err, staff) {
+          if (err) {
+            return next(err)
+          }
+          if (staff) {
+            result.push({ name: staff.surname + ' ' + staff.firstname, id: staff.id, photo: staff.photo })
+          }
+        })
       }
-      Staff.findOne({ '_id': norm }).exec(function (err, staff) {
-        if (err) {
-          return next(err)
-        }
-        if (staff) {
-          result.push({ name: staff.surname + ' ' + staff.firstname, id: staff.id, photo: staff.photo })
-        }
-      })
     })
     return result
   }
@@ -1194,43 +1195,51 @@ exports.get_converse = function (req, res, next) {
     })
   }
 
-  Conversation.find({ $or: [{ 'participant1': req.session.student.id }, { 'participant2': req.session.student.id }] }).sort([['date', 'descending']]).exec(async (err, conversations) => {
+  await Conversation.find({ $or: [{ 'participant1': req.params.id }, { 'participant2': req.params.id }] }).sort([['date', 'descending']]).exec(async (err, conversations) => {
     if (err) {
       return next(err)
     }
-    await conversations.forEach(function (converse) {
-      if (converse.participant1 !== req.session.student.id) {
-        let chatty = converse.participant1
-        massage(converse.id, chatty)
-      } else if (converse.participant2 !== req.session.student.id) {
-        let chatty = converse.participant2
-        massage(converse.id, chatty)
-      }
-    })
-    await res.render('student/conversations', {
-      title: 'Messages',
-      layout: 'less_layout',
-      allowed: req.session.student,
-      messagess: function () {
-        return messages.sort(function (a, b) {
-          return a.message < b.message
-        })
-      },
-      helpers: {
-        truncate: function (a, b) {
-          const value = a.toString()
-          const limit = b
-          var text = ''
-          if (value.length > 0) {
-            text = text + value.substring(0, limit) + '...'
-          }
-          return text
-        },
-        datey: function (data) {
-          return calender(data)
+    if (!conversations) {
+      req.flash('msg', 'No Message')
+      res.redirect(301, '/getconverse' + req.params.id)
+    } else {
+      req.flash('msg', 'Message Available')
+      conversations.forEach(function (converse) {
+        if (converse.participant1 !== req.params.id) {
+          let chatty = converse.participant1
+          massage(converse.id, chatty)
+        } else if (converse.participant2 !== req.params.id) {
+          let chatty = converse.participant2
+          massage(converse.id, chatty)
         }
-      }
-    })
+      })
+      await res.render('student/conversations', {
+        title: 'Messages',
+        layout: 'less_layout',
+        allowed: req.session.student,
+        messagess: function () {
+          console.log('Messages Length: ', messages.length)
+          return messages.sort(function (a, b) {
+            return a.message < b.message
+          })
+        },
+        helpers: {
+          truncate: function (a, b) {
+            const value = a.toString()
+            const limit = b
+            var text = ''
+            if (value.length > 0) {
+              text = text + value.substring(0, limit) + '...'
+            }
+            return text
+          },
+          datey: function (data) {
+            return calender(data)
+          }
+        },
+        msg: req.flash('msg')
+      })
+    }
   })
 }
 
@@ -1406,11 +1415,11 @@ exports.get_conversess = async function (req, res, next) {
   // empty array that holds the final message
   let messages = []
 
-  await Conversation.find({ $or: [{ 'participant1': req.session.student.id }, { 'participant2': req.session.student.id }] }).sort([['date', 'descending']]).exec((err, conversations) => {
+  await Conversation.find({ $or: [{ 'participant1': req.session.student.id }, { 'participant2': req.session.student.id }] }).sort([['date', 'descending']]).exec(async (err, conversations) => {
     if (err) {
       return next(err)
     }
-    conversations.forEach(function (converse) {
+    await conversations.forEach(function (converse) {
       if (converse.participant1 !== req.session.student.id) {
         let chatty = converse.participant1
         massage(converse.id, chatty)

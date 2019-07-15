@@ -31,11 +31,11 @@
           <li class="container-fluid list-group-item">
             <div class="row">
               {{#if this.photo.url}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                <div class="col-4 col-sm-4 col-md-3 col-lg-2">
                   <img src="{{this.photo.url}}" alt="profile pics" class="rounded-circle profile" />
                 </div>
               {{else}}
-                <div class="col-5 col-sm-4 col-md-3 col-lg-2">
+                <div class="col-4 col-sm-4 col-md-3 col-lg-2">
                   <img src="/images/psylogo4.jpg" alt="profile pics" class="rounded-circle profile" />
                 </div>
               {{/if}}
@@ -47,17 +47,17 @@
                 </p>
               </div>
               {{#if this.disabled}}
-                <div class="col-2" style="">
+                <div class="col-2">
                   <form action="/admin/enablestudent/{{this.id}}" method="POST">
                     <input type="text" style="display:none" name="level" value="{{this.level}}" />
-                    <button type="submit" class="btn btn-warning">Enable</button>
+                    <button type="submit" class="btn btn-danger"><span class="fa fa-minus-square-o"></span></button>
                   </form>
                 </div>
               {{else}}
-                <div class="col-2" style="">
+                <div class="col-2">
                   <form action="/admin/disablestudent/{{this.id}}" method="POST">
                     <input type="text" style="display:none" name="level" value="{{this.level}}" />
-                    <button type="submit" class="btn btn-primary">Disable</button>
+                    <button type="submit" class="btn btn-success"><span class="fa fa-check-square-o"></span></button>
                   </form>
                 </div>
               {{/if}}
