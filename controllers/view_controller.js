@@ -1,29 +1,7 @@
 const News = require('../models/newsSchema')
 const StudentSigns = require('../models/studentSchema')
 const async = require('async')
-
-// function for formatting date
-var calender = function (user) {
-  let day = ''
-  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-  let month = ''
-  if (user.getDay() === 1) {
-    day = user.getDay() + 'st'
-  }
-  if (user.getDay() === 2) {
-    day = user.getDay() + 'nd'
-  }
-  if (user.getDay() === 3) {
-    day = user.getDay() + 'rd'
-  }
-  if (user.getDay() > 3) {
-    day = user.getDay() + 'th'
-  }
-  for (let i = 0; i < months.length; i++) {
-    month = months[user.getMonth() - 1]
-  }
-  return day + ' - ' + month + ' - ' + user.getFullYear()
-}
+const moment = require('moment')
 
 exports.home = (req, res, next) => {
   async.parallel({
@@ -51,7 +29,7 @@ exports.aboutus = (req, res, next) => {
 
 exports.default_news = (req, res, next) => {
   News.find({}).sort([
-    ['created', 'descending']
+    ['updated', 'descending']
   ]).exec(function (err, latest) {
     if (err) {
       return next(err)
@@ -69,8 +47,8 @@ exports.default_news = (req, res, next) => {
           }
           return text
         },
-        datey: function (data) {
-          return calender(data)
+        datey: function (user) {
+          return moment(user).format('L')
         }
       }
     })

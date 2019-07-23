@@ -71,7 +71,7 @@ var studentSchema = new Schema({
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: true
   },
   bio: {
     type: String,
@@ -82,12 +82,10 @@ var studentSchema = new Schema({
     required: true
   },
   date: {
-    type: Date,
-    default: Date()
+    type: Date
   },
   updated: {
-    type: Date,
-    default: Date()
+    type: Date
   }
 })
 

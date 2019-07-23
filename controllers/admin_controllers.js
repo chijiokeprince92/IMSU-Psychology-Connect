@@ -10,6 +10,7 @@ const Result = require('../models/resultSchema')
 const formidable = require('formidable')
 const cloudinary = require('cloudinary')
 const async = require('async')
+const moment = require('moment')
 
 const {
   body,
@@ -363,9 +364,10 @@ exports.edit_level_info = function (req, res, next) {
   })
 }
 
+// Edit the general informations of each level
 exports.edit_100level_info = function (req, res, next) {
   StudentSigns.find({
-    'level': 100
+    'level': req.params.level
   })
     .exec((err, student) => {
       if (err) {
@@ -380,55 +382,7 @@ exports.edit_100level_info = function (req, res, next) {
     })
 }
 
-exports.edit_200level_info = function (req, res, next) {
-  StudentSigns.find({
-    'level': 200
-  })
-    .exec((err, student) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('admin/edit_final_info', {
-        admin: req.session.admin,
-        title: 'EDIT 200 LEVEL INFO',
-        message: 'change 200 level',
-        student: student
-      })
-    })
-}
-
-exports.edit_300level_info = function (req, res, next) {
-  StudentSigns.find({
-    'level': 300
-  })
-    .exec((err, student) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('admin/edit_final_info', {
-        admin: req.session.admin,
-        title: 'EDIT 300 LEVEL INFO',
-        message: 'change 300 level',
-        student: student
-      })
-    })
-}
-
-exports.edit_400level_info = function (req, res, next) {
-  StudentSigns.find({})
-    .exec((err, student) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('admin/edit_final_info', {
-        admin: req.session.admin,
-        title: 'EDIT 400 LEVEL INFO',
-        message: 'change 400 level',
-        student: student
-      })
-    })
-}
-
+// Add a new course to the time table
 exports.register_timetable = (req, res) => {
   res.render('admin/reg_timetable', {
     title: 'SELECT THE LEVEL',
@@ -437,22 +391,22 @@ exports.register_timetable = (req, res) => {
   })
 }
 
+// GET the level to adjust its the time table
 exports.register_timetable_post = (req, res, next) => {
   Courses.find({
     'level': req.body.level
-  })
-    .exec((err, course) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('admin/add_timetable', {
-        title: 'Add Time Table',
-        layout: 'less_layout',
-        admin: req.session.admin,
-        course: course,
-        level: req.body.level
-      })
+  }).exec((err, course) => {
+    if (err) {
+      return next(err)
+    }
+    res.render('admin/add_timetable', {
+      title: 'Add Time Table',
+      layout: 'less_layout',
+      admin: req.session.admin,
+      course: course,
+      level: req.body.level
     })
+  })
 }
 
 // POST student time table for a particular level
@@ -475,13 +429,10 @@ exports.post_time_table = (req, res, next) => {
 // ..........................................................................................................
 // function for getting the names of every staff
 exports.list_staffs = function (req, res, next) {
-  Staff.find()
+  Staff.find({})
     .exec(function (err, staffs) {
       if (err) {
         return next(err)
-      }
-      if (staffs == null) {
-        res.redirect('/hercules/gladiators/spartans/admin')
       }
       res.render('admin/list_staff', {
         admin: req.session.admin,
@@ -557,7 +508,7 @@ exports.delete_staff = function (req, res, next) {
 
 // ---------------------------------------------------------------------------------------------
 
-// GET Admin form for Project Upload
+// GET form for Project Upload
 exports.get_upload_project = function (req, res, next) {
   res.render('admin/upload_project', {
     title: 'Upload Project Topic',
@@ -566,7 +517,7 @@ exports.get_upload_project = function (req, res, next) {
   })
 }
 
-// POST Admin form for Project Upload
+// POST form for Project Upload
 exports.post_upload_project = function (req, res, next) {
   var form = new formidable.IncomingForm()
   form.parse(req, function (err, fields, files) {
@@ -574,7 +525,7 @@ exports.post_upload_project = function (req, res, next) {
       return err
     }
     if (!files.project.name.match(/\.(pdf)$/i)) {
-      console.log('This file is not a picture')
+      console.log('This file is not a PDF')
       req.flash('message', 'The file is not a PDF file')
       res.redirect(301, '/admin/getprojecttopicss')
     } else {
@@ -590,7 +541,9 @@ exports.post_upload_project = function (req, res, next) {
           },
           topic: fields.topic,
           description: fields.description,
-          category: fields.category
+          category: fields.category,
+          created: new Date(),
+          updated: new Date()
         })
         project.save(function (err) {
           if (err) {
@@ -604,9 +557,11 @@ exports.post_upload_project = function (req, res, next) {
   })
 }
 
-// GET Admin PROJECT Topics
+// GET PROJECT Topics
 exports.get_project_topics = function (req, res, next) {
-  Project.find({}, function (err, project) {
+  Project.find({}).sort([
+    ['updated', 'descending']
+  ]).exec(function (err, project) {
     if (err) {
       return next(err)
     }
@@ -615,14 +570,21 @@ exports.get_project_topics = function (req, res, next) {
       layout: 'less_layout',
       title: 'Psychology Project Topics',
       projectss: project,
-      message: req.flash('message')
+      message: req.flash('message'),
+      helpers: {
+        datey: function (data) {
+          return moment(data).format('dddd,MMMM Do YYYY')
+        }
+      }
     })
   })
 }
 
-// GET project category
+// GET project topics by category
 exports.get_project_category = function (req, res, next) {
-  Project.find({ 'category': req.params.topic }, function (err, project) {
+  Project.find({ 'category': req.params.topic }).sort([
+    ['updated', 'descending']
+  ]).exec(function (err, project) {
     if (err) {
       return next(err)
     }
@@ -630,11 +592,17 @@ exports.get_project_category = function (req, res, next) {
       admin: req.session.admin,
       layout: 'less_layout',
       title: 'Psychology Project Topics',
-      projectss: project
+      projectss: project,
+      helpers: {
+        datey: function (data) {
+          return moment(data).format('dddd,MMMM Do YYYY')
+        }
+      }
     })
   })
 }
 
+// GET form to edit project
 exports.edit_project_get = function (req, res, next) {
   Project.findById(req.params.id, function (err, project) {
     if (err) {
@@ -649,11 +617,13 @@ exports.edit_project_get = function (req, res, next) {
   })
 }
 
+// POST form to edit project
 exports.edit_project_post = function (req, res, next) {
   var project = {
     topic: req.body.topic,
     description: req.body.description,
-    category: req.body.category
+    category: req.body.category,
+    updated: new Date()
   }
   Project.findByIdAndUpdate(req.params.id, project, {}, function (err) {
     if (err) {
@@ -664,11 +634,17 @@ exports.edit_project_post = function (req, res, next) {
   })
 }
 
+// Delete project topic
 exports.delete_project = function (req, res, next) {
-  Project.findByIdAndRemove(req.params.id, function (err) {
+  Project.findByIdAndRemove(req.params.id, function (err, delProject) {
     if (err) {
       return next(err)
     }
+    cloudinary.v2.uploader.destroy(delProject.project.public_id, function (err, result) {
+      if (err) {
+        return next(err)
+      }
+    })
     res.redirect('/admin/getprojecttopicss')
   })
 }
@@ -676,7 +652,7 @@ exports.delete_project = function (req, res, next) {
 // --------------------------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
-// GET Admin form for Posting NEWS
+// GET form for NEWS upload
 exports.get_upload_news = function (req, res, next) {
   res.render('admin/admin_get_news', {
     title: 'Admin Upload Projects',
@@ -685,6 +661,7 @@ exports.get_upload_news = function (req, res, next) {
   })
 }
 
+// POST form for NEWS upload
 exports.post_upload_news = function (req, res, next) {
   var form = new formidable.IncomingForm()
   form.parse(req, function (err, fields, files) {
@@ -709,7 +686,9 @@ exports.post_upload_news = function (req, res, next) {
           heading: fields.heading,
           passage: fields.passage,
           passage1: fields.passage1,
-          passage2: fields.passage2
+          passage2: fields.passage2,
+          created: new Date(),
+          updated: new Date()
         })
         latest.save(function (err) {
           if (err) {
@@ -723,6 +702,7 @@ exports.post_upload_news = function (req, res, next) {
   })
 }
 
+// GET form for news edit
 exports.news_edit_get = function (req, res, next) {
   News.findOne({
     '_id': req.params.id
@@ -739,12 +719,14 @@ exports.news_edit_get = function (req, res, next) {
   })
 }
 
+// POST form for news upload
 exports.news_edit_post = function (req, res, next) {
   var latest = {
     heading: req.body.heading,
     passage: req.body.passage,
     passage1: req.body.passage1,
-    passage2: req.body.passage2
+    passage2: req.body.passage2,
+    updated: new Date()
   }
   News.findByIdAndUpdate(req.params.id, latest, {}, function (err, newsupdate) {
     if (err) {
@@ -755,10 +737,10 @@ exports.news_edit_post = function (req, res, next) {
   })
 }
 
-// GET Admin latest NEWS
+// GET latest NEWS
 exports.get_last_news = function (req, res, next) {
   News.find({}).sort([
-    ['created', 'descending']
+    ['updated', 'descending']
   ]).exec(function (err, news) {
     if (err) {
       return next(err)
@@ -768,12 +750,17 @@ exports.get_last_news = function (req, res, next) {
       title: 'Psychology News',
       layout: 'less_layout',
       newspaper: news,
-      message: req.flash('message')
+      message: req.flash('message'),
+      helpers: {
+        datey: function (data) {
+          return moment(data).format('L')
+        }
+      }
     })
   })
 }
 
-// GET Admin full NEWS
+// GET full NEWS
 exports.get_full_news = function (req, res, next) {
   News.findOne({
     '_id': req.params.id
@@ -781,17 +768,63 @@ exports.get_full_news = function (req, res, next) {
     if (err) {
       return next(err)
     }
-    res.render('admin/fullnews', {
-      admin: req.session.admin,
-      layout: 'less_layout',
-      title: 'Psychology Full News',
-      newspaper: news,
-      comments: news.comments,
-      message: req.flash('message')
+    StudentSigns.find({}, function (err, students) {
+      if (err) {
+        return next(err)
+      }
+      res.render('admin/fullnews', {
+        admin: req.session.admin,
+        layout: 'less_layout',
+        title: 'Psychology Full News',
+        newspaper: news,
+        comments: news.comments,
+        commune: function () {
+          var answer = []
+          students.filter(stud => {
+            for (var i = 0; i < news.comments.length; i++) {
+              if (news.comments[i].userid === stud.id) {
+                let commenter = {
+                  userid: stud.id,
+                  user: `${stud.surname} ${stud.firstname}`,
+                  photo: stud.photo,
+                  comment: news.comments[i]
+
+                }
+                answer.push(commenter)
+              }
+            }
+          })
+          return answer
+        },
+        decipher: function () {
+          var answer = []
+          students.filter(hero => {
+            for (var i = 0; i < news.likey.length; i++) {
+              if (news.likey[i] === hero.id) {
+                answer.push(hero)
+              }
+            }
+          })
+          return answer
+        },
+        desliker: function () {
+          var answer = []
+          students.filter(hero => {
+            for (var i = 0; i < news.dislikey.length; i++) {
+              if (news.dislikey[i] === hero.id) {
+                answer.push(hero)
+              }
+            }
+          })
+          return answer
+        },
+        message: req.flash('message')
+      })
     })
   })
 }
 
+// Delete news by admin
 exports.delete_news = function (req, res, next) {
   News.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
@@ -804,7 +837,7 @@ exports.delete_news = function (req, res, next) {
 // ----------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------------
-// ADMIN GET course registration
+// GET course registration
 exports.add_courses = function (req, res, next) {
   Staff.find({}, function (err, teacher) {
     if (err) {
@@ -819,7 +852,7 @@ exports.add_courses = function (req, res, next) {
   })
 }
 
-// ADMIN POST Course Registration
+// POST Course Registration
 exports.post_course = function (req, res, next) {
   var course = new Courses({
     coursecode: req.body.coursecode,
@@ -827,8 +860,7 @@ exports.post_course = function (req, res, next) {
     level: req.body.level,
     semester: req.body.semester,
     units: req.body.units,
-    borrowed: req.body.borrowed,
-    courseoutline: req.body.courseoutline
+    borrowed: req.body.borrowed
   })
   course.save(function (err, coursed) {
     if (err) {
@@ -838,7 +870,7 @@ exports.post_course = function (req, res, next) {
   })
 }
 
-// GET course form for update.
+// GET course form for edit.
 exports.course_update_get = function (req, res, next) {
   async.parallel({
     coursess: function (callback) {
@@ -860,7 +892,7 @@ exports.course_update_get = function (req, res, next) {
   })
 }
 
-// POST course form for update
+// POST course form for edit
 exports.course_update_post = function (req, res, next) {
   var course = {
     coursecode: req.body.coursecode,
@@ -868,8 +900,7 @@ exports.course_update_post = function (req, res, next) {
     level: req.body.level,
     semester: req.body.semester,
     units: req.body.units,
-    borrowed: req.body.borrowed,
-    courseoutline: req.body.courseoutline
+    borrowed: req.body.borrowed
   }
   Courses.findByIdAndUpdate(req.params.id, course, {}, function (err, courseupdate) {
     if (err) {
@@ -879,6 +910,7 @@ exports.course_update_post = function (req, res, next) {
   })
 }
 
+// Delete course
 exports.delete_course = function (req, res, next) {
   Courses.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
@@ -889,7 +921,7 @@ exports.delete_course = function (req, res, next) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------
-// GET List of Various Courses...
+// GET List of Various Courses in a particular level...
 exports.get_courses_level = function (req, res, next) {
   async.parallel({
     first_semester: function (callback) {

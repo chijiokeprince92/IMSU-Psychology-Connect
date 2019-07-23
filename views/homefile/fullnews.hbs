@@ -3,11 +3,11 @@
     {{newspaper.heading}}
   </b>
 </h5>
-<br><br>
+<br>
 <div class="container-fluid">
   <div class="row">
     <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
-      <img src="{{newspaper.picture.url}}" alt="news image" class="rounded" width="100%" />
+      <img src="{{newspaper.picture.url}}" alt="news image" class="rounded profileImage" />
       <br><br><br><br>
     </div>
     <div class="col-12">
@@ -27,9 +27,6 @@
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#likes">LIKES</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#dislikes">DISLIKES</a>
-  </li>
 </ul>
 <div class="tab-content">
   <div id="comments" class="container-fluid tab-pane active" style="background-color:white">
@@ -45,11 +42,11 @@
           {{#each commune}}
             {{#if this.photo.url}}
               <div class="col-2 col-sm-1">
-                <img src="{{this.photo.url}}" class="rounded-circle" width="30px" height="30px" />
+                <img src="{{this.photo.url}}" class="rounded-circle commentImage" />
               </div>
             {{else}}
               <div class="col-2 col-sm-1">
-                <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />
+                <img src="/images/psylogo4.jpg" class="rounded-circle commentImage" />
               </div>
             {{/if}}
             <div class="col-10 col-sm-11">
@@ -108,22 +105,8 @@
     <br>
     <h6>PEOPLE WHO LIKE THIS</h6>
     {{#each decipher}}
-      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle" width="30px"
-            height="30px" />
-        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />{{/if}}
-        {{this.surname}}
-        {{this.firstname}}
-      </p>
-      <br><br>
-    {{/each}}
-  </div>
-  <div id="dislikes" class="container-fluid tab-pane fade" style="background-color:white">
-    <br>
-    <h6>PEOPLE WHO DISLIKE THIS</h6>
-    {{#each desliker}}
-      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle" width="30px"
-            height="30px" />
-        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />{{/if}}
+      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle commentImage" />
+        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle commentImage" />{{/if}}
         {{this.surname}}
         {{this.firstname}}
       </p>

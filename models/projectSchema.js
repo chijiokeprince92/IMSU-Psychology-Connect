@@ -20,8 +20,7 @@ var projectSchema = new Schema({
     required: true
   },
   created: {
-    type: Date,
-    default: Date()
+    type: Date
   },
   updated: {
     type: Date

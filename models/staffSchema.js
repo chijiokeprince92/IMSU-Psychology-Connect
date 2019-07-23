@@ -18,6 +18,7 @@ var staffSchema = new Schema({
   },
   staff_id: {
     type: String,
+    unique: true,
     required: true
   },
   gender: {
@@ -62,12 +63,10 @@ var staffSchema = new Schema({
     required: true
   },
   date: {
-    type: Date,
-    default: Date()
+    type: Date
   },
   updated: {
-    type: Date,
-    default: Date()
+    type: Date
   }
 })
 

@@ -11,6 +11,7 @@ const Result = require('../models/resultSchema')
 const Timetable = require('../models/timetableSchema')
 const formidable = require('formidable')
 const cloudinary = require('cloudinary')
+const moment = require('moment')
 
 const async = require('async')
 
@@ -28,38 +29,13 @@ exports.loginRequired = (req, res, next) => {
 
 // this function ensures that another user does not tamper with a user's account
 exports.ensureCorrectuser = (req, res, next) => {
-  if (req.session.student !== req.params.id) {
+  if (req.session.student.id !== req.params.id) {
     res.redirect('/login')
   } else {
     next()
   }
 }
-
-// function for formatting date
-var calender = function (user) {
-  let day = ''
-  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-  let month = ''
-  if (user.getDay() === 1) {
-    day = user.getDay() + 'st'
-  }
-  if (user.getDay() === 2) {
-    day = user.getDay() + 'nd'
-  }
-  if (user.getDay() === 3) {
-    day = user.getDay() + 'rd'
-  }
-  if (user.getDay() > 3) {
-    day = user.getDay() + 'th'
-  }
-  for (let i = 0; i < months.length; i++) {
-    month = months[user.getMonth() - 1]
-  }
-  return day + ' - ' + month + ' - ' + user.getFullYear()
-}
-
 // ----------------------------------------------------------------------------
-
 // GET the Student signup form
 exports.student_signup_get = (req, res, next) => {
   res.render('homefile/student_signup', {
@@ -112,6 +88,12 @@ exports.student_signup_post = [
     })
     .trim()
     .withMessage('phone must be specified.'),
+  body('bio')
+    .isLength({
+      min: 1
+    })
+    .trim()
+    .withMessage('status must be specified.'),
   body('password')
     .isLength({
       min: 1
@@ -139,6 +121,9 @@ exports.student_signup_post = [
     .trim()
     .escape(),
   sanitizeBody('phone')
+    .trim()
+    .escape(),
+  sanitizeBody('bio')
     .trim()
     .escape(),
   sanitizeBody('password')
@@ -169,6 +154,8 @@ exports.student_signup_post = [
         gender: req.body.gender,
         phone: req.body.phone,
         bio: req.body.bio,
+        date: new Date(),
+        updated: new Date(),
         password: req.body.password
       })
       qualified.save(err => {
@@ -274,7 +261,7 @@ exports.profiler = (req, res, next) => {
         message: req.flash('message'),
         helpers: {
           datey: function (data) {
-            return calender(data)
+            return moment(data).format('dddd,MMMM Do YYYY')
           }
         }
       })
@@ -321,7 +308,18 @@ exports.student_update_post = (req, res, next) => {
 }
 
 // Upload your profile pics
-exports.student_update_pics = (req, res, next) => {
+exports.student_update_pics = async (req, res, next) => {
+  await StudentSigns.findByIdAndRemove(req.session.student.id, function (err, delprofilepic) {
+    if (err) {
+      return next(err)
+    }
+    cloudinary.v2.uploader.destroy(delprofilepic.photo.public_id, function (err) {
+      if (err) {
+        return next(err)
+      }
+    })
+  })
+  
   var form = new formidable.IncomingForm()
   form.parse(req)
   form.on('fileBegin', function (name, file) {
@@ -380,8 +378,8 @@ exports.view_coursemate_profile = (req, res, next) => {
         registered_courses: students,
         message: req.flash('message'),
         helpers: {
-          datey: function (user) {
-            return calender(user)
+          datey: function (data) {
+            return moment(data).format('dddd,MMMM Do YYYY')
           }
         }
       })
@@ -392,7 +390,7 @@ exports.view_coursemate_profile = (req, res, next) => {
 // Functions for displaying just your coursemates
 exports.list_psychology_students = (req, res, next) => {
   StudentSigns.find({}).sort([
-    ['level', 'ascending']
+    ['level', 'ascending'], ['updated', 'descending']
   ]).exec((err, students) => {
     if (err) {
       return next(err)
@@ -417,27 +415,28 @@ exports.list_psychology_students = (req, res, next) => {
 
 // Functions for displaying just your coursemates
 exports.list_coursemates = (req, res, next) => {
-  StudentSigns.find({ level: req.params.level },
-    (err, students) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('student/lists_students', {
-        allowed: req.session.student,
-        title: `${req.params.level} LEVEL STUDENTS`,
-        slow: students,
-        head: `${req.params.level} LEVEL PSYCHOLOGY STUDENTS`,
-        helpers: {
-          isEqual: function (a, opts) {
-            if (a == req.session.student.id) {
-              return opts.fn(this)
-            } else {
-              return opts.inverse(this)
-            }
+  StudentSigns.find({ level: req.params.level }).sort([
+    ['level', 'ascending'], ['updated', 'descending']
+  ]).exec((err, students) => {
+    if (err) {
+      return next(err)
+    }
+    res.render('student/lists_students', {
+      allowed: req.session.student,
+      title: `${req.params.level} LEVEL STUDENTS`,
+      slow: students,
+      head: `${req.params.level} LEVEL PSYCHOLOGY STUDENTS`,
+      helpers: {
+        isEqual: function (a, opts) {
+          if (a == req.session.student.id) {
+            return opts.fn(this)
+          } else {
+            return opts.inverse(this)
           }
         }
-      })
-    }
+      }
+    })
+  }
   )
 }
 
@@ -865,28 +864,42 @@ exports.delete_registered_course = function (req, res, next) {
 
 // GET Student Project Topics
 exports.get_project_topics = (req, res, next) => {
-  Project.find({}).exec((err, topics) => {
+  Project.find({}).sort([
+    ['updated', 'descending']
+  ]).exec((err, topics) => {
     if (err) {
       return next(err)
     }
     res.render('student/project_topics', {
       allowed: req.session.student,
       title: 'Psychology Project Topics',
-      projectss: topics
+      projectss: topics,
+      helpers: {
+        datey: function (data) {
+          return moment(data).format('dddd,MMMM Do YYYY')
+        }
+      }
     })
   })
 }
 
 // GET project category
 exports.get_project_category = function (req, res, next) {
-  Project.find({ 'category': req.params.topic }, function (err, topics) {
+  Project.find({ 'category': req.params.topic }).sort([
+    ['updated', 'descending']
+  ]).exec(function (err, topics) {
     if (err) {
       return next(err)
     }
     res.render('student/project_topics', {
       allowed: req.session.student,
       title: 'Psychology Project Topics',
-      projectss: topics
+      projectss: topics,
+      helpers: {
+        datey: function (data) {
+          return moment(data).format('dddd,MMMM Do YYYY')
+        }
+      }
     })
   })
 }
@@ -895,7 +908,7 @@ exports.get_project_category = function (req, res, next) {
 exports.get_last_news = (req, res, next) => {
   News.find({})
     .sort([
-      ['created', 'descending']
+      ['updated', 'descending']
     ])
     .exec((err, news) => {
       if (err) {
@@ -914,7 +927,7 @@ exports.get_last_news = (req, res, next) => {
             }
           },
           datey: function (user) {
-            return calender(user)
+            return moment(user).format('L')
           },
           truncate: function (a, b) {
             const value = a.toString()
@@ -1061,7 +1074,7 @@ exports.post_comment_news = (req, res, next) => {
       if (err) {
         return next(err)
       }
-      req.io.of('/studentcomments/' + req.params.id).emit('chat_message', commentor)
+      req.io.emit(`${req.params.id}`, commentor)
       res.json({
         status: 200,
         data: cement
@@ -1300,7 +1313,7 @@ exports.get_messages = function (req, res, next) {
               }
             },
             datey: function (data) {
-              return calender(data)
+              return moment(data).format('L')
             }
           }
         })
@@ -1326,7 +1339,8 @@ exports.new_conversation = function (req, res, next) {
           conversationId: conversation._id,
           sender: req.session.student.id,
           body: req.body.message,
-          date: Date()
+          date: new Date(),
+          updated: new Date()
         })
         reply.save(function (err) {
           if (err) {
@@ -1347,7 +1361,8 @@ exports.new_conversation = function (req, res, next) {
             conversationId: newConversation._id,
             sender: req.session.student.id,
             body: req.body.message,
-            date: Date()
+            date: new Date(),
+            updated: new Date()
           })
           message.save(function (err, newchit) {
             if (err) {
@@ -1363,7 +1378,7 @@ exports.new_conversation = function (req, res, next) {
 
 // function for getting the names of every staff
 exports.list_staffs = (req, res, next) => {
-  Staff.find({}).exec((err, staffs) => {
+  Staff.find({}).sort([['updated', 'descending']]).exec((err, staffs) => {
     if (err) {
       return next(err)
     }

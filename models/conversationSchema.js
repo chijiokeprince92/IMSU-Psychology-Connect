@@ -12,8 +12,7 @@ var conversationSchema = new Schema({
     required: true
   },
   date: {
-    type: Date,
-    default: Date()
+    type: Date
   }
 })
 

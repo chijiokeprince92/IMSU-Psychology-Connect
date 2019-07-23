@@ -42,12 +42,10 @@ var coursesSchema = new Schema({
     changed_by: String
   }],
   created: {
-    type: Date,
-    default: Date()
+    type: Date
   },
   updated: {
-    type: Date,
-    default: Date()
+    type: Date
   }
 })
 

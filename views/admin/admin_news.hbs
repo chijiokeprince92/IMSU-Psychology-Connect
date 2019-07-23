@@ -11,7 +11,7 @@
   <div class="container-fluid">
     <div class="row">
       {{#each newspaper}}
-        <div class="col-12 col-md-6 col-lg-4">
+        <div class="col-12 col-sm-6 col-lg-4">
           <li class="card">
             <div class="col-12 card-header">
               <h6>
@@ -22,17 +22,20 @@
             </div>
             <div class="card-body col-12">
               <br>
-              <img src="{{this.picture.url}}" alt="image" class="rounded" width="100%" height="250" />
+              <img src="{{this.picture.url}}" alt="image" class="rounded news" />
               <br><br>
               <p>{{this.passage}}</p>
+              <small class="float-right"> Posted on: {{datey this.updated}}</small>
             </div>
             <div class="col-12 card-footer">
-              <button class="btn btn-danger"><span class="fa fa-commenting-o"></span> 12</button>
-              <button type="button" class="btn btn-primary"><span class="fa fa-thumbs-o-up"> {{this.likes}}
+              <button class="btn btn-light"><span class="fa fa-comments-o" style="font-size:20px;color:lightgreen">
+                </span> {{length this.comments}}</button>
+              <button type="button" class="btn btn-light"><span class="fa fa-heart-o"
+                  style="font-size:20px;color:rgb(245, 56, 71)"> {{length this.likey}}
               </button>
-              <button class="btn btn-danger"><span class="fa fa-thumbs-o-down"></span> {{this.dislikes}}</button>
-              <a class="btn btn-info" href="/admin/editnews/{{this.id}}"><span class="fa fa-edit"></span></a>
-              <form action="/admin/deletenews/{{this.id}}" method="POST" style="display:inline">
+              <a class="btn btn-secondary float-center" href="/admin/editnews/{{this.id}}"><span
+                  class="fa fa-edit"></span></a>
+              <form action="/admin/deletenews/{{this.id}}" method="POST" style="display:inline" class="float-right">
                 <input type="hidden" />
                 <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span> </button>
               </form>

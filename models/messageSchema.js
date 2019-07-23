@@ -20,12 +20,10 @@ var messageSchema = new Schema({
     default: false
   },
   date: {
-    type: Date,
-    default: Date()
+    type: Date
   },
   updated: {
-    type: Date,
-    default: Date()
+    type: Date
   }
 })
 

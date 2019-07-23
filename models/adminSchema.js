@@ -26,12 +26,10 @@ var adminSchema = new Schema({
     required: true
   },
   created: {
-    type: Date,
-    default: Date()
+    type: Date
   },
   updated: {
-    type: Date,
-    dafault: Date()
+    type: Date
   },
   password: {
     type: String,

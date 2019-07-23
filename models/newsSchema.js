@@ -37,12 +37,10 @@ var newsSchema = new Schema({
   likey: [],
   dislikey: [],
   created: {
-    type: Date,
-    default: Date()
+    type: Date
   },
   updated: {
-    type: Date,
-    default: Date()
+    type: Date
   }
 })
 

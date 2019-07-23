@@ -21,35 +21,23 @@
               <img src="{{this.picture.url}}" alt="news image" class="rounded news" />
               <br><br>
               <p>{{truncate this.passage 130}}</p>
-              <small class="float-right"> {{datey this.created}}</small>
+              <small class="float-right"> Posted on: {{datey this.updated}}</small>
             </div>
             <div class="col-12 card-footer">
-              <button class="btn btn-light"><span class="fa fa-comments-o" style="font-size:15px;color:lightgreen">
+              <button class="btn btn-light"><span class="fa fa-comments-o" style="font-size:20px;color:lightgreen">
                 </span>
                 {{length this.comments}}</button>
               {{#inArray this.likey ../allowed.id}}
-                <button class="btn btn-light fa fa-thumbs-o-up" style="font-size:15px;color:rgb(18, 191, 248)"></button>
+                <button class="btn btn-light fa fa-heart-o" style="font-size:20px;color:rgb(245, 56, 71)"></button>
                 <span id=" spn{{this.id}}">{{length this.likey}}</span>
       {{else}}
         <form id="newslike{{this.id}}" action="/newslike/{{this.id}}" method="POST" style="display:inline">
           <input type="text" style="display:none" id="newsId{{this.id}}" value="{{this.id}}" />
           <input type="text" style="display:none" id="numb{{this.id}}" value="{{length this.likey}}" />
           <input type="text" style="display:none" id="userId" value="{{../allowed.id}}" />
-          <button type="submit" class="btn btn-light fa fa-thumbs-o-up"></button>
+          <button type="submit" class="btn btn-light fa fa-heart-o" style="font-size:20px"></button>
         </form>
         <span id="spn{{this.id}}">{{length this.likey}}</span>
-              {{/inArray}}
-              {{#inArray this.dislikey ../allowed.id}}
-                <button class="btn btn-light fa fa-thumbs-o-down" style="font-size:15px;color:red"></button>
-                <span id="dis{{this.id}}">{{length this.dislikey}}</span>
-      {{else}}
-        <form id="newsdislike{{this.id}}" action="/newsdislike/{{this.id}}" method="POST" style="display:inline">
-          <input type="text" style="display:none" id="newsI{{this.id}}" value="{{this.id}}" />
-          <input type="text" style="display:none" id="nod{{this.id}}" value="{{length this.dislikey}}" />
-          <input type="text" style="display:none" id="userI" value="{{../allowed.id}}" />
-          <button type="submit" class="btn btn-light fa fa-thumbs-o-down"></button>
-          <span id="dis{{this.id}}">{{length this.dislikey}}</span>
-        </form>
               {{/inArray}}
             </div>
           </li>
@@ -58,7 +46,6 @@
         <script>
           // function for live update when news is liked without page reload
           $('document').ready(function () {
-
             var socket = io();
             var numb = $('#numb{{this.id}}').val();
             $('#newslike{{this.id}}').submit(function (event) {

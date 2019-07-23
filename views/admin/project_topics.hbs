@@ -44,10 +44,11 @@
         <br><br>
         <div class="col-12 col-lg-8">
           <p>{{this.description}}</p>
+          <small class="float-right"> Last Update: {{datey this.updated}}</small>
         </div>
       </div>
       <a class="btn btn-info" href="/admin/editproject/{{this.id}}"><span class="fa fa-edit"></span></a>
-      <form action="/deleteproject/{{this.id}}" method="POST" style="display:inline">
+      <form action="/admin/deleteproject/{{this.id}}" method="POST" style="display:inline">
         <input type="hidden" class="form-control">
         <button type="submit" class="btn btn-danger"><span class="fa fa-trash"></span></button>
       </form>

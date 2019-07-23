@@ -11,6 +11,7 @@ const Courses = require('../models/coursesSchema')
 const Timetable = require('../models/timetableSchema')
 const formidable = require('formidable')
 const cloudinary = require('cloudinary')
+const moment = require('moment')
 var async = require('async')
 
 // --------------------------------------------------------------------------------------------
@@ -23,30 +24,6 @@ exports.staffloginRequired = function (req, res, next) {
   }
 }
 // ----------------------------------------------------------------------------------
-// function for formatting date
-var calender = function (user) {
-  let day = ''
-  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-  let month = ''
-  if (user.getDay() === 1) {
-    day = user.getDay() + 'st'
-  }
-  if (user.getDay() === 2) {
-    day = user.getDay() + 'nd'
-  }
-  if (user.getDay() === 3) {
-    day = user.getDay() + 'rd'
-  }
-  if (user.getDay() > 3) {
-    day = user.getDay() + 'th'
-  }
-  for (let i = 0; i < months.length; i++) {
-    month = months[user.getMonth() - 1]
-  }
-  return day + ' - ' + month + ' - ' + user.getFullYear()
-}
-// -------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------
 
 // GET page for staff login
 exports.staff_login_get = (req, res) => {
@@ -131,7 +108,7 @@ exports.staff_profiler = function (req, res, next) {
       message: req.flash('message'),
       helpers: {
         datey: function (data) {
-          return calender(data)
+          return moment(data).format('dddd,MMMM Do YYYY')
         }
       }
     })
@@ -161,6 +138,8 @@ exports.staff_update_post = (req, res, next) => {
     firstname: req.body.firstname,
     phone: req.body.phone,
     bio: req.body.bio,
+    staff_id: req.body.staff_id,
+    updated: new Date(),
     password: req.body.password
   }
   Staff.findByIdAndUpdate(req.session.staff.id, updatedStaff, {}, function (err, staffupdate) {
@@ -171,17 +150,25 @@ exports.staff_update_post = (req, res, next) => {
   })
 }
 
-exports.staff_update_pics = (req, res, next) => {
+exports.staff_update_pics = async (req, res, next) => {
+  await Staff.findByIdAndRemove(req.session.staff.id, function (err, delprofilepic) {
+    if (err) {
+      return next(err)
+    }
+    cloudinary.v2.uploader.destroy(delprofilepic.photo.public_id, function (err) {
+      if (err) {
+        return next(err)
+      }
+    })
+  })
+
   var form = new formidable.IncomingForm()
   form.parse(req)
-
   form.on('file', function (name, file) {
     if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
-      console.log('The file is  not a picture')
-      req.flash('message', 'The file you uploaded was not a picture')
+      req.flash('message', 'The file you selected was not a picture')
       res.redirect(301, '/staff/profile/' + req.session.staff.id)
     } else {
-      console.log('The file is a picture')
       cloudinary.v2.uploader.upload(file.path, function (err, result) {
         if (err) {
           return next(err)
@@ -208,7 +195,7 @@ exports.staff_update_pics = (req, res, next) => {
 // ---------------------------------------------------------------------------------------------
 // function for getting the names of every staff
 exports.list_staffs = function (req, res, next) {
-  Staff.find({})
+  Staff.find({}).sort([['updated', 'descending']])
     .exec(function (err, staff) {
       if (err) {
         return next(err)
@@ -253,7 +240,7 @@ exports.view_staff_profile = function (req, res, next) {
       coursess: staff.coursey,
       helpers: {
         datey: function (data) {
-          return calender(data)
+          return moment(data).format('dddd,MMMM Do YYYY')
         }
       }
     })
@@ -334,8 +321,8 @@ exports.view_student_profile = function (req, res, next) {
             students: student,
             registered_courses: mycourses,
             helpers: {
-              datey: function (user) {
-                return calender(user)
+              datey: function (data) {
+                return moment(data).format('dddd,MMMM Do YYYY')
               }
             }
           })
@@ -348,7 +335,7 @@ exports.view_student_profile = function (req, res, next) {
 exports.list_students = function (req, res, next) {
   StudentSigns.find({})
     .sort([
-      ['level', 'ascending']
+      ['level', 'ascending'], ['updated', 'descending']
     ])
     .exec(
       function (err, student) {
@@ -369,7 +356,8 @@ exports.list_students = function (req, res, next) {
 exports.list_students_level = function (req, res, next) {
   StudentSigns.find({
     'level': req.params.level
-  }, function (err, student) {
+  }).sort([['updated', 'descending']
+  ]).exec(function (err, student) {
     if (err) {
       return next(err)
     }
@@ -628,7 +616,7 @@ exports.edit_courseoutline = function (req, res, next) {
 // GET Admin latest NEWS
 exports.get_last_news = function (req, res, next) {
   News.find({}).sort([
-    ['created', 'descending']
+    ['updated', 'descending']
   ]).exec(function (err, release) {
     if (err) {
       return next(err)
@@ -638,6 +626,9 @@ exports.get_last_news = function (req, res, next) {
       title: 'Psychology News',
       newspaper: release,
       helpers: {
+        datey: function (user) {
+          return moment(user).format('L')
+        },
         truncate: function (a, b) {
           const value = a.toString()
           const limit = b
@@ -717,28 +708,42 @@ exports.get_full_news = function (req, res, next) {
 
 // GET Staff PROJECT Topics
 exports.get_project_topics = function (req, res, next) {
-  Project.find({}, function (err, release) {
+  Project.find({}).sort([
+    ['updated', 'descending']
+  ]).exec(function (err, release) {
     if (err) {
       return next(err)
     }
     res.render('staffs/project_topics', {
       staff_session: req.session.staff,
       title: 'Psychology Project Topics',
-      projectss: release
+      projectss: release,
+      helpers: {
+        datey: function (data) {
+          return moment(data).format('dddd,MMMM Do YYYY')
+        }
+      }
     })
   })
 }
 
 // GET project category
 exports.get_project_category = function (req, res, next) {
-  Project.find({ 'category': req.params.topic }, function (err, topics) {
+  Project.find({ 'category': req.params.topic }).sort([
+    ['updated', 'descending']
+  ]).exec(function (err, topics) {
     if (err) {
       return next(err)
     }
     res.render('staffs/project_topics', {
       staff_session: req.session.staff,
       title: 'Psychology Project Topics',
-      projectss: topics
+      projectss: topics,
+      helpers: {
+        datey: function (data) {
+          return moment(data).format('dddd,MMMM Do YYYY')
+        }
+      }
     })
   })
 }

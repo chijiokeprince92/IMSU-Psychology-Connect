@@ -23,12 +23,10 @@ var resultSchema = new Schema({
 
   },
   created: {
-    type: Date,
-    default: Date()
+    type: Date
   },
   updated: {
-    type: Date,
-    default: Date()
+    type: Date
   }
 })
 

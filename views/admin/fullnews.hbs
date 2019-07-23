@@ -8,36 +8,76 @@
 <br><br>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-lg-6">
-      <img src="{{newspaper.picture.url}}" alt="image" class="rounded" width="100%" />
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 viewer">
+      <img src="{{newspaper.picture.url}}" alt="news image" class="rounded profileImage" />
+      <br><br><br><br>
     </div>
     <br>
-    <div class="col-12 col-lg-6">
-      <p>{{newspaper.passage}}</p>
-    </div>
     <div class="col-12">
-      <br>
+      <p>{{newspaper.passage}}</p>
+      <br><br>
       <p>{{newspaper.passage1}}</p>
-      <br>
+      <br><br>
       <p>{{newspaper.passage2}}</p>
     </div>
   </div>
 </div>
 <br><br>
-<h5><b>
-    COMMENTS
-  </b>
-</h5>
-<br>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-md-4">
-      {{#each comments}}
-        <p class="card"><b>{{this.user}}: </b>{{this.comment}}</p>
-        <br><br>
-      {{/each}}
-      <br>
-    </div>
+<ul class="nav nav-tabs nav-justified">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#comments">COMMENTS</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#likes">LIKES</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div id="comments" class="container-fluid tab-pane active" style="background-color:white">
+    <br><br>
+    <h5><b>
+        COMMENTS<span class="badge badge-danger badge-pill spany">{{length newspaper.comments}}</span>
+      </b>
+    </h5>
+    <br>
+    <ul>
+      <div class="container-fluid">
+        <div class="row">
+          {{#each commune}}
+            {{#if this.photo.url}}
+              <div class="col-2 col-sm-1">
+                <img src="{{this.photo.url}}" class="rounded-circle" width="30px" height="30px" />
+              </div>
+            {{else}}
+              <div class="col-2 col-sm-1">
+                <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />
+              </div>
+            {{/if}}
+            <div class="col-10 col-sm-11">
+              <li class="card">
+                <p><b> <a href="/admin/studentprofile/{{this.userid}}"> {{this.user}}</a>
+                  </b>
+                </p>
+                <p>{{this.comment.comment}}</p>
+              </li>
+              <br><br>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </ul>
+  </div>
+  <div id="likes" class="container-fluid tab-pane fade" style="background-color:white">
+    <br>
+    <h6>PEOPLE WHO LIKE THIS</h6>
+    {{#each decipher}}
+      <p><b>{{@index}}. </b>{{#if this.photo.url}}<img src="{{this.photo.url}}" class="rounded-circle" width="30px"
+            height="30px" />
+        {{else}} <img src="/images/psylogo4.jpg" class="rounded-circle" width="30px" height="30px" />{{/if}}
+        {{this.surname}}
+        {{this.firstname}}
+      </p>
+      <br><br>
+    {{/each}}
   </div>
 </div>
-<br>
+<br><br>

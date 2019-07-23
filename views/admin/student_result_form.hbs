@@ -33,44 +33,4 @@
     </div>
   </div>
 </div>
-<h5><b>
-    UPLOADED RESULTS
-  </b>
-</h5>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-lg-6">
-      <ul>
-        <br><br>
-        {{#each accept}}
-          <li class="container-fluid">
-            <div class="row">
-              <div class="col-6">
-                <p>
-                  <b>NAME: </b>{{this.name}}<br>
-                  <b>MAT.NUMBER: </b>{{this.matnumber}}<br>
-                </p>
-              </div>
-              <div class="col-4">
-                <button id="add{{this.id}}" class="btn btn-primary">{{this.grade}}</button>
-              </div>
-              <div class="col-2">
-                <form action="/admin/deleteresult/{{result_id}}" method="POST">
-                  <input type="hidden" name="code" value="{{../courses.id}}" required>
-                  <button type="submit" class="btn btn-danger"><span class="fa fa-trash" style="font-size:15px"></span>
-                  </button>
-                </form>
-              </div>
-            </div>
-          </li>
-          <br><br>
-        {{else}}
-          <p>THERE ARE NO REGISTERED PSYCHOLOGY STUDENT</p>
-        {{/each}}
-      </ul>
-    </div>
-  </div>
-</div>
-{{#each results}}
-  <p>{{this}}</p>
-{{/each}}
+<br><br>

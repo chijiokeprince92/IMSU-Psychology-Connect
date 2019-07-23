@@ -1,12 +1,46 @@
 const News = require('../models/newsSchema')
 const formidable = require('formidable')
 const cloudinary = require('cloudinary')
+const moment = require('moment')
+
+// function for formatting date
+var calender = function (user) {
+  let day = ''
+  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  let month = ''
+  if (user.getDay() === 1) {
+    day = user.getDay() + 'st'
+  }
+  if (user.getDay() === 2) {
+    day = user.getDay() + 'nd'
+  }
+  if (user.getDay() === 3) {
+    day = user.getDay() + 'rd'
+  }
+  if (user.getDay() > 3) {
+    day = user.getDay() + 'th'
+  }
+  for (let i = 0; i < months.length; i++) {
+    month = months[user.getMonth() - 1]
+  }
+  return day + ' - ' + month + ' - ' + user.getFullYear()
+}
 
 exports.upload_files = function (req, res) {
   res.render('testing/lovely', {
     testing: 'I AM TESTING THIS API',
     title: 'Testing API',
     layout: 'less_layout',
+    test: {
+      today: moment().format(),
+      date: moment('2018-06-02').format('ll'),
+      era: moment(new Date()).format('ll'),
+      timey: moment().format('HH:mm:ss'),
+      timey1: moment().format('HH:mm:ss a'),
+      datey: moment().format('L'),
+      datey2: moment().format('LT'),
+      datey1: moment().format('dddd,MMMM Do YYYY')
+    },
     helpers: {
       prince: function () {
         return `I LOVE JESUS SOOO MUCH`

@@ -58,15 +58,6 @@ router.get('/editlevelinfo', admin_controllers.admin_session_force, admin_contro
 // GET routes for editing the general details of 100 level
 router.get('/edit100levelinfo', admin_controllers.admin_session_force, admin_controllers.edit_100level_info)
 
-// GET routes for editing the general details of 200 level
-router.get('/edit200levelinfo', admin_controllers.admin_session_force, admin_controllers.edit_200level_info)
-
-// GET routes for editing the general details of 300 level
-router.get('/edit300levelinfo', admin_controllers.admin_session_force, admin_controllers.edit_300level_info)
-
-// GET routes for editing the general details of 400 level
-router.get('/edit400levelinfo', admin_controllers.admin_session_force, admin_controllers.edit_400level_info)
-
 // GET the number of registered staffs
 router.get('/stafflist', admin_controllers.admin_session_force, admin_controllers.list_staffs)
 
