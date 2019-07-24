@@ -66,7 +66,7 @@ exports.staff_home = (req, res, next) => {
       }).exec(callback)
     },
     newy: (callback) => {
-      News.count().exec(callback)
+      News.countDocuments().exec(callback)
     }
   }, (err, name) => {
     if (err) {
@@ -151,44 +151,71 @@ exports.staff_update_post = (req, res, next) => {
 }
 
 exports.staff_update_pics = async (req, res, next) => {
-  await Staff.findByIdAndRemove(req.session.staff.id, function (err, delprofilepic) {
+  Staff.findById(req.session.staff.id).exec(function (err, stud) {
     if (err) {
       return next(err)
     }
-    cloudinary.v2.uploader.destroy(delprofilepic.photo.public_id, function (err) {
-      if (err) {
-        return next(err)
-      }
-    })
-  })
-
-  var form = new formidable.IncomingForm()
-  form.parse(req)
-  form.on('file', function (name, file) {
-    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
-      req.flash('message', 'The file you selected was not a picture')
-      res.redirect(301, '/staff/profile/' + req.session.staff.id)
-    } else {
-      cloudinary.v2.uploader.upload(file.path, function (err, result) {
-        if (err) {
-          return next(err)
-        }
-        // add cloudinary url for the image to the topic object under image property
-        var qualified = {
-          photo: {
-            url: result.secure_url,
-            public_id: result.public_id
-          }
-        }
-        Staff.findByIdAndUpdate(req.session.staff.id, qualified, {},
-          (err, staffupdate) => {
+    var form = new formidable.IncomingForm()
+    form.parse(req)
+    form.on('file', function (name, file) {
+      if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        console.log('The file is not a picture')
+        req.flash('message', 'The file you uploaded was not a picture')
+        res.redirect(301, '/staff/profile' + req.session.staff.id)
+      } else {
+        console.log('The file is a picture')
+        if (stud.photo.url === undefined) {
+          // add a new image to student profile
+          cloudinary.v2.uploader.upload(file.path, function (err, result) {
             if (err) {
               return next(err)
             }
-            res.redirect(staffupdate.url)
+            console.log(result)
+            // add cloudinary url for the image to the topic object under image property
+            var qualified = {
+              photo: {
+                url: result.secure_url,
+                public_id: result.public_id
+              }
+            }
+            Staff.findByIdAndUpdate(req.session.staff.id, qualified, {},
+              (err, staffupdate) => {
+                if (err) {
+                  return next(err)
+                }
+                res.redirect(staffupdate.url)
+              })
           })
-      })
-    }
+        } else {
+          // delete the current profile image from cloudinary
+          cloudinary.v2.uploader.destroy(stud.photo.public_id, function (err) {
+            if (err) {
+              return next(err)
+            }
+          })
+          // upload the new image in replacement of the deleted one
+          cloudinary.v2.uploader.upload(file.path, function (err, pics) {
+            if (err) {
+              return next(err)
+            }
+            // add cloudinary url for the image to the topic object under image property
+            var qualified = {
+              photo: {
+                url: pics.secure_url,
+                public_id: pics.public_id
+              }
+            }
+            Staff.findByIdAndUpdate(req.session.staff.id, qualified, {},
+              (err, staffupdate) => {
+                if (err) {
+                  return next(err)
+                }
+                res.redirect(staffupdate.url)
+              })
+          })
+        }
+      }
+    })
   })
 }
 
@@ -745,13 +772,6 @@ exports.get_project_category = function (req, res, next) {
         }
       }
     })
-  })
-}
-
-exports.upload_projects = function (req, res) {
-  res.render('staffs/upload_projects', {
-    title: 'Staff Upload Projects',
-    staff_session: req.session.staff
   })
 }
 

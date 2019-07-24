@@ -83,97 +83,94 @@ router.post('/studenthome', student_controllers.test_login)
 router.get('/studenthome', authMiddleware.loginRequired, student_controllers.get_student_home)
 
 // Router to view a Student Profile.
-router.get('/studentss/:id', student_controllers.loginRequired, student_controllers.profiler)
+router.get('/studentss/:id', authMiddleware.loginRequired, student_controllers.profiler)
 
 // GET student profile for update
-router.get('/studentupdateprofile/:id', student_controllers.student_update_get)
+router.get('/studentupdateprofile/:id', authMiddleware.loginRequired, student_controllers.student_update_get)
 
 // POST student profile for update
-router.post('/studentupdateprofile/:id', student_controllers.student_update_post)
+router.post('/studentupdateprofile/:id', authMiddleware.loginRequired, student_controllers.student_update_post)
 
 // POST for student update profile pics
-router.post('/studentupdatepics/:id', student_controllers.student_update_pics)
+router.post('/studentupdatepics/:id', authMiddleware.loginRequired, student_controllers.student_update_pics)
 
 // GET the list of students and their profiles
-router.get('/studentlevelmates', student_controllers.loginRequired, student_controllers.list_psychology_students)
+router.get('/studentlevelmates', authMiddleware.loginRequired, student_controllers.list_psychology_students)
 
 // GET the list of students and their profiles
-router.get('/studentmates/:level', student_controllers.loginRequired, student_controllers.list_coursemates)
+router.get('/studentmates/:level', authMiddleware.loginRequired, student_controllers.list_coursemates)
 
 // Router GET for viewing a particular student profile
-router.get('/studentstudentprofile/:id', student_controllers.loginRequired, student_controllers.view_coursemate_profile)
+router.get('/studentstudentprofile/:id', authMiddleware.loginRequired, student_controllers.view_coursemate_profile)
 
 // Router for getting the list of all psychology staffs
-router.get('/studentsstafflist', student_controllers.loginRequired, student_controllers.list_staffs)
+router.get('/studentsstafflist', authMiddleware.loginRequired, student_controllers.list_staffs)
 
 // Router Get for viewing a particular profile
-router.get('/studentstaffprofile/:id', student_controllers.loginRequired, student_controllers.view_staff_profile)
+router.get('/studentstaffprofile/:id', authMiddleware.loginRequired, student_controllers.view_staff_profile)
 
 // Route for getting the NEWSPAGE-------------------------------------------------------------------------------
-router.get('/studentgetlastnews', student_controllers.loginRequired, student_controllers.get_last_news)
+router.get('/studentgetlastnews', authMiddleware.loginRequired, student_controllers.get_last_news)
 
 // route for getting a particular NEWS
-router.get('/studentgetfullnews/:id', student_controllers.loginRequired, student_controllers.get_full_news)
+router.get('/studentgetfullnews/:id', authMiddleware.loginRequired, student_controllers.get_full_news)
 
 // Router for commenting on a particular NEWS
-router.post('/studentcomments/:id', student_controllers.loginRequired, student_controllers.post_comment_news)
+router.post('/studentcomments/:id', authMiddleware.loginRequired, student_controllers.post_comment_news)
 
 // Router for commenting on a reply in NEWS
-router.post('/studentreplycomments/:id', student_controllers.loginRequired, student_controllers.news_reply_comment)
+router.post('/studentreplycomments/:id', authMiddleware.loginRequired, student_controllers.news_reply_comment)
 
 // Router for liking a particular NEWS
-router.post('/newslike/:id', student_controllers.loginRequired, student_controllers.news_like)
-
-// Router for disliking a particular NEWS
-router.post('/newsdislike/:id', student_controllers.loginRequired, student_controllers.news_dislike)
+router.post('/newslike/:id', authMiddleware.loginRequired, student_controllers.news_like)
 
 // Router for liking a comment on a particular comment on a NEWS
-router.post('/studentlikecomment/:id', student_controllers.loginRequired, student_controllers.post_like_comment)
+router.post('/studentlikecomment/:id', authMiddleware.loginRequired, student_controllers.post_like_comment)
 
 // Router for disliking a particular comment on a NEWS
-router.post('/studentdislikecomment/:id', student_controllers.loginRequired, student_controllers.post_dislike_comment)
+router.post('/studentdislikecomment/:id', authMiddleware.loginRequired, student_controllers.post_dislike_comment)
 
 // GET all Courses-----------------------------------------------------------------------------------------
-router.get('/studentgetcourse/:level', student_controllers.loginRequired, student_controllers.get_courses)
+router.get('/studentgetcourse/:level', authMiddleware.loginRequired, student_controllers.get_courses)
 
 // Router to GET a particular course details
-router.get('/studentviewcourse/:id', student_controllers.loginRequired, student_controllers.view_courses)
+router.get('/studentviewcourse/:id', authMiddleware.loginRequired, student_controllers.view_courses)
 
 // Router to register for a particular course
-router.post('/studentregistercourse/:id', student_controllers.loginRequired, student_controllers.register_course)
+router.post('/studentregistercourse/:id', authMiddleware.loginRequired, student_controllers.register_course)
 
 // Router to delete a registered course
-router.post('/deleteregisteredcourse/:id', student_controllers.loginRequired, student_controllers.delete_registered_course)
+router.post('/deleteregisteredcourse/:id', authMiddleware.loginRequired, student_controllers.delete_registered_course)
 
 // Router to GET project topics
-router.get('/studentgetprojecttopics', student_controllers.loginRequired, student_controllers.get_project_topics)
+router.get('/studentgetprojecttopics', authMiddleware.loginRequired, student_controllers.get_project_topics)
 
 // Router to GET project topics
-router.get('/studentgetproject/:topic', student_controllers.loginRequired, student_controllers.get_project_category)
+router.get('/studentgetproject/:topic', authMiddleware.loginRequired, student_controllers.get_project_category)
 
 // Router to Get a your Result
-router.get('/myfullresults/:id', student_controllers.loginRequired, student_controllers.my_result)
+router.get('/myfullresults/:id', authMiddleware.loginRequired, student_controllers.my_result)
 
 // Router to GET Student timetable
-router.get('/gettimetable', student_controllers.loginRequired, student_controllers.get_time_table)
+router.get('/gettimetable', authMiddleware.loginRequired, student_controllers.get_time_table)
 
 // Router GET for course rep to edit time table
-router.get('/studentedittimetable/:id', student_controllers.loginRequired, student_controllers.edit_timetable)
+router.get('/studentedittimetable/:id', authMiddleware.loginRequired, student_controllers.edit_timetable)
 
 // Router for POST course rep to post edited time table
-router.post('/studentedittimetable/:id', student_controllers.loginRequired, student_controllers.edit_post_timetable)
+router.post('/studentedittimetable/:id', authMiddleware.loginRequired, student_controllers.edit_post_timetable)
 
 // Routes for handling everything messages---------------------------------------------------------------------
 // Router for student to read messages
-router.get('/getconverse/:id', student_controllers.loginRequired, student_controllers.get_converse)
+router.get('/getconverse/:id', authMiddleware.loginRequired, student_controllers.get_converse)
 
 // Router for student to read messages
-router.get('/getmessages/:recipient', student_controllers.loginRequired, student_controllers.get_messages)
+router.get('/getmessages/:recipient', authMiddleware.loginRequired, student_controllers.get_messages)
 
 // Router for student to logout
-router.post('/newconversation/:recipient', student_controllers.loginRequired, student_controllers.new_conversation)
+router.post('/newconversation/:recipient', authMiddleware.loginRequired, student_controllers.new_conversation)
 
 // Router for student to logout
-router.get('/logout', student_controllers.loginRequired, student_controllers.logout)
+router.get('/logout', authMiddleware.loginRequired, student_controllers.logout)
 
 module.exports = router

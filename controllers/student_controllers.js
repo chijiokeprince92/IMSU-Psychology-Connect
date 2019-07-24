@@ -18,23 +18,6 @@ const async = require('async')
 var { body, validationResult } = require('express-validator/check')
 var { sanitizeBody } = require('express-validator/filter')
 
-// ---------------------------------------------------------------------------------
-exports.loginRequired = (req, res, next) => {
-  if (!req.session.student) {
-    res.redirect('/login')
-  } else {
-    next()
-  }
-}
-
-// this function ensures that another user does not tamper with a user's account
-exports.ensureCorrectuser = (req, res, next) => {
-  if (req.session.student.id !== req.params.id) {
-    res.redirect('/login')
-  } else {
-    next()
-  }
-}
 // ----------------------------------------------------------------------------
 // GET the Student signup form
 exports.student_signup_get = (req, res, next) => {
@@ -203,6 +186,7 @@ exports.test_login = (req, res, next) => {
         matnumber: user.matnumber,
         firstname: user.firstname,
         surname: user.surname,
+        disabled: user.disabled,
         photo: user.photo.url || '/images/psylogo4.jpg'
       }
       req.flash('message', `Welcome ${user.surname}`)
@@ -245,6 +229,7 @@ exports.profiler = (req, res, next) => {
     if (err) {
       return next(err)
     } // Error in API usage.
+    console.log('Photo URL:', user.photo.url)
     Courses.find({
       student_offering: req.session.student.id
     }).exec(function (err, mycourses) {
@@ -308,53 +293,72 @@ exports.student_update_post = (req, res, next) => {
 }
 
 // Upload your profile pics
-exports.student_update_pics = async (req, res, next) => {
-  await StudentSigns.findByIdAndRemove(req.session.student.id, function (err, delprofilepic) {
+exports.student_update_pics = (req, res, next) => {
+  StudentSigns.findById(req.session.student.id).exec(function (err, stud) {
     if (err) {
       return next(err)
     }
-    cloudinary.v2.uploader.destroy(delprofilepic.photo.public_id, function (err) {
-      if (err) {
-        return next(err)
-      }
-    })
-  })
-  
-  var form = new formidable.IncomingForm()
-  form.parse(req)
-  form.on('fileBegin', function (name, file) {
-    // eslint-disable-next-line no-path-concat
-    file.path = __dirname + '/formidable/' + file.name
-    console.log('The name of the selected file is:', file.path)
-  })
-  form.on('file', function (name, file) {
-    if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
-      console.log('The file is not a picture')
-      req.flash('message', 'The file you uploaded was not a picture')
-      res.redirect(301, '/studentss/' + req.session.student.id)
-    } else {
-      console.log('The file is a picture')
-      cloudinary.v2.uploader.upload(file.path, function (err, result) {
-        if (err) {
-          return next(err)
-        }
-        console.log(result)
-        // add cloudinary url for the image to the topic object under image property
-        var qualified = {
-          photo: {
-            url: result.secure_url,
-            public_id: result.public_id
-          }
-        }
-        StudentSigns.findByIdAndUpdate(req.session.student.id, qualified, {},
-          (err, studentupdate) => {
+    var form = new formidable.IncomingForm()
+    form.parse(req)
+    form.on('file', function (name, file) {
+      if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        console.log('The file is not a picture')
+        req.flash('message', 'The file you uploaded was not a picture')
+        res.redirect(301, '/studentss/' + req.session.student.id)
+      } else {
+        console.log('The file is a picture')
+        if (stud.photo.url === undefined) {
+          // add a new image to student profile
+          cloudinary.v2.uploader.upload(file.path, function (err, result) {
             if (err) {
               return next(err)
             }
-            res.redirect(studentupdate.url)
+            console.log(result)
+            // add cloudinary url for the image to the topic object under image property
+            var qualified = {
+              photo: {
+                url: result.secure_url,
+                public_id: result.public_id
+              }
+            }
+            StudentSigns.findByIdAndUpdate(req.session.student.id, qualified, {},
+              (err, studentupdate) => {
+                if (err) {
+                  return next(err)
+                }
+                res.redirect(studentupdate.url)
+              })
           })
-      })
-    }
+        } else {
+          // delete the current profile image from cloudinary
+          cloudinary.v2.uploader.destroy(stud.photo.public_id, function (err) {
+            if (err) {
+              return next(err)
+            }
+          })
+          // upload the new image in replacement of the deleted one
+          cloudinary.v2.uploader.upload(file.path, function (err, pics) {
+            if (err) {
+              return next(err)
+            }
+            // add cloudinary url for the image to the topic object under image property
+            var qualified = {
+              photo: {
+                url: pics.secure_url,
+                public_id: pics.public_id
+              }
+            }
+            StudentSigns.findByIdAndUpdate(req.session.student.id, qualified, {},
+              (err, studentupdate) => {
+                if (err) {
+                  return next(err)
+                }
+                res.redirect(studentupdate.url)
+              })
+          })
+        }
+      }
+    })
   })
 }
 
@@ -1032,31 +1036,6 @@ exports.news_like = async (req, res, next) => {
   )
 }
 
-// Post Like News
-exports.news_dislike = async (req, res, next) => {
-  var look = req.session.student.id
-
-  News.findOneAndUpdate({
-    _id: req.params.id
-  }, {
-    $addToSet: {
-      dislikey: look
-    }
-  },
-  function (err, dislike) {
-    if (err) {
-      return next(err)
-    } else {
-      req.io.emit('dislikey', dislike.dislikey.length)
-      res.json({
-        status: 200,
-        data: dislike
-      })
-    }
-  }
-  )
-}
-
 // Student Post a comment in a particular news
 exports.post_comment_news = (req, res, next) => {
   let user = req.session.student
@@ -1085,11 +1064,12 @@ exports.post_comment_news = (req, res, next) => {
 
 // News reply comments
 exports.news_reply_comment = (req, res, next) => {
+  let stud = req.session.student
   var replyObj = {
     commentId: req.body.commentId,
-    user: req.session.student.firstname,
-    replyee: req.body.replyer,
-    reply: req.body.reply
+    user: `${stud.surname} ${stud.firstname}`,
+    reply_to: req.body.replyer,
+    reply_body: req.body.reply
   }
   News.findOneAndUpdate({
     _id: req.body.newsId,

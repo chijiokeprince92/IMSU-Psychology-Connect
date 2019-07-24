@@ -46,14 +46,14 @@
           <p><b><span class="fa fa-envelope"></span></b> {{student.email}}</p>
           <br>
           <p style="display:inline">{{#if student.is_courserep}}
-              <b>remove Courserep:</b>
+              <b>remove as courserep:</b>
               <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
                 <input type="text" style="display:none" class="form-control" name="courserep" value="false" />
                 <button type="submit" class="btn btn-danger"><span class="fa fa-thumbs-o-down">
                 </button>
               </form>
             {{else}}
-              <b>Make Courserep:</b>
+              <b>Make a courserep:</b>
               <form action="/admin/makecourserep/{{student.id}}" method="POST" style="display:inline">
                 <input type="text" style="display:none" class="form-control" name="courserep" value="true" />
                 <button type="submit" class="btn btn-success"><span class="fa fa-thumbs-o-up">
@@ -63,6 +63,8 @@
           </p>
           <br>
           <p><b><span class="fa fa-phone"></span> </b>0{{student.phone}}</p>
+          <br>
+          <p><b><span class="fa fa-pencil-alt"> </span>Disabled : </b>{{student.disabled}}</p>
           <br>
           <p><b><span class="fa fa-comment-o"></span> </b>{{student.bio}}</p>
           <br>
@@ -109,8 +111,6 @@
           <p><span class="fa fa-expeditedssl"> </span></p>
           <br>
           <p><b><span class="fa fa-gavel"> </span></b></p>
-          <br>
-          <p><b><span class="fa fa-pencil-alt"> </span></b></p>
           <br>
         </div>
       </div>

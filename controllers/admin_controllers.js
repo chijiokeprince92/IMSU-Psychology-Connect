@@ -826,12 +826,17 @@ exports.get_full_news = function (req, res, next) {
 
 // Delete news by admin
 exports.delete_news = function (req, res, next) {
-  News.findByIdAndRemove(req.params.id, function (err) {
+  News.findByIdAndRemove(req.params.id, function (err, delnews) {
     if (err) {
       return next(err)
     }
-    res.redirect('/admin/getlastnews')
+    cloudinary.v2.uploader.destroy(delnews.photo.public_id, function (err) {
+      if (err) {
+        return next(err)
+      }
+    })
   })
+  res.redirect('/admin/getlastnews')
 }
 
 // ----------------------------------------------------------------------

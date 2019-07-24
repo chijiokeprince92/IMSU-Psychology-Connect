@@ -80,9 +80,6 @@ router.get('/getprojecttopics', staff_controllers.staffloginRequired, staff_cont
 // GET project topics
 router.get('/getprojecttopics/:topic', staff_controllers.staffloginRequired, staff_controllers.get_project_category)
 
-// POST a project topic
-router.get('/saffuploadproject', staff_controllers.staffloginRequired, staff_controllers.upload_projects)
-
 // Get a list of all the chats you are involved
 router.get('/getconversations/:id', staff_controllers.staffloginRequired, staff_controllers.get_conversations)
 
