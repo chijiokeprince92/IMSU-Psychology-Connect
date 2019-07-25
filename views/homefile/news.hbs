@@ -24,16 +24,23 @@
               <small class="float-right"> {{datey this.created}}</small>
             </div>
             <div class="col-12 card-footer">
-              <button class="btn btn-light"><span class="fa fa-comments-o" style="font-size:20px;color:lightgreen">
-                </span>
-                {{length this.comments}}</button>
-              <button class="btn btn-light"><span class="fa fa-heart-o" style="font-size:20px;color:rgb(245, 56, 71)">
-                </span>
-                {{length this.likey}}</button>
+              <span class="fa fa-comments-o" style="font-size:20px;color:rgb(15, 132, 241)"> </span>
+              <span style="font-size:20px"> {{length this.comments}}</span>
+              <span class="fa fa-heart-o float-right" style="font-size:20px;color:rgb(245, 56, 71)"> <span
+                  id="spn{{this.id}}"> {{length this.likey}}</span> </span>
             </div>
           </li>
           <br><br>
         </div>
+        <script>
+          // function for live update when news is liked without page reload
+          $('document').ready(function () {
+            var socket = io();
+            socket.on("{{this.id}}", function (msg) {
+              $('#spn{{this.id}}').text(Number(msg) + 1);
+            });
+          });
+        </script>
       {{else}}
         <p><b>THERE ARE NO UPLOADED NEWS</b></p>
       {{/each}}

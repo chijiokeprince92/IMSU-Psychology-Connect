@@ -57,49 +57,33 @@
               <div class="col-12">
                 <div class="container-fluid">
                   <div class="row no-gutters">
-                    <div class="col-4">
+                    <div class="col-6">
                       <button class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-up">
                           {{this.comment.like}}</span>
                       </button>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                       <button class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-down">
                           {{this.comment.dislike}}</span>
-                      </button>
-                    </div>
-                    <div class="col-4">
-                      <button class="btn btn-light btn-sm btn-block" style="display:inline"><span
-                          class="fa fa-reply"></span>
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-              <ul id="replied{{this.id}}">
-                <div class="container-fluid">
-                  <div class="row">
-                    {{#each reply}}
-                      <div class="col-2"></div>
-                      <li class="col-10">
-                        <div class="card">
-                          <p><b>{{this.user}}: @{{this.replyee}}
-                            </b>
-                          </p>
-                          <p>{{this.reply}}</p>
-                          <br>
-                        </div>
-                        <br>
-                      </li>
-                    {{/each}}
-                  </div>
-                </div>
-              </ul>
               <br><br>
             </div>
           {{/each}}
         </div>
       </div>
     </ul>
+    <script>
+      $('document').ready(function () {
+        var socket = io();
+        socket.on('{{newspaper.id}}', function (msg) {
+          $('#messages').append($('<div class="col-12 col-sm-9 col-md-6 col-lg-5"></div>').html('<li class="card"><div class="col-12"><p><b>' + msg.name + '</b></p></div><div class="col-12"><p>' + msg.comment + '</p></div></li>' + '<br>'));
+        });
+      });
+    </script>
   </div>
   <div id="likes" class="container-fluid tab-pane fade" style="background-color:white">
     <br>

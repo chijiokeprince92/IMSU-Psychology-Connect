@@ -631,6 +631,7 @@ exports.my_result = (req, res, next) => {
   })
 }
 
+// get courses for a particular level
 exports.get_courses = (req, res, next) => {
   async.parallel({
     first_semester: callback => {
@@ -759,7 +760,7 @@ exports.view_courses = (req, res, next) => {
   })
 }
 
-// working on it
+// register for a particular course
 exports.register_course = (req, res, next) => {
   Result.findOne({
     'course': req.params.id,
@@ -836,6 +837,7 @@ exports.register_course = (req, res, next) => {
   })
 }
 
+// delete a registered course
 exports.delete_registered_course = function (req, res, next) {
   Courses.findOne({ _id: req.params.id }).exec(function (err, course) {
     if (err) {
@@ -866,7 +868,7 @@ exports.delete_registered_course = function (req, res, next) {
   })
 }
 
-// GET Student Project Topics
+// GET Project Topics
 exports.get_project_topics = (req, res, next) => {
   Project.find({}).sort([
     ['updated', 'descending']
@@ -887,7 +889,7 @@ exports.get_project_topics = (req, res, next) => {
   })
 }
 
-// GET project category
+// GET project topics by category
 exports.get_project_category = function (req, res, next) {
   Project.find({ 'category': req.params.topic }).sort([
     ['updated', 'descending']
@@ -908,7 +910,7 @@ exports.get_project_category = function (req, res, next) {
   })
 }
 
-// GET Student latest NEWS
+// GET latest NEWS
 exports.get_last_news = (req, res, next) => {
   News.find({})
     .sort([
@@ -947,7 +949,7 @@ exports.get_last_news = (req, res, next) => {
     })
 }
 
-// GET Student full NEWS
+// GET the full NEWS
 exports.get_full_news = (req, res, next) => {
   News.findOne({
     _id: req.params.id
@@ -973,9 +975,8 @@ exports.get_full_news = (req, res, next) => {
             for (var i = 0; i < news.comments.length; i++) {
               if (news.comments[i].userid === stud.id) {
                 let commenter = {
-                  userid: stud.id,
                   user: `${stud.surname} ${stud.firstname}`,
-                  photo: stud.photo,
+                  photo: stud.photo.url,
                   comment: news.comments[i]
 
                 }
@@ -983,7 +984,9 @@ exports.get_full_news = (req, res, next) => {
               }
             }
           })
-          return answer
+          return answer.sort(function (a, b) {
+            return a.comment.id > b.comment.id
+          })
         },
         decipher: function () {
           var answer = []
@@ -996,16 +999,24 @@ exports.get_full_news = (req, res, next) => {
           })
           return answer
         },
-        desliker: function () {
-          var answer = []
-          students.filter(hero => {
-            for (var i = 0; i < news.dislikey.length; i++) {
-              if (news.dislikey[i] === hero.id) {
-                answer.push(hero)
-              }
+        helpers: {
+          datey: function (data) {
+            return moment(data).format('L')
+          },
+          differ: function (data) {
+            let timey = ''
+            let saveddate = moment(data)
+            let currentdate = moment(new Date())
+            if (currentdate.diff(saveddate, 'days') > 0) {
+              timey = `${currentdate.diff(saveddate, 'days')} day ago`
+            } else if (currentdate.diff(saveddate, 'hours') > 0) {
+              timey = `${currentdate.diff(saveddate, 'hours')} hour ago`
+            } else if (currentdate.diff(saveddate, 'minutes') >= 0) {
+              timey = `${currentdate.diff(saveddate, 'minutes')} minutes ago`
             }
-          })
-          return answer
+            console.log(currentdate.diff(saveddate, 'minutes'), 'Timey is:', timey)
+            return timey
+          }
         }
       })
     })
@@ -1027,13 +1038,12 @@ exports.news_like = async (req, res, next) => {
     if (err) {
       return next(err)
     }
-    req.io.emit('likey', like.likey.length)
+    req.io.emit(`${req.params.id}`, like.likey.length)
     res.json({
       status: 200,
       data: like
     })
-  }
-  )
+  })
 }
 
 // Student Post a comment in a particular news
@@ -1041,7 +1051,9 @@ exports.post_comment_news = (req, res, next) => {
   let user = req.session.student
   let commentor = {
     userid: user.id,
-    comment: req.body.comment
+    name: `${user.surname} ${user.firstname}`,
+    comment: req.body.comment,
+    commentDate: new Date()
   }
   News.findByIdAndUpdate(
     req.params.id, {
@@ -1227,7 +1239,7 @@ exports.get_converse = async function (req, res, next) {
             return text
           },
           datey: function (data) {
-            return calender(data)
+            return moment(data).format('L')
           }
         },
         msg: req.flash('msg')

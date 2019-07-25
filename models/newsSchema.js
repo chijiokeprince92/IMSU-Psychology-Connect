@@ -32,10 +32,12 @@ var newsSchema = new Schema({
       type: Number,
       default: 0
     },
-    reply: []
+    reply: [],
+    commentDate: {
+      type: Date
+    }
   }],
   likey: [],
-  dislikey: [],
   created: {
     type: Date
   },
