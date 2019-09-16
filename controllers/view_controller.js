@@ -76,7 +76,7 @@ exports.get_full_news = (req, res, next) => {
 
           students.filter(hero => {
             for (var i = 0; i < news.comments.length; i++) {
-              if (news.comments[i].userid == hero.id) {
+              if (news.comments[i].userid === hero.id) {
                 let commenter = {
                   user: `${hero.surname} ${hero.firstname}`,
                   photo: hero.photo,
@@ -87,7 +87,9 @@ exports.get_full_news = (req, res, next) => {
               }
             }
           })
-          return answer
+          return answer.sort(function (a, b) {
+            return a.comment.id > b.comment.id
+          })
         },
         decipher: function () {
           var answer = []
@@ -112,6 +114,28 @@ exports.get_full_news = (req, res, next) => {
             }
           })
           return answer
+        },
+        helpers: {
+          datey: function (data) {
+            return moment(data).format('L')
+          },
+          differ: function (data) {
+            let timey = ''
+            let saveddate = moment(data)
+            let currentdate = moment(new Date())
+            if (currentdate.diff(saveddate, 'days') > 0) {
+              if (currentdate.diff(saveddate, 'days') < 30) {
+                timey = `${currentdate.diff(saveddate, 'days')} days ago`
+              } else if (currentdate.diff(saveddate, 'days') > 30) {
+                timey = saveddate.format('L')
+              }
+            } else if (currentdate.diff(saveddate, 'hours') > 0) {
+              timey = `${currentdate.diff(saveddate, 'hours')} hours ago`
+            } else if (currentdate.diff(saveddate, 'minutes') >= 0) {
+              timey = `${currentdate.diff(saveddate, 'minutes')} minutes ago`
+            }
+            return timey
+          }
         }
       })
     })

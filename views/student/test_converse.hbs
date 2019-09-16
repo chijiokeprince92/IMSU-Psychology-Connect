@@ -1,0 +1,21 @@
+<br>
+<h6>
+  <b>
+    YOUR MESSAGES
+  </b>
+</h6>
+{{#if empty}}
+  <p class="alert alert-success">{{empty}}</p>
+{{/if}}
+{{#if available}}
+  <p class="alert alert-danger">{{available}}</p>
+{{/if}}
+<ul>
+  {{#each messagess}}
+    <li>
+      {{this.participant1}} {{this.participant2}} {{this.date}}
+      <br><br>
+    </li>
+  {{/each}}
+</ul>
+<br><br>

@@ -105,11 +105,10 @@
     }
     ul .mum #mum2 {
         font-size: 40px;
+        margin-right: -10px;
     }
     ul li .mum .spany {
-        font-size: 14px;
-        margin: -15px;
-        padding: -5px;
+        font-size: 10px;
     }
     li a:hover {
         color: red;
@@ -346,11 +345,11 @@
     }
     ul .mum #mum2 {
         font-size: 40px;
+        margin-right: -10px;
     }
     ul li .mum .spany {
-        font-size: 14px;
-        margin: -15px;
-        padding: -5px;
+        font-size: 10px;
+        
     }
     li a:hover {
         color: red;
@@ -586,11 +585,10 @@
     }
     ul .mum #mum2 {
         font-size: 40px;
+        margin-right: -10px;
     }
     ul li .mum .spany {
-        font-size: 12px;
-        margin: -20px;
-        padding: -5px;
+        font-size: 10px;
     }
     li a:hover {
         color: red;
@@ -832,11 +830,10 @@
     }
     ul li .mum #mum2 {
         font-size: 30px;
+        margin-right: -15px;
     }
     ul li .mum .spany {
-        font-size: 11px;
-        margin: -20px;
-        padding: -5px;
+        font-size: 10px;
     }
     li a:hover {
         color: red;

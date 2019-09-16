@@ -15,16 +15,16 @@
     <div class="col-12 col-md-8 col-lg-6" id="kilo">
       <form action="/studenthome" method="POST">
         <div class="form-group">
-          <label for="matnumber"><b>MAT_NUMBER:</b></label>
+          <label for="matnumber" class="custom-control-label"><b>MAT_NUMBER:</b></label>
           <input type="text" class="form-control" name="matnumber" placeholder="1234567- no slash" required>
         </div>
         <div class="form-group">
-          <label for="password"><b>PASSWORD</b></label>
+          <label for="password" class="custom-control-label"><b>PASSWORD</b></label>
           <input type="password" class="form-control" name="password" placeholder="Password" required>
         </div>
         <br><br>
-        <button type="submit" class="btn btn-primary"><b><span class="fa fa-cloud-upload"></span>
-            LOGIN</b>
+        <button type="submit" class="btn btn-primary"><span class="spinner-border spinner-border-sm"></span>
+          <b>LOGIN</b>
         </button>
         <p class="text-right"><a href="/staff/login">staff_login</a></p>
       </form>

@@ -52,16 +52,25 @@
             <div class="col-10 col-sm-11">
               <li class="card">
                 <p><b>{{this.user}}</b></p>
-                <p>{{this.comment.comment}}</p>
+                <p>{{this.comment.comment}}<small class="float-right"> {{differ this.comment.commentDate}}</small></p>
               </li>
               <div class="col-12">
                 <div class="container-fluid">
                   <div class="row no-gutters">
                     <div class="col-6">
-                      <button class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-up">
-                          {{this.comment.like}}</span>
+                      <button class="btn btn-light btn-sm btn-block">{{this.comment.id}}
                       </button>
+                      <span id="spn{{this.comment.id}}" class="fa fa-thumbs-o-up"> {{this.comment.like}}</span>
                     </div>
+                    <script>
+                      $('document').ready(function () {
+                        var socket = io();
+
+                        socket.on($('{{this.comment.id}}'), function (msg) {
+                          $('#spn{{this.comment.id}}').text(Number(msg) + 1);
+                        });
+                      });
+                    </script>
                     <div class="col-6">
                       <button class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-down">
                           {{this.comment.dislike}}</span>

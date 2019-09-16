@@ -51,47 +51,100 @@
             {{/if}}
             <div class="col-10 col-sm-11 col-md-8 col-lg-6">
               <li class="card">
-                <p><b> <a href="/studentstudentprofile/{{this.comment.userid}}"> {{this.user}}</a>
-                  </b>
+                <p>{{#isEqual this.comment.userid}}<b>You</b>
+          {{else}}<b><a href="/studentstudentprofile/{{this.comment.userid}}">
+                {{this.user}}</a></b>
+            </b>
+                  {{/isEqual}}
                 </p>
+                {{#if this.comment.reply_to}}
+                  <p>{{unveil_reply this.comment.reply_to}} asdfghjkl</p>
+                {{/if}}
                 <p>{{this.comment.comment}}<small class="float-right"> {{differ this.comment.commentDate}}</small></p>
               </li>
               <div class="col-12">
                 <div class="container-fluid">
                   <div class="row no-gutters">
                     <div class="col-4">
-                      <form id="likey{{this.id}}" action="/studentlikecomment/{{this.id}}" method="POST"
+                      <form id="likey{{this.comment.id}}" action="/studentlikecomment/{{this.comment.id}}" method="POST"
                         style="display:inline">
-                        <input type="text" style="display:none" class="form-control" name="like" />
-                        <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-up">
-                            {{this.comment.like}}</span>
+                        <input type="text" style="display:none" id="commentId{{this.comment.id}}"
+                          value="{{this.comment.id}}" />
+                        <button type="submit" class="btn btn-light btn-sm btn-block"><span id="spn{{this.comment.id}}"
+                            class="fa fa-thumbs-o-up"> {{this.comment.like}}</span>
                         </button>
                       </form>
                     </div>
+                    <script>
+                      $('document').ready(function () {
+                        var socket = io();
+                        $('#likey{{this.comment.id}}').submit(function (event) {
+                          event.preventDefault();
+                          var commentId = $('#commentId{{this.comment.id}}').val();
+
+                          $.post(
+                            '/studentlikecomment/' + commentId,
+
+                            function (response, err) {
+                              if (response) {
+                                console.log('success');
+                              } else {
+                                console.log(err, 'err');
+                              }
+                            });
+                        });
+                        socket.on($('#commentId{{this.comment.id}}').val(), function (msg) {
+                          $('#spn{{this.comment.id}}').text(Number(msg) + 1);
+                        });
+                      });
+                    </script>
                     <div class="col-4">
-                      <form id="dislikey{{this.id}}" action="/studentdislikecomment/{{this.id}}" method="POST"
-                        style="display:inline">
-                        <input type="text" style="display:none" class="form-control" name="dislike" />
-                        <button type="submit" class="btn btn-light btn-sm btn-block"><span class="fa fa-thumbs-o-down">
-                            {{this.comment.dislike}}</span>
+                      <form id="dislikey{{this.comment.id}}" action="/studentdislikecomment/{{this.comment.id}}"
+                        method="POST" style="display:inline">
+                        <input type="text" style="display:none" id="commtId{{this.comment.id}}"
+                          value="{{this.comment.id}}" />
+                        <button type="submit" class="btn btn-light btn-sm btn-block"><span id="sp{{this.comment.id}}"
+                            class="fa fa-thumbs-o-down"> {{this.comment.dislike}}</span>
                         </button>
                       </form>
                     </div>
+                    <script>
+                      $('document').ready(function () {
+                        var socket = io();
+                        $('#dislikey{{this.comment.id}}').submit(function (event) {
+                          event.preventDefault();
+                          var commentId = $('#commtId{{this.comment.id}}').val();
+
+                          $.post(
+                            '/studentdislikecomment/' + commentId,
+
+                            function (response, err) {
+                              if (response) {
+                                console.log('success');
+                              } else {
+                                console.log(err, 'err');
+                              }
+                            });
+                        });
+                        socket.on($('#commtId{{this.comment.id}}').val() + 'l', function (msg) {
+                          $('#sp{{this.comment.id}}').text(Number(msg) + 1);
+                        });
+                      });
+                    </script>
                     <div class="col-4">
-                      <button id="cousin{{this.id}}" class="btn btn-light btn-sm btn-block" style="display:inline"><span
-                          class="fa fa-reply"></span></button>
-                      <button id="close{{this.id}}" class="btn btn-danger btn-sm btn-block" style="display:none"><span
-                          class="fa fa-close"></span></button>
+                      <button id="cousin{{this.comment.id}}" class="btn btn-light btn-sm btn-block"
+                        style="display:inline"><span class="fa fa-reply"></span></button>
+                      <button id="close{{this.comment.id}}" class="btn btn-danger btn-sm btn-block"
+                        style="display:none"><span class="fa fa-close"></span></button>
                     </div>
                   </div>
                 </div>
-                <form id="drake{{this.id}}" action="" method="POST" style="display:none">
-                  <input style="display:none" id="newsId" value="{{../newspaper.id}}" />
-                  <input type="text" style="display:none" class="form-control" id="commentId{{this.id}}"
-                    value="{{this.id}}" required />
-                  <input type="text" style="display:none" class="form-control" id="replyer{{this.id}}"
-                    value="{{this.username}}" required />
-                  <input type="text" class="form-control" id="replymsg{{this.id}}" placeholder="Type a reply"
+                <form id="drake{{this.comment.id}}" action="/studentreplycomments/{{../newspaper.id}}" method="POST"
+                  style="display:none">
+                  <input id="newsId" value="{{../newspaper.id}}" />
+                  <input type="text" id="replyingToId" name="replyingToId" value="{{this.comment.id}}" />
+                  <input type="text" id="replyingTo" name="replyingTo" value="{{this.comment.comment}}" />
+                  <input type="text" class="form-control" id="replymsg" name="replymsg" placeholder="Type a reply"
                     required />
                   <button type="submit" class="btn btn-success btn-sm"><span class="fa fa-reply"></span></button>
                 </form>
@@ -99,38 +152,36 @@
               <script>
                 // function for toggling the reply form between show and hide
                 $(document).ready(function () {
-                  $('#cousin{{this.id}}').click(function () {
-                    $('#drake{{this.id}}').toggle("slow");
-                    $('#cousin{{this.id}}').toggle("slow");
-                    $('#close{{this.id}}').toggle("slow");
+                  $('#cousin{{this.comment.id}}').click(function () {
+                    $('#drake{{this.comment.id}}').toggle("slow");
+                    $('#cousin{{this.comment.id}}').toggle("slow");
+                    $('#close{{this.comment.id}}').toggle("slow");
                   });
-                  $('#close{{this.id}}').click(function () {
-                    $('#drake{{this.id}}').toggle("slow");
-                    $('#cousin{{this.id}}').toggle("slow");
-                    $('#close{{this.id}}').toggle("slow");
+                  $('#close{{this.comment.id}}').click(function () {
+                    $('#drake{{this.comment.id}}').toggle("slow");
+                    $('#cousin{{this.comment.id}}').toggle("slow");
+                    $('#close{{this.comment.id}}').toggle("slow");
                   });
                 });
               </script>
               <script>
                 // function for live updating reply to a comment without page reload
                 $('document').ready(function () {
-
-                  var socket = io($('#newsId').val());
-                  $('#drake{{this.id}}').submit(function (event) {
+                  var socket = io();
+                  $('#drake{{this.comment.id}}').submit(function (event) {
                     event.preventDefault();
-
-                    var newsId = $('#newsId').val();
-                    var commentId = $('#commentId{{this.id}}').val();
-                    var replyUser = $('#replyer{{this.id}}').val();
-                    var replyMsg = $('#replymsg{{this.id}}').val();
+                    var newsId = $('#newsId{{this.comment.id}}').val();
+                    var commentId = $('#replyingToId{{this.comment.id}}').val();
+                    var commentBody = $('#replyingTo{{this.comment.id}}').val();
+                    var replyMsg = $('#replymsg').val();
 
                     $.post(
                       '/studentreplycomments/' + newsId,
                       {
                         newsId: newsId,
                         commentId: commentId,
-                        replyer: replyUser,
-                        reply: replyMsg,
+                        commentBody: commentBody,
+                        replyMsg: replyMsg,
                       },
                       function (response, err) {
                         if (response) {
@@ -139,14 +190,13 @@
                           console.log(err, 'error')
                         }
                       });
-
-                    $('#replymsg{{this.id}}').val('');
+                    $('#replymsg').val('');
                   });
-                  socket.on('reply_message', function (replyMsg) {
-                    $('#drake{{this.id}}').toggle("slow");
-                    $('#cousin{{this.id}}').toggle("slow");
-                    $('#close{{this.id}}').toggle("slow");
-                    $('#replied{{this.id}}').append($('<div class="container-fluid"><div class="row"></div></div>').html('<li class="col-12"><div class="card"><p><b>You</b></p><p>' + replyMsg + '</p></div></li>' + '<br>'));
+                  socket.on('#newsId').val(), function (msg) {
+                    $('#drake{{this.comment.id}}').toggle("slow");
+                    $('#cousin{{this.comment.id}}').toggle("slow");
+                    $('#close{{this.comment.id}}').toggle("slow");
+                    $('#messages').append($('<div class="col-12 col-sm-9 col-md-6 col-lg-5"></div>').html('<li class="card"><div class="col-12"><p><b>' + msg.name + '</b></p></div><div class="col-12"><p>' + msg.comment + '<small class="float-right"> just now</small>' + '</p></div></li>' + '<br>'));
                   });
                 });
               </script>

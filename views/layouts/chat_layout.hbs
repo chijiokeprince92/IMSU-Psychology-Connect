@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  {{>head}}
+</head>
+
+<body class="body">
+  {{#if allowed}}
+    <div class="container-fluid">
+      <header>
+        <div class="row flex-nowrap justify-content-between align-items-center bg-dark">
+          <div class="col-4 d-flex justify-content-start">
+            <h3 class="text-white" href="#">PSYNET</h3>
+          </div>
+          <div class="col-4 d-flex justify-content-end align-items-center">
+            <a class="btn btn-sm btn-outline-light" href="/logout">Logout</a>
+          </div>
+        </div>
+      </header>
+    </div>
+    <div class="stay bg-primary">
+      <ul class="nav nav-pills nav-justified manu">
+        <li class="nav-item" title="receiver">
+          <a href="/studentstudentprofile/{{replyer.id}}"
+            class="btn btn-primary btn-lg btn-block mum">{{#if replyer.photo}}
+              <img src="{{replyer.photo}}" id="navheader" />
+            {{else}}
+              <img src="/images/psylogo4.jpg" alt="profile image" id="navheader" />
+            {{/if}}</a>
+        </li>
+        <li class="nav-item" title="Messages">
+          <a href="/getconverse/{{allowed.id}}" class="btn btn-primary btn-lg btn-block mum"><span
+              class="fa fa-whatsapp" id="mum2"></span></a>
+        </li>
+        <li class="nav-item" title="Your Profile">
+          <a href="/studentss/{{allowed.id}}" class="btn btn-primary btn-lg btn-block mum"> <img src="{{allowed.photo}}"
+              id="navheader" /></a>
+        </li>
+      </ul>
+    </div>
+  {{else if admin}}
+    {{>admin_lecbody}}
+  {{else if staff_session}}
+    {{>staff_lecbody}}
+  {{else}}
+    {{>view_body}}
+  {{/if}}
+  <br>
+  {{{body}}}
+  <script src="/javascripts/mainService.js"></script>
+</body>
+
+</html>

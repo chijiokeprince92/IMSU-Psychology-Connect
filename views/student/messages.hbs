@@ -1,26 +1,17 @@
-<br>
 <h5>
-  {{#if replyer.photo}}
-    <img src="{{replyer.photo}}" alt="profile image" style="border-radius: 50%;width:40px;height:40px" />
-  {{else}}
-    <img src="/images/psylogo4.jpg" alt="profile image" style="border-radius: 50%;width:40px;height:40px" />
-  {{/if}}
   <b>
     {{replyer.name}}
   </b>
 </h5>
 <h6 class="alert alert-success">Your chat is secured with end to end encryption <span class="fa fa-lock"> </span></h6>
 <br>
-<ul>
+<ul id="messages">
   {{#if chats}}
     {{#each chats}}
       <div class="container-fluid">
         <div class="row">
           {{#is_equal this.sender}}
-            <div class="col-1 col-sm-1">
-              <img src="{{../replyer.photo}}" alt="user" style="border-radius: 50%;width:30px;height:30px" />
-            </div>
-            <div class="col-9 col-sm-9 col-md-6 col-lg-4">
+            <div class="col-10 col-sm-9 col-md-6 col-lg-4">
               <li class="card" style=" background-color:rgb(245, 219, 223)">
                 <p style="color:purple"><b>{{../replyer.name}}</b></p>
                 <p>{{this.body}}</p>
@@ -28,7 +19,7 @@
               </li>
               <br>
             </div>
-            <div class="col-2 col-sm-2 col-md-5 col-lg-7"></div>
+            <div class="col-2 col-sm-3 col-md-6 col-lg-8"></div>
             <br><br>
     {{else}}
       <div class="col-2 col-sm-3 col-md-6 col-lg-8"></div>
@@ -49,10 +40,13 @@
   {{/if}}
 </ul>
 <br><br>
-<form id="formy" action="/newconversation/{{receiver}}" method="POST"
-  style="display:none;width:100%;position:fixed;bottom:0">
+<form id="formy" style="display:none;width:100%;position:fixed;bottom:0">
   <div class="container-fluid">
     <div class="row no-gutters">
+      <div class="col-9" style="display:none">
+        <input type=" text" id="party" name="party" value="{{receiver}}" />
+        <input type="text" id="soccer" value="{{converse}}" />
+      </div>
       <div class="col-9">
         <textarea type="text" rows="1" cols="20" class="form-control" id="comment" name="message"
           placeholder="Type a message..." required></textarea>
@@ -70,6 +64,37 @@
     $('#seer').click(function () {
       $('#formy').toggle("slow");
       $('#seer').toggle("slow");
+    });
+  });
+</script>
+<script>
+  $('document').ready(function () {
+    var socket = io();
+    $('#formy').submit(function (event) {
+      event.preventDefault();
+      var msg = $('#comment').val();
+      var party = $('#party').val();
+      $.post(
+        '/newconversation/' + party, {
+          message: msg
+        },
+        function (response, err) {
+          if (response) {
+            console.log(response, 'success')
+          } else if (err) {
+            console.log(err, 'error')
+          }
+        });
+
+      $('#comment').val('');
+    });
+    socket.on($('#soccer').val(), function (msg) {
+      if (msg.sender == '{{allowed.id}}') {
+        $('#messages').append($('<div class="col-10 col-sm-9 col-md-6 col-lg-4 float-right"></div>').html('<li class="card" style="background-color:rgb(213, 248, 213)"><p style="color:red"><b>' + 'You' + '</b></p><p>' + msg.body + '</p><small><i class="float-right">' + '{{datey msg.date}}' + '</i></small>' + '</li>' + '<br>'));
+      }
+      else {
+        $('#messages').append($('<div class="col-10 col-sm-9 col-md-6 col-lg-4 float-left"></div>').html('<li class="card" style="background-color:rgb(245, 219, 223)""><p style="color:purple"><b>' + 'User' + '</b></p><p>' + msg.body + '</p><small><i class="float-right">' + '{{datey msg.date}}' + '</i></small>' + '</li>' + '<br>'));
+      }
     });
   });
 </script>

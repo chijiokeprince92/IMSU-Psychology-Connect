@@ -169,32 +169,32 @@ exports.test_login = (req, res, next) => {
   StudentSigns.findOne({
     matnumber: req.body.matnumber
   },
-  (err, user) => {
-    if (err) {
-      return next(err)
-    } else if (!user) {
-      req.flash('ohno', 'Mat. Number not found')
-      res.redirect(302, '/login')
-    } else if (user.password !== req.body.password) {
-      // password is incorrect
-      req.flash('ohno', 'Password is Incorrect')
-      res.redirect(302, '/login')
-    } else if (user && user.password === req.body.password) {
-      req.session.student = {
-        id: user.id,
-        level: user.level,
-        matnumber: user.matnumber,
-        firstname: user.firstname,
-        surname: user.surname,
-        disabled: user.disabled,
-        photo: user.photo.url || '/images/psylogo4.jpg'
+    (err, user) => {
+      if (err) {
+        return next(err)
+      } else if (!user) {
+        req.flash('ohno', 'Mat. Number not found')
+        res.redirect(302, '/login')
+      } else if (user.password !== req.body.password) {
+        // password is incorrect
+        req.flash('ohno', 'Password is Incorrect')
+        res.redirect(302, '/login')
+      } else if (user && user.password === req.body.password) {
+        req.session.student = {
+          id: user.id,
+          level: user.level,
+          matnumber: user.matnumber,
+          firstname: user.firstname,
+          surname: user.surname,
+          disabled: user.disabled,
+          photo: user.photo.url || '/images/psylogo4.jpg'
+        }
+        req.flash('message', `Welcome ${user.surname}`)
+        res.redirect('/studenthome')
+      } else {
+        res.redirect('/login')
       }
-      req.flash('message', `Welcome ${user.surname}`)
-      res.redirect('/studenthome')
-    } else {
-      res.redirect('/login')
     }
-  }
   )
 }
 
@@ -209,17 +209,17 @@ exports.get_student_home = (req, res, next) => {
       News.count().exec(callback)
     }
   },
-  (err, info) => {
-    if (err) {
-      return next(err)
+    (err, info) => {
+      if (err) {
+        return next(err)
+      }
+      res.render('student/student_home', {
+        title: 'Student HomePage',
+        allowed: req.session.student,
+        news: info.newy,
+        message: req.flash('message')
+      })
     }
-    res.render('student/student_home', {
-      title: 'Student HomePage',
-      allowed: req.session.student,
-      news: info.newy,
-      message: req.flash('message')
-    })
-  }
   )
 }
 
@@ -663,37 +663,37 @@ exports.get_courses = (req, res, next) => {
       }).exec(callback)
     }
   },
-  (err, hundred) => {
-    if (err) {
-      return next(err)
-    }
-    res.render('student/list_courses', {
-      title: `${req.params.level} Level Courses`,
-      layout: 'less_layout',
-      allowed: req.session.student,
-      levy: req.params.level,
-      first: hundred.first_semester,
-      first_borrowed: hundred.first_semester_borrowed,
-      second: hundred.second_semester,
-      second_borrowed: hundred.second_semester_borrowed,
-      elective1: function () {
-        if (req.params.level == 300) {
-          return 'ONE'
-        } else if (req.params.level == 400) {
-          return ''
-        } else {
-          return 'ANY TWO'
-        }
-      },
-      elective2: function () {
-        if (req.params.level == 300 || req.params.level == 400) {
-          return 'ANY ONE'
-        } else {
-          return 'ANY TWO'
-        }
+    (err, hundred) => {
+      if (err) {
+        return next(err)
       }
-    })
-  }
+      res.render('student/list_courses', {
+        title: `${req.params.level} Level Courses`,
+        layout: 'less_layout',
+        allowed: req.session.student,
+        levy: req.params.level,
+        first: hundred.first_semester,
+        first_borrowed: hundred.first_semester_borrowed,
+        second: hundred.second_semester,
+        second_borrowed: hundred.second_semester_borrowed,
+        elective1: function () {
+          if (req.params.level == 300) {
+            return 'ONE'
+          } else if (req.params.level == 400) {
+            return ''
+          } else {
+            return 'ANY TWO'
+          }
+        },
+        elective2: function () {
+          if (req.params.level == 300 || req.params.level == 400) {
+            return 'ANY ONE'
+          } else {
+            return 'ANY TWO'
+          }
+        }
+      })
+    }
   )
 }
 
@@ -848,20 +848,20 @@ exports.delete_registered_course = function (req, res, next) {
         Courses.findOneAndUpdate({
           _id: req.params.id
         }, {
-          $pull: {
-            student_offering: student
+            $pull: {
+              student_offering: student
+            }
+          },
+          function (err) {
+            if (err) {
+              return next(err)
+            }
+            req.flash(
+              'message',
+              'You have successfully deleted a course from your registered courses'
+            )
+            res.redirect('/studentss/' + req.session.student.id)
           }
-        },
-        function (err) {
-          if (err) {
-            return next(err)
-          }
-          req.flash(
-            'message',
-            'You have successfully deleted a course from your registered courses'
-          )
-          res.redirect('/studentss/' + req.session.student.id)
-        }
         )
       }
     })
@@ -954,73 +954,99 @@ exports.get_full_news = (req, res, next) => {
   News.findOne({
     _id: req.params.id
   },
-  (err, news) => {
-    if (err) {
-      return next(err)
-    }
-    StudentSigns.find({}, function (err, students) {
+    (err, news) => {
       if (err) {
         return next(err)
       }
-
-      res.render('student/fullnews', {
-        allowed: req.session.student,
-        title: 'Psychology News',
-        layout: 'less_layout',
-        newspaper: news,
-        comments: news.comments,
-        commune: function () {
-          var answer = []
-          students.filter(stud => {
-            for (var i = 0; i < news.comments.length; i++) {
-              if (news.comments[i].userid === stud.id) {
-                let commenter = {
-                  user: `${stud.surname} ${stud.firstname}`,
-                  photo: stud.photo.url,
-                  comment: news.comments[i]
-
-                }
-                answer.push(commenter)
-              }
-            }
-          })
-          return answer.sort(function (a, b) {
-            return a.comment.id > b.comment.id
-          })
-        },
-        decipher: function () {
-          var answer = []
-          students.filter(hero => {
-            for (var i = 0; i < news.likey.length; i++) {
-              if (news.likey[i] === hero.id) {
-                answer.push(hero)
-              }
-            }
-          })
-          return answer
-        },
-        helpers: {
-          datey: function (data) {
-            return moment(data).format('L')
-          },
-          differ: function (data) {
-            let timey = ''
-            let saveddate = moment(data)
-            let currentdate = moment(new Date())
-            if (currentdate.diff(saveddate, 'days') > 0) {
-              timey = `${currentdate.diff(saveddate, 'days')} day ago`
-            } else if (currentdate.diff(saveddate, 'hours') > 0) {
-              timey = `${currentdate.diff(saveddate, 'hours')} hour ago`
-            } else if (currentdate.diff(saveddate, 'minutes') >= 0) {
-              timey = `${currentdate.diff(saveddate, 'minutes')} minutes ago`
-            }
-            console.log(currentdate.diff(saveddate, 'minutes'), 'Timey is:', timey)
-            return timey
-          }
+      StudentSigns.find({}, function (err, students) {
+        if (err) {
+          return next(err)
         }
+        res.render('student/fullnews', {
+          allowed: req.session.student,
+          title: 'Psychology News',
+          layout: 'less_layout',
+          newspaper: news,
+          commune: function () {
+            var answer = []
+            students.filter(stud => {
+              for (var i = 0; i < news.comments.length; i++) {
+                if (news.comments[i].userid === stud.id) {
+                  let commenter = {
+                    user: `${stud.surname} ${stud.firstname}`,
+                    photo: stud.photo.url,
+                    comment: news.comments[i]
+
+                  }
+                  answer.push(commenter)
+                }
+              }
+            })
+            return answer.sort(function (a, b) {
+              return a.comment.id > b.comment.id
+            })
+          },
+          decipher: function () {
+            var answer = []
+            students.filter(hero => {
+              for (var i = 0; i < news.likey.length; i++) {
+                if (news.likey[i] === hero.id) {
+                  answer.push(hero)
+                }
+              }
+            })
+            return answer
+          },
+          helpers: {
+            isEqual: function (a, opts) {
+              if (a == req.session.student.id) {
+                return opts.fn(this)
+              } else {
+                return opts.inverse(this)
+              }
+            },
+            datey: function (data) {
+              return moment(data).format('L')
+            },
+            unveil_reply: function (data) {
+              var answer = ''
+              News.findOne({
+                'comments._id': data
+              }).exec(function (err, ans) {
+                if (err) {
+                  return next(err)
+                }
+                for (var i = 0; i < ans.comments.length; i++) {
+                  if (ans.comments[i].id == data) {
+                    console.log(ans.comments[i].comment)
+                    answer = ans.comments[i].comment
+                    break
+                  }
+                }
+              })
+              console.log('Answered: ', answer)
+            },
+            differ: function (data) {
+              let timey = ''
+              let saveddate = moment(data)
+              let currentdate = moment(new Date())
+              if (currentdate.diff(saveddate, 'days') > 0) {
+                if (currentdate.diff(saveddate, 'days') < 30) {
+                  timey = `${currentdate.diff(saveddate, 'days')} days ago`
+                } else if (currentdate.diff(saveddate, 'days') > 30) {
+                  timey = saveddate.format('L')
+                }
+              } else if (currentdate.diff(saveddate, 'hours') > 0) {
+                timey = `${currentdate.diff(saveddate, 'hours')} hours ago`
+              } else if (currentdate.diff(saveddate, 'minutes') >= 0) {
+                timey = `${currentdate.diff(saveddate, 'minutes')} minutes ago`
+              }
+              return timey
+            }
+          }
+        })
       })
     })
-  })
 }
 
 // Post Like News
@@ -1030,20 +1056,20 @@ exports.news_like = async (req, res, next) => {
   News.findOneAndUpdate({
     _id: req.params.id
   }, {
-    $addToSet: {
-      likey: look
-    }
-  },
-  function (err, like) {
-    if (err) {
-      return next(err)
-    }
-    req.io.emit(`${req.params.id}`, like.likey.length)
-    res.json({
-      status: 200,
-      data: like
+      $addToSet: {
+        likey: look
+      }
+    },
+    function (err, like) {
+      if (err) {
+        return next(err)
+      }
+      req.io.emit(`${req.params.id}`, like.likey.length)
+      res.json({
+        status: 200,
+        data: like
+      })
     })
-  })
 }
 
 // Student Post a comment in a particular news
@@ -1070,53 +1096,14 @@ exports.post_comment_news = (req, res, next) => {
         status: 200,
         data: cement
       })
-    }
-  )
-}
-
-// News reply comments
-exports.news_reply_comment = (req, res, next) => {
-  let stud = req.session.student
-  var replyObj = {
-    commentId: req.body.commentId,
-    user: `${stud.surname} ${stud.firstname}`,
-    reply_to: req.body.replyer,
-    reply_body: req.body.reply
-  }
-  News.findOneAndUpdate({
-    _id: req.body.newsId,
-    'comments._id': req.body.commentId
-  }, {
-    $push: {
-      'comments.$.reply': replyObj
-    }
-  },
-  function (err, cement) {
-    if (err) {
-      return next(err)
-    }
-    req.io.emit('reply_message', replyObj)
-    res.json({
-      status: 200,
-      data: cement
     })
-  }
-  )
 }
 
 // Post Like comments
 exports.post_like_comment = (req, res, next) => {
-  News.findOne({
+  News.findOneAndUpdate({
     'comments._id': req.params.id
-  }).exec(function (err, ion) {
-    if (err) {
-      return next(err)
-    }
-
-    News.findOneAndUpdate({
-      _id: ion.id,
-      'comments._id': req.params.id
-    }, {
+  }, {
       $inc: {
         'comments.$.like': 1
       }
@@ -1125,25 +1112,25 @@ exports.post_like_comment = (req, res, next) => {
       if (err) {
         return next(err)
       }
-      res.redirect('/studentgetfullnews/' + commet.id)
-    }
-    )
-  })
+      commet.comments.filter(cam => {
+        if (cam.id == req.params.id) {
+          console.log(cam.like)
+
+          req.io.emit(`${req.params.id}`, cam.like)
+          res.json({
+            status: 200,
+            data: commet
+          })
+        }
+      })
+    })
 }
 
 // Post Like comments
 exports.post_dislike_comment = (req, res, next) => {
-  News.findOne({
+  News.findOneAndUpdate({
     'comments._id': req.params.id
-  }).exec(function (err, ion) {
-    if (err) {
-      return next(err)
-    }
-
-    News.findOneAndUpdate({
-      _id: ion.id,
-      'comments._id': req.params.id
-    }, {
+  }, {
       $inc: {
         'comments.$.dislike': 1
       }
@@ -1152,14 +1139,84 @@ exports.post_dislike_comment = (req, res, next) => {
       if (err) {
         return next(err)
       }
-      res.redirect('/studentgetfullnews/' + commet.id)
+      commet.comments.filter(cam => {
+        if (cam.id == req.params.id) {
+          console.log(cam.dislike)
+
+          req.io.emit(`${req.params.id}l`, cam.dislike)
+          res.json({
+            status: 200,
+            data: commet
+          })
+        }
+      })
+    })
+}
+
+// News reply comments
+exports.news_reply_comment = (req, res, next) => {
+  let user = req.session.student
+  let replyObj = {
+    userid: user.id,
+    name: `${user.surname} ${user.firstname}`,
+    reply_to: req.body.replyingToId,
+    replyBody: req.body.replyingTo,
+    is_reply: true,
+    comment: req.body.replymsg,
+    commentDate: new Date()
+  }
+  News.findByIdAndUpdate(
+    req.params.id, {
+      $push: {
+        comments: replyObj
+      }
+    },
+    (err, cement) => {
+      if (err) {
+        return next(err)
+      }
+      req.io.emit(`${req.params.id}`, replyObj)
+      res.json({
+        status: 200,
+        data: cement
+      })
+    })
+}
+
+// working on get conversation
+exports.get_converse = function (req, res, next) {
+  // empty array that holds the final message
+  let messages = []
+
+  Conversation.find({ $or: [{ 'participant1': req.session.student.id }, { 'participant2': req.session.student.id }] }).sort([['date', 'descending']]).exec((err, conversations) => {
+    if (err) {
+      return next(err)
     }
-    )
+    if (!conversations) {
+      req.flash('emp', 'No Message')
+      res.render('student/test_converse', {
+        title: 'Messages',
+        layout: 'less_layout',
+        allowed: req.session.student,
+        messagess: conversations,
+        empty: req.flash('emp')
+      })
+    } else {
+      req.flash('ava', 'Message Available')
+      res.render('student/test_converse', {
+        title: 'Messages',
+        layout: 'less_layout',
+        allowed: req.session.student,
+        messagess: conversations,
+        available: req.flash('ava')
+      })
+    }
   })
 }
+
 // -------------------------------------------------------------------------------------------------
 // functions for handling everything messages
-exports.get_converse = async function (req, res, next) {
+exports.get_conversess = async function (req, res, next) {
   // empty array that holds the final message
   let messages = []
   // function for getting the names of the participants
@@ -1251,12 +1308,13 @@ exports.get_converse = async function (req, res, next) {
 // GET messages between two students-------------------------------------------------------
 exports.get_messages = function (req, res, next) {
   let naming = function () {
-    var stash = { name: '', photo: '' }
+    var stash = { id: '', name: '', photo: '' }
     StudentSigns.findOne({ '_id': req.params.recipient }).exec(function (err, stud) {
       if (err) {
         return next(err)
       }
       if (stud) {
+        stash.id = stud.id
         stash.name = stud.surname + ' ' + stud.firstname
         stash.photo = stud.photo.url
       }
@@ -1266,6 +1324,7 @@ exports.get_messages = function (req, res, next) {
         return next(err)
       }
       if (staff) {
+        stash.id = staff.id
         stash.name = staff.surname + ' ' + staff.firstname
         stash.photo = staff.photo.url
       }
@@ -1279,9 +1338,21 @@ exports.get_messages = function (req, res, next) {
     } else if (!conversation) {
       res.render('student/messages', {
         title: 'Messages',
-        layout: 'less_layout',
+        layout: 'chat_layout',
         allowed: req.session.student,
-        receiver: req.params.recipient
+        receiver: req.params.recipient,
+        helpers: {
+          is_equal: function (a, opts) {
+            if (a === req.params.recipient) {
+              return opts.fn(this)
+            } else {
+              return opts.inverse(this)
+            }
+          },
+          datey: function (data) {
+            return moment(data).format('L')
+          }
+        }
       })
     } else {
       // Get messages linked to a particular id
@@ -1291,10 +1362,11 @@ exports.get_messages = function (req, res, next) {
         }
         res.render('student/messages', {
           title: 'Messages',
-          layout: 'less_layout',
+          layout: 'chat_layout',
           allowed: req.session.student,
           chats: message,
           receiver: req.params.recipient,
+          converse: conversation._id,
           replyer: naming(),
           helpers: {
             is_equal: function (a, opts) {
@@ -1338,12 +1410,19 @@ exports.new_conversation = function (req, res, next) {
           if (err) {
             return next(err)
           }
-          res.redirect(301, '/getmessages/' + req.params.recipient)
+          req.io.emit(`${conversation._id}`, reply)
+          res.json({
+            status: 200,
+            data: reply
+          })
+
+          // res.redirect(301, '/getmessages/' + req.params.recipient)
         })
       } else {
         var newchat = new Conversation({
           participant1: req.session.student.id,
-          participant2: req.params.recipient
+          participant2: req.params.recipient,
+          date: new Date()
         })
         newchat.save(function (err, newConversation) {
           if (err) {
@@ -1356,11 +1435,16 @@ exports.new_conversation = function (req, res, next) {
             date: new Date(),
             updated: new Date()
           })
-          message.save(function (err, newchit) {
+          message.save(function (err) {
             if (err) {
               return next(err)
             }
-
+            /* req.io.emit(`${newConversation._id}`, message)
+            res.json({
+              status: 200,
+              data: message
+            })
+          */
             res.redirect(301, '/getmessages/' + req.params.recipient)
           })
         })
@@ -1394,18 +1478,18 @@ exports.view_staff_profile = (req, res, next) => {
       Staff.findById(req.params.id).exec(callback)
     }
   },
-  (err, staffs) => {
-    if (err) {
-      return next(err)
+    (err, staffs) => {
+      if (err) {
+        return next(err)
+      }
+      res.render('student/view_staff', {
+        allowed: req.session.student,
+        title: 'Staff Profile',
+        layout: 'less_layout',
+        staffs: staffs.staffy,
+        coursess: staffs.coursey
+      })
     }
-    res.render('student/view_staff', {
-      allowed: req.session.student,
-      title: 'Staff Profile',
-      layout: 'less_layout',
-      staffs: staffs.staffy,
-      coursess: staffs.coursey
-    })
-  }
   )
 }
 
@@ -1415,90 +1499,4 @@ exports.logout = (req, res) => {
     req.session.destroy()
   }
   res.redirect('/')
-}
-
-// working on get conversation
-exports.get_conversess = async function (req, res, next) {
-  // empty array that holds the final message
-  let messages = []
-
-  await Conversation.find({ $or: [{ 'participant1': req.session.student.id }, { 'participant2': req.session.student.id }] }).sort([['date', 'descending']]).exec(async (err, conversations) => {
-    if (err) {
-      return next(err)
-    }
-    await conversations.forEach(function (converse) {
-      if (converse.participant1 !== req.session.student.id) {
-        let chatty = converse.participant1
-        massage(converse.id, chatty)
-      } else if (converse.participant2 !== req.session.student.id) {
-        let chatty = converse.participant2
-        massage(converse.id, chatty)
-      }
-    })
-  })
-
-  await res.render('student/conversations', {
-    title: 'Messages',
-    layout: 'less_layout',
-    allowed: req.session.student,
-    messagess: function () {
-      console.log('Messages Available: ', messages.length)
-      return messages.sort(function (a, b) {
-        return a.message < b.message
-      })
-    },
-    helpers: {
-      truncate: function (a, b) {
-        const value = a.toString()
-        const limit = b
-        var text = ''
-        if (value.length > 0) {
-          text = text + value.substring(0, limit) + '...'
-        }
-        return text
-      },
-      datey: function (data) {
-        return calender(data)
-      }
-    }
-  })
-
-  // ----------------------------------------------------------------------------
-  let massage = function (iden, chater) {
-    Messages.find({ 'conversationId': iden }).sort([['date', 'descending']]).limit(1).exec(function (err, message) {
-      if (err) {
-        return next(err)
-      }
-      messages.push({ identity: iden, message: hole(message), details: naming(chater) })
-    })
-  }
-
-  // function for getting the names of the participants
-  let naming = function (norm) {
-    let result = []
-    StudentSigns.findOne({ '_id': norm }).exec(function (err, stud) {
-      if (err) {
-        return next(err)
-      }
-      if (stud) {
-        result.push({ name: stud.surname + ' ' + stud.firstname, id: stud.id, photo: stud.photo })
-      }
-      Staff.findOne({ '_id': norm }).exec(function (err, staff) {
-        if (err) {
-          return next(err)
-        }
-        if (staff) {
-          result.push({ name: staff.surname + ' ' + staff.firstname, id: staff.id, photo: staff.photo })
-        }
-      })
-    })
-    return result
-  }
-
-  // ------------------------------------------------------------------
-  let hole = function (mass) {
-    for (let i = 0; i < mass.length; i++) {
-      return mass[i]
-    }
-  }
 }

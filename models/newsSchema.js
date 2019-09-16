@@ -23,7 +23,12 @@ var newsSchema = new Schema({
   },
   comments: [{
     userid: String,
+    reply_to: String,
     comment: String,
+    is_reply: {
+      type: Boolean,
+      default: false
+    },
     like: {
       type: Number,
       default: 0
@@ -32,7 +37,6 @@ var newsSchema = new Schema({
       type: Number,
       default: 0
     },
-    reply: [],
     commentDate: {
       type: Date
     }
