@@ -169,32 +169,36 @@ exports.test_login = (req, res, next) => {
   StudentSigns.findOne({
     matnumber: req.body.matnumber
   },
-    (err, user) => {
-      if (err) {
-        return next(err)
-      } else if (!user) {
-        req.flash('ohno', 'Mat. Number not found')
-        res.redirect(302, '/login')
-      } else if (user.password !== req.body.password) {
-        // password is incorrect
-        req.flash('ohno', 'Password is Incorrect')
-        res.redirect(302, '/login')
-      } else if (user && user.password === req.body.password) {
-        req.session.student = {
-          id: user.id,
-          level: user.level,
-          matnumber: user.matnumber,
-          firstname: user.firstname,
-          surname: user.surname,
-          disabled: user.disabled,
-          photo: user.photo.url || '/images/psylogo4.jpg'
-        }
-        req.flash('message', `Welcome ${user.surname}`)
-        res.redirect('/studenthome')
-      } else {
-        res.redirect('/login')
+  (err, user) => {
+    if (err) {
+      return next(err)
+    } else if (!user) {
+      req.flash('ohno', 'Mat. Number not found')
+      res.redirect(302, '/login')
+    } else if (user.password !== req.body.password) {
+      // password is incorrect
+      req.flash('ohno', 'Password is Incorrect')
+      res.redirect(302, '/login')
+    } else if (user.disabled === true) {
+      // password is incorrect
+      req.flash('ohno', 'Your account has been disabled..."Contact your HOD"')
+      res.redirect(302, '/login')
+    } else if (user && user.password === req.body.password) {
+      req.session.student = {
+        id: user.id,
+        level: user.level,
+        matnumber: user.matnumber,
+        firstname: user.firstname,
+        surname: user.surname,
+        disabled: user.disabled,
+        photo: user.photo.url || '/images/psylogo4.jpg'
       }
+      req.flash('message', `Welcome ${user.surname}`)
+      res.redirect('/studenthome')
+    } else {
+      res.redirect('/login')
     }
+  }
   )
 }
 
@@ -209,17 +213,17 @@ exports.get_student_home = (req, res, next) => {
       News.count().exec(callback)
     }
   },
-    (err, info) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('student/student_home', {
-        title: 'Student HomePage',
-        allowed: req.session.student,
-        news: info.newy,
-        message: req.flash('message')
-      })
+  (err, info) => {
+    if (err) {
+      return next(err)
     }
+    res.render('student/student_home', {
+      title: 'Student HomePage',
+      allowed: req.session.student,
+      news: info.newy,
+      message: req.flash('message')
+    })
+  }
   )
 }
 
@@ -663,37 +667,37 @@ exports.get_courses = (req, res, next) => {
       }).exec(callback)
     }
   },
-    (err, hundred) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('student/list_courses', {
-        title: `${req.params.level} Level Courses`,
-        layout: 'less_layout',
-        allowed: req.session.student,
-        levy: req.params.level,
-        first: hundred.first_semester,
-        first_borrowed: hundred.first_semester_borrowed,
-        second: hundred.second_semester,
-        second_borrowed: hundred.second_semester_borrowed,
-        elective1: function () {
-          if (req.params.level == 300) {
-            return 'ONE'
-          } else if (req.params.level == 400) {
-            return ''
-          } else {
-            return 'ANY TWO'
-          }
-        },
-        elective2: function () {
-          if (req.params.level == 300 || req.params.level == 400) {
-            return 'ANY ONE'
-          } else {
-            return 'ANY TWO'
-          }
-        }
-      })
+  (err, hundred) => {
+    if (err) {
+      return next(err)
     }
+    res.render('student/list_courses', {
+      title: `${req.params.level} Level Courses`,
+      layout: 'less_layout',
+      allowed: req.session.student,
+      levy: req.params.level,
+      first: hundred.first_semester,
+      first_borrowed: hundred.first_semester_borrowed,
+      second: hundred.second_semester,
+      second_borrowed: hundred.second_semester_borrowed,
+      elective1: function () {
+        if (req.params.level == 300) {
+          return 'ONE'
+        } else if (req.params.level == 400) {
+          return ''
+        } else {
+          return 'ANY TWO'
+        }
+      },
+      elective2: function () {
+        if (req.params.level == 300 || req.params.level == 400) {
+          return 'ANY ONE'
+        } else {
+          return 'ANY TWO'
+        }
+      }
+    })
+  }
   )
 }
 
@@ -848,20 +852,20 @@ exports.delete_registered_course = function (req, res, next) {
         Courses.findOneAndUpdate({
           _id: req.params.id
         }, {
-            $pull: {
-              student_offering: student
-            }
-          },
-          function (err) {
-            if (err) {
-              return next(err)
-            }
-            req.flash(
-              'message',
-              'You have successfully deleted a course from your registered courses'
-            )
-            res.redirect('/studentss/' + req.session.student.id)
+          $pull: {
+            student_offering: student
           }
+        },
+        function (err) {
+          if (err) {
+            return next(err)
+          }
+          req.flash(
+            'message',
+            'You have successfully deleted a course from your registered courses'
+          )
+          res.redirect('/studentss/' + req.session.student.id)
+        }
         )
       }
     })
@@ -954,99 +958,99 @@ exports.get_full_news = (req, res, next) => {
   News.findOne({
     _id: req.params.id
   },
-    (err, news) => {
+  (err, news) => {
+    if (err) {
+      return next(err)
+    }
+    StudentSigns.find({}, function (err, students) {
       if (err) {
         return next(err)
       }
-      StudentSigns.find({}, function (err, students) {
-        if (err) {
-          return next(err)
-        }
-        res.render('student/fullnews', {
-          allowed: req.session.student,
-          title: 'Psychology News',
-          layout: 'less_layout',
-          newspaper: news,
-          commune: function () {
-            var answer = []
-            students.filter(stud => {
-              for (var i = 0; i < news.comments.length; i++) {
-                if (news.comments[i].userid === stud.id) {
-                  let commenter = {
-                    user: `${stud.surname} ${stud.firstname}`,
-                    photo: stud.photo.url,
-                    comment: news.comments[i]
+      res.render('student/fullnews', {
+        allowed: req.session.student,
+        title: 'Psychology News',
+        layout: 'less_layout',
+        newspaper: news,
+        commune: function () {
+          var answer = []
+          students.filter(stud => {
+            for (var i = 0; i < news.comments.length; i++) {
+              if (news.comments[i].userid === stud.id) {
+                let commenter = {
+                  user: `${stud.surname} ${stud.firstname}`,
+                  photo: stud.photo.url,
+                  comment: news.comments[i]
 
-                  }
-                  answer.push(commenter)
                 }
+                answer.push(commenter)
               }
-            })
-            return answer.sort(function (a, b) {
-              return a.comment.id > b.comment.id
-            })
-          },
-          decipher: function () {
-            var answer = []
-            students.filter(hero => {
-              for (var i = 0; i < news.likey.length; i++) {
-                if (news.likey[i] === hero.id) {
-                  answer.push(hero)
-                }
-              }
-            })
-            return answer
-          },
-          helpers: {
-            isEqual: function (a, opts) {
-              if (a == req.session.student.id) {
-                return opts.fn(this)
-              } else {
-                return opts.inverse(this)
-              }
-            },
-            datey: function (data) {
-              return moment(data).format('L')
-            },
-            unveil_reply: function (data) {
-              var answer = ''
-              News.findOne({
-                'comments._id': data
-              }).exec(function (err, ans) {
-                if (err) {
-                  return next(err)
-                }
-                for (var i = 0; i < ans.comments.length; i++) {
-                  if (ans.comments[i].id == data) {
-                    console.log(ans.comments[i].comment)
-                    answer = ans.comments[i].comment
-                    break
-                  }
-                }
-              })
-              console.log('Answered: ', answer)
-            },
-            differ: function (data) {
-              let timey = ''
-              let saveddate = moment(data)
-              let currentdate = moment(new Date())
-              if (currentdate.diff(saveddate, 'days') > 0) {
-                if (currentdate.diff(saveddate, 'days') < 30) {
-                  timey = `${currentdate.diff(saveddate, 'days')} days ago`
-                } else if (currentdate.diff(saveddate, 'days') > 30) {
-                  timey = saveddate.format('L')
-                }
-              } else if (currentdate.diff(saveddate, 'hours') > 0) {
-                timey = `${currentdate.diff(saveddate, 'hours')} hours ago`
-              } else if (currentdate.diff(saveddate, 'minutes') >= 0) {
-                timey = `${currentdate.diff(saveddate, 'minutes')} minutes ago`
-              }
-              return timey
             }
+          })
+          return answer.sort(function (a, b) {
+            return a.comment.id > b.comment.id
+          })
+        },
+        decipher: function () {
+          var answer = []
+          students.filter(hero => {
+            for (var i = 0; i < news.likey.length; i++) {
+              if (news.likey[i] === hero.id) {
+                answer.push(hero)
+              }
+            }
+          })
+          return answer
+        },
+        helpers: {
+          isEqual: function (a, opts) {
+            if (a == req.session.student.id) {
+              return opts.fn(this)
+            } else {
+              return opts.inverse(this)
+            }
+          },
+          datey: function (data) {
+            return moment(data).format('L')
+          },
+          unveil_reply: function (data) {
+            var answer = ''
+            News.findOne({
+              'comments._id': data
+            }).exec(function (err, ans) {
+              if (err) {
+                return next(err)
+              }
+              for (var i = 0; i < ans.comments.length; i++) {
+                if (ans.comments[i].id == data) {
+                  console.log(ans.comments[i].comment)
+                  answer = ans.comments[i].comment
+                  break
+                }
+              }
+            })
+            console.log('Answered: ', answer)
+          },
+          differ: function (data) {
+            let timey = ''
+            let saveddate = moment(data)
+            let currentdate = moment(new Date())
+            if (currentdate.diff(saveddate, 'days') > 0) {
+              if (currentdate.diff(saveddate, 'days') < 30) {
+                timey = `${currentdate.diff(saveddate, 'days')} days ago`
+              } else if (currentdate.diff(saveddate, 'days') > 30) {
+                timey = saveddate.format('L')
+              }
+            } else if (currentdate.diff(saveddate, 'hours') > 0) {
+              timey = `${currentdate.diff(saveddate, 'hours')} hours ago`
+            } else if (currentdate.diff(saveddate, 'minutes') >= 0) {
+              timey = `${currentdate.diff(saveddate, 'minutes')} minutes ago`
+            }
+            return timey
           }
-        })
+        }
       })
     })
+  })
 }
 
 // Post Like News
@@ -1056,20 +1060,20 @@ exports.news_like = async (req, res, next) => {
   News.findOneAndUpdate({
     _id: req.params.id
   }, {
-      $addToSet: {
-        likey: look
-      }
-    },
-    function (err, like) {
-      if (err) {
-        return next(err)
-      }
-      req.io.emit(`${req.params.id}`, like.likey.length)
-      res.json({
-        status: 200,
-        data: like
-      })
+    $addToSet: {
+      likey: look
+    }
+  },
+  function (err, like) {
+    if (err) {
+      return next(err)
+    }
+    req.io.emit(`${req.params.id}`, like.likey.length)
+    res.json({
+      status: 200,
+      data: like
     })
+  })
 }
 
 // Student Post a comment in a particular news
@@ -1104,26 +1108,26 @@ exports.post_like_comment = (req, res, next) => {
   News.findOneAndUpdate({
     'comments._id': req.params.id
   }, {
-      $inc: {
-        'comments.$.like': 1
-      }
-    },
-    function (err, commet) {
-      if (err) {
-        return next(err)
-      }
-      commet.comments.filter(cam => {
-        if (cam.id == req.params.id) {
-          console.log(cam.like)
+    $inc: {
+      'comments.$.like': 1
+    }
+  },
+  function (err, commet) {
+    if (err) {
+      return next(err)
+    }
+    commet.comments.filter(cam => {
+      if (cam.id == req.params.id) {
+        console.log(cam.like)
 
-          req.io.emit(`${req.params.id}`, cam.like)
-          res.json({
-            status: 200,
-            data: commet
-          })
-        }
-      })
+        req.io.emit(`${req.params.id}`, cam.like)
+        res.json({
+          status: 200,
+          data: commet
+        })
+      }
     })
+  })
 }
 
 // Post Like comments
@@ -1131,26 +1135,26 @@ exports.post_dislike_comment = (req, res, next) => {
   News.findOneAndUpdate({
     'comments._id': req.params.id
   }, {
-      $inc: {
-        'comments.$.dislike': 1
-      }
-    },
-    function (err, commet) {
-      if (err) {
-        return next(err)
-      }
-      commet.comments.filter(cam => {
-        if (cam.id == req.params.id) {
-          console.log(cam.dislike)
+    $inc: {
+      'comments.$.dislike': 1
+    }
+  },
+  function (err, commet) {
+    if (err) {
+      return next(err)
+    }
+    commet.comments.filter(cam => {
+      if (cam.id == req.params.id) {
+        console.log(cam.dislike)
 
-          req.io.emit(`${req.params.id}l`, cam.dislike)
-          res.json({
-            status: 200,
-            data: commet
-          })
-        }
-      })
+        req.io.emit(`${req.params.id}l`, cam.dislike)
+        res.json({
+          status: 200,
+          data: commet
+        })
+      }
     })
+  })
 }
 
 // News reply comments
@@ -1478,18 +1482,18 @@ exports.view_staff_profile = (req, res, next) => {
       Staff.findById(req.params.id).exec(callback)
     }
   },
-    (err, staffs) => {
-      if (err) {
-        return next(err)
-      }
-      res.render('student/view_staff', {
-        allowed: req.session.student,
-        title: 'Staff Profile',
-        layout: 'less_layout',
-        staffs: staffs.staffy,
-        coursess: staffs.coursey
-      })
+  (err, staffs) => {
+    if (err) {
+      return next(err)
     }
+    res.render('student/view_staff', {
+      allowed: req.session.student,
+      title: 'Staff Profile',
+      layout: 'less_layout',
+      staffs: staffs.staffy,
+      coursess: staffs.coursey
+    })
+  }
   )
 }
 

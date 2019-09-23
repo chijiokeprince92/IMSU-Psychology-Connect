@@ -331,24 +331,11 @@ exports.delete_students = function (req, res, next) {
 
 // working on it in a giffy
 exports.delete_student = function (req, res, next) {
-  StudentSigns.findById(req.params.id, function (err, stud) {
+  StudentSigns.findByIdAndRemove(req.params.id, function (err) {
     if (err) {
       return next(err)
     }
-    Result.find({ 'student': stud.id }).exec(function (err, result) {
-      if (err) {
-        return next(err)
-      }
-      result.forEach(resul => {
-        console.log('Result:', resul)
-        Result.findOneAndRemove({ 'id': resul.id }).exec(function (err) {
-          if (err) {
-            return next(err)
-          }
-        })
-      })
-    })
-    req.flash('message', 'The student results was successfully Deleted')
+    req.flash('message', 'The student was successfully Deleted')
     res.redirect('/admin/studentlist')
   })
 }
